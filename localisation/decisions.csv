@@ -62,3 +62,5 @@ decision_chaos_struggle_help_tooltip;Help has not been called.;;;;;;;;;;;;;x
 
 abaddon_settlement;Destroy Settlement;;;;;;;;;;;;;x
 abaddon_settlement_desc;You can destroy this settlement in order to construct more suitable building type.;;;;;;;;;;;;;x
+convert_tribal_to_temple;Upgrade to Temple;;;;;;;;;;;;;x
+convert_tribal_to_temple_desc;I can upgrade Tribe to a proper Temple. If it is the County capital and the County is big enough, City and Castle Holdings will be also created if they do not already exists.;;;;;;;;;;;;;x
