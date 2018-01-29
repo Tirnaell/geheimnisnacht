@@ -1,0 +1,3182 @@
+#
+
+decisions = {
+
+	use_potion_of_healing = {
+		is_high_prio = yes
+		potential = {
+			has_artifact = potion_of_healing
+		}
+		allow = {
+			OR = {
+				wh_is_injured_trigger = yes
+				wh_is_sick_trigger = yes
+			}
+		}
+		effect = {
+			log = "work decision use_potion_of_healing for [Root.GetBestName]"
+			wh_heal_sick_effect = yes
+			wh_heal_injury_effect = yes
+			destroy_artifact = potion_of_healing
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	use_elixir_of_eternal_youth = {
+		is_high_prio = yes
+		potential = {
+			immortal = no
+			has_artifact = elixir_of_eternal_youth
+		}
+		allow = {
+		}
+		effect = {
+			log = "work decision use_elixir_of_eternal_youth for [Root.GetBestName]"
+			add_trait = immortal
+			destroy_artifact = elixir_of_eternal_youth
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	spirit_reinforcements = {
+		is_high_prio = yes
+		potential = {
+			age = 16
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+			trait = creature_forestspirit
+			OR = {
+				any_current_enemy = {
+					at_location = ROOT
+					in_command = yes
+				}
+				any_current_enemy = {
+					any_vassal = {
+						at_location = ROOT
+						in_command = yes
+					}
+				}
+				any_current_enemy = {
+					any_vassal = {
+						any_vassal = {
+							at_location = ROOT
+							in_command = yes
+						}
+					}
+				}
+				any_current_enemy = {
+					any_vassal = {
+						any_vassal = {
+							any_vassal = {
+								at_location = ROOT
+								in_command = yes
+							}
+						}
+					}
+				}
+				any_current_enemy = {
+					any_vassal = {
+						any_vassal = {
+							any_vassal = {
+								any_vassal = {
+									at_location = ROOT
+									in_command = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			age = 16
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			trait = creature_forestspirit
+			OR = {
+				any_current_enemy = {
+					at_location = ROOT
+					in_command = yes
+				}
+				any_current_enemy = {
+					any_vassal = {
+						at_location = ROOT
+						in_command = yes
+					}
+				}
+				any_current_enemy = {
+					any_vassal = {
+						any_vassal = {
+							at_location = ROOT
+							in_command = yes
+						}
+					}
+				}
+				any_current_enemy = {
+					any_vassal = {
+						any_vassal = {
+							any_vassal = {
+								at_location = ROOT
+								in_command = yes
+							}
+						}
+					}
+				}
+				any_current_enemy = {
+					any_vassal = {
+						any_vassal = {
+							any_vassal = {
+								any_vassal = {
+									at_location = ROOT
+									in_command = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision spirit_reinforcements for [Root.GetBestName]"
+			add_character_modifier = {
+				name = magic_cooldown
+				duration = 100
+				hidden = yes
+			}
+			character_event = {
+				id = asrai.40
+				days = 60
+			}
+			location = {
+				ROOT = {
+					spawn_unit = {
+						province = PREV
+						troops = {
+							magical_spells = {
+								250 250
+							}
+						}
+						earmark = spirit_troops
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	walk_between_worlds = {
+		is_high_prio = yes
+		potential = {
+			age = 16
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+			trait = asrai_spellsinger
+			trait = creature_elf
+			in_command = yes
+			wh_is_mage_trigger = yes
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision walk_between_worlds for [Root.GetBestName]"
+			if = {
+				limit = {
+					religion = asrai_cadai
+					NOT = {
+						trait = creature_forestspirit
+					}
+				}
+				piety = -100
+			}
+			add_character_modifier = {
+				name = magic_cooldown
+				duration = 300
+				hidden = yes
+			}
+			hidden_tooltip = {
+				random_list = {
+					50 = {
+						character_event = {
+							id = aicleanup.010
+						}
+					}
+					50 = {
+						add_trait = woodwalking
+						character_event = {
+							id = aicleanup.011 days = 100 random = 30
+						}
+						modifier = {
+							factor = 1.25
+							has_character_modifier = magic_power_2
+						}
+						modifier = {
+							factor = 1.5
+							has_character_modifier = magic_power_3
+						}
+						modifier = {
+							factor = 2
+							has_character_modifier = magic_power_4
+						}
+						modifier = {
+							factor = 1.25
+							trait = genius
+						}
+						modifier = {
+							factor = 0.75
+							trait = dim
+						}
+						modifier = {
+							factor = 0.5
+							trait = slow
+						}
+						modifier = {
+							factor = 0.25
+							trait = idiot
+						}
+						modifier = {
+							factor = 0.5
+							trait = imbecile
+						}
+						modifier = {
+							factor = 0.75
+							trait = wroth
+						}
+						modifier = {
+							factor = 0.75
+							trait = slothful
+						}
+						modifier = {
+							factor = 0.75
+							trait = infirm
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+				trait = brave
+			}
+			modifier = {
+				factor = 0.5
+				religion = asrai_cadai
+				NOT = {
+					piety = 250
+				}
+			}
+		}
+	}
+	# Slaaneshi/Atharti/CoP remove imperfection
+	# removes scar, disfigured, fat, undernourished, any mutation
+
+	hide_deformity_spells = {
+		potential = {
+			age = 16
+			NOT = {
+				has_character_modifier = hds_magic_cooldown
+			}
+			OR = {
+				trait = lore_dark_magic
+				trait = lore_tzeentch
+				trait = lore_slaanesh
+			}
+			OR = {
+				trait = scarred
+				trait = disfigured
+				trait = fat
+				trait = undernourished
+				trait = mut_spines
+				trait = mut_horns
+				trait = mut_scales
+				trait = mut_thirdeye
+				trait = mut_tongue
+				trait = mut_crests
+			}
+			wh_is_mage_trigger = yes
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision hide_deformity_spells for [Root.GetBestName]"
+			if = {
+				limit = {
+					religion = asrai_cadai
+					NOT = {
+						trait = creature_forestspirit
+					}
+				}
+				piety = -200
+			}
+			add_character_modifier = {
+				name = hds_magic_cooldown
+				duration = 600
+				hidden = yes
+			}
+			hidden_tooltip = {
+				random_list = {
+					25 = {
+						character_event = {
+							id = aicleanup.010
+						}
+					}
+					75 = {
+						character_event = {
+							id = spleasure.90
+						}
+						modifier = {
+							factor = 1.25
+							has_character_modifier = magic_power_2
+						}
+						modifier = {
+							factor = 1.5
+							has_character_modifier = magic_power_3
+						}
+						modifier = {
+							factor = 2
+							has_character_modifier = magic_power_4
+						}
+						modifier = {
+							factor = 1.25
+							trait = genius
+						}
+						modifier = {
+							factor = 0.75
+							trait = dim
+						}
+						modifier = {
+							factor = 0.5
+							trait = slow
+						}
+						modifier = {
+							factor = 0.25
+							trait = idiot
+						}
+						modifier = {
+							factor = 0.5
+							trait = imbecile
+						}
+						modifier = {
+							factor = 0.75
+							trait = wroth
+						}
+						modifier = {
+							factor = 0.75
+							trait = slothful
+						}
+						modifier = {
+							factor = 0.75
+							trait = infirm
+						}
+						modifier = {
+							factor = 0.5
+							trait = hedge_wizard
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				nand = {
+					is_female = yes
+					wh_is_beautiful_trigger = yes
+				}
+			}
+		}
+	}
+
+	summon_demon = {
+		potential = {
+			nor = {
+				religion = asrai_cadai
+				has_character_modifier = magic_cooldown_summoning
+			}
+			OR = {
+				trait = lore_tzeentch
+				trait = lore_nurgle
+				trait = lore_slaanesh
+				trait = lore_dark_magic
+				trait = chaos_dwarf_sorcerer
+				trait = lore_shadows
+				trait = bray_shaman
+			}
+			wh_is_mage_trigger = yes
+		}
+		allow = {
+			piety = 450
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision summon_demon for [Root.GetBestName]"
+			hidden_tooltip = {
+				random = {
+					chance = 20
+					character_event = {
+						id = mutation.1
+						days = 100
+						random = 100
+					}
+				}
+				add_character_modifier = {
+					name = magic_cooldown_summoning
+					duration = 300
+					hidden = yes
+				}
+				character_event = {
+					id = wh_chaos.27
+				}
+			}
+			piety = -450
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.15
+			}
+			modifier = {
+				factor = 1.5
+				war = yes
+			}
+			modifier = {
+				factor = 1.5
+				religion = tzeentch
+			}
+			modifier = {
+				factor = 0
+				any_courtier = {
+					is_demon_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 1.75
+				prestige = 750
+			}
+			modifier = {
+				factor = 2
+				piety = 1000
+			}
+			modifier = {
+				factor = 0.001
+				trait = content
+			}
+			modifier = {
+				factor = 1.2
+				trait = cruel
+			}
+			modifier = {
+				factor = 1.75
+				trait = ambitious
+			}
+			modifier = {
+				factor = 0.25
+				has_character_modifier = magic_power_2
+				NOT = {
+					trait = ambitious
+				}
+			}
+			modifier = {
+				factor = 0.05
+				has_character_modifier = magic_power_1
+				NOT = {
+					trait = ambitious
+				}
+			}
+			modifier = {
+				factor = 0
+				trait = creature_elf
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					trait = tzeentch_demon
+					trait = nurgle_demon
+					trait = slaanesh_demon
+				}
+			}
+		}
+	}
+
+	summon_demon_other = {
+		only_playable = yes
+		#if you're not a mage yourself, but have a mage in your court
+		potential = {
+			ai = no
+			age = 12
+			nor = {
+				religion = asrai_cadai
+			}
+			wh_is_mage_trigger = no
+			any_courtier = {
+				age = 16
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				nor = {
+					has_character_modifier = magic_cooldown_summoning
+					religion = asrai_cadai
+				}
+				OR = {
+					trait = lore_tzeentch
+					trait = lore_nurgle
+					trait = lore_slaanesh
+					trait = lore_dark_magic
+					trait = chaos_dwarf_sorcerer
+					trait = lore_shadows
+					trait = bray_shaman
+				}
+				wh_is_mage_trigger = yes
+			}
+		}
+		allow = {
+			prisoner = no
+			piety = 450
+		}
+		effect = {
+			log = "work decision summon_demon_other for [Root.GetBestName]"
+			hidden_tooltip = {
+				random_courtier = {
+					limit = {
+						NOT = {
+							has_character_modifier = magic_cooldown_summoning
+						}
+						custom_tooltip = {
+							text = IS_NOT_INCAPACITATED
+							is_incapacitated_trigger = no
+						}
+						OR = {
+							trait = lore_tzeentch
+							trait = lore_nurgle
+							trait = lore_slaanesh
+							trait = lore_dark_magic
+							trait = chaos_dwarf_sorcerer
+							trait = lore_shadows
+							trait = bray_shaman
+						}
+						wh_is_mage_trigger = yes
+					}
+					# mage decides if he wants to do it
+					character_event = {
+						id = wh_chaos.84
+					}
+				}
+			}
+			piety = -450
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.15
+			}
+			modifier = {
+				factor = 1.5
+				war = yes
+			}
+			modifier = {
+				factor = 1.5
+				religion = tzeentch
+			}
+			modifier = {
+				factor = 0
+				any_friend = {
+					is_demon_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 1.75
+				prestige = 750
+			}
+			modifier = {
+				factor = 2
+				piety = 1000
+			}
+			modifier = {
+				factor = 0.001
+				trait = content
+			}
+			modifier = {
+				factor = 1.2
+				trait = cruel
+			}
+			modifier = {
+				factor = 1.75
+				trait = ambitious
+			}
+			modifier = {
+				factor = 0.25
+				NOT = {
+					trait = ambitious
+				}
+			}
+			modifier = {
+				factor = 0
+				trait = creature_elf
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					trait = tzeentch_demon
+					trait = nurgle_demon
+					trait = slaanesh_demon
+				}
+			}
+		}
+	}
+
+	learn_magic_yourself = {
+		#for private characters studying by themselves
+		only_playable = yes
+		potential = {
+			age = 12
+			OR = {
+				is_living_human_trigger = yes
+				trait = creature_elf
+			}
+			nor = {
+				has_character_flag = taken_hedge_wizard_decision
+				religion = khorne
+				trait = witch_hunter
+				top_liege = {
+					trait = malekith
+				}
+			}
+			wh_is_mage_or_apprentice_trigger = no
+			OR = {
+				independent = yes
+				liege = {
+					nor = {
+						religion = taalite
+						religion = ulrican
+						religion = manannite
+						religion = shallyan
+						religion = myrmidian
+						religion = grail
+						religion = sigmarite
+					}
+				}
+			}
+			OR = {
+				is_female = yes
+				NOT = {
+					religion = ursun
+				}
+			}
+		}
+		allow = {
+			learning = 15
+			wealth = 500
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision learn_magic_yourself for [Root.GetBestName]"
+			wealth = -500
+			add_trait = hedge_wizard
+			hidden_tooltip = {
+				set_character_flag = taken_hedge_wizard_decision
+				if = {
+					limit = {
+						NOT = {
+							age = 16
+						}
+					}
+					set_character_flag = learning_as_kid
+				}
+				# Start studying
+				character_event = {
+					id = sorcererapprentice.12
+				}
+				if = {
+					limit = {
+						religion_group = cadai_group
+						e_ulthuan = {
+							holder_scope  = {
+								religion_group = cadai_group
+							}
+						}
+					}
+					e_ulthuan = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_unauthorized_tutoring
+								who = ROOT
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+ 						religion_group = cytharai_group
+						is_female = yes
+						e_naggaroth = {
+							holder_scope  = {
+								trait = malekith
+							}
+						}
+					}
+					e_naggaroth = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_unauthorized_tutoring
+								who = ROOT
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						trait = creature_elf
+						is_female = no
+						e_naggaroth = {
+							holder_scope  = {
+								trait = malekith
+							}
+						}
+					}
+					e_naggaroth = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_sorcerous_rival
+								who = ROOT
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.001
+			}
+			modifier = {
+				factor = 0.01
+				NOT = {
+					wealth = 800
+				}
+			}
+			modifier = {
+				factor = 0
+				nor = {
+					trait = ambitious
+					trait = scholar
+					trait = mystic
+					trait = envious
+					has_character_modifier = fake_mage
+				}
+			}
+		}
+	}
+
+	learn_necromancy_yourself = {
+		#for private characters studying by themselves
+		only_playable = yes
+		potential = {
+			age = 16
+			OR = {
+				is_vampire_trigger = yes
+				trait = widowed
+				trait = impaler
+				trait = mystic
+				religion = vampiric
+				religion = nagashi
+				religion = shadowmen
+				has_character_modifier = the_necronomicon
+				has_character_flag = undead_insight
+			}
+			wh_is_mage_or_apprentice_trigger = no
+			nor = {
+				has_character_flag = taken_hedge_wizard_decision
+				has_character_flag = taken_necromancer_decision
+				religion = khorne
+				trait = witch_hunter
+				trait = king_settra
+				trait = vampire_blood_visible
+				trait = vampire_blood_hidden
+				trait = vampire_jade_visible
+				trait = vampire_jade_hidden
+				top_liege = {
+					trait = malekith
+				}
+			}
+			OR = {
+				independent = yes
+				liege = {
+					nor = {
+						religion = taalite
+						religion = ulrican
+						religion = manannite
+						religion = shallyan
+						religion = myrmidian
+						religion = grail
+						religion = sigmarite
+					}
+				}
+			}
+			OR = {
+				trait = creature_human
+				trait = khemri_tomb_king
+			}
+		}
+		allow = {
+			learning = 15
+			wealth = 150
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision learn_necromancy_yourself for [Root.GetBestName]"
+			wealth = -150
+			add_trait = hedge_wizard
+			hidden_tooltip = {
+				set_character_flag = taken_necromancer_decision
+				if = {
+					limit = {
+						NOT = {
+							age = 16
+						}
+					}
+					set_character_flag = learning_as_kid
+				}
+				character_event = {
+					id = sorcererapprentice.15
+				} #Start studying
+				if = {
+					limit = {
+						religion_group = cadai_group
+						e_ulthuan = {
+							holder_scope  = {
+								religion_group = cadai_group
+							}
+						}
+					}
+					e_ulthuan = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_unauthorized_tutoring
+								who = ROOT
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+ 						religion_group = cytharai_group
+						is_female = yes
+						e_naggaroth = {
+							holder_scope  = {
+								trait = malekith
+							}
+						}
+					}
+					e_naggaroth = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_unauthorized_tutoring
+								who = ROOT
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						trait = creature_elf
+						is_female = no
+						e_naggaroth = {
+							holder_scope  = {
+								trait = malekith
+							}
+						}
+					}
+					e_naggaroth = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_sorcerous_rival
+								who = ROOT
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.001
+			}
+			modifier = {
+				factor = 0.01
+				NOT = {
+					wealth = 800
+				}
+			}
+			modifier = {
+				factor = 10
+				has_character_flag = undead_insight
+			}
+			modifier = {
+				factor = 0
+				nor = {
+					has_character_flag = undead_insight
+					trait = ambitious
+					trait = scholar
+					trait = mystic
+					trait = envious
+					trait = cruel
+					trait = depressed
+					has_character_modifier = fake_mage
+				}
+			}
+		}
+	}
+
+	undead_summoning = {
+		only_playable = yes
+		potential = {
+			age = 16
+			trait = lore_necromancy
+			wh_is_mage_trigger = yes
+		}
+		allow = {
+			piety = 150
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+			location = {
+				OR = {
+					owner = {
+						character = ROOT
+					}
+					owner = {
+						top_liege = {
+							character = ROOT
+						}
+					}
+				}
+				nor = {
+					has_province_modifier = province_tainted_1
+					has_province_modifier = province_tainted_2
+					has_province_modifier = province_tainted_3
+					has_province_modifier = province_tainted_4
+					has_province_modifier = province_tainted_5
+					culture = nehekharan
+				}
+			}
+			OR = {
+				has_character_modifier = necromantic_power_1
+				has_character_modifier = necromantic_power_2
+				has_character_modifier = necromantic_power_3
+				has_character_modifier = necromantic_power_4
+				has_character_modifier = necromantic_power_5
+			}
+		}
+		effect = {
+			log = "work decision undead_summoning for [Root.GetBestName]"
+			character_event = {
+				id = svampires.11
+			}
+			add_character_modifier = {
+				name = magic_cooldown
+				duration = 300
+				hidden = yes
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				war = no
+			}
+			modifier = {
+				factor = 10
+				war = yes
+			}
+			modifier = {
+				factor = 1.5
+				has_character_modifier = necromantic_power_2
+			}
+			modifier = {
+				factor = 1.65
+				has_character_modifier = necromantic_power_3
+			}
+			modifier = {
+				factor = 1.75
+				has_character_modifier = necromantic_power_4
+			}
+			modifier = {
+				factor = 1.85
+				has_character_modifier = necromantic_power_5
+			}
+		}
+	}
+
+	hunt_demon_down = {
+		only_playable = yes
+		potential = {
+			age = 16
+			nor = {
+				religion_group = chaos_gods_group
+				any_friend = {
+					is_demon_trigger = yes
+				}
+			}
+			is_cultist_trigger = no
+			any_courtier = {
+				is_demon_trigger = yes
+			}
+		}
+		allow = {
+			wealth = 150
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision hunt_demon_down for [Root.GetBestName]"
+			wealth = -150
+			hidden_tooltip = {
+				random_courtier = {
+					limit = {
+						is_demon_trigger = yes
+					}
+					character_event = {
+						id = wh_chaos_demons.4
+						days = 4
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 1.5
+				trait = brave
+			}
+			modifier = {
+				factor = 1.25
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.5
+				trait = craven
+			}
+			modifier = {
+				factor = 0.75
+				trait = shy
+			}
+			modifier = {
+				factor = 0.05
+				is_cultist_trigger = yes
+			}
+		}
+	}
+}
+
+targetted_decisions = {
+
+	use_elixir_of_love = {
+		only_playable = yes
+		ai_target_filter = self
+		filter = self
+		from_potential = {
+			has_artifact = elixir_of_love
+		}
+		potential = {
+			from = {
+				wh_this_and_root_can_love_trigger = yes
+			}
+			is_within_diplo_range = from
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+		}
+		effect = {
+			log = "work decision use_elixir_of_love for [Root.GetBestName]"
+			from = {
+				destroy_artifact = elixir_of_love
+			}
+			add_lover = from
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	z_craft_magic_item = {
+		only_playable = yes
+		ai_target_filter = court
+		filter = court
+		from_potential = {
+			age = 16
+		}
+		potential = {
+			age = 16
+			z_combat_magic_caster = yes
+			z_combat_magic_valid_caster = yes
+			OR = {
+				character = FROM
+				liege = {
+					character = FROM
+				}
+				and = {
+					from = {
+						OR = {
+							is_visible_vampire_trigger = yes
+							trait = creature_nehekharan
+						}
+					}
+					trait = vampire_necrarch_visible
+					wh_is_mage_trigger = yes
+					is_within_diplo_range = FROM
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			in_command = no
+		}
+		effect = {
+			log = "work decision z_craft_magic_item for [Root.GetBestName]"
+			set_character_flag = casting
+			save_event_target_as = magic_caster
+			save_event_target_as = item_crafter
+			if = {
+				limit = {
+					not = {
+						has_character_flag = magicxp
+					}
+				}
+				z_magic_xp_turnon = yes
+			}
+			# location = {
+			# 	save_event_target_as = spellloc
+			# }
+			FROM = {
+				# save_event_target_as = spelllord
+				save_event_target_as = item_recipient
+				character_event = {
+					id = z_item_crafting_menu.0
+				}
+			}
+		}
+
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05
+			}
+			modifier = {
+				factor = 0.05
+				NOT = {
+					character = FROM
+				}
+			}
+			modifier = {
+				factor = 1.35
+				trait = quick
+			}
+			modifier = {
+				factor = 1.25
+				trait = bright
+			}
+			modifier = {
+				factor = 1.5
+				trait = smart
+			}
+			modifier = {
+				factor = 1.75
+				trait = quick
+			}
+			modifier = {
+				factor = 1.95
+				trait = brilliant
+			}
+			modifier = {
+				factor = 2
+				trait = genius
+			}
+			modifier = {
+				factor = 0.85
+				trait = dim
+			}
+			modifier = {
+				factor = 0.75
+				trait = dumb
+			}
+			modifier = {
+				factor = 0.65
+				trait = slow
+			}
+			modifier = {
+				factor = 0.5
+				trait = idiot
+			}
+			modifier = {
+				factor = 0.45
+				trait = imbecile
+			}
+			modifier = {
+				factor = 1.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 1.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.75
+				trait = diligent
+			}
+			modifier = {
+				factor = 1.25
+				trait = patient
+			}
+			modifier = {
+				factor = 0.85
+				trait = slothful
+			}
+		}
+	}
+
+	z_magic_phase = {
+		ai_target_filter = self
+		filter = court
+		potential = {
+			age = 16
+			z_combat_magic_caster = yes
+			z_combat_magic_valid_caster = yes
+			or = {
+				character = FROM
+				liege = {
+					character = FROM
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			in_command = yes
+		}
+		effect = {
+			log = "work decision z_magic_phase for [Root.GetBestName]"
+			set_character_flag = casting
+			save_event_target_as = magic_caster
+			if = {
+				limit = {
+					not = {
+						has_character_flag = magicxp
+					}
+				}
+				z_magic_xp_turnon = yes
+			}
+			location = {
+				save_event_target_as = spellloc
+			}
+			FROM = {
+				save_event_target_as = spelllord
+				character_event = {
+					id = z_spell_menu.1
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+				nor = {
+					in_battle = yes
+					in_siege = yes
+				}
+			}
+		}
+	}
+
+	z_targeted_spell_casting = {
+		ai_target_filter = realm
+		filter = all
+		from_potential = {
+			or = {
+				z_magic_non_combat_caster = yes
+				any_realm_character = {
+					z_magic_non_combat_caster = yes
+				}
+			}
+		}
+		potential = {
+			ai = no
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			FROM = {
+				piety = 200
+				or = {
+					z_magic_non_combat_valid_caster = yes
+					any_realm_character = {
+						z_magic_non_combat_valid_caster = yes
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision z_targeted_spell_casting for [Root.GetBestName]"
+			save_event_target_as = spelltarget
+			location = {
+				save_event_target_as = spellloc
+			}
+			FROM = {
+				piety = -200
+				save_event_target_as = spelllord
+				character_event = {
+					id = magic_menu_non_combat.1
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 0.1
+			modifier = {
+				factor = 0.1
+				FROM = {
+					trait = envious
+				}
+			}
+			modifier = {
+				factor = 0.25
+				religion = asrai_cadai
+				NOT = {
+					piety = 250
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					character = ROOT
+				}
+			}
+		}
+	}
+
+	# steal
+	steal_artifact = {
+		only_playable = yes
+		is_high_prio = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			OR = {
+				ai = no
+				trait = cruel
+				trait = impaler
+				trait = greedy
+				is_vampire_trigger = yes
+			}
+		}
+		potential = {
+			prisoner = yes
+			any_artifact = {
+				nor = {
+					has_artifact_flag = mount
+					has_artifact_flag = carstein_ring
+				}
+			}
+		}
+		allow = {
+			prisoner = yes
+		}
+		effect = {
+			log = "work decision steal_artifact for [Root.GetBestName]"
+			FROM = {
+				character_event = {
+					id = stealing.0
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	prisonersteal_carstein_ring = {
+		only_playable = yes
+ 		is_high_prio = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			has_global_flag = carstein_ring_revealed
+		}
+		potential = {
+			prisoner = yes
+			has_artifact = carstein_ring
+		}
+		allow = {
+			prisoner = yes
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+		}
+		effect = {
+			log = "work decision  is_high_prio = yes for [Root.GetBestName]"
+			hidden_tooltip = {
+				character_event = {
+					id = svampires.13
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	healing_spell = {
+		only_playable = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			age = 16
+			z_combat_magic_caster = yes
+			z_combat_magic_valid_caster = yes
+			#piety = 200
+		}
+		potential = {
+			OR = {
+				character = FROM
+				liege = {
+					character = FROM
+				}
+				is_close_relative = from
+			}
+			or = {
+				and = {
+					wh_is_sick_trigger = yes
+					not = {
+						religion = nurgle
+					}
+				}
+				wh_magic_physical_healing_trigger = yes
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+		}
+		effect = {
+			log = "work decision healing_spell for [Root.GetBestName]"
+			save_event_target_as = spelltarget
+			location = {
+				save_event_target_as = spellloc
+			}
+			FROM = {
+				piety = -200
+				save_event_target_as = magic_caster
+				save_event_target_as = spelllord
+			}
+			magic_physical_healing = yes
+			magic_disease_healing = yes
+			magic_symptoms_healing = yes
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				FROM = {
+					nor = {
+						trait = kind
+						dynasty = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				FROM = {
+					trait = envious
+				}
+			}
+			modifier = {
+				factor = 0.25
+				NOT = {
+					piety = 250
+				}
+			}
+		}
+	}
+
+	exorcism_spell = {
+		only_playable = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			OR = {
+				trait = lore_high_magic
+				trait = lore_light
+			}
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+			wh_is_mage_trigger = yes
+		}
+		potential = {
+			trait = possessed
+			NOT = {
+				culture_group = daemonic_group
+			}
+			is_undead_trigger = no
+		}
+		allow = {
+			FROM = {
+				piety = 50
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+		}
+		effect = {
+			log = "work decision exorcism_spell for [Root.GetBestName]"
+			piety = -50
+			if = {
+				limit = {
+					FROM = {
+						religion = asrai_cadai
+						NOT = {
+							trait = creature_forestspirit
+						}
+					}
+				}
+				piety = -100
+			}
+			hidden_tooltip = {
+				FROM = {
+					add_character_modifier = {
+						name = magic_cooldown
+						duration = 300
+						hidden = yes
+					}
+				}
+				random_list = {
+					40 = {
+						character_event = {
+							id = wh_chaos.79
+						} #success
+						modifier = {
+							factor = 0.75
+							ROOT = {
+								trait = magic_potential_3
+							}
+						}
+						modifier = {
+							factor = 0.5
+							ROOT = {
+								trait = magic_potential_4
+							}
+						}
+						modifier = {
+							factor = 0.25
+							FROM = {
+								has_character_modifier = magic_power_1
+							}
+						}
+						modifier = {
+							factor = 0.75
+							FROM = {
+								has_character_modifier = magic_power_2
+							}
+						}
+						modifier = {
+							factor = 1.25
+							FROM = {
+								has_character_modifier = magic_power_3
+							}
+						}
+						modifier = {
+							factor = 1.75
+							FROM = {
+								has_character_modifier = magic_power_4
+							}
+						}
+						modifier = {
+							factor = 1.5
+							FROM = {
+								trait = magic_potential_3
+							}
+						}
+						modifier = {
+							factor = 1.95
+							FROM = {
+								trait = magic_potential_4
+							}
+						}
+						modifier = {
+							factor = 1.75
+							FROM = {
+								trait = genius
+							}
+						}
+						modifier = {
+							factor = 1.5
+							FROM = {
+								trait = brilliant
+							}
+						}
+						modifier = {
+							factor = 1.45
+							FROM = {
+								trait = smart
+							}
+						}
+						modifier = {
+							factor = 1.35
+							FROM = {
+								trait = quick
+							}
+						}
+						modifier = {
+							factor = 1.25
+							FROM = {
+								trait = bright
+							}
+						}
+						modifier = {
+							factor = 0.95
+							FROM = {
+								trait = dim
+							}
+						}
+						modifier = {
+							factor = 0.75
+							FROM = {
+								trait = dumb
+							}
+						}
+						modifier = {
+							factor = 0.5
+							FROM = {
+								trait = slow
+							}
+						}
+						modifier = {
+							factor = 0.45
+							FROM = {
+								trait = idiot
+							}
+						}
+						modifier = {
+							factor = 0.25
+							FROM = {
+								trait = imbecile
+							}
+						}
+						modifier = {
+							factor = 0.5
+							FROM = {
+								trait = hedge_wizard
+							}
+						}
+					}
+					40 = {
+						character_event = {
+							id = wh_chaos.80
+						} #failure
+					}
+					20 = {
+						character_event = {
+							id = wh_chaos.81
+						} #deadly failure
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				FROM = {
+					nor = {
+						trait = kind
+						dynasty = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				FROM = {
+					trait = envious
+				}
+			}
+			modifier = {
+				factor = 0.25
+				religion = asrai_cadai
+				NOT = {
+					piety = 250
+				}
+			}
+			modifier = {
+				factor = 10
+				FROM = {
+					religion = sigmarite
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					liege = {
+						character = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					trait = creature_elf
+				}
+			}
+		}
+	}
+
+	vassal_possess_ritual = {
+		only_playable = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			NOT = {
+				has_character_modifier = magic_cooldown_summoning
+			}
+			OR = {
+				trait = lore_tzeentch
+				trait = lore_nurgle
+				trait = lore_slaanesh
+				trait = lore_dark_magic
+				trait = chaos_dwarf_sorcerer
+				trait = lore_shadows
+				trait = bray_shaman
+			}
+			OR = {
+				has_character_modifier = magic_power_3
+				has_character_modifier = magic_power_4
+			}
+		}
+		potential = {
+			prisoner = yes
+			is_pregnant = no
+			host = {
+				character = FROM
+			}
+			nor = {
+				trait = avatar_kurnous
+				trait = avatar_isha
+				trait = everqueen
+			}
+			OR = {
+				trait = creature_elf
+				trait = creature_chaos_dwarf
+				trait = creature_dwarf
+				is_living_human_trigger = yes
+				trait = creature_beastman
+			}
+		}
+		allow = {
+			prisoner = yes
+			FROM = {
+				piety = 150
+				OR = {
+					has_character_modifier = magic_power_3
+					has_character_modifier = magic_power_4
+				}
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+		}
+		effect = {
+			log = "work decision vassal_possess_ritual for [Root.GetBestName]"
+			hidden_tooltip = {
+				FROM = {
+					hidden_tooltip = {
+						random = {
+							chance = 20
+							character_event = {
+								id = mutation.1 days = 100 random = 100
+							}
+						}
+					}
+					add_character_modifier = {
+						name = magic_cooldown_summoning
+						duration = 300
+						hidden = yes
+					}
+					character_event = {
+						id = wh_chaos.17
+					}
+				}
+			} #receive event and decide what to do
+			FROM = {
+				remove_opinion = {
+					who = ROOT modifier = opinion_traitor
+				}
+				remove_opinion = {
+					who = ROOT modifier = opinion_rebel_traitor
+				}
+				remove_opinion = {
+					who = ROOT modifier = opinion_dishonorable
+				}
+			}
+			piety = -150
+			FROM = {
+				if = {
+					limit = {
+						NOT = {
+							trait = cruel
+						}
+					}
+					random = {
+						chance = 70
+						add_trait = cruel
+						hidden_tooltip = {
+							character_event = {
+								id = 38259
+							} #Notify Cruel
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.15
+			}
+			modifier = {
+				factor = 0.4
+				reverse_opinion = {
+					who = FROM value = 20
+				}
+			}
+			modifier = {
+				factor = 0.25
+				reverse_opinion = {
+					who = FROM value = 40
+				}
+			}
+			modifier = {
+				factor = 2
+				NOT = {
+					reverse_opinion = {
+						who = FROM value = -75
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					war = yes
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					religion = tzeentch
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					any_courtier = {
+						OR = {
+							trait = tzeentch_demon
+							trait = nurgle_demon
+							trait = slaanesh_demon
+							trait = khorne_demon
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				prestige = 200
+			}
+			modifier = {
+				factor = 0.05
+				prestige = 1000
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					trait = kind
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = cruel
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					trait = creature_elf
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					OR = {
+						trait = tzeentch_demon
+						trait = nurgle_demon
+						trait = slaanesh_demon
+					}
+				}
+			}
+		}
+	}
+
+	mage_ward_apprentice = {
+		only_playable = yes
+		filter = realm
+		ai_target_filter = realm
+		from_potential = {
+			nor = {
+				trait = vampire_blood_visible
+				trait = vampire_blood_hidden
+				religion = asrai_cadai
+				religion = taalite
+				religion = ulrican
+				religion = manannite
+				religion = shallyan
+				religion = myrmidian
+				religion = grail
+				religion = sigmarite
+				any_friend = {
+					trait = mage_apprentice
+				}
+			}
+			# подумать над этим
+ 			nand = {
+				ROOT = {
+					is_female = yes
+				}
+				or = {
+					religion = ormazd
+					religion = kitabid
+					culture = ramaccan
+					culture = medean
+					culture = tevari
+					culture = cophic
+				}
+			}
+			OR = {
+				is_female = yes
+				NOT = {
+					religion = ursun
+				}
+			}
+			OR = {
+				trait = lore_ice
+				trait = lore_fire
+				trait = lore_beasts
+				trait = lore_metal
+				trait = lore_light
+				trait = lore_life
+				trait = lore_heavens
+				trait = lore_death
+				trait = lore_shadows
+				trait = lore_dark_magic		#elves can teach to humans, but they will not learn the elven lores
+				trait = lore_high_magic
+			}
+			OR = {
+				trait = creature_elf
+				trait = creature_amazon
+				trait = creature_human
+			}
+		}
+		potential = {
+			# guardian = {
+			# 	FROM = {
+			# 		character = PREV
+			# 	}
+			# }
+			age = 10
+			NOT = {
+				age = 15
+			}
+			OR = {
+				is_female = yes
+				FROM = {
+					NOT = {
+						religion = ursun
+					}
+				}
+			}
+			OR = {
+				trait = creature_elf
+				trait = creature_amazon
+				trait = creature_human
+			}
+			wh_is_mage_or_apprentice_trigger = no
+			nor = {
+				trait = vampire_blood_visible
+				trait = vampire_blood_hidden
+				has_character_modifier = apprenticeship_refused
+			}
+		}
+		allow = {
+			FROM = {
+				learning = 14
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision  nand for [Root.GetBestName]"
+			hidden_tooltip = {
+				add_friend = FROM
+				add_trait = mage_apprentice
+				FROM = {
+					character_event = {
+						id = sorcererapprentice.7 days = 350
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							religion_group = cadai_group
+						}
+						e_ulthuan = {
+							holder_scope  = {
+								religion_group = cadai_group
+							}
+						}
+					}
+					e_ulthuan = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_unauthorized_tutoring
+								who = FROM
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							religion_group = cytharai_group
+							is_female = yes
+						}
+						e_naggaroth = {
+							holder_scope  = {
+								trait = malekith
+							}
+						}
+					}
+					e_naggaroth = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_unauthorized_tutoring
+								who = FROM
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						trait = creature_elf
+						is_female = no
+						e_naggaroth = {
+							holder_scope  = {
+								trait = malekith
+							}
+						}
+					}
+					e_naggaroth = {
+						holder_scope  = {
+							opinion = {
+								modifier = opinion_sorcerous_rival
+								who = ROOT
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.85
+				NOT = {
+					dynasty = FROM
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					culture = cathayan
+				}
+				is_female = yes
+			}
+			modifier = {
+				factor = 0.85
+				NOT = {
+					culture = FROM
+				}
+			}
+			modifier = {
+				factor = 0.05
+				NOT = {
+					religion = FROM
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					religion = ursun
+				}
+				is_female = no
+			}
+			modifier = {
+				factor = 0.75
+				nor = {
+					father = {
+						character = FROM
+					}
+					mother = {
+						character = FROM
+					}
+				}
+			}
+			modifier = {
+				factor = 50
+				OR = {
+					father = {
+						character = FROM
+					}
+					mother = {
+						character = FROM
+					}
+				}
+			}
+			modifier = {
+				factor = 1.95
+				OR = {
+					FROM = {
+						employer = {
+							ROOT = {
+								father = {
+									character = PREVPREV }
+							}
+						}
+					}
+					FROM = {
+						employer = {
+							ROOT = {
+								father = {
+									character = PREVPREV }
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.35
+				trait = quick
+			}
+			modifier = {
+				factor = 1.25
+				trait = bright
+			}
+			modifier = {
+				factor = 1.5
+				trait = smart
+			}
+			modifier = {
+				factor = 1.75
+				trait = quick
+			}
+			modifier = {
+				factor = 1.95
+				trait = brilliant
+			}
+			modifier = {
+				factor = 2
+				trait = genius
+			}
+			modifier = {
+				factor = 0.85
+				trait = dim
+			}
+			modifier = {
+				factor = 0.75
+				trait = dumb
+			}
+			modifier = {
+				factor = 0.65
+				trait = slow
+			}
+			modifier = {
+				factor = 0.5
+				trait = idiot
+			}
+			modifier = {
+				factor = 0.45
+				trait = imbecile
+			}
+			modifier = {
+				factor = 1.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 1.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.75
+				trait = diligent
+			}
+			modifier = {
+				factor = 1.25
+				trait = patient
+			}
+			modifier = {
+				factor = 0.85
+				trait = slothful
+			}
+			modifier = {
+				factor = 0.5
+				age = 14
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						religion = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 0.25
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -100
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -80
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -60
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -40
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -20
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = 0
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 1.65
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 40
+					}
+				}
+			}
+			modifier = {
+				factor = 1.75
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 60
+					}
+				}
+			}
+			modifier = {
+				factor = 1.85
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 80
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 100
+					}
+				}
+			}
+		}
+	}
+
+	chaosmage_ward_apprentice = {
+		only_playable = yes
+		filter = realm
+		ai_target_filter = realm
+		from_potential = {
+			religion_group = chaos_gods_group
+			nor = {
+				religion = khorne
+				religion = hashut
+				any_friend = {
+					trait = mage_apprentice
+				}
+			}
+			OR = {
+				trait = lore_tzeentch
+				trait = lore_nurgle
+				trait = lore_slaanesh
+			}
+		}
+		potential = {
+			# guardian = {
+			# 	FROM = {
+			# 		character = PREV
+			# 	}
+			# }
+			OR = {
+				is_living_human_trigger = yes
+				trait = creature_elf
+			}
+			age = 10
+			wh_is_mage_or_apprentice_trigger = no
+			nor = {
+				age = 15
+				has_character_modifier = apprenticeship_refused
+			}
+		}
+		allow = {
+			FROM = {
+				learning = 8
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision chaosmage_ward_apprentice for [Root.GetBestName]"
+			hidden_tooltip = {
+				add_friend = FROM
+				add_trait = mage_apprentice
+				FROM = {
+					character_event = {
+						id = sorcererapprentice.9 days = 350
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.85
+				NOT = {
+					dynasty = FROM
+				}
+			}
+			modifier = {
+				factor = 0.85
+				NOT = {
+					culture = FROM
+				}
+			}
+			modifier = {
+				factor = 1.5
+				NOT = {
+					religion = FROM
+				}
+			}
+			modifier = {
+				factor = 0.75
+				nor = {
+					father = {
+						character = FROM
+					}
+					mother = {
+						character = FROM
+					}
+				}
+			}
+			modifier = {
+				factor = 50
+				OR = {
+					father = {
+						character = FROM
+					}
+					mother = {
+						character = FROM
+					}
+				}
+			}
+			modifier = {
+				factor = 1.95
+				OR = {
+					FROM = {
+						employer = {
+							ROOT = {
+								father = {
+									character = PREVPREV }
+							}
+						}
+					}
+					FROM = {
+						employer = {
+							ROOT = {
+								father = {
+									character = PREVPREV }
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.35
+				trait = quick
+			}
+			modifier = {
+				factor = 1.25
+				trait = bright
+			}
+			modifier = {
+				factor = 1.5
+				trait = smart
+			}
+			modifier = {
+				factor = 1.75
+				trait = quick
+			}
+			modifier = {
+				factor = 1.95
+				trait = brilliant
+			}
+			modifier = {
+				factor = 2
+				trait = genius
+			}
+			modifier = {
+				factor = 0.85
+				trait = dim
+			}
+			modifier = {
+				factor = 0.75
+				trait = dumb
+			}
+			modifier = {
+				factor = 0.65
+				trait = slow
+			}
+			modifier = {
+				factor = 0.5
+				trait = idiot
+			}
+			modifier = {
+				factor = 0.45
+				trait = imbecile
+			}
+			modifier = {
+				factor = 1.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 1.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.75
+				trait = diligent
+			}
+			modifier = {
+				factor = 1.25
+				trait = patient
+			}
+			modifier = {
+				factor = 0.85
+				trait = slothful
+			}
+			modifier = {
+				factor = 0.5
+				age = 14
+			}
+		}
+	}
+
+	necromancer_ward_apprentice = {
+		only_playable = yes
+		filter = realm
+		ai_target_filter = realm
+		from_potential = {
+			#is_undead_trigger = yes
+			trait = lore_necromancy
+			nor = {
+				trait = vampire_blood_visible
+				trait = vampire_jade_visible
+				trait = vampire_blood_hidden
+				trait = vampire_jade_hidden
+				any_friend = {
+					trait = mage_apprentice
+				}
+			}
+			OR = {
+				trait = khemri_tomb_king
+				trait = creature_human
+			}
+		}
+		potential = {
+			NOT = {
+				character = FROM
+			}
+			OR = {
+				host = {
+					character = FROM
+				}
+				guardian = {
+					character = FROM
+				}
+				any_spouse = {
+					character = FROM
+				}
+				any_lover = {
+					character = FROM
+				}
+				any_friend = {
+					character = FROM
+				}
+				mother = {
+					character = FROM
+				}
+				father = {
+					character = FROM
+				}
+			}
+			age = 16
+			OR = {
+				trait = khemri_tomb_king
+				trait = creature_human
+			}
+			wh_is_mage_or_apprentice_trigger = no
+			nor = {
+				trait = vampire_blood_hidden
+				trait = vampire_blood_visible
+				has_character_flag = taken_hedge_wizard_decision
+				has_character_flag = taken_necromancer_decision
+				has_character_modifier = apprenticeship_refused_necr
+				trait = king_settra
+			}
+		}
+		allow = {
+			FROM = {
+				learning = 14
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision necromancer_ward_apprentice for [Root.GetBestName]"
+			set_character_flag = taken_necromancer_decision
+			character_event = {
+				id = sorcererapprentice.17
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.85
+				NOT = {
+					dynasty = FROM
+				}
+			}
+			modifier = {
+				factor = 0.85
+				NOT = {
+					culture = FROM
+				}
+			}
+			modifier = {
+				factor = 0.05
+				NOT = {
+					religion_group = FROM
+				}
+			}
+			modifier = {
+				factor = 0.1
+				trait = khemri_tomb_king
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					learning = 12
+				}
+			}
+			modifier = {
+				factor = 0.75
+				nor = {
+					father = {
+						character = FROM
+					}
+					mother = {
+						character = FROM
+					}
+				}
+			}
+			modifier = {
+				factor = 5
+				OR = {
+					father = {
+						character = FROM
+					}
+					mother = {
+						character = FROM
+					}
+				}
+			}
+			modifier = {
+				factor = 1.95
+				OR = {
+					FROM = {
+						employer = {
+							ROOT = {
+								father = {
+									character = PREVPREV
+								}
+							}
+						}
+					}
+					FROM = {
+						employer = {
+							ROOT = {
+								father = {
+									character = PREVPREV
+								}
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.35
+				trait = quick
+			}
+			modifier = {
+				factor = 1.25
+				trait = bright
+			}
+			modifier = {
+				factor = 1.5
+				trait = smart
+			}
+			modifier = {
+				factor = 1.75
+				trait = quick
+			}
+			modifier = {
+				factor = 1.95
+				trait = brilliant
+			}
+			modifier = {
+				factor = 2
+				trait = genius
+			}
+			modifier = {
+				factor = 0.85
+				trait = dim
+			}
+			modifier = {
+				factor = 0.75
+				trait = dumb
+			}
+			modifier = {
+				factor = 0.65
+				trait = slow
+			}
+			modifier = {
+				factor = 0.5
+				trait = idiot
+			}
+			modifier = {
+				factor = 0.45
+				trait = imbecile
+			}
+			modifier = {
+				factor = 1.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 1.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.75
+				trait = diligent
+			}
+			modifier = {
+				factor = 1.25
+				trait = patient
+			}
+			modifier = {
+				factor = 0.85
+				trait = slothful
+			}
+			modifier = {
+				factor = 0.25
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -100
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -80
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -60
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -40
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = -20
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					NOT = {
+						opinion = {
+							who = ROOT
+							value = 0
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 1.65
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 40
+					}
+				}
+			}
+			modifier = {
+				factor = 1.75
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 60
+					}
+				}
+			}
+			modifier = {
+				factor = 1.85
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 80
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 100
+					}
+				}
+			}
+		}
+	}
+
+	necro_execute_prisoner = {
+		only_playable = yes
+		ai_target_filter = court
+		from_potential = {
+			trait = lore_necromancy
+		}
+		potential = {
+			prisoner = yes
+			NOT = {
+				character = FROM
+			}
+			host = {
+				character = FROM
+			}
+			is_demon_trigger = no
+			is_undead_trigger = no
+		}
+		allow = {
+			prisoner = yes
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+		}
+		effect = {
+			log = "work decision necro_execute_prisoner for [Root.GetBestName]"
+			prisoner = no
+			if = {
+				limit = {
+					is_invincible_trigger = yes
+				}
+				antideath_effect = yes
+				break = yes
+			}
+			FROM = {
+				character_event = {
+					id = svampires.10
+				}
+			}
+			death = {
+				death_reason = death_execution
+				killer = FROM
+			}
+			wh_execution_opinion_effect = yes
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05 # Less likely to do it
+			}
+			modifier = {
+				factor = 2
+				war = yes
+			}
+			modifier = {
+				factor = 0
+				reverse_opinion = {
+					who = FROM value = 50
+				}
+			}
+			modifier = {
+				factor = 0.01
+				FROM = {
+					location = {
+						NOT = {
+							owner = {
+								character = FROM
+							}
+						}
+						NOT = {
+							owner = {
+								top_liege = {
+									character = FROM } }
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0 #Enemy has your relative
+				FROM = {
+					any_current_enemy = {
+						dynasty = ROOT
+						is_close_relative = ROOT
+						any_courtier = {
+							is_close_relative = FROM
+							dynasty = FROM
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.01
+				FROM = {
+					OR = {
+						trait = kind
+						trait = just
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					OR = {
+						trait = cruel
+						trait = zealous
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					trait = lunatic_3
+				}
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					trait = patient
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					has_character_modifier = necromantic_power_1
+				}
+			}
+			modifier = {
+				factor = 1.75
+				FROM = {
+					has_character_modifier = necromantic_power_2
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					has_character_modifier = necromantic_power_3
+				}
+			}
+			modifier = {
+				factor = 2.5
+				FROM = {
+					has_character_modifier = necromantic_power_4
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					has_character_modifier = necromantic_power_5
+				}
+			}
+		}
+	}
+}

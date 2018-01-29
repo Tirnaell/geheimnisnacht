@@ -1,0 +1,1022 @@
+# by Silfae
+namespace = aicleanup
+
+
+# New character receives inheritance
+character_event = {
+	id = aicleanup.002
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = aicleanup.002 for [Root.GetBestName]"
+		FROM = {
+			any_demesne_title = {
+				grant_title = ROOT
+			}
+		}
+	}
+}
+
+# on death to pass Avelorn to the next Everqueen
+character_event = {
+	id = aicleanup.003
+	hide_window = yes
+	religion = cadai
+	only_playable = yes
+	only_women = yes
+	is_triggered_only = yes
+
+	trigger = {
+		# 	has_landed_title = k_avelorn
+		trait = everqueen
+		everqueen_heir = {
+			is_alive = yes
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.003 for [Root.GetBestName]"
+		everqueen_heir = {
+			character_event = {
+				id = aicleanup.004
+			}
+		}
+	}
+}
+
+# Inheritance Everqueen
+character_event = {
+	id = aicleanup.004
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = aicleanup.004 for [Root.GetBestName]"
+		remove_trait = everqueen_heir
+		add_trait = everqueen
+		set_character_flag = ai_flag_refuse_conversion
+		any_demesne_title = {
+			limit = {
+				has_title_flag = asur_supercourtier_flag
+			}
+			unsafe_destroy_landed_title = THIS
+		}
+		FROM = {
+			any_demesne_title = {
+				grant_title = ROOT
+			}
+		}
+	}
+}
+
+# Everqueen Trait Lost or gain on_yearly_pulse on_new_holder
+character_event = {
+	id = aicleanup.005
+	hide_window = yes
+	religion = cadai
+	only_women = yes
+	is_triggered_only = yes
+
+	trigger = {
+		or = {
+			and = {
+				trait = everqueen
+				NOT = {
+					has_landed_title = k_avelorn
+				}
+			}
+			and = {			
+				trait = everqueen_heir
+				has_landed_title = k_avelorn
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.005 for [Root.GetBestName]"
+		remove_trait = everqueen		
+		# fix everchild
+		if = {
+			limit = {
+				trait = everqueen_heir
+				has_landed_title = k_avelorn
+			}
+			remove_trait = everqueen_heir
+			add_trait = everqueen
+		}
+	}
+}
+
+# Phoenix King trait lost for on_yearly_pulse on_new_holder
+character_event = {
+	id = aicleanup.006
+	hide_window = yes
+	only_men = yes
+	is_triggered_only = yes
+
+	trigger = {
+		trait = phoenix_king
+		NOT = {
+			has_landed_title = e_ulthuan
+		}
+		is_alive = yes
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.006 for [Root.GetBestName]"
+		remove_trait = phoenix_king
+	}
+}
+
+# Gain old age traits for on_yearly_pulse
+character_event = {
+	id = aicleanup.007
+	hide_window = yes
+	min_age = 50
+	is_triggered_only = yes
+
+	trigger = {
+		nor = {
+			trait = old_1
+			trait = old_2
+			trait = old_3
+			trait = old_4
+		}
+		is_immortal_trigger = no
+		OR = {
+			and = {
+				or = {
+					trait = creature_human
+					trait = creature_skaven
+					trait = creature_halfling
+				}
+				is_long_lived_character = no
+			}
+			and = {
+				or = {
+					trait = creature_dwarf
+					trait = creature_chaos_dwarf
+				}
+				is_long_lived_character = yes
+				age = 200
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.007 for [Root.GetBestName]"
+		if = {
+			limit = {
+				nor = {
+					trait = fair
+					trait = pretty
+					trait = beautiful
+				}
+			}
+			add_trait = old_1
+		}
+		if = {
+			limit = {
+				trait = fair
+			}
+			add_trait = old_2
+		}
+		if = {
+			limit = {
+				trait = pretty
+			}
+			add_trait = old_3
+		}
+		if = {
+			limit = {
+				trait = beautiful
+			}
+			add_trait = old_4
+		}
+	}
+}
+
+# ROOT is the demander, FROM is the vassal
+character_event = {
+	id = aicleanup.008
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = aicleanup.008 for [Root.GetBestName]"
+		FROM = {
+			character_event = {
+				id = aicleanup.009
+			}
+		}
+	}
+}
+
+# ROOT is the vassal, FROM is the demander
+character_event = {
+	id = aicleanup.009
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = aicleanup.009 for [Root.GetBestName]"
+		# Fires for the vassal and each of his courtiers and vassals.
+		# Note: needs to fire for vassals/courtier before character
+		# FROMFROM is the demander. FROM is the vassal. ROOT is the character.
+		any_courtier = {
+			character_event = {
+				id = 39700
+			}
+		}
+		any_vassal = {
+			character_event = {
+				id = 39700
+			}
+		}
+		character_event = {
+			id = 39700
+		}
+	}
+}
+
+# Spell failed
+character_event = {
+	id = aicleanup.010
+	desc = EVTDESCAaicleanup010
+	is_triggered_only = yes
+	notification = yes
+
+	immediate = {
+		log = "work event id = aicleanup.010 for [Root.GetBestName]"
+		prestige = -25
+	}
+
+	option = {
+	}
+}
+
+# Remove woodwalking
+character_event = {
+	id = aicleanup.011
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = aicleanup.011 for [Root.GetBestName]"
+		remove_trait = woodwalking
+	}
+}
+
+# Prisoners grow weak in the dungeon
+character_event = {
+	id = aicleanup.012
+	desc = EVTDESCAaicleanup012
+	picture = "GFX_evt_into_the_dungeon"
+	border = GFX_event_normal_frame_intrigue
+	prisoner = yes
+
+	trigger = {
+		nor = {
+			has_character_modifier = house_arrest
+			culture_group = daemonic_group
+			trait = creature_nehekharan
+			trait = creature_forestspirit
+			trait = creature_treekin
+		}
+		is_vampire_trigger = no
+	}
+
+	mean_time_to_happen = {
+		years = 7
+		modifier = {
+			factor = 0.5
+			has_character_modifier = the_oubliette
+		}
+		modifier = {
+			factor = 2.0
+			trait = strong
+		}
+		modifier = {
+			factor = 1.75
+			trait = tough
+		}
+		modifier = {
+			factor = 1.5
+			trait = hardy
+		}
+		modifier = {
+			factor = 0.85
+			trait = soft
+		}
+		modifier = {
+			factor = 0.75
+			trait = fragile
+		}
+		modifier = {
+			factor = 0.5
+			trait = weak
+		}
+		modifier = {
+			factor = 0.75
+			trait = dwarf
+		}
+		modifier = {
+			factor = 0.85
+			trait = hunchback
+		}
+		modifier = {
+			factor = 0.75
+			is_ill = yes
+		}
+		modifier = {
+			factor = 1.5
+			trait = creature_elf
+		}
+		modifier = {
+			factor = 1.75
+			trait = creature_dwarf
+		}
+		modifier = {
+			factor = 1.75
+			trait = creature_chaos_dwarf
+		}
+		modifier = {
+			factor = 0.75
+			trait = creature_halfling
+		}
+		modifier = {
+			factor = 5
+			trait = creature_orc
+		}
+		modifier = {
+			factor = 1.75
+			trait = creature_goblin
+		}
+		modifier = {
+			factor = 1.75
+			trait = creature_snotling
+		}
+		modifier = {
+			factor = 2.75
+			trait = creature_ogre
+		}
+		modifier = {
+			factor = 1.75
+			trait = creature_beastman
+		}
+		modifier = {
+			factor = 0.75
+			trait = orc_small
+		}
+		modifier = {
+			factor = 1.75
+			trait = orc_large
+		}
+		modifier = {
+			factor = 3.75
+			trait = orc_huge
+		}
+		modifier = {
+			factor = 0.75
+			trait = goblin_small
+		}
+		modifier = {
+			factor = 1.75
+			trait = goblin_large
+		}
+		modifier = {
+			factor = 3.75
+			trait = goblin_huge
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.012 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTAaicleanup012
+		trigger = {
+			trait = fat
+		}
+		tooltip_info = fat
+		remove_trait = fat
+	}
+
+	option = {
+		name = EVTOPTBaicleanup012
+		trigger = {
+			NOT = {
+				trait = fat
+			}
+		}
+		add_trait = undernourished
+	}
+}
+
+# Dwarf gains old gfx for on_yearly_pulse
+character_event = {
+	id = aicleanup.013
+	hide_window = yes
+	min_age = 200
+	max_age = 390
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			trait = creature_dwarf
+			trait = creature_chaos_dwarf
+		}
+		nor = {
+			graphical_culture = olddwarfgfx
+			graphical_culture = slayerdwarfgfx
+			graphical_culture = oldchaosdwarfgfx
+		}
+		is_immortal_trigger = no
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.013 for [Root.GetBestName]"
+		if = {
+			limit = {
+				fertility = -1
+			}
+			add_trait = infertile
+		}
+		if = {
+			limit = {
+				trait = creature_chaos_dwarf
+				NOT = {
+					trait = transgender
+				}
+			}
+			set_graphical_culture = dwarf_chaos_old
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = creature_dwarf
+				NOT = {
+					trait = transgender
+				}
+			}
+			set_graphical_culture = dwarf_old
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = creature_chaos_dwarf
+				trait = transgender
+			}
+			set_graphical_culture = oldchaosdwarfrev
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = creature_dwarf
+				trait = transgender
+			}
+			set_graphical_culture = olddwarfrev
+			break = yes
+		}
+	}
+}
+
+# On_birth, dwarf children should not be old already
+character_event = {
+	id = aicleanup.014
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			trait = creature_chaos_dwarf
+			trait = creature_dwarf
+		}
+		OR = {
+			graphical_culture = olddwarfgfx
+			graphical_culture = oldchaosdwarfgfx
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.014 for [Root.GetBestName]"
+		if = {
+			limit = {
+				OR = {
+					graphical_culture = olddwarfgfx
+					graphical_culture = olddwarfrevgfx
+				}
+			}
+			set_graphical_culture = dwarf_main
+			break = yes
+		}
+		if = {
+			limit = {
+				OR = {
+					graphical_culture = oldchaosdwarfgfx
+					graphical_culture = oldchaosdwarfrevgfx
+				}
+			}
+			set_graphical_culture = dwarf_chaos
+			break = yes
+		}
+	}
+}
+
+# # Remove patron if the norscan has changed religion
+# # character_event = {
+# # id = aicleanup.015
+# # hide_window = yes
+# # is_triggered_only = yes
+# # trigger = {
+# # NOT = {religion_group = old_gods_group
+# }
+# # OR = {has_character_modifier = patron_tchar
+# # has_character_modifier = patron_kharneth
+# # has_character_modifier = patron_nurgleth
+# # has_character_modifier = patron_shornaal
+# # has_character_modifier = patron_ulric
+# # has_character_modifier = patron_ursun}
+# }
+# # immediate = {	remove_character_modifier = patron_tchar
+# # remove_character_modifier = patron_kharneth
+# # remove_character_modifier = patron_nurgleth
+# # remove_character_modifier = patron_shornaal
+# # remove_character_modifier = patron_ulric
+# # remove_character_modifier = patron_ursun
+# }
+# }
+# On death of Master, free all pet_consorts and mage_apprentices
+character_event = {
+	id = aicleanup.016
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_friend = {
+				trait = mage_apprentice
+			}
+			any_lover = {
+				trait = pet_consort
+			}
+			any_consort = {
+				trait = pet_consort
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.016 for [Root.GetBestName]"
+		any_friend = {
+			remove_trait = mage_apprentice
+		}
+		any_lover = {
+			remove_trait = pet_consort
+		}
+		any_consort = {
+			remove_trait = pet_consort
+		}
+	}
+}
+
+# Set all Druchii on start to proper government and give Malekith the widowed trait when not used by a Player
+character_event = {
+	id = aicleanup.021
+	hide_window = yes
+	is_triggered_only = yes
+	only_rulers = yes
+
+	trigger = {
+		trait = malekith
+		is_feudal = yes
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.021 for [Root.GetBestName]"
+		set_government_type = malekith_government
+		any_demesne_title = {
+			refill_holding_levy = yes
+		}
+		if = {
+			limit = {
+				ai = yes
+			}
+			add_trait = widowed
+		}
+		any_vassal = {
+			limit = {
+				culture_group = druchi_group
+				is_feudal = yes
+			}
+			set_government_type = druchii_government
+			any_vassal = {
+				limit = {
+					culture_group = druchi_group
+					is_feudal = yes
+				}
+				set_government_type = druchii_government
+				any_vassal = {
+					limit = {
+						culture_group = druchi_group
+						is_feudal = yes
+					}
+					set_government_type = druchii_government
+					any_vassal = {
+						limit = {
+							culture_group = druchi_group
+							is_feudal = yes
+						}
+						set_government_type = druchii_government
+					}
+				}
+			}
+		}
+	}
+}
+
+# Red Dukedoms breaks on the character's death
+character_event = {
+	id = aicleanup.024
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_landed_title = k_red_dukedom
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.024 for [Root.GetBestName]"
+		k_red_dukedom = {
+			destroy_landed_title = THIS
+		}
+	}
+}
+
+# On birth, Amazonian males should be disinherited
+character_event = {
+	id = aicleanup.025
+	hide_window = yes
+	is_triggered_only = yes
+	only_men = yes
+	religion = amazon
+	
+	trigger = {
+		liege = {
+			trait = creature_amazon
+		}
+		mother = {
+			trait = creature_amazon
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.025 for [Root.GetBestName]"
+		add_trait = disinherited_amazon
+	}
+}
+
+# On birth, Amazonian females should be legitimized and made amazons
+character_event = {
+	id = aicleanup.026
+	hide_window = yes
+	is_triggered_only = yes
+	only_women = yes
+	religion = amazon
+
+	trigger = {
+		liege = {
+			trait = creature_amazon
+		}
+		mother = {
+			trait = creature_amazon
+		}
+		father = {
+			trait = creature_human
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.026 for [Root.GetBestName]"
+		#remove_trait = creature_human
+		#add_trait = creature_amazon
+		remove_trait = bastard
+		remove_trait = legit_bastard
+		mother = {
+			ROOT = {
+				dynasty = PREV
+			}
+		}
+	}
+}
+
+# On_death. The Big Witch Doctor is always a mage.
+character_event = {
+	id = aicleanup.027
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_landed_title = d_akghan_church
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.027 for [Root.GetBestName]"
+		random_list = {
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = NONE
+					religion = ROOT
+					culture = ROOT
+					female = no
+					age = 39
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = RANDOM
+					religion = ROOT
+					culture = ROOT
+					female = no
+					age = 56
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = RANDOM
+					religion = ROOT
+					culture = ROOT
+					female = yes
+					age = 42
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = NONE
+					religion = ROOT
+					culture = ROOT
+					female = yes
+					age = 54
+				}
+			}
+		}
+		new_character = {
+			add_trait = celibate
+			add_trait = creature_human
+			random_list = {
+				25 = {
+					add_trait = lore_light
+				}
+				25 = {
+					add_trait = lore_fire
+				}
+				25 = {
+					add_trait = lore_metal
+				}
+				25 = {
+					add_trait = lore_life
+				}
+			}
+			random_list = {
+				50 = {
+					add_trait = magic_potential_1
+				}
+				30 = {
+					add_trait = magic_potential_2
+				}
+				15 = {
+					add_trait = magic_potential_3
+				}
+				5 = {
+					add_trait = magic_potential_4
+				}
+			}
+			z_magic_power_random = yes
+			character_event = {
+				id = aicleanup.002
+			}
+		}
+	}
+}
+
+# On_death. The holder of the university of Martek is always a scholar.
+character_event = {
+	id = aicleanup.028
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_landed_title = d_university_of_martek
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.028 for [Root.GetBestName]"
+		random_list = {
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = RANDOM
+					religion = ROOT
+					culture = ROOT
+					female = no
+					age = 48
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = RANDOM
+					religion = ROOT
+					culture = ROOT
+					female = no
+					age = 53
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = RANDOM
+					religion = ROOT
+					culture = ROOT
+					female = no
+					age = 65
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = RANDOM
+					religion = ROOT
+					culture = ROOT
+					female = no
+					age = 70
+				}
+			}
+		}
+		new_character = {
+			add_trait = creature_human
+			add_trait = celibate
+			add_trait = arabyan_scholar
+			random_list = {
+				25 = {
+					add_trait = lore_light
+				}
+				50 = {
+					add_trait = lore_fire
+				}
+				25 = {
+					add_trait = lore_metal
+				}
+			}
+			random_list = {
+				50 = {
+					add_trait = magic_potential_1
+				}
+				30 = {
+					add_trait = magic_potential_2
+				}
+				15 = {
+					add_trait = magic_potential_3
+				}
+				5 = {
+					add_trait = magic_potential_4
+				}
+			}
+			z_magic_power_random = yes
+			character_event = {
+				id = aicleanup.002
+			}
+		}
+	}
+}
+
+# On Succession event - if holder of Samur's Witch Hunter chapter is not a Witch Hunter, the title disappears.
+character_event = {
+	id = aicleanup.029
+	hide_window = yes
+	only_playable = yes
+	is_triggered_only = yes
+
+	trigger = {
+		FROM = {
+			title = d_samur_chapter
+		}
+		NOT = {
+			trait = witch_hunter
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.029 for [Root.GetBestName]"
+		d_samur_chapter = {
+			destroy_landed_title = THIS
+		}
+		activate_title = {
+			title = d_samur_chapter status = no
+		}
+	}
+}
+
+# on_adolescence, elves receive the youngling trait, preventing them from wasting away themselves in lowborn marriages.
+character_event = {
+	id = aicleanup.030
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_elf
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.030 for [Root.GetBestName]"
+		if = {
+			limit = {
+				is_female = yes
+			}
+			add_trait = elven_maiden
+		}
+		if = {
+			limit = {
+				is_female = no
+			}
+			add_trait = elven_scion
+		}
+	}
+}
+
+# At 45, elves lose their youngling traits and can be married off. on_yearly_pulse
+character_event = {
+	id = aicleanup.031
+	hide_window = yes
+	min_age = 45
+	max_age = 60
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_elf
+		OR = {
+			trait = elven_scion
+			trait = elven_maiden
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.031 for [Root.GetBestName]"
+		remove_trait = elven_scion
+		remove_trait = elven_maiden
+		prestige = 50
+	}
+}
+
+# Cleansing event, on_ten_years
+character_event = {
+	id = aicleanup.032
+	hide_window = yes
+	min_age = 16
+	ai = yes
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			AND = {
+				trait = creature_skaven
+				lower_tier_than = COUNT
+				any_courtier = {
+					trait = skaven_breeder
+					count = 10
+				}
+			}
+			AND = {
+				trait = creature_nehekharan
+				lower_tier_than = DUKE
+				any_courtier = {
+					trait = khemri_soldier
+					count = 10
+				}
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.032 for [Root.GetBestName]"
+		# Bad AI, stop spawning useless stuff
+		any_courtier = {
+			limit = {
+				trait = skaven_breeder
+			}
+			death = yes
+		}
+		any_courtier = {
+			limit = {
+				trait = khemri_soldier
+			}
+			death = yes
+		}
+	}
+}

@@ -1,0 +1,250 @@
+society_decisions = {
+
+	# Build a Library
+	# build_library = {
+	# 	only_playable = yes
+	# 	is_high_prio = yes
+	# 	potential = {
+	# 		has_dlc = "Mystics"
+	# 		society_member_of = cult_of_verena
+	# 		has_quest = quest_verena_build_library
+	# 		is_playable = yes
+	# 		block_general_event_trigger = no
+	# 		NOT = {
+	# 			has_character_flag = building_laboratory
+	# 		}
+	# 		NOT = {
+	# 			has_character_flag = built_laboratory
+	# 		}
+	# 	}
+	# 	allow = {
+	# 		wealth = 50
+	# 	}
+	# 	effect = {
+	# 		wealth = -50
+	# 		set_character_flag = building_laboratory
+	# 		custom_tooltip = {
+	# 			text = start_constructing_laboratory_tooltip
+	# 		}
+	# 		hidden_tooltip = {
+	# 			character_event = {
+	# 				id = DR_societies.1100
+	# 			}
+	# 		}
+	# 	}
+	# 	revoke_allowed = {
+	# 		always = no
+	# 	}
+	# 	ai_will_do = {
+	# 		factor = 1
+	# 		modifier = {
+	# 			factor = 0
+	# 			NOT = {
+	# 				wealth = 75
+	# 			}
+	# 		}
+	# 		modifier = {
+	# 			factor = 0.1
+	# 			NOT = {
+	# 				age = 30
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+	# Write a Theory Paper
+	# hermetics_write_theory_paper = {
+	# 	potential = {
+	# 		society_member_of = cult_of_verena
+	# 	}
+	# 	allow = {
+	# 		prisoner = no
+	# 		custom_tooltip = {
+	# 			text = write_theory_paper_decision_cooldown_timer_tt
+	# 			hidden_trigger = {
+	# 				NOT = {
+	# 					has_character_modifier = write_theory_paper_decision_cooldown_timer
+	# 				}
+	# 			}
+	# 		}
+	# 		NOT = {
+	# 			is_incapacitated_trigger = yes
+	# 		}
+	# 		prisoner = no
+	# 		NOT = {
+	# 			trait = incapable
+	# 		}
+	# 	}
+	# 	effect = {
+	# 		custom_tooltip = {
+	# 			text = write_theory_paper_decision_effect_tt
+	# 			add_character_modifier = {
+	# 				modifier = write_theory_paper_decision_cooldown_timer
+	# 				years = 5
+	# 				hidden = yes
+	# 			}
+	# 			character_event = {
+	# 				id = DR_societies.1630
+	# 			}
+	# 		}
+	# 	}
+	# 	ai_will_do = {
+	# 		factor = 1
+	# 		modifier = {
+	# 			factor = 0.001 # Slow down
+	# 		}
+	# 	}
+	# }
+
+	# hermetic_grand_debate = {
+	# 	only_playable = yes
+	# 	is_high_prio = yes
+	# 	potential = {
+	# 		has_dlc = "Mystics"
+	# 		is_playable = yes
+	# 		is_adult = yes
+	# 		society_member_of = cult_of_verena
+	# 		society_rank == 4
+	# 	}
+	# 	allow = {
+	# 		wealth = 100
+	# 		prestige = 400
+	# 		prisoner = no
+	# 		NOT = {
+	# 			is_incapacitated_trigger = yes
+	# 		}
+	# 		custom_tooltip = {
+	# 			text = is_not_busy_trigger_tooltip
+	# 			hidden_tooltip = {
+	# 				NOT = {
+	# 					has_character_flag = do_not_disturb
+	# 				}
+	# 			}
+	# 		}
+	# 		custom_tooltip = {
+	# 			text = GRAND_DEBATE_HOLDING_TOOLTIP
+	# 			OR = {
+	# 				NOT = {
+	# 					has_global_flag = holding_grand_debate
+	# 				}
+	# 				had_global_flag = {
+	# 					flag = holding_grand_debate days = 150
+	# 				}
+	# 			}
+	# 		}
+	# 		custom_tooltip = {
+	# 			text = GRAND_DEBATE_COOLDOWN_TOOLTIP
+	# 			OR = {
+	# 				NOT = {
+	# 					has_global_flag = held_grand_debate
+	# 				}
+	# 				had_global_flag = {
+	# 					flag = held_grand_debate days = 3650
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# 	effect = {
+	# 		character_event = {
+	# 			id = DR_societies.1980 tooltip = GRAND_DEBATE_INVITE_TOOLTIP
+	# 		}
+	# 		wealth = -100
+	# 		hidden_tooltip = {
+	# 			clr_character_flag = grand_debate_has_ended
+	# 			set_character_flag = do_not_disturb
+	# 			set_global_flag = holding_grand_debate
+	# 			character_event = {
+	# 				id = DR_societies.1982 days = 300
+	# 			} # Safety catch flag clearing
+	# 		}
+	# 	}
+	# 	revoke_allowed = {
+	# 		always = no
+	# 	}
+	# 	ai_will_do = {
+	# 		factor = 1
+	# 		modifier = {
+	# 			factor = 0.001 # Slow down
+	# 		}
+	# 	}
+	# }
+
+	# # Power: write Magnum Opus
+	# hermetics_write_magnum_opus = {
+	# 	is_in_society = yes
+	# 	filter = self
+	# 	ai_target_filter = self
+	# 	potential = {
+	# 		society_member_of = cult_of_verena
+	# 		society_rank = 4
+	# 		prisoner = no
+	# 		NOT = {
+	# 			trait = incapable
+	# 		}
+	# 	}
+	# 	allow = {
+	# 		FROM = {
+	# 			custom_tooltip = {
+	# 				text = hermetics_wrote_magnum_opus_cd_tooltip
+	# 				NOT = {
+	# 					has_character_flag = wrote_magnum_opus
+	# 				}
+	# 			}
+	# 			has_society_currency_minor_trigger = yes
+	# 			custom_tooltip = {
+	# 				text = hermetics_wrote_magnum_opus_duplicate
+	# 				OR = {
+	# 					NOR = {
+	# 						has_artifact = magnum_opus_theurgy_ritual_1
+	# 						has_artifact = magnum_opus_theurgy_ritual_2
+	# 						has_artifact = magnum_opus_theurgy_ritual_3
+	# 						has_artifact = magnum_opus_theurgy_ritual_4
+	# 					}
+	# 					NOR = {
+	# 						has_artifact = magnum_opus_theurgy_contemplation_1
+	# 						has_artifact = magnum_opus_theurgy_contemplation_2
+	# 						has_artifact = magnum_opus_theurgy_contemplation_3
+	# 						has_artifact = magnum_opus_theurgy_contemplation_4
+	# 					}
+	# 					NOR = {
+	# 						has_artifact = magnum_opus_astrology_stars_1
+	# 						has_artifact = magnum_opus_astrology_stars_2
+	# 						has_artifact = magnum_opus_astrology_stars_3
+	# 						has_artifact = magnum_opus_astrology_stars_4
+	# 					}
+	# 					NOR = {
+	# 						has_artifact = magnum_opus_astrology_planets_1
+	# 						has_artifact = magnum_opus_astrology_planets_2
+	# 						has_artifact = magnum_opus_astrology_planets_3
+	# 						has_artifact = magnum_opus_astrology_planets_4
+	# 					}
+	# 					NOR = {
+	# 						has_artifact = magnum_opus_alchemy_panacea_1
+	# 						has_artifact = magnum_opus_alchemy_panacea_2
+	# 						has_artifact = magnum_opus_alchemy_panacea_3
+	# 						has_artifact = magnum_opus_alchemy_panacea_4
+	# 					}
+	# 					NOR = {
+	# 						has_artifact = magnum_opus_alchemy_transmutation_1
+	# 						has_artifact = magnum_opus_alchemy_transmutation_2
+	# 						has_artifact = magnum_opus_alchemy_transmutation_3
+	# 						has_artifact = magnum_opus_alchemy_transmutation_4
+	# 					}
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# 	effect = {
+	# 		hidden_effect = {
+	# 			character_event = {
+	# 				id = DR_societies.1610 days = 1
+	# 			}
+	# 			set_character_flag = wrote_magnum_opus
+	# 		}
+	# 		detract_society_currency_major_effect = yes
+	# 	}
+	# 	revoke_allowed = {
+	# 		always = no
+	# 	}
+	# }
+}

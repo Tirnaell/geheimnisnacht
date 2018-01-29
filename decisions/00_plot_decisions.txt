@@ -1,0 +1,2200 @@
+plot_decisions = {
+
+	#Plots decision
+	plot_gain_title_decision = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			always = no # Disabled
+			is_playable = yes
+			age = 16
+			has_plot = plot_gain_title
+			NOT = {
+				has_character_flag = plot_gain_title_decision_taken
+			}
+		}
+		allow = {
+			plot_power = 0.8
+			num_of_plot_backers = 1
+			plot_target_char = {
+				prisoner = no
+				NOT = {
+					any_war = {
+						defender = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			will_liege_enforce_peace = no
+			has_liege_enforced_peace = no
+		}
+		effect = {
+			log = "work decision plot_gain_title_decision for [Root.GetBestName]"
+			plot_target_char = {
+				letter_event = {
+					id = 8000 days = 3 tooltip = "EVTTOOLTIP8000"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = plot_gain_title_decision_taken
+				activate_plot = yes
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					plot_power = 0.9
+				}
+			}
+		}
+	}
+	plot_gain_vassal_title_decision = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			has_plot = plot_gain_vassal_title
+			NOT = {
+				has_character_flag = plot_gain_vassal_title_decision_taken
+			}
+		}
+		allow = {
+			plot_power = 0.8
+			num_of_plot_backers = 1
+			plot_target_char = {
+				prisoner = no
+				in_revolt = no
+				custom_tooltip = {
+					text = not_under_attack
+					hidden_tooltip = {
+						NOT = {
+							any_war = {
+								defender = {
+									character = PREVPREV
+								}
+							}
+						}
+					}
+				}
+			}
+			will_liege_enforce_peace = no
+			has_liege_enforced_peace = no
+		}
+		effect = {
+			log = "work decision plot_gain_vassal_title_decision for [Root.GetBestName]"
+			plot_target_char = {
+				letter_event = {
+					id = 8030 days = 3 tooltip = "EVTTOOLTIP8030"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = plot_gain_vassal_title_decision_taken
+				activate_plot = yes
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					plot_power = 0.9
+				}
+			}
+		}
+	}
+	plot_weaken_fellow_vassal_decision = {
+		only_rulers = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			has_plot = plot_weaken_fellow_vassal
+			NOT = {
+				has_character_flag = plot_weaken_fellow_vassal_decision_taken
+			}
+		}
+		allow = {
+			plot_power = 1
+			num_of_plot_backers = 1
+			plot_target_char = {
+				NOT = {
+					any_war = {
+						defender = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			will_liege_enforce_peace = no
+			has_liege_enforced_peace = no
+		}
+		effect = {
+			log = "work decision plot_weaken_fellow_vassal_decision for [Root.GetBestName]"
+			plot_target_char = {
+				letter_event = {
+					id = 7505 days = 3 tooltip = "EVTTOOLTIP7505"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = plot_weaken_fellow_vassal_decision_taken
+				activate_plot = yes
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					plot_power = 0.9
+				}
+			}
+		}
+	}
+	plot_weaken_fellow_vassal_decision_liege = {
+		only_rulers = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			has_plot = plot_weaken_fellow_vassal
+			NOT = {
+				has_character_flag = plot_weaken_fellow_vassal_decision_liege_taken
+				has_character_flag = plot_weaken_fellow_vassal_decision_taken
+				plot_target_char  = {
+					reverse_opinion = {
+						who = liege
+						value = 40
+					}
+				}
+			}
+		}
+		allow = {
+			plot_power = 0.6
+			num_of_plot_backers = 1
+			plot_target_char = {
+				NOT = {
+					any_war = {
+						defender = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			will_liege_enforce_peace = no
+			has_liege_enforced_peace = no
+		}
+		effect = {
+			log = "work decision plot_weaken_fellow_vassal_decision_liege for [Root.GetBestName]"
+			top_liege = {
+				letter_event = {
+					id = 7500
+					days = 3
+					tooltip = "EVTTOOLTIP7500"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = plot_weaken_fellow_vassal_decision_liege_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					plot_power = 0.9
+				}
+			}
+		}
+	}
+	plot_gain_liege_title_decision_100 = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			has_plot = plot_gain_liege_title
+			NOT = {
+				has_character_flag = plot_gain_liege_title_decision_taken
+			}
+		}
+		allow = {
+			plot_power = 1
+			num_of_plot_backers = 5
+			plot_target_char = {
+				NOT = {
+					any_war = {
+						defender = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision plot_gain_liege_title_decision_100 for [Root.GetBestName]"
+			ROOT = {
+				random_list = {
+					90 = {
+						character_event = {
+							id = 7600 tooltip = "EVTTOOLTIP7600"
+						}
+					}
+					10 = {
+						character_event = {
+							id = 7601 tooltip = "EVTTOOLTIP7601"
+						}
+					}
+				}
+				hidden_tooltip = {
+					set_character_flag = plot_gain_liege_title_decision_taken
+					activate_plot = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+			}
+		}
+	}
+	plot_gain_liege_title_decision_75 = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			has_plot = plot_gain_liege_title
+			NOT = {
+				has_character_flag = plot_gain_liege_title_decision_taken
+			}
+		}
+		allow = {
+			plot_power = 0.75
+			num_of_plot_backers = 3
+			plot_target_char = {
+				NOT = {
+					any_war = {
+						defender = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision plot_gain_liege_title_decision_75 for [Root.GetBestName]"
+			ROOT = {
+				random_list = {
+					60 = {
+						character_event = {
+							id = 7600 tooltip = "EVTTOOLTIP7600"
+						}
+					}
+					40 = {
+						character_event = {
+							id = 7601 tooltip = "EVTTOOLTIP7601"
+						}
+					}
+				}
+				hidden_tooltip = {
+					set_character_flag = plot_gain_liege_title_decision_taken
+					activate_plot = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					plot_power = 0.9
+				}
+			}
+		}
+	}
+	plot_gain_fellow_vassal_title_decision_100 = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			has_plot = plot_gain_fellow_vassal_title
+			NOT = {
+				has_character_flag = plot_gain_fellow_vassal_title_decision_taken
+			}
+		}
+		allow = {
+			plot_power = 1
+			num_of_plot_backers = 4
+			plot_target_char = {
+				NOT = {
+					any_war = {
+						defender = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			will_liege_enforce_peace = no
+			has_liege_enforced_peace = no
+		}
+		effect = {
+			log = "work decision plot_gain_fellow_vassal_title_decision_100 for [Root.GetBestName]"
+			ROOT = {
+				random_list = {
+					90 = {
+						character_event = {
+							id = 7600 tooltip = "EVTTOOLTIP7600"
+						}
+					}
+					10 = {
+						character_event = {
+							id = 7602 tooltip = "EVTTOOLTIP7601"
+						}
+					}
+				}
+				hidden_tooltip = {
+					set_character_flag = plot_gain_fellow_vassal_title_decision_taken
+					activate_plot = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+			}
+		}
+	}
+	plot_gain_fellow_vassal_title_decision_75 = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			has_plot = plot_gain_fellow_vassal_title
+			NOT = {
+				has_character_flag = plot_gain_fellow_vassal_title_decision_taken
+			}
+		}
+		allow = {
+			plot_power = 0.75
+			num_of_plot_backers = 3
+			plot_target_char = {
+				NOT = {
+					any_war = {
+						defender = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			will_liege_enforce_peace = no
+			has_liege_enforced_peace = no
+		}
+		effect = {
+			log = "work decision plot_gain_fellow_vassal_title_decision_75 for [Root.GetBestName]"
+			ROOT = {
+				random_list = {
+					60 = {
+						character_event = {
+							id = 7600 tooltip = "EVTTOOLTIP7600"
+						}
+					}
+					40 = {
+						character_event = {
+							id = 7602 tooltip = "EVTTOOLTIP7601"
+						}
+					}
+				}
+				hidden_tooltip = {
+					set_character_flag = plot_gain_fellow_vassal_title_decision_taken
+					activate_plot = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					plot_power = 0.9
+				}
+			}
+		}
+	}
+	plot_seize_trade_post_decision = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			has_plot = plot_seize_trade_post
+			NOT = {
+				has_character_flag = plot_seize_trade_post_decision_taken
+			}
+		}
+		allow = {
+			plot_power = 0.75
+			num_of_plot_backers = 3
+			plot_target_char = {
+				NOT = {
+					any_war = {
+						defender = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			will_liege_enforce_peace = no
+			has_liege_enforced_peace = no
+		}
+		effect = {
+			log = "work decision plot_seize_trade_post_decision for [Root.GetBestName]"
+			ROOT = {
+				character_event = {
+					id = REP.300 tooltip = EVTTOOLTIPREP.300
+				}
+				set_character_flag = plot_seize_trade_post_decision_taken
+				activate_plot = yes
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					nor = {
+						plot_power = 0.9
+						wealth = 300
+					}
+				}
+			}
+		}
+	}
+
+	#Factions decision
+	faction_succ_seniority_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_succ_seniority
+			OR = {
+				NOT = {
+					has_character_flag = faction_succ_seniority_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_succ_seniority_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					NOT = {
+						higher_tier_than = count
+					}
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_succ_seniority_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8005 days = 3 tooltip = "EVTTOOLTIP8005"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_succ_seniority_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_seniority
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_seniority
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_seniority
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+									using_cb = succession_on_liege
+									using_cb = other_succession_on_liege
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	faction_succ_primogeniture_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_succ_primogeniture
+			OR = {
+				NOT = {
+					has_character_flag = faction_succ_primogeniture_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_succ_primogeniture_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			war = no
+			prisoner = no
+			liege = {
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
+				}
+			}
+			liege = {
+				in_revolt = no
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_succ_primogeniture_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8010 days = 3 tooltip = "EVTTOOLTIP8005"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_succ_primogeniture_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_primogeniture
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_primogeniture
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_primogeniture
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	faction_succ_feudal_elective_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_succ_feudal_elective
+			OR = {
+				NOT = {
+					has_character_flag = faction_succ_feudal_elective_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_succ_feudal_elective_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					NOT = {
+						higher_tier_than = count
+					}
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_succ_feudal_elective_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8015 days = 3 tooltip = "EVTTOOLTIP8005"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_succ_feudal_elective_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_feudal_elective
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_feudal_elective
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_feudal_elective
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	faction_succ_gavelkind_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_succ_gavelkind
+			OR = {
+				NOT = {
+					has_character_flag = faction_succ_gavelkind_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_succ_gavelkind_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					NOT = {
+						higher_tier_than = count
+					}
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_succ_gavelkind_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8020 days = 3 tooltip = "EVTTOOLTIP8005"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_succ_gavelkind_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_gavelkind
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_gavelkind
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_succ_gavelkind
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+									using_cb = succession_on_liege
+									using_cb = other_succession_on_liege
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	faction_lower_crown_authority_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_lower_crown_authority
+			OR = {
+				NOT = {
+					has_character_flag = faction_lower_CA_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_lower_CA_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_lower_crown_authority_ultimatum for [Root.GetBestName]"
+			liege = {
+				if = {
+					limit = {
+						has_regent = no
+					}
+					letter_event = {
+						id = 8025 days = 3 tooltip = EVTTOOLTIP8005
+					}
+				}
+				if = {
+					limit = {
+						has_regent = yes
+					}
+					letter_event = {
+						id = 8026 days = 3 tooltip = EVTTOOLTIP8005
+					}
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_lower_CA_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_lower_crown_authority
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_lower_crown_authority
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_lower_crown_authority
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+									using_cb = succession_on_liege
+									using_cb = other_succession_on_liege
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	faction_lower_tribal_organization_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_lower_tribal_organization
+			OR = {
+				NOT = {
+					has_character_flag = faction_lower_TO_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_lower_TO_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_lower_tribal_organization_ultimatum for [Root.GetBestName]"
+			liege = {
+				if = {
+					limit = {
+						has_regent = no
+					}
+					letter_event = {
+						id = 8027 days = 3 tooltip = EVTTOOLTIP8005
+					}
+				}
+				if = {
+					limit = {
+						has_regent = yes
+					}
+					letter_event = {
+						id = 8031 days = 3 tooltip = EVTTOOLTIP8005
+					}
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_lower_TO_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_lower_tribal_organization
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_lower_tribal_organization
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_lower_tribal_organization
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+									using_cb = succession_on_liege
+									using_cb = other_succession_on_liege
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	faction_independence_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_independence
+			OR = {
+				NOT = {
+					has_character_flag = faction_independence_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_independence_ultimatum_taken days = 7
+				}
+			}
+			liege = {
+				independent = yes
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					NOT = {
+						higher_tier_than = count
+					}
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_independence_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8035 days = 3 tooltip = "EVTTOOLTIP8005"
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_independence_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.2 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					religion_group = ROOT
+					any_war = {
+						defender = {
+							character = PREV
+						}
+						NOT = {
+							attacker = {
+								religion_group = ROOT
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					religion = ROOT
+					any_war = {
+						attacker = {
+							character = PREV
+						}
+						NOT = {
+							defender = {
+								religion_group = ROOT
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					religion = ROOT
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								OR = {
+									using_cb = religious
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = crusade
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								using_cb = viking_invasion
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_independence
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_independence
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_independence
+						power = 0.75
+					}
+				}
+			}
+		}
+	}
+	faction_claimant_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_claimant
+			OR = {
+				NOT = {
+					has_character_flag = faction_claimant_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_claimant_ultimatum_taken days = 7
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			any_demesne_title = {
+				NOT = {
+					higher_tier_than = count
+				}
+				is_occupied = no
+			}
+			liege = {
+				liege = {
+					OR = {
+						liege = {
+							independent = yes
+						}
+						AND = {
+							will_liege_enforce_peace = no
+							has_liege_enforced_peace = no
+						}
+					}
+				}
+			}
+			supported_claimant = {
+				is_alive = yes
+			}
+		}
+		effect = {
+			log = "work decision faction_claimant_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8036 days = 3 tooltip = "EVTTOOLTIP8005"
+				}
+			}
+			if = {
+				limit = {
+					supported_claimant = {
+						NOT = {
+							character = ROOT
+						}
+						OR = {
+							nor = {
+								same_liege = ROOT
+								in_faction = faction_claimant
+								supported_claimant = {
+									character = PREV
+								}
+							}
+						}
+					}
+				}
+				supported_claimant = {
+					letter_event = {
+						id = 8037 days = 1
+					}
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_claimant_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_claimant
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_claimant
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_claimant
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				faction_claimant = {
+					has_law = succ_feudal_elective
+				}
+				liege = {
+					ROOT = {
+						supported_claimant = {
+							religion = PREVPREV
+							culture = PREVPREV
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			modifier = {
+				# If liege is already fighting a claimant war, slow it down to avoid war spam
+				factor = 0.05
+				liege = {
+					any_war = {
+						using_cb = claim_on_liege
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				supported_claimant = {
+					any_war = {
+						OR = {
+							AND = {
+								any_attacker = {
+									character = PREV
+								}
+								any_attacker = {
+									ROOT = {
+										liege = {
+											character = PREVPREV
+										}
+									}
+								}
+							}
+							AND = {
+								any_defender = {
+									character = PREV
+								}
+								any_defender = {
+									ROOT = {
+										liege = {
+											character = PREVPREV
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+									using_cb = succession_on_liege
+									using_cb = other_succession_on_liege
+								}
+								thirdparty_title_scope = {
+									ROOT = {
+										supported_claimant_title = {
+											title = PREVPREV
+										}
+									}
+									OR = {
+										is_conquered = no
+										conquest_culture = ROOT
+									}
+								}
+								attacker = {
+									OR = {
+										in_revolt = no
+										NOT = {
+											liege_before_war = {
+												character = PREVPREVPREV
+											}
+										}
+									}
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+									ROOT = {
+										supported_claimant = {
+											religion = PREVPREV
+											culture = PREVPREV
+										}
+									}
+								}
+								OR = {
+									using_cb = religious
+									using_cb = crusade
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = invasion
+									using_cb = tribal_invasion
+									using_cb = claim_all
+									using_cb = claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	# faction_antiking_ultimatum = {
+	# only_playable = yes
+	# is_high_prio = yes
+	# potential = {
+	# is_playable = yes
+	# leads_faction = faction_antiking
+	# OR = {
+	# NOT = { has_character_flag = faction_install_antiking_ultimatum_taken }
+	# had_character_flag = { flag = faction_install_antiking_ultimatum_taken days = 7 }
+	# }
+	# }
+	# allow = {
+	# war = no
+	# prisoner = no
+	# liege = {
+	# in_revolt = no
+	# NOT = { war_with = ROOT }
+	# NOT = { reverse_has_truce = ROOT }
+	# }
+	# NOT = {
+	# any_realm_title = {
+	# is_occupied = yes
+	# }
+	# }
+	# liege = {
+	# OR = {
+	# independent = yes
+	# AND = {
+	# will_liege_enforce_peace = no
+	# has_liege_enforced_peace = no
+	# }
+	# }
+	# }
+	# supported_claimant = {
+	# is_alive = yes
+	# }
+	# }
+	# effect = {
+	# liege = {
+	# letter_event = { id = 8200 days = 3 tooltip = EVTTOOLTIP8005 }
+	# }
+	# hidden_tooltip = {
+	# set_character_flag = faction_install_antiking_ultimatum_taken
+	# }
+	# }
+	# revoke_allowed = {
+	# always = no
+	# }
+	# ai_will_do = {
+	# factor = 1
+	# modifier = {
+	# factor = 0
+	# NOT = {
+	# faction_power =
+	# {
+	# faction = faction_antiking
+	# power = 0.5
+	# }
+	# }
+	# }
+	# modifier = {
+	# factor = 0.5 # Slow it down a bit
+	# }
+	# modifier = {
+	# factor = 0
+	# liege = {
+	# any_war = {
+	# OR = {
+	# AND = {
+	# defender = { character = PREV }
+	# NOT = { using_cb = depose_liege }
+	# NOT = { using_cb = overthrow_ruler }
+	# NOT = { using_cb = overthrow_ruler_no_calls }
+	# }
+	# AND = {
+	# attacker = { character = PREV }
+	# OR = {
+	# using_cb = invasion
+	# using_cb = religious
+	# using_cb = tribal_invasion
+	# using_cb = muslim_invasion
+	# using_cb = viking_invasion
+	# using_cb = claim_all
+	# using_cb = claim
+	# using_cb = other_claim
+	# }
+	# }
+	# }
+	# }
+	# }
+	# }
+	# }
+	# }
+	faction_overthrow_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_overthrow
+			OR = {
+				NOT = {
+					has_character_flag = faction_overthrow_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_overthrow_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					NOT = {
+						higher_tier_than = count
+					}
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_overthrow_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8210 days = 3 tooltip = EVTTOOLTIP8005
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_overthrow_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_overthrow
+						power = 0.5
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+									using_cb = succession_on_liege
+									using_cb = other_succession_on_liege
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	faction_increase_council_power_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_increase_council_power
+			OR = {
+				NOT = {
+					has_character_flag = faction_council_power_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_council_power_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					lower_tier_than = DUKE
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_increase_council_power_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8215 days = 3 tooltip = EVTTOOLTIP8005
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_council_power_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_increase_council_power
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_increase_council_power
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_increase_council_power
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 1 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	faction_powerful_vassal_takeover_ultimatum = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			leads_faction = faction_powerful_vassal_takeover
+			OR = {
+				NOT = {
+					has_character_flag = faction_powerful_vassal_takeover_ultimatum_taken
+				}
+				had_character_flag = {
+					flag = faction_powerful_vassal_takeover_ultimatum_taken days = 7
+				}
+			}
+		}
+		allow = {
+			war = no
+			prisoner = no
+			liege = {
+				in_revolt = no
+				nor = {
+					war_with = ROOT
+					reverse_has_truce = ROOT
+				}
+			}
+			NOT = {
+				any_realm_title = {
+					NOT = {
+						higher_tier_than = count
+					}
+					is_occupied = yes
+				}
+			}
+			liege = {
+				OR = {
+					independent = yes
+					AND = {
+						will_liege_enforce_peace = no
+						has_liege_enforced_peace = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision faction_powerful_vassal_takeover_ultimatum for [Root.GetBestName]"
+			liege = {
+				letter_event = {
+					id = 8220 days = 3 tooltip = EVTTOOLTIP8005
+				}
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_powerful_vassal_takeover_ultimatum_taken
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					faction_power =
+					{
+						faction = faction_powerful_vassal_takeover
+						power = 0.75
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_powerful_vassal_takeover
+						power = 1.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					faction_power =
+					{
+						faction = faction_powerful_vassal_takeover
+						power = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 1 # Slow it down a bit
+			}
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = {
+									character = PREV
+								}
+								nor = {
+									using_cb = depose_liege
+									using_cb = overthrow_ruler
+									using_cb = overthrow_ruler_no_calls
+								}
+							}
+							AND = {
+								attacker = {
+									character = PREV
+								}
+								OR = {
+									using_cb = invasion
+									using_cb = religious
+									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+#END

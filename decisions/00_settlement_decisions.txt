@@ -1,0 +1,4809 @@
+# Settlement decisions are possible vs _all_ settlements and are shown in the Settlement Diplomacy View, not the Intrigue View. The taker is in the FROM scope.
+settlement_decisions = {
+
+	deploy_slaves_province = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		from_potential = {
+			is_playable = yes
+			age = 16
+			ai = no
+			nor = {
+				religion = hashut
+				trait = creature_beastman
+			}
+			OR = {
+				religion_group = cytharai_group
+				religion_group = greenskin_gods_group
+				religion_group = chaos_gods_group
+				religion_group = old_gods_group
+				religion = amazon
+			}
+			OR = {
+				check_variable = {
+					which = elfslaves value = 1
+				}
+				check_variable = {
+					which = dwarfslaves value = 1
+				}
+				check_variable = {
+					which = humanslaves value = 1
+				}
+			}
+		}
+		potential = {
+			is_capital = yes
+			location = {
+				NOR = {
+					has_province_modifier = human_slaves
+					has_province_modifier = elf_slaves
+					has_province_modifier = dwarf_slaves
+				}
+			}
+			owner = {
+				character = FROM
+			}
+		}
+		allow = {
+			FROM = {
+				OR = {
+					check_variable = {
+						which = elfslaves value = 1
+					}
+					check_variable = {
+						which = dwarfslaves value = 1
+					}
+					check_variable = {
+						which = humanslaves value = 1
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision deploy_slaves_province for [Root.GetBestName]"
+			FROM = {
+				character_event = {
+					id = slavery.6
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	make_primary = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		from_potential = {
+			is_playable = yes
+		}
+		potential = {
+			is_capital = no
+			holder_scope = {
+				character = FROM
+			}
+			dejure_liege_title = {
+				holder_scope = {
+					character = FROM
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				OR = {
+					AND = {
+						is_merchant_republic = no
+						is_nomadic = no
+					}
+					capital_scope = {
+						ROOT = {
+							location = {
+								NOT = {
+									province = PREVPREV
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision make_primary for [Root.GetBestName]"
+			make_capital_holding = yes
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				# Not if this settlement is not allowed
+				factor = 0
+				NOT = {
+					is_allowed_holding_type = FROM
+				}
+			}
+			modifier = {
+				# Not if existing capital is preferred
+				factor = 0
+				defacto_liege_title = {
+					is_preferred_holding_type = FROM
+				}
+			}
+			modifier = {
+				# Not if this settlement is not preferred and another settlement is
+				factor = 0
+				NOT = {
+					is_preferred_holding_type = FROM
+				}
+				defacto_liege_title = {
+					any_direct_de_jure_vassal_title = {
+						holder = FROM
+						is_preferred_holding_type = FROM
+					}
+				}
+			}
+		}
+	}
+	revoke_primary = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		from_potential = {
+			is_playable = yes
+			is_nomadic = yes
+			has_dlc = "Horse Lords"
+		}
+		potential = {
+			is_capital = yes
+			holder_scope = {
+				character = FROM
+				capital_holding = {
+					NOT = {
+						title = PREVPREV
+					}
+				}
+			}
+			capital_scope = {
+				has_empty_holding = yes
+			}
+			NOT = {
+				holding_type = nomad
+			}
+		}
+		effect = {
+			log = "work decision revoke_primary for [Root.GetBestName]"
+			revoke_capital_holding = yes
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	abaddon_settlement = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		from_potential = {
+		}
+		potential = {
+			always = yes
+			holder_scope = {
+				character = FROM
+			}
+			is_capital = no
+		}
+		allow = {
+			holder_scope = {
+				character = FROM
+			}
+			is_capital = no
+			hidden_tooltip = {
+				FROM = {
+					prestige = 1000
+					piety = 500
+				}
+			}
+		}
+		effect = {
+			log = "work decision abaddon_settlement for [Root.GetBestName]"
+			destroy_settlement = THIS
+			FROM = {
+				prestige = -500
+				piety = -300
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	adopt_tribalism = {
+		only_independent = yes
+		filter = sub_realm_owned
+		ai_target_filter = sub_realm_owned
+		is_high_prio = yes
+		from_potential = {
+			is_playable = yes
+			is_nomadic = yes
+			has_dlc = "Horse Lords"
+			is_landed = yes
+			NOT = {
+				culture_group = lizardman_group
+				trait = creature_ogre
+				religion_group = chaos_gods_group
+			}
+		}
+		potential = {
+			NOT = {
+				location = {
+					region = world_chaos_wastes
+				}
+			}
+			OR = {
+				holding_type = tribal
+				AND = {
+					holding_type = nomad
+					holder_scope = {
+						character = FROM
+					}
+				}
+			}
+			holder_scope = {
+				OR = {
+					character = FROM
+					AND = {
+						any_liege = {
+							character = FROM
+						}
+						NOR = {
+							is_nomadic = yes
+							any_liege = {
+								NOT = {
+									character = FROM
+								}
+								is_nomadic = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			OR = {
+				is_capital = yes
+				capital_scope = {
+					holder_scope = {
+						character = FROM
+					}
+				}
+			}
+			has_siege = no
+			FROM = {
+				independent = yes
+				war = no
+			}
+			OR = {
+				holding_type = tribal
+				AND = {
+					holding_type = nomad
+					has_building = no_baghatur_council_2
+				}
+			}
+		}
+		effect = {
+			log = "work decision adopt_tribalism for [Root.GetBestName]"
+			# Change culture and religion of new capital province and possibly more provinces depending on nomad population_and_manpower
+			location = {
+				if = {
+					limit = {
+						NOT = {
+							culture = FROM
+						}
+					}
+					culture = FROM
+				}
+				if = {
+					limit = {
+						NOT = {
+							religion = FROM
+						}
+					}
+					religion = FROM
+				}
+			}
+			if = {
+				limit = {
+					FROM = {
+						population_and_manpower = 5000
+						any_realm_province = {
+							NOT = {
+								culture = FROM
+							}
+							num_of_settlements = 1
+							ROOT = {
+								location = {
+									NOT = {
+										province = PREVPREV
+									} # Another province, not the capital
+								}
+							}
+						}
+					}
+				}
+				custom_tooltip = {
+					text = nomad_settle_conversion_tooltip
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 5000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 10000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 15000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 20000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 25000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 30000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 35000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 40000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 45000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 50000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 55000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 60000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 65000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 70000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 75000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 80000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 85000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 90000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 95000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+			}
+			# Usurp kingdom if only one vassal has a kingdom
+			FROM = {
+				if = {
+					limit = {
+						any_vassal = {
+							OR = {
+								is_feudal = yes
+								is_tribal = yes
+							}
+						}
+						NOT = {
+							any_vassal = {
+								count = 2
+								OR = {
+									is_feudal = yes
+									is_tribal = yes
+								}
+								tier = KING
+							}
+						}
+					}
+					any_vassal = {
+						limit = {
+							OR = {
+								is_feudal = yes
+								is_tribal = yes
+							}
+							tier = KING
+						}
+						any_demesne_title = {
+							limit = {
+								tier = KING
+							}
+							usurp_title = FROM
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						holder = FROM
+					}
+				}
+				usurp_title = FROM
+			}
+			if = {
+				limit = {
+					is_capital = no
+				}
+				make_capital_holding = yes
+			}
+			FROM = {
+				capital = PREV
+			}
+			custom_tooltip = {
+				text = TT_BUILD_TRIBAL_HOLDINGS
+			}
+			location ={
+				county = {
+					save_event_target_as = primary_title
+				}
+			}
+			FROM = {
+				#primary_title = {
+				#	ROOT = {
+				#		custom_tooltip = {
+				#			text = TT_KHAN_INDEPENDENCE
+				#		}
+				#		most_prestigious_clan_vassal = {
+				#			custom_tooltip = {
+				#				text = TT_NEW_KHAN
+				#			}
+				#		}
+				#	}
+				#}
+				if = {
+					limit = {
+						ai = no
+					}
+					chronicle = {
+						entry = CHRONICLE_ADOPTED_TRIBALISM
+						picture = GFX_evt_tribal_lands
+					}
+				}
+				any_vassal = {
+					limit = {
+						government = nomadic_government
+					}
+					set_government_type = tribal_government
+				}
+				set_government_type = tribal_government
+				if = {
+					limit = {
+						NOR = {
+							tier = KING
+							tier = EMPEROR
+						}
+					}
+					create_title = {
+						tier = KING
+						landless = no
+						temporary = no
+						custom_created = yes
+						culture = FROM
+						holder = FROM
+						name = "TRIBAL_CUSTOM"
+						base_title = event_target:primary_title
+						copy_title_laws = yes
+					}
+				}
+				if = {
+					limit = {
+						higher_tier_than = count
+					}
+					primary_title = {
+						add_law = tribal_organization_0
+						add_law = centralization_0
+					}
+				}
+				any_playable_ruler = {
+					limit = {
+						NOT = {
+							character = FROM
+						}
+						ai = no
+					}
+					narrative_event = {
+						id = HL.2
+					}
+				}
+			}
+			# Spawn event troops based on province holdings.
+			hidden_tooltip = {
+				location = {
+					FROM = {
+						any_realm_province = {
+							limit = {
+								any_province_holding = {
+									holding_type = tribal
+								}
+							}
+							FROM = {
+								spawn_unit = {
+									province = PREVPREVPREV
+									owner = THIS
+									troops = {
+										light_infantry = {
+											50 50
+										}
+										light_cavalry = {
+											35 35
+										}
+										horse_archers = {
+											15 15
+										}
+									}
+									attrition = 1
+									merge = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				FROM = {
+					any_realm_province = {
+						region = world_chaos_wastes
+						count = 7
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						num_of_count_titles_in_realm = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					capital_scope = {
+						region = world_chaos_wastes
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOR = {
+						trait = content
+						NOT = {
+							religion_group = chaos_gods_group
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					OR = {
+						num_of_subrealm_castles = 5
+						num_of_subrealm_cities = 5
+					}
+				}
+			}
+		}
+	}
+	nomad_adopt_feudalism = {
+		only_independent = yes
+		filter = sub_realm_owned
+		ai_target_filter = sub_realm_owned
+		is_high_prio = yes
+		from_potential = {
+			is_playable = yes
+			is_nomadic = yes
+			has_dlc = "Horse Lords"
+			nor = {
+				trait = creature_beastman
+				trait = creature_orc
+				trait = creature_goblin
+				culture_group = lizardman_group
+				trait = creature_ogre
+			}
+		}
+		potential = {
+			NOT = {
+				location = {
+					region = world_chaos_wastes
+				}
+			}
+			OR = {
+				holding_type = castle
+				AND = {
+					holding_type = temple
+					holder_scope = {
+						religion_group = ormazd_gods_group
+					}
+				}
+			}
+			holder_scope = {
+				OR = {
+					character = FROM
+					AND = {
+						any_liege = {
+							character = FROM
+						}
+						NOR = {
+							is_nomadic = yes
+							any_liege = {
+								NOT = {
+									character = FROM
+								}
+								is_nomadic = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			OR = {
+				is_capital = yes
+				capital_scope = {
+					holder_scope = {
+						character = FROM
+					}
+				}
+			}
+			has_siege = no
+			FROM = {
+				independent = yes
+				war = no
+			}
+		}
+		effect = {
+			log = "work decision nomad_adopt_feudalism for [Root.GetBestName]"
+			# Change culture and religion of new capital province and possibly more provinces depending on nomad population_and_manpower
+			location = {
+				if = {
+					limit = {
+						NOT = {
+							culture = FROM
+						}
+					}
+					culture = FROM
+				}
+				if = {
+					limit = {
+						NOT = {
+							religion = FROM
+						}
+					}
+					religion = FROM
+				}
+			}
+			if = {
+				limit = {
+					FROM = {
+						population_and_manpower = 5000
+						any_realm_province = {
+							NOT = {
+								culture = FROM
+							}
+							num_of_settlements = 1
+							ROOT = {
+								location = {
+									NOT = {
+										province = PREVPREV
+									} # Another province, not the capital
+								}
+							}
+						}
+					}
+				}
+				custom_tooltip = {
+					text = nomad_settle_conversion_tooltip
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 5000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 10000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 15000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 20000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 25000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 30000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 35000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 40000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 45000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 50000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 55000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 60000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 65000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 70000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 75000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 80000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 85000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 90000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 95000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+			}
+			# Usurp kingdom if only one vassal has a kingdom
+			FROM = {
+				if = {
+					limit = {
+						any_vassal = {
+							is_feudal = yes
+						}
+						NOT = {
+							any_vassal = {
+								count = 2
+								is_feudal = yes
+								tier = KING
+							}
+						}
+					}
+					any_vassal = {
+						limit = {
+							OR = {
+								is_feudal = yes
+								is_tribal = yes
+							}
+							tier = KING
+						}
+						any_demesne_title = {
+							limit = {
+								tier = KING
+							}
+							usurp_title = FROM
+						}
+					}
+				}
+			}
+			# Spawn event troops based on amount of empty holdings abandoned.
+			custom_tooltip = {
+				text = NOMAD_CONVERSION_TROOP_SPAWN
+				hidden_tooltip = {
+					location = {
+						FROM = {
+							any_realm_province = {
+								limit = {
+									NOT = {
+										any_province_holding = {
+											NOT = {
+												holding_type = nomad
+											}
+										}
+									}
+								}
+								FROM = {
+									spawn_unit = {
+										province = PREVPREVPREV
+										owner = THIS
+										troops = {
+											light_cavalry = {
+												140 140
+											}
+											horse_archers = {
+												60 60
+											}
+										}
+										attrition = 1
+										merge = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						holder = FROM
+					}
+				}
+				usurp_title = FROM
+			}
+			if = {
+				limit = {
+					is_capital = no
+				}
+				make_capital_holding = yes
+			}
+			FROM = {
+				capital = PREV
+				primary_title = {
+					FROM = {
+						custom_tooltip = {
+							text = TT_KHAN_INDEPENDENCE
+						}
+						most_prestigious_clan_vassal = {
+							custom_tooltip = {
+								text = TT_NEW_KHAN
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						ai = no
+					}
+					chronicle = {
+						entry = CHRONICLE_NOMAD_ADOPTED_FEUDALISM
+						picture = GFX_evt_castle_construction
+					}
+				}
+				set_government_type = feudal_government
+				if = {
+					limit = {
+						higher_tier_than = king
+					}
+					primary_title = {
+						add_law = feudal_administration
+					}
+				}
+				if = {
+					limit = {
+						higher_tier_than = count
+					}
+					primary_title = {
+						add_law = centralization_0
+					}
+				}
+				any_playable_ruler = {
+					limit = {
+						NOT = {
+							character = FROM
+						}
+						ai = no
+					}
+					narrative_event = {
+						id = HL.1
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.1 # On average ca 1 year before taken
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						num_of_subrealm_castles = 20
+					}
+					population_and_manpower = 5000
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						num_of_subrealm_castles = 10
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					OR = {
+						trait = ambitious
+						trait = stubborn
+						trait = proud
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						holding_diff = {
+							first_type = castle
+							first_count_vassals = yes
+							second_type = none
+							value = 1.5
+						}
+					}
+				}
+			}
+		}
+	}
+	nomad_adopt_republicanism = {
+		only_independent = yes
+		filter = sub_realm_owned
+		ai_target_filter = sub_realm_owned
+		is_high_prio = yes
+		from_potential = {
+			is_playable = yes
+			nor = {
+				trait = creature_beastman
+				trait = creature_orc
+				trait = creature_goblin
+				culture_group = lizardman_group
+				trait = creature_ogre
+			} #
+			is_nomadic = yes
+			is_female = no
+			OR = {
+				ai = yes
+				has_dlc = "The Republic"
+			}
+			has_dlc = "Horse Lords"
+		}
+		potential = {
+			NOT = {
+				location = {
+					region = world_chaos_wastes
+				}
+			}
+			holding_type = city
+			OR = {
+				FROM = {
+					ai = yes
+				}
+				capital_scope = {
+					port = yes
+				}
+			}
+			holder_scope = {
+				OR = {
+					character = FROM
+					AND = {
+						any_liege = {
+							character = FROM
+						}
+						NOR = {
+							is_nomadic = yes
+							any_liege = {
+								NOT = {
+									character = FROM
+								}
+								is_nomadic = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			OR = {
+				is_capital = yes
+				capital_scope = {
+					holder_scope = {
+						character = FROM
+					}
+				}
+			}
+			has_siege = no
+			FROM = {
+				independent = yes
+				war = no
+			}
+		}
+		effect = {
+			log = "work decision nomad_adopt_republicanism for [Root.GetBestName]"
+			# Change culture and religion of new capital province and possibly more provinces depending on nomad population_and_manpower
+			location = {
+				if = {
+					limit = {
+						NOT = {
+							culture = FROM
+						}
+					}
+					culture = FROM
+				}
+				if = {
+					limit = {
+						NOT = {
+							religion = FROM
+						}
+					}
+					religion = FROM
+				}
+			}
+			if = {
+				limit = {
+					FROM = {
+						population_and_manpower = 5000
+						any_realm_province = {
+							NOT = {
+								culture = FROM
+							}
+							num_of_settlements = 1
+							ROOT = {
+								location = {
+									NOT = {
+										province = PREVPREV
+									} # Another province, not the capital
+								}
+							}
+						}
+					}
+				}
+				custom_tooltip = {
+					text = nomad_settle_conversion_tooltip
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 5000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 10000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 15000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 20000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 25000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 30000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 35000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 40000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 45000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 50000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 55000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 60000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 65000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 70000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 75000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 80000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 85000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 90000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							population_and_manpower = 95000
+							any_realm_province = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+						}
+					}
+					FROM = {
+						random_realm_province = {
+							limit = {
+								NOT = {
+									culture = FROM
+								}
+								num_of_settlements = 1
+								any_neighbor_province = {
+									culture = FROM
+									religion = FROM
+								}
+							}
+							culture = FROM
+							religion = FROM
+						}
+					}
+				}
+			}
+			# Spawn event troops based on amount of empty holdings abandoned.
+			custom_tooltip = {
+				text = NOMAD_CONVERSION_TROOP_SPAWN
+				hidden_tooltip = {
+					location = {
+						FROM = {
+							any_realm_province = {
+								limit = {
+									NOT = {
+										any_province_holding = {
+											NOT = {
+												holding_type = nomad
+											}
+										}
+									}
+								}
+								FROM = {
+									spawn_unit = {
+										province = PREVPREVPREV
+										owner = THIS
+										troops = {
+											light_cavalry = {
+												140 140
+											}
+											horse_archers = {
+												60 60
+											}
+										}
+										attrition = 1
+										merge = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						holder = FROM
+					}
+				}
+				usurp_title = FROM
+			}
+			if = {
+				limit = {
+					is_capital = no
+				}
+				make_capital_holding = yes
+			}
+			FROM = {
+				capital = PREV
+				primary_title = {
+					FROM = {
+						custom_tooltip = {
+							text = TT_KHAN_INDEPENDENCE
+						}
+						most_prestigious_clan_vassal = {
+							custom_tooltip = {
+								text = TT_NEW_KHAN
+							}
+						}
+					}
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = {
+						capital_scope = {
+							port = yes
+						}
+					}
+					FROM = {
+						primary_title = {
+							create_title = {
+								tier = DUKE
+								landless = no
+								temporary = no
+								custom_created = yes
+								culture = FROM
+								holder = FROM
+								base_title = THIS
+							}
+						}
+						create_family_palace = yes
+						if = {
+							limit = {
+								NOT = {
+									num_of_government_vassals = {
+										government = merchant_republic_government
+										value = 1
+									}
+								}
+							}
+							any_unique_dynasty_vassal = {
+								# gives random vassals a family palace
+								count = 4
+								limit = {
+									is_female = no
+									OR = {
+										is_republic = yes
+										is_tribal = yes
+									}
+									is_patrician = no
+									prisoner = no
+									NOT = {
+										trait = incapable
+									}
+									is_adult = yes
+									NOT = {
+										dynasty = none
+									}
+								}
+								if = {
+									limit = {
+										is_tribal = yes
+									}
+									hidden_tooltip = {
+										any_demesne_title = {
+											limit = {
+												tier = baron
+												holding_type = tribal
+											}
+											convert_to = CITY
+											refill_holding_levy = yes
+											if = {
+												limit = {
+													dejure_liege_title = {
+														holder = PREVPREV
+														location = {
+															num_of_empty_holdings = 2
+														}
+														NOT = {
+															any_direct_de_jure_vassal_title = {
+																holding_type = castle
+															}
+														}
+													}
+												}
+												location = {
+													build_holding = {
+														type = castle
+													}
+												}
+											}
+											if = {
+												limit = {
+													dejure_liege_title = {
+														holder = PREVPREV
+														location = {
+															num_of_empty_holdings = 2
+														}
+														NOT = {
+															any_direct_de_jure_vassal_title = {
+																holding_type = temple
+															}
+														}
+													}
+												}
+												location = {
+													build_holding = {
+														type = temple
+													}
+												}
+											}
+										}
+									}
+								}
+								create_family_palace = yes
+							}
+						}
+						set_government_type = merchant_republic_government
+					}
+				}
+			}
+			if = {
+				limit = {
+					capital_scope = {
+						port = yes
+					}
+				}
+				FROM = {
+					set_government_type = merchant_republic_government
+				}
+			}
+			if = {
+				limit = {
+					capital_scope = {
+						port = no
+					}
+				}
+				FROM = {
+					set_government_type = republic_government
+				}
+			}
+			FROM = {
+				chronicle = {
+					entry = CHRONICLE_NOMAD_FOUNDED_MERCHANT_REPUBLIC
+					picture = GFX_evt_busy_trading_dock_republic
+				}
+				any_playable_ruler = {
+					limit = {
+						NOT = {
+							character = FROM
+						}
+						ai = no
+					}
+					narrative_event = {
+						id = HL.1
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				FROM = {
+					NOR = {
+						trait = midas_touched
+						trait = fortune_builder
+						trait = greedy
+						trait = administrator
+						trait = architect
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						num_of_subrealm_cities = 20
+					}
+					population_and_manpower = 5000
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						num_of_subrealm_cities = 10
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					OR = {
+						trait = ambitious
+						trait = stubborn
+						trait = proud
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					holding_diff = {
+						first_type = city
+						first_count_vassals = yes
+						second_type = none
+						value = 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 5.0
+				FROM = {
+					trait = greedy
+				}
+			}
+			modifier = {
+				factor = 2.0
+				FROM = {
+					stewardship = 12
+				}
+			}
+			modifier = {
+				factor = 2.0
+				FROM = {
+					stewardship = 14
+				}
+			}
+			modifier = {
+				factor = 2.0
+				FROM = {
+					stewardship = 18
+				}
+			}
+		}
+	}
+	convert_tribal_to_castle = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		from_potential = {
+			is_playable = yes
+			OR = {
+				is_feudal = yes
+				culture_group = lizardman_group
+			}
+			nor = {
+				trait = creature_beastman
+				trait = creature_orc
+				trait = creature_goblin
+				culture = amazon_main
+				culture = miyan
+			}
+			higher_tier_than = BARON
+		}
+		potential = {
+			holding_type = tribal
+			holder_scope = {
+				character = FROM
+			}
+		}
+		allow = {
+			location = {
+				religion = FROM
+				nor = {
+					culture_group = orc_group
+					culture_group = goblin_group
+				}
+			}
+			#To civilize Lustria you need to cut down the jungle first, then put resources
+			OR = {
+				location = {
+					NOT = {
+						region = world_new_world_lustria
+					}
+				}
+				AND = {
+					location = {
+						NOR = {
+							has_province_modifier = lustria_medium_jungle
+							has_province_modifier = lustria_dense_jungle
+							has_province_modifier = lustria_oppressive_jungle
+						}
+					}
+					FROM = {
+						wealth = 250
+					}
+					OR = {
+						capital_holding = {
+							has_building = tb_hillfort_4
+						}
+						capital_holding = {
+							has_building = tb_norscan_fort_4
+						}
+						ROOT = {
+							has_building = tb_ruincity_6
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision convert_tribal_to_castle for [Root.GetBestName]"
+			if = {
+				limit = {
+					location = {
+						region = world_new_world_lustria
+					}
+				}
+				FROM = {
+					wealth = -250
+				}
+			}
+			convert_to = CASTLE
+			refill_holding_levy = yes
+			hidden_tooltip = {
+				if = {
+					limit = {
+						is_capital = yes
+						dejure_liege_title = {
+							location = {
+								num_of_empty_holdings = 2
+							}
+							NOT = {
+								any_direct_de_jure_vassal_title = {
+									holding_type = city
+								}
+								region = world_new_world_lustria
+							}
+						}
+					}
+					location = {
+						build_holding = {
+							type = city
+						}
+					}
+				}
+				if = {
+					limit = {
+						is_capital = yes
+						dejure_liege_title = {
+							location = {
+								num_of_empty_holdings = 2
+							}
+							NOT = {
+								any_direct_de_jure_vassal_title = {
+									holding_type = temple
+								}
+							}
+						}
+					}
+					location = {
+						build_holding = {
+							type = temple
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	convert_tribal_to_city = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		from_potential = {
+			is_playable = yes
+			OR = {
+				is_republic = yes
+				culture_group = lizardman_group
+			}
+			higher_tier_than = BARON
+			nor = {
+				trait = creature_beastman
+				trait = creature_orc
+				trait = creature_goblin
+				culture = amazon_main
+				culture = miyan
+			}
+		}
+		potential = {
+			holding_type = tribal
+			holder_scope = {
+				character = FROM
+			}
+		}
+		allow = {
+			location = {
+				religion = FROM
+				nor = {
+					culture_group = orc_group
+					culture_group = goblin_group
+				}
+			}
+			#To civilize Lustria you need to cut down the jungle first, then put resources
+			OR = {
+				location = {
+					NOT = {
+						region = world_new_world_lustria
+					}
+				}
+				AND = {
+					location = {
+						NOR = {
+							has_province_modifier = lustria_medium_jungle
+							has_province_modifier = lustria_dense_jungle
+							has_province_modifier = lustria_oppressive_jungle
+						}
+					}
+					FROM = {
+						wealth = 250
+					}
+					or = {
+						ROOT = {
+							has_building = tb_market_town_4
+						}
+						ROOT = {
+							has_building = tb_skinkcustodians_4
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision convert_tribal_to_city for [Root.GetBestName]"
+			if = {
+				limit = {
+					location = {
+						region = world_new_world_lustria
+					}
+				}
+				FROM = {
+					wealth = -250
+				}
+			}
+			convert_to = CITY
+			refill_holding_levy = yes
+			hidden_tooltip = {
+				if = {
+					limit = {
+						is_capital = yes
+						dejure_liege_title = {
+							location = {
+								num_of_empty_holdings = 2
+							}
+							NOT = {
+								any_direct_de_jure_vassal_title = {
+									holding_type = castle
+								}
+							}
+						}
+					}
+					location = {
+						build_holding = {
+							type = castle
+						}
+					}
+				}
+				if = {
+					limit = {
+						is_capital = yes
+						dejure_liege_title = {
+							location = {
+								num_of_empty_holdings = 2
+							}
+							NOT = {
+								any_direct_de_jure_vassal_title = {
+									holding_type = temple
+								}
+								region = world_new_world_lustria
+							}
+						}
+					}
+					location = {
+						build_holding = {
+							type = temple
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1 # On average ca 1 year before taken
+		}
+	}
+	convert_tribal_to_temple = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		from_potential = {
+			OR = {
+				is_theocracy = yes
+				government = chaosdwarf_government
+			}
+			nor = {
+				trait = creature_beastman
+				religion_group = old_gods_group
+			}
+		}
+		potential = {
+			holding_type = tribal
+			holder_scope = {
+				character = FROM
+			}
+		}
+		allow = {
+			location = {
+				religion = FROM
+				nor = {
+					culture_group = orc_group
+					culture_group = goblin_group
+				}
+			}
+			#To civilize Lustria you need to cut down the jungle first, then put resources
+			OR = {
+				location = {
+					NOT = {
+						region = world_new_world_lustria
+					}
+				}
+				AND = {
+					location = {
+						NOR = {
+							has_province_modifier = lustria_medium_jungle
+							has_province_modifier = lustria_dense_jungle
+							has_province_modifier = lustria_oppressive_jungle
+						}
+					}
+					FROM = {
+						wealth = 250
+					}
+					capital_holding = {
+						has_building = tb_hillfort_4
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision convert_tribal_to_temple for [Root.GetBestName]"
+			if = {
+				limit = {
+					location = {
+						region = world_new_world_lustria
+					}
+				}
+				FROM = {
+					wealth = -250
+				}
+			}
+			convert_to = temple
+			refill_holding_levy = yes
+			hidden_tooltip = {
+				if = {
+					limit = {
+						is_capital = yes
+						dejure_liege_title = {
+							location = {
+								num_of_empty_holdings = 2
+							}
+							NOT = {
+								any_direct_de_jure_vassal_title = {
+									holding_type = castle
+								}
+							}
+						}
+					}
+					location = {
+						build_holding = {
+							type = castle
+						}
+					}
+				}
+				if = {
+					limit = {
+						is_capital = yes
+						dejure_liege_title = {
+							location = {
+								num_of_empty_holdings = 2
+							}
+							NOT = {
+								any_direct_de_jure_vassal_title = {
+									holding_type = city
+								}
+							}
+						}
+					}
+					location = {
+						build_holding = {
+							type = city
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1 # On average ca 1 year before taken
+			modifier = {
+				factor = 0.1 # Modified down to ca 10 year average.
+			}
+		}
+	}
+
+	pillage_settlement = {
+		only_independent = yes
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		from_potential = {
+			is_playable = yes
+			OR = {
+				is_nomadic = yes
+				is_tribal = yes
+			}
+			has_dlc = "Horse Lords"
+		}
+		potential = {
+			NOT = {
+				holding_type = nomad
+			}
+			OR = {
+				NOT = {
+					holding_type = tribal
+				}
+				FROM = {
+					is_tribal = no
+				}
+			}
+			OR = {
+				FROM = {
+					is_nomadic = yes
+				}
+				location = {
+					num_of_settlements = 2
+				}
+			}
+			owner = {
+				character = FROM
+			}
+		}
+		allow = {
+			NOT = {
+				has_holding_modifier = recently_burnt_the_land
+			}
+			owner = {
+				independent = yes
+			}
+			has_siege = no
+			custom_tooltip = {
+				text = stop_pillaging_custom_tooltip
+				hidden_tooltip = {
+					NOT = {
+						has_holding_modifier = stop_burning_land
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision pillage_settlement for [Root.GetBestName]"
+			hidden_tooltip = {
+				location = {
+					save_event_target_as = nickname_target
+				}
+				FROM = {
+					save_event_target_as = nickname_receiver
+				}
+				if = {
+					limit = {
+						owner = {
+							has_nickname = no
+							is_adult = yes
+							NOT = {
+								trait = incapable
+							}
+						}
+					}
+					random_list = {
+						5 = {
+							owner = {
+								give_nickname = nick_the_destroyer
+							}
+						}
+						5 = {
+							owner = {
+								give_nickname = nick_the_scourge_of_god
+							}
+							modifier = {
+								factor = 0
+								event_target:nickname_target = {
+									religion = FROM
+								}
+							}
+						}
+						5 = {
+							owner = {
+								give_nickname = nick_the_slayer_of_culture
+							}
+							modifier = {
+								factor = 0
+								event_target:nickname_target = {
+									culture = FROM
+								}
+							}
+						}
+						5 = {
+							owner = {
+								give_nickname = nick_the_terror_of_provincename
+							}
+						}
+						5 = {
+							owner = {
+								give_nickname = nick_the_culture_marauder
+							}
+							modifier = {
+								factor = 0
+								event_target:nickname_target = {
+									culture = FROM
+								}
+							}
+						}
+						75 = {
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						holding_type = tribal
+					}
+				}
+				FROM = {
+					wealth = 50
+				}
+				custom_tooltip = {
+					text = gain_tech_custom_tooltip
+					hidden_tooltip = {
+						FROM = {
+							random_list = {
+								10 = {
+									military_techpoints = 5
+								}
+								10 = {
+									economy_techpoints = 5
+								}
+								10 = {
+									culture_techpoints = 5
+								}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					holding_type = tribal
+				}
+				FROM = {
+					wealth = 25
+					population = 150
+				}
+			}
+			custom_tooltip = {
+				text = "PILLAGE_DESTROY_BUILDINGS"
+				hidden_tooltip = {
+					destroy_random_building = THIS
+					destroy_random_building = THIS
+					add_holding_modifier = {
+						modifier = recently_burnt_the_land
+						months = 7
+					}
+				}
+			}
+			hidden_tooltip = {
+				location = {
+					add_province_modifier = {
+						modifier = rampaging_nomads
+						years = 10
+					}
+				}
+				location = {
+					add_province_modifier = {
+						modifier = burnt_the_land
+						years = 10
+					}
+				}
+				if = {
+					limit = {
+						OR = {
+							FROM = {
+								NOT = {
+									has_character_modifier = pillage_cooldown
+								}
+							}
+							FROM = {
+								NOT = {
+									any_realm_province = {
+										any_province_holding = {
+											owner = {
+												character = FROM
+											}
+											has_holding_modifier = recently_burnt_the_land
+											NOT = {
+												has_holding_modifier = stop_burning_land
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					FROM = {
+						character_event = {
+							id = HL.4800 days = 180
+						}
+					}
+					FROM = {
+						add_character_modifier = {
+							modifier = pillage_cooldown
+							hidden = yes
+							months = 6
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_any_building = yes
+					}
+					owner = {
+						character = FROM
+					}
+				}
+				hidden_tooltip = {
+					location = {
+						province_event = {
+							id = HL.4810 days = 1
+						}
+						province_event = {
+							id = HL.4814 days = 2 random = 2
+						}
+					}
+				}
+				destroy_settlement = THIS
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				# Only for tribal holdings
+				factor = 0
+				NOT = {
+					holding_type = tribal
+				}
+			}
+			modifier = {
+				# Beastmen hate civilization
+				factor = 10
+				FROM = {
+					trait = creature_beastman
+				}
+			}
+		}
+	}
+	stop_pillage_settlement = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		from_potential = {
+			is_playable = yes
+			OR = {
+				is_nomadic = yes
+				is_tribal = yes
+			}
+			has_dlc = "Horse Lords"
+		}
+		potential = {
+			has_holding_modifier = recently_burnt_the_land
+			nor = {
+				has_holding_modifier = stop_burning_land
+				holding_type = nomad
+			}
+			OR = {
+				NOT = {
+					holding_type = tribal
+				}
+				FROM = {
+					is_tribal = no
+				}
+			}
+			owner = {
+				character = FROM
+			}
+		}
+		allow = {
+			has_holding_modifier = recently_burnt_the_land
+			hidden_tooltip = {
+				NOT = {
+					has_holding_modifier = stop_burning_land
+				}
+			}
+		}
+		effect = {
+			log = "work decision stop_pillage_settlement for [Root.GetBestName]"
+			hidden_tooltip = {
+				add_holding_modifier = {
+					modifier = stop_burning_land
+					hidden = yes
+					years = 1
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	fix_holding_with_dead_owner = { # Debug decision to fix holdings with a dead owner
+
+		from_potential = {
+			is_playable = yes
+			ai = no
+		}
+		potential = {
+			holder_scope = {
+				is_alive = no
+			}
+		}
+		allow = {
+			holder_scope = {
+				is_alive = no
+			}
+		}
+		effect = {
+			log = "work decision fix_holding_with_dead_owner for [Root.GetBestName]"
+			if = {
+				limit = {
+					location = {
+						holder_scope = {
+							is_alive = yes
+						}
+					}
+				}
+				location = {
+					holder_scope = {
+						ROOT = {
+							grant_title = PREV
+						}
+					}
+				}
+				break = yes
+			}
+			grant_title = FROM
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	#LUSTRIA
+	cutback_jungle_decision = {
+		filter = realm_owned
+		ai_target_filter = owned
+		from_potential = {
+			ai = no # Handled by event
+		}
+		potential = {
+			is_capital = yes
+			location = {
+				has_province_modifier = lustria_jungle
+			}
+			OR = {
+				holder_scope = {
+					any_liege = {
+						character = FROM
+					}
+				}
+				holder_scope = {
+					character = FROM
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				wealth = 25
+			}
+			location = {
+				NOT = {
+					has_province_modifier = recent_cutback
+				}
+				OR = {
+					has_province_modifier = lustria_medium_jungle
+					has_province_modifier = lustria_dense_jungle
+					has_province_modifier = lustria_oppressive_jungle
+				}
+			}
+			OR = {
+				FROM = {
+					in_command = no
+					custom_tooltip = {
+						text = IS_NOT_INCAPACITATED
+						is_incapacitated_trigger = no
+					}
+				}
+				FROM = {
+					job_treasurer = {
+						character = yes
+						age = 16
+						custom_tooltip = {
+							text = IS_NOT_INCAPACITATED
+							is_incapacitated_trigger = no
+						}
+						in_command = no
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision cutback_jungle_decision for [Root.GetBestName]"
+			location = {
+				add_province_modifier =  {
+					name = recent_cutback
+					hidden = yes
+					duration = 120
+				}
+			}
+			FROM = {
+				character_event = {
+					id = slizardmen.261
+				}
+			} #Choose who will cut back your jungle
+		}
+		ai_will_do = {
+			factor = 0.1
+			modifier = {
+				factor = 0.1
+				FROM = {
+					NOT = {
+						wealth = 50
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				location = {
+					has_province_modifier = lustria_dense_jungle
+				}
+			}
+			modifier = {
+				factor = 5
+				location = {
+					has_province_modifier = lustria_oppressive_jungle
+				}
+			}
+		}
+	}
+	# z_purge_province = { #for lizardmen
+		# filter = sub_realm_owned
+		# ai_target_filter = sub_realm_owned
+		# from_potential = {
+		# }
+		# potential = {
+			# holder_scope = {
+				# character = FROM
+			# }
+			# dejure_liege_title = {
+				# holder_scope = {
+					# character = FROM
+				# }
+			# }
+			# FROM = {
+				# culture_group = lizardman_group
+			# }
+			# NOT = {
+				# location = {
+					# culture_group = lizardman_group
+				# }
+			# }
+		# }
+		# allow = {
+			# holder_scope = {
+			  # has_character_modifier = favour_sotek
+				# war = no
+			# }
+		# }
+		# effect = {
+			# log = "work decision z_purge_province for [Root.GetBestName]"
+			# save_event_target_as = purge_prov
+			# location = {
+				# add_province_modifier = {
+					# name = z_being_purged duration = 3650
+				# }
+			# }
+			# FROM = {
+				# character_event = {
+					# id = z_purge.0
+				# }
+			# }
+		# }
+		# revoke_allowed = {
+			# always = no
+		# }
+		# ai_will_do = {
+			# factor = 0
+		# }
+	# }
+
+	#Vampire
+	occupy_barony = {
+		only_playable = yes
+		filter = all
+		ai_target_filter = all
+		from_potential = {
+			trait = vampire_blood_visible
+			higher_tier_than = COUNT
+		}
+		potential = {
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			is_capital = yes
+			owner = {
+				war_with = FROM
+				NOT = {
+					character = FROM
+				}
+			}
+		}
+		allow = {
+			is_occupied = yes
+			location = {
+				is_within_diplo_range = FROM
+				NOT = {
+					has_province_modifier = occupying_region
+				}
+				has_empty_holding = yes
+			}
+			FROM = {
+				wealth = 500
+			}
+		}
+		effect = {
+			log = "work decision occupy_barony for [Root.GetBestName]"
+			FROM = {
+				wealth = -500
+			}
+			location = {
+				add_province_modifier = {
+					name = occupying_region
+					duration = 250
+				}
+			}
+			owner = {
+				opinion = {
+					modifier = opinion_occupied_province
+					who = FROM
+					years = 20
+				}
+			}
+			hidden_tooltip = {
+				location = {
+					province_event = {
+						id = svampires.20
+					}
+				}
+			}
+			hidden_tooltip = {
+				location = {
+					province_event = {
+						id = svampires.21 days = 250
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	jade_sack_province = {
+		only_playable = yes
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		potential = {
+			is_capital = yes
+			FROM = {
+				trait = vampire_jade_visible
+				religion_group = necromantic_group
+			}
+			holder_scope = {
+				character = FROM
+			}
+			dejure_liege_title = {
+				holder_scope = {
+					character = FROM
+				}
+			}
+			location = {
+				nor = {
+					has_province_modifier = jade_depopulation
+					has_province_modifier = province_scourged
+					has_province_modifier = province_slave_raid
+					has_province_modifier = province_slave_raid_chaos_dwarf
+					culture = nehekharan
+				}
+			}
+			NOT = {
+				is_nomadic = yes
+			}
+			OR = {
+				location = {
+					has_province_modifier = jade_mayhem
+				}
+				location = {
+					NOT = {
+						religion = vampiric
+					}
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				OR = {
+					AND = {
+						ai = no
+						wealth = 90
+					}
+					AND = {
+						ai = yes
+						wealth = 40
+					}
+				}
+			}
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			NOT = {
+				is_nomadic = yes
+			}
+			location = {
+				NOT = {
+					culture = nehekharan
+				}
+			}
+			OR = {
+				location = {
+					has_province_modifier = jade_mayhem
+				}
+				location = {
+					NOT = {
+						religion = vampiric
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision jade_sack_province for [Root.GetBestName]"
+			FROM = {
+				add_trait = questing
+			}
+			hidden_tooltip = {
+				FROM = {
+					character_event = {
+						id = svampires.72
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 5
+				location = {
+					has_province_modifier = jade_mayhem
+				}
+			}
+		}
+	}
+
+	#Witch Hunter
+	request_barony = {
+		filter = all
+		ai_target_filter = capital
+		from_potential = {
+			ai = no	#Player only, AI by events
+			trait = witch_hunter
+			NOT = {
+				trait = incapable
+			}
+			OR = {
+				has_landed_title = d_witch_hunter_seat_1
+				has_landed_title = d_witch_hunter_seat_2
+				has_landed_title = d_witch_hunter_seat_3
+				has_landed_title = d_witch_hunter_seat_4
+				has_landed_title = d_witch_hunter_seat_5
+				has_landed_title = d_witch_hunter_seat_6
+				has_landed_title = d_witch_hunter_seat_7
+				has_landed_title = d_witch_hunter_seat_8
+				has_landed_title = d_witch_hunter_seat_9
+				has_landed_title = d_witch_hunter_seat_10
+				has_landed_title = d_witch_hunter_seat_11
+				has_landed_title = d_witch_hunter_seat_12
+				has_landed_title = k_witch_hunters_order
+				AND = {
+					is_landed = yes
+					higher_tier_than = COUNT
+				}
+			}
+		}
+		potential = {
+			is_capital = yes
+			owner = {
+				religion_group = old_world_group
+			}
+			NOT = {
+				owner = {
+					has_character_modifier = expelled_k_witch_hunters_order
+				}
+			}
+			NOT = {
+				owner = {
+					has_character_modifier = recent_whunter_request
+				}
+			}
+		}
+		allow = {
+			location = {
+				is_within_diplo_range = FROM
+			}
+			location = {
+				has_empty_holding = yes
+			}
+			FROM = {
+				wealth = 500
+			}
+		}
+		effect = {
+			log = "work decision request_barony for [Root.GetBestName]"
+			owner = {
+				add_character_modifier = {
+					name = recent_whunter_request
+					duration = 3650
+					hidden = yes
+				}
+			}
+			hidden_tooltip = {
+				location = {
+					province_event = {
+						id = swhunters.22
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	scour_barony = {
+		filter = all
+		ai_target_filter = self
+		from_potential = {
+			ai = no	#Player only, AI by events
+			trait = witch_hunter
+			NOT = {
+				trait = incapable
+			}
+			OR = {
+				has_landed_title = d_witch_hunter_seat_1
+				has_landed_title = d_witch_hunter_seat_2
+				has_landed_title = d_witch_hunter_seat_3
+				has_landed_title = d_witch_hunter_seat_4
+				has_landed_title = d_witch_hunter_seat_5
+				has_landed_title = d_witch_hunter_seat_6
+				has_landed_title = d_witch_hunter_seat_7
+				has_landed_title = d_witch_hunter_seat_8
+				has_landed_title = d_witch_hunter_seat_9
+				has_landed_title = d_witch_hunter_seat_10
+				has_landed_title = d_witch_hunter_seat_11
+				has_landed_title = d_witch_hunter_seat_12
+				has_landed_title = k_witch_hunters_order
+				AND = {
+					is_landed = yes
+					higher_tier_than = BARON
+				}
+			}
+			any_courtier = {
+				trait = witch_hunter
+				is_ruler = no
+			}
+		}
+		potential = {
+			is_capital = yes
+			owner = {
+				religion_group = old_world_group
+			}
+			NOT = {
+				owner = {
+					has_character_modifier = expelled_k_witch_hunters_order
+				}
+			}
+			NOT = {
+				owner = {
+					has_character_modifier = recent_whunter_request
+				}
+			}
+		}
+		allow = {
+			location = {
+				is_within_diplo_range = FROM
+			}
+		}
+		effect = {
+			log = "work decision scour_barony for [Root.GetBestName]"
+			owner = {
+				add_character_modifier = {
+					name = recent_whunter_request
+					duration = 1650
+					hidden = yes
+				}
+			}
+			hidden_tooltip = {
+				location = {
+					province_event = {
+						id = swhunters.26 days = 5 random = 4
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	#Presence
+	skaven_demagogy = { #Skaven
+		only_independent = yes
+		#Skaven don't need culture conversion in their provinces, Skaven subjects will cowardly emulate their leader out of fear
+		filter = realm_owned
+		ai_target_filter = owned
+		from_potential = {
+			trait = creature_skaven
+		}
+		potential = {
+			is_capital = yes
+			location = {
+				culture_group = skaven_group
+				NOT = {
+					culture = FROM
+				}
+			}
+			holder_scope = {
+				character = FROM
+			}
+		}
+		allow = {
+			FROM = {
+				prestige = 100
+				in_command = no
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+		}
+		effect = {
+			log = "work decision skaven_demagogy for [Root.GetBestName]"
+			location = {
+				culture = FROM
+			}
+			#prestige = -100
+			FROM = {
+				character_event = {
+					id = skavens.4
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 0.1
+			modifier = {
+				factor = 0.1
+				FROM = {
+					NOT = {
+						prestige = 150
+					}
+				}
+			}
+		}
+	}
+	cleanse_skaven_presence = { #Skaven
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			FROM = {
+				NOT = {
+					trait = creature_skaven
+				}
+			}
+			holder_scope = {
+				character = FROM
+			}
+			dejure_liege_title = {
+				holder_scope = {
+					character = FROM
+				}
+			}
+			location = {
+				NOT = {
+					region = world_underempire
+				}
+			}
+			OR = {
+				location = {
+					has_province_modifier = skaven_burrows
+				}
+				location = {
+					culture_group = skaven_group
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				wealth = 40
+			}
+			NOT = {
+				location = {
+					has_province_modifier = hunting_skaven
+				}
+			}
+			OR = {
+				location = {
+					has_province_modifier = skaven_burrows
+				}
+				location = {
+					culture_group = skaven_group
+				}
+			}
+		}
+		effect = {
+			log = "work decision cleanse_skaven_presence for [Root.GetBestName]"
+			hidden_tooltip = {
+				FROM = {
+					character_event = {
+						id = DR_misc.1100
+					}
+				}
+				location = {
+					add_province_modifier = {
+						name = hunting_skaven
+						duration = 60
+						hidden = yes
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	cleanse_beastman_presence = { #Beastmen
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			FROM = {
+				NOT = {
+					trait = creature_beastman
+				}
+			}
+			holder_scope = {
+				character = FROM
+			}
+			dejure_liege_title = {
+				holder_scope = {
+					character = FROM
+				}
+			}
+			OR = {
+				location = {
+					has_province_modifier = beastmen_scourging_1
+				}
+				location = {
+					has_province_modifier = beastmen_scourging_2
+				}
+				location = {
+					has_province_modifier = beastmen_scourging_3
+				}
+				location = {
+					has_province_modifier = beastman_herdstone
+				}
+				location = {
+					culture_group = beastman_group
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				wealth = 100
+			}
+			location = {
+				NOT = {
+					has_province_modifier = hunting_beastmen
+				}
+				or = {
+					has_province_modifier = beastmen_scourging_1
+					has_province_modifier = beastmen_scourging_2
+					has_province_modifier = beastmen_scourging_3
+					has_province_modifier = beastman_herdstone
+					culture_group = beastman_group
+				}
+			}
+		}
+		effect = {
+			log = "work decision cleanse_beastman_presence for [Root.GetBestName]"
+			hidden_tooltip = {
+				location = {
+					save_event_target_as = wh_cleanse_beastman_presence_target
+					add_province_modifier = {
+						name = hunting_beastmen
+						duration = 60
+						hidden = yes
+					}
+				}
+				FROM = {
+					character_event = {
+						id = wh_chaos_beastmen.38
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 100
+		}
+	}
+	make_land_green = { #Greenskin
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			FROM = {
+				OR = {
+					trait = creature_orc
+					trait = creature_goblin
+					trait = creature_snotling
+				}
+			}
+			holder_scope = {
+				character = FROM
+			}
+			dejure_liege_title = {
+				holder_scope = {
+					character = FROM
+				}
+			}
+			OR = {
+				AND = {
+					FROM = {
+						trait = creature_orc
+					}
+					location = {
+						NOR = {
+							culture = orc_main
+							culture = orc_savage
+						}
+					}
+				}
+				AND = {
+					FROM = {
+						trait = creature_goblin
+					}
+					location = {
+						NOR = {
+							culture = goblin_main
+							culture = goblin_night
+							culture = goblin_forest
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				prestige = 50
+			}
+			NOT = {
+				location = {
+					has_province_modifier = greenskins_wrecking_province
+				}
+			}
+		}
+		effect = {
+			log = "work decision make_land_green for [Root.GetBestName]"
+			FROM = {
+				prestige = -50
+			}
+			custom_tooltip = {
+				text = make_land_green_tooltip
+				hidden_tooltip = {
+					FROM = {
+						random_list = {
+							25 = {
+								character_event = {
+									id = wh_greenskins.191
+								}
+							} #prestige + advancement
+							15 = {
+								character_event = {
+									id = wh_greenskins.193
+								}
+							} #troops + advancement
+							30 = {
+								character_event = {
+									id = wh_greenskins.194
+								}
+							} #advancement
+							30 = {
+								character_event = {
+									id = wh_greenskins.195
+								}
+							} #animosity
+						}
+					}
+					location = {
+						add_province_modifier = {
+							name = greenskins_wrecking_province
+							duration = 200
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	cleanse_greenskin_presence = { #Greenskin
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			FROM = {
+				NOR = {
+					trait = creature_orc
+					trait = creature_goblin
+					trait = creature_snotling
+				}
+			}
+			holder_scope = {
+				character = FROM
+			}
+			dejure_liege_title = {
+				holder_scope = {
+					character = FROM
+				}
+			}
+			OR = {
+				location = {
+					has_province_modifier = minimal_greenskin_population
+				}
+				location = {
+					has_province_modifier = medium_greenskin_population
+				}
+				location = {
+					has_province_modifier = large_greenskin_population
+				}
+				location = {
+					has_province_modifier = greenskin_population_bad
+				}
+				location = {
+					culture_group = orc_group
+				}
+				location = {
+					culture_group = goblin_group
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				wealth = 40
+			}
+			NOT = {
+				location = {
+					has_province_modifier = hunting_greenskins
+				}
+			}
+			OR = {
+				location = {
+					has_province_modifier = minimal_greenskin_population
+				}
+				location = {
+					has_province_modifier = medium_greenskin_population
+				}
+				location = {
+					has_province_modifier = large_greenskin_population
+				}
+				location = {
+					has_province_modifier = greenskin_population_bad
+				}
+				location = {
+					culture_group = orc_group
+				}
+				location = {
+					culture_group = goblin_group
+				}
+			}
+		}
+		effect = {
+			log = "work decision cleanse_greenskin_presence for [Root.GetBestName]"
+			hidden_tooltip = {
+				FROM = {
+					character_event = {
+						id = wh_greenskins.200
+					}
+				}
+				location = {
+					add_province_modifier = {
+						name = hunting_greenskins
+						duration = 60
+						hidden = yes
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}
+#END

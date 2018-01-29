@@ -1,0 +1,60 @@
+
+namespace = wh_test
+
+character_event = {
+	id = wh_test.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_test.1 for [Root.GetBestName]"
+		set_variable = {
+			which = wh_character_num_all
+			value = 1
+		}
+		set_variable = {
+			which = wh_character_num_playable
+			value = 1
+		}
+		any_character = {
+			root = {
+				change_variable = {
+					which = wh_character_num_all
+					value = 1
+				}
+			}
+			if = {
+				limit = {
+					is_playable = yes
+				}
+				root = {
+					change_variable = {
+						which = wh_character_num_playable
+						value = 1
+					}
+				}
+			}
+		}
+		log = "all: [Root.wh_character_num_all] playable: [Root.wh_character_num_playable]"
+	}
+}
+
+character_event = {
+	id = wh_test.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_test.2 for [Root.GetBestName]"
+		any_character = {
+			if = {
+				limit = {
+					any_lover = {
+						character = prev
+					}
+				}
+				log = "[This.GetBestName]"
+			}
+		}
+	}
+}

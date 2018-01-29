@@ -1,0 +1,1804 @@
+targetted_decisions = {
+
+	vassal_eat_soul = {
+		only_playable = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			primary_title = {
+				higher_tier_than = BARON
+			}
+			age = 14
+			is_demon_prince_trigger = yes
+		}
+		potential = {
+			prisoner = yes
+			host = {
+				character = FROM
+			}
+			is_invincible_trigger = no
+			is_undead_trigger = no
+			is_demon_trigger = no
+		}
+		allow = {
+			prisoner = yes
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				prestige = 10
+			}
+		}
+		effect = {
+			log = "work decision vassal_eat_soul for [Root.GetBestName]"
+			hidden_tooltip = {
+				FROM = {
+					character_event = {
+						id = wh_chaos.100
+					}
+				}
+			}
+			prisoner = no
+			if = {
+				limit = {
+					is_invincible_trigger = yes
+				}
+				antideath_effect = yes
+				break = yes
+			}
+			ROOT = {
+				character_event = {
+					id = wh_chaos.101
+				}
+			}
+			death = {
+				death_reason = death_execution
+				killer = FROM
+			}
+			wh_execution_opinion_effect = yes
+			hidden_tooltip = {
+				any_dynasty_member = {
+					limit = {
+						religion_group = cytharai_group
+					}
+					opinion = {
+						modifier = opinion_soulsucked_family_druchii
+						who = FROM
+					}
+				}
+				any_dynasty_member = {
+					limit = {
+						NOT = {
+							religion_group = cytharai_group
+						}
+					}
+					opinion = {
+						modifier = opinion_soulsucked_family
+						who = FROM
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.25
+			}
+			modifier = {
+				factor = 0.4
+				reverse_opinion = {
+					who = FROM value = 20
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					war = yes
+				}
+			}
+			modifier = {
+				factor = 0.25
+				reverse_opinion = {
+					who = FROM value = 40
+				}
+			}
+			modifier = {
+				factor = 5
+				NOT = {
+					reverse_opinion = {
+						who = FROM value = -25
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				prestige = 200
+			}
+			modifier = {
+				factor = 0.05
+				prestige = 1000
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					trait = kind
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = cruel
+				}
+			}
+		}
+	}
+	vassal_spread_disease = {
+		only_playable = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			is_playable = yes
+			age = 14
+			OR = {
+				trait = has_nurgles_rot
+				trait = champion_nurgle
+				trait = chosen_nurgle
+				trait = prince_nurgle
+				trait = lore_nurgle
+			}
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+		}
+		potential = {
+			is_disease_immune_race = no
+			OR = {
+				prisoner = yes
+				religion = nurgle
+			}
+			NOT = {
+				character = FROM
+			}
+		}
+		allow = {
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				prestige = 10
+			}
+		}
+		effect = {
+			log = "work decision vassal_spread_disease for [Root.GetBestName]"
+			hidden_tooltip = {
+				FROM = {
+					character_event = {
+						id = wh_chaos_nurgle.8
+					}
+				}
+				add_character_modifier = {
+					name = magic_cooldown
+					duration = 300
+					hidden = yes
+				}
+				random = {
+					chance = 50
+					change_variable = {
+						which = "nurgle_favor" value = 1
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05
+			}
+			modifier = {
+				factor = 1.5
+				reverse_opinion = {
+					who = FROM value = 20
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				reverse_opinion = {
+					who = FROM value = 40
+				}
+			}
+			modifier = {
+				factor = 0.15
+				NOT = {
+					reverse_opinion = {
+						who = FROM value = -25
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				prestige = 200
+			}
+			modifier = {
+				factor = 0.05
+				prestige = 1000
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					trait = kind
+				}
+			}
+			modifier = {
+				factor = 0
+				ROOT = {
+					trait = greedy
+				}
+			}
+		}
+	}
+
+	#slaanesh
+	make_noble_concubine = { # To cover male rulers wanting to take landed/underage females as consorts
+		ai_target_filter = court
+		only_rulers = yes
+		from_potential = {
+			is_ruler = yes
+			age = 14
+			or = {
+				is_female = no
+				religion = amazon
+			}
+			wh_num_of_consorts_trigger = yes
+			OR = {
+				religion = cult_of_pleasure
+				religion = atharti
+				religion = slaanesh
+				religion = amazon
+			}
+		}
+		# target
+		potential = {
+			prisoner = yes
+			host = {
+				character = FROM
+			}
+			is_undead_trigger = no
+			is_demon_trigger = no
+			OR = {
+				trait = creature_human
+				trait = creature_elf
+				trait = creature_dwarf
+				trait = creature_chaos_dwarf
+				trait = creature_halfling
+				trait = creature_ogre
+				trait = creature_amazon
+			}
+			or = {
+				is_female = yes
+				FROM = {
+					religion = amazon
+					is_female = yes
+				}
+			}
+			OR = {
+				is_ruler = yes
+				NOT = {
+					age = 16
+				}
+			}
+			OR = {
+				age = 16
+				AND = {
+					FROM = {
+						OR = {
+							religion = cult_of_pleasure
+							religion = atharti
+							religion = slaanesh
+						}
+					}
+					age = 10
+				}
+			}
+			nor = {
+				character = FROM
+			}
+		}
+		allow = {
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			prisoner = yes
+		}
+		effect = {
+			log = "work decision make_noble_concubine for [Root.GetBestName]"
+			if = {
+				limit = {
+					is_ruler = yes
+				}
+				abdicate = yes
+			}
+			add_consort = FROM
+			add_lover = FROM
+			move_character = FROM
+			clr_character_flag = captured_in_battle
+			opinion = {
+				who = FROM
+				modifier = opinion_forced_consort
+			}
+			hidden_tooltip = {
+				character_event = {
+					id = wh_concubine.4
+				}
+				spouse = {
+					character_event = {
+						id = wh_concubine.6
+					}
+				}
+				any_child = {
+					character_event = {
+						id = wh_concubine.5
+					}
+				}
+				any_sibling = {
+					character_event = {
+						id = wh_concubine.5
+					}
+				}
+				father = {
+					character_event = {
+						id = wh_concubine.5
+					}
+				}
+				mother = {
+					character_event = {
+						id = wh_concubine.5
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05 # Less likely to do it
+			}
+			modifier = {
+				factor = 0
+				reverse_opinion = {
+					who = FROM value = 20
+				}
+			}
+			modifier = {
+				factor = 0.05
+				age = 40
+			}
+			modifier = {
+				factor = 0.05
+				trait = ugly
+			}
+			modifier = {
+				factor = 2
+				trait = fair
+			}
+			modifier = {
+				factor = 1.2
+				prestige = 100
+			}
+			modifier = {
+				factor = 1.2
+				prestige = 200
+			}
+			modifier = {
+				factor = 1.2
+				prestige = 300
+			}
+			modifier = {
+				factor = 1.2
+				prestige = 400
+			}
+			modifier = {
+				factor = 1.2
+				prestige = 500
+			}
+			modifier = {
+				factor = 0.1
+				FROM = {
+					NOT = {
+						trait = homosexual
+					}
+					is_female = no
+				}
+				is_female = no
+			}
+			modifier = {
+				factor = 0.1
+				FROM = {
+					NOT = {
+						trait = homosexual
+					}
+					is_female = yes
+				}
+				is_female = yes
+			}
+			modifier = {
+				factor = 0.1
+				FROM = {
+					trait = homosexual
+					is_female = no
+				}
+				is_female = yes
+			}
+			modifier = {
+				factor = 0.1
+				FROM = {
+					trait = homosexual
+					is_female = yes
+				}
+				is_female = no
+			}
+			modifier = {
+				factor = 0 #Enemy has your relative
+				FROM = {
+					any_current_enemy = {
+						dynasty = ROOT
+						is_close_relative = ROOT
+						any_courtier = {
+							is_close_relative = FROM
+							dynasty = FROM
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				FROM = {
+					OR = {
+						trait = kind
+						trait = just
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					OR = {
+						trait = cruel
+						trait = zealous
+					}
+				}
+			}
+			modifier = {
+				factor = 0.2
+				any_consort = {
+					always = yes
+				}
+			}
+		}
+	}
+	make_pet_consort = {
+		# For female on male, male on male and female on female concubinage (the pet_consort trait is assigned on_forced_consort when it's male on female)
+		filter = court
+		ai_target_filter = court
+		only_rulers = yes
+		from_potential = {
+			is_ruler = yes
+			age = 14
+			OR = {
+				religion = cult_of_pleasure
+				religion = atharti
+				religion = slaanesh
+				religion = amazon
+			}
+		}
+		potential = {
+			nor = {
+				character = FROM
+				trait = pet_consort
+				trait = druchi_witch_elf
+				trait = druchi_assassin
+			}
+			is_undead_trigger = no
+			is_demon_trigger = no
+			OR = {
+				prisoner = yes
+				# courtiers can be made concubines, like in vanilla
+				is_ruler = no
+				# Amazons can take any male courtier
+				AND = {
+					FROM = {
+						religion = amazon
+						is_female = yes
+					}
+					is_female = no
+				}
+			}
+			nand = {
+				is_close_relative = FROM
+				religion = amazon
+			}
+			host = {
+				character = FROM
+			}
+			# so it doesn't appear on males trying to take females
+			# конкубины идут отдельно?
+			OR = {
+				is_female = no
+				FROM = {
+					is_female = yes
+				}
+			}
+			# so that Amazons can only take males
+			nand = {
+				is_female = yes
+				FROM = {
+					religion = amazon
+				}
+			}
+			# so that only Amazon Queens can take pet consorts
+			nand = {
+				from = {
+					religion = amazon
+					not = {
+						higher_tier_than = DUKE
+					}
+				}
+			}
+			OR = {
+				age = 16
+				AND = {
+					FROM = {
+						OR = {
+							religion = cult_of_pleasure
+							religion = atharti
+							religion = slaanesh
+						}
+					}
+					age = 10
+				}
+			}
+			OR = {
+				trait = creature_human
+				trait = creature_elf
+				trait = creature_dwarf
+				trait = creature_chaos_dwarf
+				trait = creature_halfling
+				trait = creature_ogre
+				trait = creature_amazon
+			}
+			nand = {
+				FROM = {
+					religion_group = cytharai_group
+				}
+				trait = druchi_sorceress
+			}
+		}
+		allow = {
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			OR = {
+				prisoner = yes
+				is_ruler = no		# courtiers can be made concubines, like in vanilla
+			}
+		}
+		effect = {
+			log = "work decision make_pet_consort for [Root.GetBestName]"
+			if = {
+				limit = {
+					is_ruler = yes
+				}
+				abdicate = yes
+			}
+			if = {
+				limit = {
+					FROM = {
+						religion = amazon
+					}
+				}
+				set_character_flag = amazon_exception
+			}
+			if = {
+				limit = {
+					is_married = yes
+				}
+				any_spouse = {
+					remove_spouse = ROOT
+				}
+			}
+			add_trait = pet_consort
+			if = {
+				limit = {
+					FROM = {
+						is_female = yes
+					}
+				}
+				add_lover = FROM
+			}
+			if = {
+				limit = {
+					FROM = {
+						is_female = no
+					}
+					is_female = yes
+				}
+				add_consort = FROM
+			}
+			if = {
+				limit = {
+					FROM = {
+						is_female = no
+					}
+					is_female = no
+				}
+				add_lover = FROM
+			}
+			if = {
+				limit = {
+					FROM = {
+						trait = creature_amazon
+					}
+				}
+				FROM = {
+					decadence = 1
+				}
+			}
+			move_character = FROM
+			clr_character_flag = captured_in_battle
+			opinion = {
+				who = FROM
+				modifier = opinion_forced_consort
+			}
+			hidden_tooltip = {
+				character_event = {
+					id = wh_concubine.4
+				}
+				spouse = {
+					character_event = {
+						id = wh_concubine.6
+					}
+				}
+				any_child = {
+					character_event = {
+						id = wh_concubine.5
+					}
+				}
+				any_sibling = {
+					character_event = {
+						id = wh_concubine.5
+					}
+				}
+				father = {
+					character_event = {
+						id = wh_concubine.5
+					}
+				}
+				mother = {
+					character_event = {
+						id = wh_concubine.5
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 1.2
+				prestige = 500
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					decadence = 50
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					trait = lustful
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					trait = celibate
+				}
+			}
+			modifier = {
+				factor = 1.2
+				FROM = {
+					trait = proud
+				}
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					trait = chaste
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					is_married = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					num_of_lovers = 3
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						trait = homosexual
+					}
+					is_female = no
+				}
+				is_female = no
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						trait = homosexual
+					}
+					is_female = yes
+				}
+				is_female = yes
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					trait = homosexual
+					is_female = no
+				}
+				is_female = yes
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					trait = homosexual
+					is_female = yes
+				}
+				is_female = no
+			}
+		}
+	}	
+	manage_pet_consort = { # For all concubinages, mostly used for Slaaneshi flavor
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			age = 14
+			is_playable = yes
+			#For now, let's not stress the AI
+			ai = no
+			NOT = {
+				has_character_flag = handling_consort
+			}
+			OR = {
+				religion = cult_of_pleasure
+				religion = atharti
+				religion = slaanesh
+				religion = amazon
+			}
+		}
+		potential = {
+			age = 10
+			host = {
+				character = FROM
+			}
+			nor = {
+				has_character_modifier = consort_cooldown
+				character = FROM
+			}
+			OR = {
+				trait = pet_consort
+				AND = {
+					is_consort = FROM
+					FROM = {
+						OR = {
+							religion = cult_of_pleasure
+							religion = atharti
+							religion = slaanesh
+						}
+					}
+				}
+			}	#Covers regular concubines
+			OR = {
+				is_lover = FROM
+				is_consort = FROM
+			}
+		}
+		allow = {
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				prestige = 10
+			}
+		}
+		effect = {
+			log = "work decision manage_pet_consort for [Root.GetBestName]"
+			FROM = {
+				prestige = -10
+				set_character_flag = handling_consort
+			}
+			character_event = {
+				id = wh_concubine.12
+			}	#pinging consort and giving options
+			add_character_modifier = {
+				name = consort_cooldown
+				duration = 90
+				hidden = yes
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.02 # Less likely to do it
+			}
+			modifier = {
+				factor = 0.01
+				NOT = {
+					reverse_opinion = {
+						who = FROM value = 0
+					}
+				}
+			}
+			modifier = {
+				factor = 1.2
+				NOT = {
+					age = 40
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					trait = cruel
+				}
+			}
+			modifier = {
+				factor = 1.5
+				trait = ugly
+			}
+			modifier = {
+				factor = 0.5
+				trait = fair
+			}
+			modifier = {
+				factor = 0.5
+				trait = strong
+			}
+			modifier = {
+				factor = 0.75
+				trait = tall
+			}
+			modifier = {
+				factor = 1.25
+				FROM = {
+					trait = lustful
+				}
+			}
+			modifier = {
+				factor = 1.1
+				FROM = {
+					trait = proud
+				}
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					trait = chaste
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					is_married = yes
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					any_courtier = {
+						trait = pet_consort
+						count = 3
+					}
+				}
+			}
+			modifier = {
+				factor = 2.75
+				FROM = {
+					age = 30
+					NOT = {
+						age = 40
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					age = 40
+				}
+			}
+			modifier = {
+				factor = 0.2 #Enemy has your relative
+				FROM = {
+					any_current_enemy = {
+						dynasty = ROOT
+						is_close_relative = ROOT
+						any_courtier = {
+							is_close_relative = FROM
+							dynasty = FROM
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					OR = {
+						trait = kind
+						trait = just
+					}
+				}
+			}
+		}
+	}
+	dismiss_concubine = {
+		#The vanilla option is no longer avaiable to ai to avoid rabbit-elves
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			ai = no
+			is_playable = yes
+			age = 16
+			is_female = no
+			FROM = {
+				nor = {
+					religion = cult_of_pleasure
+					religion = atharti
+					religion = slaanesh
+				}
+			}
+		}
+		potential = {
+			is_consort = FROM
+			host = {
+				character = FROM
+			}
+			NOT = {
+				character = FROM
+			}
+		}
+		allow = {
+			FROM = {
+				prestige = 10
+			}
+		}
+		effect = {
+			log = "work decision dismiss_concubine for [Root.GetBestName]"
+			FROM = {
+				prestige = -10
+				remove_consort = ROOT
+			}
+			opinion = {
+				modifier = opinion_set_aside
+				who = FROM
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	pleasure_twist = {
+		# For perverting other characters as a cultist
+		ai_target_filter = realm
+		only_playable = yes
+		from_potential = {
+			age = 16
+			society_member_of = cult_of_pleasure
+			nor = {
+				has_any_opinion_modifier = opinion_twisting
+				religion = atharti
+				religion = slaanesh
+			}
+		}
+		potential = {
+			same_realm = from
+			is_within_diplo_range = FROM
+			age = 14
+			nor = {
+				character = FROM
+				society_member_of = cult_of_pleasure
+				religion = atharti
+				religion = slaanesh
+				has_any_opinion_modifier = opinion_recently_twisted
+				has_any_opinion_modifier = opinion_twisting
+			}
+			is_demon_trigger = no
+		}
+		allow = {
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				prestige = 10
+			}
+		}
+		effect = {
+			log = "work decision pleasure_twist for [Root.GetBestName]"
+			FROM = {
+				hidden_tooltip = {
+					random = {
+						chance = 5	#Mutation chance
+						character_event = {
+							id = spleasure.57
+							days = 40
+							random = 20
+						}
+					}
+				}
+				prestige = -10
+				opinion = {
+					who = ROOT
+					modifier = opinion_twisting
+					months = 12000
+				}
+			}
+			character_event = {
+				id = spleasure.68
+			}		# pinging target and giving options
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.015 # Less likely to do it
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					trait = cruel
+				}
+			}
+			modifier = {
+				factor = 1.5
+				trait = ugly
+			}
+			modifier = {
+				factor = 0.5
+				trait = fair
+			}
+			modifier = {
+				factor = 0.5
+				trait = strong
+			}
+			modifier = {
+				factor = 0.75
+				trait = tall
+			}
+			modifier = {
+				factor = 1.25
+				FROM = {
+					trait = lustful
+				}
+			}
+			modifier = {
+				factor = 1.25
+				FROM = {
+					trait = deceitful
+				}
+			}
+			modifier = {
+				factor = 1.1
+				FROM = {
+					trait = proud
+				}
+			}
+			modifier = {
+				factor = 1.5
+				trait = chaste
+			}
+			modifier = {
+				factor = 1.5
+				trait = celibate
+			}
+			modifier = {
+				factor = 1.5
+				trait = temperate
+			}
+			modifier = {
+				factor = 1.5
+				trait = diligent
+			}
+			modifier = {
+				factor = 1.5
+				trait = kind
+			}
+			modifier = {
+				factor = 0.5
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.5
+				trait = envious
+			}
+			modifier = {
+				factor = 0.5
+				trait = lustful
+			}
+			modifier = {
+				factor = 0.5
+				trait = slothful
+			}
+			modifier = {
+				factor = 1.25
+				is_married = yes
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					OR = {
+						trait = kind
+						trait = just
+					}
+				}
+			}
+		}
+	}
+	slaanesh_quirk = {
+		# Slaaneshi having fun with their friends and relatives
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			age = 16
+			nor = {
+				has_character_modifier = ai_quirking_cooldown
+				has_any_opinion_modifier = opinion_quirking
+			}
+			OR = {
+				AND = {
+					society_member_of = cult_of_pleasure
+					society_rank >= 2
+				}
+				AND = {
+					society_member_of = cult_of_slaanesh
+					society_rank >= 2
+				}
+				religion = atharti
+				religion = slaanesh
+			}
+			OR = {
+				trait = creature_elf
+				trait = creature_chaos_dwarf
+				trait = creature_dwarf
+				trait = creature_human
+				trait = creature_amazon
+				trait = slaanesh_demon
+			}
+		}
+		potential = {
+			is_within_diplo_range = FROM
+			age = 16	# For now...
+			OR = {
+				trait = creature_elf
+				trait = creature_chaos_dwarf
+				trait = creature_dwarf
+				trait = creature_human
+				trait = creature_amazon
+				trait = slaanesh_demon
+			}
+			OR = {
+				liege = {
+					character = FROM
+				}
+				FROM = {
+					any_consort = {
+						character = ROOT
+					}
+				}
+				any_lover = {
+					character = FROM
+				}
+				spouse = {
+					character = FROM
+				}
+				FROM = {
+					trait = slaanesh_demon
+				}
+			}
+			nor = {
+				character = FROM
+				trait = pet_consort
+				has_any_opinion_modifier = opinion_recently_quirked
+				has_any_opinion_modifier = opinion_quirking
+				is_demon_trigger = yes
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				piety = 10
+			}
+		}
+		effect = {
+			log = "work decision slaanesh_quirk for [Root.GetBestName]"
+			FROM = {
+				piety = -10
+				hidden_tooltip = {
+					random = {
+						chance = 5	#Mutation chance
+						character_event = {
+							id = spleasure.57
+							days = 140
+							random = 200
+						}
+					}
+				}
+				if = {
+					limit = {
+						ai = yes
+					}
+					add_character_modifier = {
+						name = ai_quirking_cooldown
+						duration = 1800
+						hidden = yes
+					}
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_quirking
+					months = 18000
+				}
+			}
+			character_event = {
+				id = spleasure.92
+			}		# pinging target and giving options
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # Less likely to do it
+			}
+			modifier = {
+				factor = 2
+				spouse = {
+					character = FROM
+				}
+			}
+			modifier = {
+				factor = 2
+				ai = no		#players beware
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					trait = cruel
+				}
+			}
+			modifier = {
+				factor = 1.5
+				trait = ugly
+			}
+			modifier = {
+				factor = 0.5
+				trait = fair
+			}
+			modifier = {
+				factor = 0.5
+				trait = strong
+			}
+			modifier = {
+				factor = 0.75
+				trait = tall
+			}
+			modifier = {
+				factor = 1.25
+				FROM = {
+					trait = lustful
+				}
+			}
+			modifier = {
+				factor = 1.25
+				FROM = {
+					trait = deceitful
+				}
+			}
+			modifier = {
+				factor = 1.1
+				FROM = {
+					trait = proud
+				}
+			}
+			modifier = {
+				factor = 1.5
+				trait = chaste
+			}
+			modifier = {
+				factor = 1.5
+				trait = celibate
+			}
+			modifier = {
+				factor = 1.5
+				trait = temperate
+			}
+			modifier = {
+				factor = 1.5
+				trait = diligent
+			}
+			modifier = {
+				factor = 1.5
+				trait = kind
+			}
+			modifier = {
+				factor = 0.5
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.5
+				trait = envious
+			}
+			modifier = {
+				factor = 0.5
+				trait = lustful
+			}
+			modifier = {
+				factor = 0.5
+				trait = slothful
+			}
+			modifier = {
+				factor = 1.25
+				is_married = yes
+			}
+			modifier = {
+				factor = 0.05
+				trait = malekith #Too scary
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					OR = {
+						trait = kind
+						trait = just
+					}
+				}
+			}
+			# we need better targets
+			modifier = {
+				factor = 5
+				tier = EMPEROR
+			}
+			modifier = {
+				factor = 4
+				tier = KING
+			}
+			modifier = {
+				factor = 3
+				tier = DUKE
+			}
+			modifier = {
+				factor = 2
+				tier = COUNT
+			}
+		}
+	}
+	vassal_polymorph = {
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			primary_title = {
+				higher_tier_than = BARON
+			}
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+			OR = {
+				society_member_of = cult_of_pleasure
+				religion = atharti
+				religion = slaanesh
+			}
+			wh_is_mage_trigger = yes
+		}
+		potential = {
+			prisoner = yes
+			host = {
+				character = FROM
+			}
+			OR = {
+				trait = creature_elf
+				trait = creature_chaos_dwarf
+				trait = creature_dwarf
+				trait = creature_human
+				trait = creature_amazon
+				trait = creature_beastman
+			}
+		}
+		allow = {
+			prisoner = yes
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				piety = 20
+			}
+		}
+		effect = {
+			log = "work decision vassal_polymorph for [Root.GetBestName]"
+			hidden_tooltip = {
+				FROM = {
+					hidden_tooltip = {
+						random = {
+							chance = 20
+							character_event = {
+								id = spleasure.57 days = 100 random = 100
+							}
+						}
+					}
+					add_character_modifier = {
+						name = magic_cooldown
+						duration = 300
+						hidden = yes
+					}
+					character_event = {
+						id = spleasure.160
+					}
+				}
+			} #receive event and decide what to do
+			FROM = {
+				remove_opinion = {
+					who = ROOT modifier = opinion_traitor
+				}
+				remove_opinion = {
+					who = ROOT modifier = opinion_rebel_traitor
+				}
+				remove_opinion = {
+					who = ROOT modifier = opinion_dishonorable
+				}
+			}
+			prestige = -20
+			FROM = {
+				if = {
+					limit = {
+						NOT = {
+							trait = cruel
+						}
+					}
+					random = {
+						chance = 10
+						add_trait = cruel
+						hidden_tooltip = {
+							character_event = {
+								id = 38259
+							} #Notify Cruel
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.15
+			}
+			modifier = {
+				factor = 0.4
+				reverse_opinion = {
+					who = FROM value = 20
+				}
+			}
+			modifier = {
+				factor = 0.25
+				reverse_opinion = {
+					who = FROM value = 40
+				}
+			}
+			modifier = {
+				factor = 2
+				NOT = {
+					reverse_opinion = {
+						who = FROM value = -75
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					war = yes
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					religion = slaanesh
+				}
+			}
+			modifier = {
+				factor = 0.75
+				prestige = 200
+			}
+			modifier = {
+				factor = 0.05
+				prestige = 1000
+			}
+			modifier = {
+				factor = 0.05
+				OR = {
+					has_character_modifier = magic_power_2
+					has_character_modifier = magic_power_3
+					has_character_modifier = magic_power_4
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					trait = kind
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = cruel
+				}
+			}
+			modifier = {
+				factor = 0.25
+				ROOT = {
+					trait = creature_elf
+				}
+				FROM = {
+					trait = creature_elf
+				}
+			}
+			modifier = {
+				factor = 0.1
+				ROOT = {
+					trait = plain
+				}
+			}
+			modifier = {
+				factor = 0.1
+				ROOT = {
+					trait = ugly
+				}
+			}
+			modifier = {
+				factor = 0
+				ROOT = {
+					trait = unsightly
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					trait = envious
+				}
+				ROOT = {
+					OR = {
+						trait = beautiful
+						trait = fair
+						trait = pretty
+					}
+				}
+			}
+		}
+	}
+	transgender_marriage = {
+		only_playable = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			is_married = no
+			trait = transgender
+			OR = {
+				trait = creature_elf
+				trait = creature_chaos_dwarf
+				trait = creature_dwarf
+				trait = creature_human
+				trait = creature_amazon
+				trait = creature_beastman
+			}
+		}
+		potential = {
+			same_sex = from
+			NOT = {
+				character = FROM
+			}
+			host = {
+				character = FROM
+			}
+			OR = {
+				trait = creature_elf
+				trait = creature_chaos_dwarf
+				trait = creature_dwarf
+				trait = creature_human
+				trait = creature_amazon
+				trait = creature_beastman
+			}
+		}
+		allow = {
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				piety = 20
+			}
+		}
+		effect = {
+			log = "work decision transgender_marriage for [Root.GetBestName]"
+			hidden_tooltip = {
+				FROM = {
+					add_spouse = ROOT
+					add_trait = transgender #new spouse might remove the trait automatically
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					trait = homosexual
+				} #which in this case means he/she IS homosexual...
+			}
+			modifier = {
+				factor = 0.25
+				reverse_opinion = {
+					who = FROM value = 40
+				}
+			}
+			modifier = {
+				factor = 2
+				NOT = {
+					reverse_opinion = {
+						who = FROM value = -75
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					religion = slaanesh
+				}
+			}
+			modifier = {
+				factor = 0.75
+				prestige = 200
+			}
+			modifier = {
+				factor = 0.05
+				prestige = 1000
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					trait = chaste
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = lustful
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					trait = creature_elf
+				}
+				FROM = {
+					trait = creature_elf
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					trait = creature_dwarf
+				}
+				FROM = {
+					trait = creature_dwarf
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					trait = creature_human
+				}
+				FROM = {
+					trait = creature_human
+				}
+			}
+			modifier = {
+				factor = 0.25
+				trait = plain
+			}
+			modifier = {
+				factor = 0.25
+				trait = ugly
+			}
+			modifier = {
+				factor = 0.25
+				trait = unsightly
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					trait = beautiful
+					trait = fair
+					trait = pretty
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,127 @@
+# Lizardman Chancellor - Explore Jungle
+action_explore_ruins = {
+	attribute = diplomacy
+
+	potential = {
+		FROM = {
+			culture_group = lizardman_group
+		}
+	}
+
+	trigger = {
+		region = world_new_world_lustria
+		any_province_lord = {
+			OR = {
+				character = FROM
+				is_liege_or_above = FROM
+			}
+		}
+	}
+
+	tech_growth_modifier_economy = 0.01
+	tech_growth_modifier_military = 0.01
+	tech_growth_modifier_culture = 0.01
+
+
+	events = {
+		slizardmen.8
+		slizardmen.11
+	}
+}
+
+action_ritual_of_the_old_ones = {
+	attribute = stewardship
+
+	potential = {
+		culture_group = lizardman_group
+		FROM = {
+			culture_group = lizardman_group
+			is_tribal = yes
+			job_treasurer = {
+				NOT = {
+					has_character_modifier = in_seclusion
+				}
+			}
+		}
+	}
+
+	trigger = {
+		any_province_lord = {
+			OR = {
+				character = FROM
+				is_liege_or_above = FROM
+			}
+		}
+	}
+
+	monthly_character_piety = 0.075
+
+	events = {
+	}
+}
+
+
+action_ritual_of_the_gods = {
+	attribute = learning
+
+	potential = {
+		culture_group = lizardman_group
+		FROM = {
+			culture_group = lizardman_group
+			is_tribal = yes
+			job_spiritual = {
+				NOT = {
+					has_character_modifier = in_seclusion
+				}
+			}
+		}
+	}
+
+	trigger = {
+		any_province_lord = {
+			OR = {
+				character = FROM
+				is_liege_or_above = FROM
+			}
+		}
+	}
+
+	monthly_character_piety = 0.01
+
+	events = {
+		z_lizardman.100
+	}
+}
+
+
+action_precognisticain = {
+	attribute = learning
+
+	potential = {
+		culture_group = lizardman_group
+		FROM = {
+			culture_group = lizardman_group
+			is_tribal = yes
+			job_spiritual = {
+				NOT = {
+					has_character_modifier = in_seclusion
+				}
+			}
+		}
+	}
+
+	trigger = {
+		any_province_lord = {
+			OR = {
+				character = FROM
+				is_liege_or_above = FROM
+			}
+		}
+	}
+
+	monthly_character_piety = 0.05
+
+	events = {
+		z_lizardman.102
+	}
+}

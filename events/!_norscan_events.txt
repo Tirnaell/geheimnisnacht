@@ -1,0 +1,3731 @@
+namespace = norscan
+
+# Norscan patron gods
+character_event = {
+	id = norscan.1
+	desc = EVTDESC_CCGS.4
+	picture = GFX_evt_runestone_raising_oldgods
+	border = GFX_event_normal_frame_religion
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = norscan.1 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTACCGS.4.a
+		add_trait = norscan_patron_tchar
+	}
+
+	option = {
+		name = EVTOPTBCCGS.4.b
+		add_trait = norscan_patron_kharneth
+	}
+
+	option = {
+		name = EVTOPTCCCGS.4.c
+		add_trait = norscan_patron_nurgleth
+	}
+
+	option = {
+		name = EVTOPTDCCGS.4.d
+		hidden_tooltip = {
+			character_event = {
+				id = norscan.2
+			}
+		}
+	}
+}
+# Norscan patron gods #2
+character_event = {
+	id = norscan.2
+	desc = EVTDESC_CCGS.5
+	picture = GFX_evt_runestone_raising_oldgods
+	border = GFX_event_normal_frame_religion
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = norscan.2 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTACCGS.5.a
+		add_trait = norscan_patron_shornaal
+	}
+
+	option = {
+		name = EVTOPTBCCGS.5.b
+		add_trait = norscan_patron_ulric
+	}
+
+	option = {
+		name = EVTOPTCCCGS.5.c
+		add_trait = norscan_patron_ursun
+	}
+
+	option = {
+		name = EVTOPTDCCGS.5.d
+		hidden_tooltip = {
+			character_event = {
+				id = norscan.1
+			}
+		}
+	}
+}
+
+# Wolf Hunt
+character_event = {
+	id = norscan.3
+	title = WOLF_HUNT # Wolf Hunt
+	desc = EVTDESCNORSCAN.1 # Word has reached you that wolves have begun terrorizing a local village, as their leader, it is your duty to stop them.
+	picture = "GFX_evt_hunting_scene"
+	min_age = 16
+	is_triggered_only = yes
+	only_playable = yes
+	culture_group = norscan_group
+
+	immediate = {
+		log = "work event id = norscan.3 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = READY_MY_HUNTERS # Yes, Ready my hunters!
+		random_list = {
+			98 = {
+				prestige = 100
+				piety = 25
+			}
+			2 = {
+				if = {
+					limit = {
+						is_invincible_trigger = yes
+					}
+					antideath_effect = yes
+					break = yes
+				}
+				death = {
+					death_reason = death_battle
+				}
+			}
+		}
+	}
+
+	option = {
+		name = I_DO_THIS_ALONE # I will do this alone!
+		trigger = {
+			OR = {
+				ai = no
+				trait = brave
+				trait = lunatic_3
+				trait = lunatic_2
+				trait = lunatic_1
+				trait = wroth
+				trait = proud
+			}
+		}
+		random_list = {
+			90 = {
+				prestige = 175
+				piety = 25
+				add_trait = diligent
+			}
+			10 = {
+				if = {
+					limit = {
+						is_invincible_trigger = yes
+					}
+					antideath_effect = yes
+					break = yes
+				}
+				death = {
+					death_reason = death_battle
+				}
+			}
+		}
+	}
+
+	option = {
+		name = LET_THEM_HANDLE_IT # No, let them handle it.
+		trigger = {
+			OR = {
+				ai = no
+				nor = {
+					trait = brave
+					trait = diligent
+					trait = just
+					trait = kind
+					trait = hunter
+					trait = lunatic_3
+					trait = lunatic_2
+					trait = proud
+				}
+				trait = slothful
+				trait = cruel
+				trait = arbitrary
+			}
+		}
+		prestige = -50
+		piety = -35
+	}
+}
+
+# TCHAR COMES TO YOU
+character_event = {
+	id = norscan.4
+	title = STRANGE_TIDINGS # Strange Tidings
+	desc = EVTDESC_TCHAR # "Early in the morning, you and a band of close warriors are hunting a stag, when you come across an idol to Tchar, your warriors wander ahead of you, when the Idol begins to speak to you... Promising you great power if you forgo the others"
+	picture = "GFX_evt_tzeentch"
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	religion_group = old_gods_group
+
+	trigger = {
+		trait = creature_human
+		NOR = {
+			religion = stromfels
+			trait = norscan_patron_ulric
+			trait = norscan_patron_ursun
+			religion_group = chaos_gods_group
+			has_character_flag = refusedcallofchaos
+			# undead are not tempted by chaos
+			trait = creature_nehekharan
+			trait = vampire_lahmian_visible
+			trait = vampire_carstein_visible
+			trait = vampire_blood_visible
+			trait = vampire_strigoi_visible
+			trait = vampire_necrarch_visible
+			trait = vampire_jade_visible
+			trait = vampire_mahtmasi_visible		
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 125
+		# Virtue dependent modifers
+		modifier = {
+			factor = 0.8
+			trait = envious
+		}
+		modifier = {
+			factor = 0.6
+			trait = patient
+		}
+		modifier = {
+			factor = 0.8
+			trait = diligent
+		}
+		modifier = {
+			factor = 1.2
+			trait = kind
+		}
+		# Personality dependent modifiers
+		modifier = {
+			factor = 0.7
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = deceitful
+		}
+		modifier = {
+			factor = 1.2
+			trait = just
+		}
+		modifier = {
+			factor = 0.9
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 0.9
+			trait = cynical
+		}
+		modifier = {
+			factor = 1.4
+			trait = honest
+		}
+		modifier = {
+			factor = 1.4
+			trait = brave
+		}
+		modifier = {
+			factor = 0.7
+			trait = cruel
+		}
+		# mutations
+		modifier = {
+			factor = 0.2
+			OR = {
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+		}
+		# Tzeenth favors magic power
+		modifier = {
+			factor = 0.6
+			OR = {
+				trait = magic_power_adept
+				trait = magic_power_magister
+				trait = magic_power_lord
+				trait = magic_power_archmaster
+			}
+		}
+		# And intellect
+		modifier = {
+			factor = 0.8
+			OR = {
+				learning = 10
+				intrigue = 10
+			}
+		}
+		modifier = {
+			factor = 0.8
+			OR = {
+				learning = 15
+				intrigue = 15
+			}
+		}
+		# Tzeentch's Favoured WoL Focuses
+		modifier = {
+			factor = 0.5
+			OR = {
+				has_focus = focus_scholarship
+				has_focus = focus_intrigue
+			}
+		}
+		# Patron of Tchar
+		modifier = {
+			factor = 0.3
+			trait = norscan_patron_tchar
+		}
+	}
+
+	immediate = {
+		log = "work event id = norscan.4 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_TCHARNO # "It's just my imagination..."
+		set_character_flag = refusedcallofchaos
+		prestige = -50
+		piety = 50
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 2.0
+				trait = brave
+			}
+			modifier = {
+				factor = 4.0
+				trait = zealous
+			}
+			modifier = {
+				factor = 2.0
+				is_strong_trigger = yes
+			}
+			modifier = {
+				factor = 2.0
+				trait = just
+			}
+			modifier = {
+				factor = 2.0
+				trait = content
+			}
+			modifier = {
+				factor = 2.0
+				trait = diligent
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPT_TCHARYES # "I shall be a willing servant of Tzeentch, Changer of ways!"
+		religion = tzeentch
+		prestige = 50
+		piety = -50
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2.0
+				trait = ambitious
+			}
+			modifier = {
+				factor = 2.0
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2.0
+				trait = mystic
+			}
+			modifier = {
+				factor = 2.0
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2.0
+				trait = cynical
+			}
+			modifier = {
+				factor = 2.0
+				trait = lunatic_1
+			}
+			modifier = {
+				factor = 3.0
+				trait = lunatic_2
+			}
+			modifier = {
+				factor = 4.0
+				trait = lunatic_3
+			}
+		}
+	}
+}
+
+# KHARNETH CALLS TO YOU
+character_event = {
+	id = norscan.5
+	title = BLOODY_VISIONS # Bloody Visions
+	desc = EVTDESC_KHARNETH # "Lately, you've noticed yourself becoming more and more aggressive, and constantly craving for battle and glory. Your slumber is disturbed when Kharneth, the Blood god, demands that you join his ranks, and forever live in glory"
+	picture = "GFX_evt_khorne"
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	religion_group = old_gods_group
+
+	trigger = {
+		trait = creature_human
+		nor = {
+			religion = stromfels
+			trait = norscan_patron_ulric
+			trait = norscan_patron_ursun
+			religion_group = chaos_gods_group
+			has_character_flag = refusedcallofchaos
+			# Khorne Hates Magic users
+			trait = magic_power_adept
+			trait = magic_power_magister
+			trait = magic_power_lord
+			trait = magic_power_archmaster
+			# undead are not tempted by chaos
+			trait = creature_nehekharan
+			trait = vampire_lahmian_visible
+			trait = vampire_carstein_visible
+			trait = vampire_blood_visible
+			trait = vampire_strigoi_visible
+			trait = vampire_necrarch_visible
+			trait = vampire_jade_visible
+			trait = vampire_mahtmasi_visible		
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 125
+		# Virtue dependent modifers
+		modifier = {
+			factor = 0.9
+			trait = envious
+		}
+		modifier = {
+			factor = 0.8
+			trait = proud
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}
+		modifier = {
+			factor = 1.5
+			trait = patient
+		}
+		# Personality dependent modifiers
+		modifier = {
+			factor = 0.9
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.6
+			trait = brave
+		}
+		modifier = {
+			factor = 0.6
+			trait = cruel
+		}
+		modifier = {
+			factor = 1.4
+			trait = kind
+		}
+		modifier = {
+			factor = 0.8
+			trait = cynical
+		}
+		modifier = {
+			factor = 1.1
+			trait = temperate
+		}
+		modifier = {
+			factor = 0.9
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 1.2
+			trait = just
+		}
+		modifier = {
+			factor = 1.4
+			trait = craven
+		}
+		# Lifestyle dependent modifier
+		# modifier = {
+		# factor = 0.8
+		# trait = monster_hunter
+		# }
+		modifier = {
+			factor = 0.8
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.7
+			trait = duelist
+		}
+		modifier = {
+			factor = 0.6
+			trait = impaler
+		}
+		modifier = {
+			factor = 1.1
+			trait = gardener
+		}
+		# mutations
+		modifier = {
+			factor = 0.3
+			OR = {
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+		}
+		# Khorne like warriors
+		modifier = {
+			factor = 0.8
+			martial = 8
+		}
+		modifier = {
+			factor = 0.8
+			martial = 14
+		}
+		modifier = {
+			factor = 0.8
+			martial = 20
+		}
+		# Khorne's Favoured WoL Focuses
+		modifier = {
+			factor = 0.5
+			OR = {
+				has_focus = focus_hunting
+				has_focus = focus_war
+			}
+		}
+		# Patron of Karneth/Kjorn
+		modifier = {
+			factor = 0.3
+			trait = norscan_patron_kharneth
+		}
+	}
+
+	immediate = {
+		log = "work event id = norscan.5 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_KHARNETHNO # "It's just my imagination..."
+		set_character_flag = refusedcallofchaos
+		prestige = -50
+		piety = 50
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 2.0
+				trait = brave
+			}
+			modifier = {
+				factor = 4.0
+				trait = zealous
+			}
+			modifier = {
+				factor = 2.0
+				trait = just
+			}
+			modifier = {
+				factor = 2.0
+				trait = content
+			}
+			modifier = {
+				factor = 2.0
+				trait = diligent
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPT_KHARNETHYES # "I shall be a willing servant of Khorne, God of Rage!"
+		religion = khorne
+		prestige = 50
+		piety = -50
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2.0
+				trait = ambitious
+			}
+			modifier = {
+				factor = 2.0
+				trait = impaler
+			}
+			modifier = {
+				factor = 2.0
+				trait = cruel
+			}
+			modifier = {
+				factor = 2.0
+				is_strong_trigger = yes
+			}
+		}
+	}
+}
+
+# SHORNAAL CALLS TO YOU
+character_event = {
+	id = norscan.6
+	title = BEAUTIFUL_VOICES # Beautiful voices
+	desc = EVTDESC_SHORNAAL # "You are walking through your hall during a slow day. After having finished a gigantic feast that would make an emperor blush, you still feel empty inside, like something is missing. Soon, you begin hearing voices, beautiful ones, calling to you, asking you to give yourself to Shornaal so that you may be satisfied..."
+	picture = "GFX_evt_slaanesh"
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	religion_group = old_gods_group
+
+	trigger = {
+		trait = creature_human
+		nor = {
+			religion = stromfels
+			trait = norscan_patron_ulric
+			trait = norscan_patron_ursun
+			OR = {
+				religion_group = chaos_gods_group
+				has_character_flag = refusedcallofchaos
+				# undead are not tempted by chaos
+				trait = creature_nehekharan
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 125
+		# Virtue dependent modifers
+		modifier = {
+			factor = 0.4
+			trait = lustful
+		}
+		modifier = {
+			factor = 1.4
+			trait = chaste
+		}
+		modifier = {
+			factor = 0.9
+			trait = envious
+		}
+		modifier = {
+			factor = 0.7
+			trait = proud
+		}
+		modifier = {
+			factor = 0.6
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 1.3
+			trait = temperate
+		}
+		modifier = {
+			factor = 1.3
+			trait = humble
+		}
+		# Personality dependent modifiers
+		modifier = {
+			factor = 0.9
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.9
+			trait = brave
+		}
+		modifier = {
+			factor = 0.7
+			trait = cruel
+		}
+		modifier = {
+			factor = 1.2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.9
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.9
+			trait = deceitful
+		}
+		modifier = {
+			factor = 0.9
+			trait = arbitrary
+		}
+		# Lifestyle dependent modifier
+		modifier = {
+			factor = 0.6
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.9
+			trait = poet
+		}
+		modifier = {
+			factor = 1.2
+			trait = just
+		}
+		modifier = {
+			factor = 0.8
+			trait = impaler
+		}
+		modifier = {
+			factor = 1.8
+			trait = celibate
+		}
+		# mutations
+		modifier = {
+			factor = 0.3
+			OR = {
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+		}
+		# Slaanesh favors beauty
+		modifier = {
+			factor = 0.7
+			trait = fair
+		}
+		modifier = {
+			factor = 1.3
+			trait = ugly
+		}
+		# magic users more likely to fall
+		modifier = {
+			factor = 0.8
+			OR = {
+				trait = magic_power_adept
+				trait = magic_power_magister
+				trait = magic_power_lord
+				trait = magic_power_archmaster
+			}
+		}
+		# Slaanesh's Favoured WoL Focuses
+		modifier = {
+			factor = 0.5
+			OR = {
+				has_focus = focus_carousing
+				has_focus = focus_seduction
+			}
+		}
+		# Patron of Loash/Shornaal
+		modifier = {
+			factor = 0.3
+			trait = norscan_patron_shornaal
+		}
+	}
+
+	immediate = {
+		log = "work event id = norscan.6 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_SHORNAALNO # "It's just my imagination..."
+		set_character_flag = refusedcallofchaos
+		prestige = -50
+		piety = 50
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 2.0
+				trait = brave
+			}
+			modifier = {
+				factor = 4.0
+				trait = zealous
+			}
+			modifier = {
+				factor = 2.0
+				trait = just
+			}
+			modifier = {
+				factor = 2.0
+				trait = content
+			}
+			modifier = {
+				factor = 2.0
+				trait = diligent
+			}
+			modifier = {
+				factor = 2.0
+				is_strong_trigger = yes
+			}
+			modifier = {
+				factor = 2.0
+				trait = chaste
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPT_SHORNAALYES # "I shall be a willing servant of Slaanesh, Lord of Excess!"
+		religion = slaanesh
+		prestige = 50
+		piety = -50
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2.0
+				trait = craven
+			}
+			modifier = {
+				factor = 2.0
+				trait = weak
+			}
+			modifier = {
+				factor = 2.0
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2.0
+				trait = cynical
+			}
+			modifier = {
+				factor = 2.0
+				trait = lustful
+			}
+			modifier = {
+				factor = 2.0
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2.0
+				trait = hedonist
+			}
+			modifier = {
+				factor = 2.0
+				trait = lunatic_1
+			}
+			modifier = {
+				factor = 3.0
+				trait = lunatic_2
+			}
+			modifier = {
+				factor = 4.0
+				trait = lunatic_3
+			}
+		}
+	}
+}
+
+# NURGLETH CALLS TO YOU
+character_event = {
+	id = norscan.7
+	religion_group = old_gods_group
+	title = DECAY_AND_RUIN # Decay and Ruin
+	desc = EVTDESC_NURGLETH # "In your dreams Nurgleth, Lord of Death and Decay calls to you... 'The world is falling, it is corrupt, dying... embrace it, my child... embrace your destiny...' you hear a voice calling, and maggots crawl up from the ground, greeting you..."
+	picture = "GFX_evt_nurgle"
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	religion_group = old_gods_group
+
+	trigger = {
+		trait = creature_human
+		nor = {
+			religion = stromfels
+			trait = norscan_patron_ulric
+			trait = norscan_patron_ursun
+			OR = {
+				religion_group = chaos_gods_group
+				has_character_flag = refusedcallofchaos
+				# undead are not tempted by chaos
+				trait = creature_nehekharan
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 125
+		# Virtue dependent modifers
+		modifier = {
+			factor = 0.8
+			trait = envious
+		}
+		modifier = {
+			factor = 0.7
+			trait = slothful
+		}
+		modifier = {
+			factor = 1.3
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.9
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.9
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 0.7
+			trait = kind
+		}
+		# Personality dependent modifiers
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.9
+			trait = deceitful
+		}
+		modifier = {
+			factor = 1.2
+			trait = just
+		}
+		modifier = {
+			factor = 0.9
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 0.9
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.6
+			trait = craven
+		}
+		modifier = {
+			factor = 1.4
+			trait = brave
+		}
+		# mutations, Tzeentch like mutation more than others
+		modifier = {
+			factor = 0.3
+			OR = {
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+		}
+		# situation dependent ill characters are Nurgle's favourites
+		modifier = {
+			factor = 0.2
+			OR = {
+				trait = pneumonic
+				trait = syphilitic
+				trait = has_measles
+				trait = has_typhus
+				trait = has_tomb_rot
+				# trait = has_creeping_buboes
+				# trait = has_bone_auge
+				trait = flu
+				trait = dysentery
+				trait = gout
+				trait = food_poisoning
+				trait = rabies
+				trait = cancer
+				trait = scurvy
+			}
+		}
+		modifier = {
+			factor = 0.05
+			trait = has_nurgles_rot
+		}
+		modifier = {
+			factor = 1.2
+			health = 5
+		}
+		# magic users more likely to fall
+		modifier = {
+			factor = 0.8
+			OR = {
+				trait = magic_power_adept
+				trait = magic_power_magister
+				trait = magic_power_lord
+				trait = magic_power_archmaster
+			}
+		}
+		# Nurgle favors weakness
+		modifier = {
+			factor = 0.9
+			trait = weak
+			trait = ill
+			trait = wounded
+			trait = infirm
+			trait = sickly
+		}
+		# Nurgle's Favoured WoL Focuses
+		modifier = {
+			factor = 0.5
+			OR = {
+				has_focus = focus_business
+				has_focus = focus_family
+			}
+		}
+		# Patron of Nierg/Nurgleth
+		modifier = {
+			factor = 0.3
+			trait = norscan_patron_nurgleth
+		}
+	}
+
+	immediate = {
+		log = "work event id = norscan.7 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_NURGLETHNO # "It's just my imagination..."
+		set_character_flag = refusedcallofchaos
+		prestige = -50
+		piety = 100
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 2.0
+				trait = brave
+			}
+			modifier = {
+				factor = 4.0
+				trait = zealous
+			}
+			modifier = {
+				factor = 2.0
+				is_strong_trigger = yes
+			}
+			modifier = {
+				factor = 2.0
+				trait = just
+			}
+			modifier = {
+				factor = 2.0
+				trait = content
+			}
+			modifier = {
+				factor = 2.0
+				trait = diligent
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPT_NURGLETHYES # "I shall be a willing servant of the Dark Gods!"
+		religion = nurgle
+		prestige = 50
+		piety = -50
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2.0
+				trait = craven
+			}
+			modifier = {
+				factor = 2.0
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2.0
+				trait = weak
+			}
+			modifier = {
+				factor = 2.0
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2.0
+				trait = cynical
+			}
+			modifier = {
+				factor = 2.0
+				trait = lunatic_1
+			}
+			modifier = {
+				factor = 3.0
+				trait = lunatic_2
+			}
+			modifier = {
+				factor = 4.0
+				trait = lunatic_3
+			}
+		}
+	}
+}
+
+# THE DARK GODS CALLS TO YOU
+character_event = {
+	id = norscan.8
+	religion_group = old_gods_group
+	title = TRUE_EVIL # True Evil
+	desc = EVTDESC_DARKGODS # "In your dreams, daemons of all shapes and forms come to you... They tell you of the true state of the world and of the lies you have been told about the gods. The Offer you unimaginable power of you renounce what you know and serve the true gods of the world: Khorne, Nurgle, Tzeentch, & Slaanesh."
+	picture = "GFX_evt_khorne"
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	religion_group = old_gods_group
+
+	trigger = {
+		trait = creature_human
+		nor = {
+			religion = stromfels
+			trait = norscan_patron_ulric
+			trait = norscan_patron_ursun
+			OR = {
+				religion_group = chaos_gods_group
+				has_character_flag = refusedcallofchaos
+				# undead are not tempted by chaos
+				trait = creature_nehekharan
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 125
+		# Virtue dependent modifers
+		modifier = {
+			factor = 0.8
+			trait = envious
+		}
+		modifier = {
+			factor = 0.7
+			trait = slothful
+		}
+		modifier = {
+			factor = 1.3
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.9
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.9
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 1.3
+			trait = kind
+		}
+		# Personality dependent modifiers
+		modifier = {
+			factor = 0.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = {
+			factor = 0.5
+			trait = deceitful
+		}
+		modifier = {
+			factor = 1.2
+			trait = honest
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 1.2
+			trait = just
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		# Lifestyle dependent modifier
+		modifier = {
+			factor = 0.8
+			trait = scholar
+		}
+		modifier = {
+			factor = 0.8
+			trait = mystic
+		}
+		# mutations
+		modifier = {
+			factor = 0.3
+			OR = {
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+		}
+		# magic users more likely to fall
+		modifier = {
+			factor = 0.8
+			OR = {
+				trait = magic_power_adept
+				trait = magic_power_magister
+				trait = magic_power_lord
+				trait = magic_power_archmaster
+			}
+		}
+		# Undivided's Favoured WoL Focuses
+		modifier = {
+			factor = 0.5
+			OR = {
+				has_focus = focus_theology
+				has_focus = focus_rulership
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = norscan.8 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_DARKGODSNO # "It's just my imagination..."
+		set_character_flag = refusedcallofchaos
+		prestige = -50
+		piety = 50
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 2.0
+				trait = brave
+			}
+			modifier = {
+				factor = 4.0
+				trait = zealous
+			}
+			modifier = {
+				factor = 2.0
+				trait = just
+			}
+			modifier = {
+				factor = 2.0
+				trait = content
+			}
+			modifier = {
+				factor = 2.0
+				trait = diligent
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPT_DARKGODSYES # "I shall be a willing servant of the Dark Gods!"
+		religion = chaos
+		prestige = 50
+		piety = -50
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2.0
+				trait = ambitious
+			}
+			modifier = {
+				factor = 2.0
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2.0
+				trait = weak
+			}
+			modifier = {
+				factor = 2.0
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2.0
+				trait = cynical
+			}
+			modifier = {
+				factor = 2.0
+				trait = cruel
+			}
+			modifier = {
+				factor = 2.0
+				trait = impaler
+			}
+		}
+	}
+}
+
+# Norscan and Wasterlander realms collapse if the ruler is weak
+character_event = {
+	id = norscan.9
+	desc = {
+		text = EVTDESCnorscan.7.a
+		picture = GFX_evt_khorne
+		trigger = {
+			religion = khorne
+		}
+	}
+	desc = {
+		text = EVTDESCnorscan.7.b
+		picture = GFX_evt_battle
+		trigger = {
+			OR = {
+				religion = chaos
+				religion = norscan_gods
+			}
+		}
+	}
+	desc = {
+		text = EVTDESCnorscan.7.c
+		picture = GFX_evt_slaanesh
+		trigger = {
+			religion = slaanesh
+		}
+	}
+	desc = {
+		text = EVTDESCnorscan.7.d
+		picture = GFX_evt_tzeentch
+		trigger = {
+			religion = tzeentch
+		}
+	}
+	desc = {
+		text = EVTDESCnorscan.7.e
+		picture = GFX_evt_nurgle
+		trigger = {
+			religion = nurgle
+		}
+	}
+	is_triggered_only = yes
+	only_playable = yes
+
+	trigger = {
+		is_nomadic = no
+		OR = {
+			culture_group = norscan_group
+			culture_group = hung_group
+			culture_group = kurgan_group
+		}
+		OR = {
+			religion = khorne
+			religion = nurgle
+			religion = chaos
+			religion = tzeentch
+			religion = slaanesh
+			religion = norscan_gods
+			religion = ursun
+			religion = ulrican
+		}
+		higher_tier_than = DUKE
+		current_heir = {
+			OR 	 = {
+				AND = {
+					religion = khorne
+					OR = {
+						OR = {
+							trait = soft
+							trait = weak
+							trait = fragile
+							trait = kind
+							NOT = {
+								age = 16
+							}
+						}
+						NOR = {
+							prestige = 888
+							trait = strong
+							trait = tough
+							trait = hardy
+							trait = champion_khorne
+							trait = chosen_khorne
+							trait = prince_khorne
+							trait = skilled_tactician
+							trait = brilliant_strategist
+							martial = 15
+						}
+					}
+				}
+				AND = {
+					OR = {
+						religion = chaos
+						religion = norscan_gods
+						religion = ulrican
+						religion = ursun
+					}
+					OR = {
+						OR = {
+							NOT = {
+								age = 16
+							}
+							trait = soft
+							trait = weak
+							trait = fragile
+						}
+						NOR = {
+							piety = 555
+							prestige = 555
+							martial = 15
+							diplomacy = 15
+							trait = norscan_warlord
+							trait = chaos_chosen
+							trait = champion_undivided
+							trait = everchosen
+							trait = monstrous
+							trait = scholar
+							trait = mystic
+							trait = strong
+							trait = hardy
+							trait = tough
+						}
+					}
+				}
+				AND = {
+					religion = slaanesh
+					OR = {
+						OR = {
+							NOT = {
+								age = 16
+							}
+							trait = ugly
+							trait = unsightly
+							trait = plain
+							trait = monstrous
+							trait = fat
+							trait = disfigured
+						}
+						NOR = {
+							prestige = 666
+							piety = 666
+							diplomacy = 15
+							intrigue = 15
+							trait = champion_slaanesh
+							trait = chosen_slaanesh
+							trait = prince_slaanesh
+							trait = lustful
+							trait = hedonist
+							trait = grey_eminence
+							trait = elusive_shadow
+							trait = fair
+							trait = beautiful
+							trait = pretty
+						}
+					}
+				}
+				AND = {
+					religion = nurgle
+					OR = {
+						OR = {
+							NOT = {
+								age = 16
+							}
+							trait = greedy
+							trait = cruel
+						}
+						NOR = {
+							trait = champion_nurgle
+							trait = chosen_nurgle
+							trait = prince_nurgle
+							trait = midas_touched
+							trait = charitable
+							trait = kind
+							trait = gardener
+							trait = ugly
+							trait = unsightly
+							trait = plain
+							piety = 777
+							stewardship = 15
+						}
+					}
+				}
+				AND = {
+					religion = tzeentch
+					OR = {
+						OR = {
+							NOT = {
+								age = 16
+							}
+							trait = imbecile
+							trait = dim
+							trait = idiot
+							trait = slow
+							trait = dumb
+							trait = wroth
+							trait = honest
+						}
+						NOR = {
+							prestige = 999
+							learning = 15
+							intrigue = 15
+							trait = champion_tzeentch
+							trait = chosen_tzeentch
+							trait = prince_tzeentch
+							trait = scholar
+							trait = mystic
+							trait = lore_tzeentch
+							trait = mut_crests
+							trait = mut_spines
+							trait = mut_horns
+							trait = mut_scales
+							trait = mut_thirdeye
+							trait = mut_tongue
+							trait = mut_doublehead
+							trait = mut_beak
+							trait = mut_bigeyes
+							trait = mut_eyes
+							trait = mut_teeth
+							trait = elusive_shadow
+							trait = mastermind_theologian
+							trait = deceitful
+							trait = quick
+							trait = bright
+							trait = genius
+							trait = smart
+						}
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = norscan.9 for [Root.GetBestName]"
+		# If not independent any vassals become vassals of ruler's liege
+		if = {
+			limit = {
+				independent = no
+			}
+			hidden_tooltip = {
+				liege = {
+					reverse_opinion = {
+						who = ROOT modifier = opinion_de_facto_liege years = 1
+					}
+				}
+			} # Mark liege just in case
+			liege = {
+				ROOT = {
+					any_vassal = {
+						limit = {
+							higher_tier_than = BARON
+						}
+						set_defacto_liege = PREVPREV
+					}
+				}
+			}
+			liege_before_war = {
+				ROOT = {
+					any_vassal = {
+						limit = {
+							higher_tier_than = BARON
+						}
+						set_defacto_liege = PREVPREV
+					}
+				}
+			}
+		}
+		# If independent any vassal becomes independent
+		if = {
+			limit = {
+				independent = yes
+			}
+			any_vassal = {
+				limit = {
+					higher_tier_than = BARON
+				}
+				set_defacto_liege = THIS
+			}
+		}
+		# If split from liege via error, re-vassalise
+		random_opinion_modifier_target = {
+			limit = {
+				reverse_has_opinion_modifier = {
+					who = ROOT modifier = opinion_de_facto_liege
+				}
+			}
+			ROOT = {
+				set_defacto_liege = PREV
+				remove_opinion = {
+					who = PREV modifier = opinion_de_facto_liege
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "EVTOPTAnorscan.7"
+	}
+}
+
+# Weak heir warning
+character_event = {
+	id = norscan.10
+	desc = "EVTDESCnorscan.8"
+	picture = GFX_evt_khorne
+	only_playable = yes
+	ai = no
+
+	trigger = {
+		is_nomadic = no
+		OR = {
+			culture_group = norscan_group
+			culture_group = hung_group
+			culture_group = kurgan_group
+		}
+		higher_tier_than = COUNT
+		current_heir = {
+			OR 	 = {
+				AND = {
+					religion = khorne
+					OR = {
+						OR = {
+							trait = soft
+							trait = weak
+							trait = fragile
+							trait = kind
+							NOT = {
+								age = 16
+							}
+						}
+						NOR = {
+							prestige = 888
+							trait = strong
+							trait = tough
+							trait = hardy
+							trait = champion_khorne
+							trait = chosen_khorne
+							trait = prince_khorne
+							trait = skilled_tactician
+							trait = brilliant_strategist
+							martial = 15
+						}
+					}
+				}
+				AND = {
+					OR = {
+						religion = chaos
+						religion = norscan_gods
+						religion = ulrican
+						religion = ursun
+					}
+					OR = {
+						OR = {
+							NOT = {
+								age = 16
+							}
+							trait = soft
+							trait = weak
+							trait = fragile
+						}
+						NOR = {
+							piety = 555
+							prestige = 555
+							martial = 15
+							diplomacy = 15
+							trait = norscan_warlord
+							trait = chaos_chosen
+							trait = champion_undivided
+							trait = everchosen
+							trait = monstrous
+							trait = scholar
+							trait = mystic
+							trait = strong
+							trait = hardy
+							trait = tough
+						}
+					}
+				}
+				AND = {
+					religion = slaanesh
+					OR = {
+						OR = {
+							NOT = {
+								age = 16
+							}
+							trait = ugly
+							trait = unsightly
+							trait = plain
+							trait = monstrous
+							trait = fat
+							trait = disfigured
+						}
+						NOR = {
+							prestige = 666
+							piety = 666
+							diplomacy = 15
+							intrigue = 15
+							trait = champion_slaanesh
+							trait = chosen_slaanesh
+							trait = prince_slaanesh
+							trait = lustful
+							trait = hedonist
+							trait = grey_eminence
+							trait = elusive_shadow
+							trait = fair
+							trait = beautiful
+							trait = pretty
+						}
+					}
+				}
+				AND = {
+					religion = nurgle
+					OR = {
+						OR = {
+							NOT = {
+								age = 16
+							}
+							trait = greedy
+							trait = cruel
+						}
+						NOR = {
+							trait = champion_nurgle
+							trait = chosen_nurgle
+							trait = prince_nurgle
+							trait = midas_touched
+							trait = charitable
+							trait = kind
+							trait = gardener
+							trait = ugly
+							trait = unsightly
+							trait = plain
+							piety = 777
+							stewardship = 15
+						}
+					}
+				}
+				AND = {
+					religion = tzeentch
+					OR = {
+						OR = {
+							NOT = {
+								age = 16
+							}
+							trait = imbecile
+							trait = dim
+							trait = idiot
+							trait = slow
+							trait = dumb
+							trait = wroth
+							trait = honest
+						}
+						NOR = {
+							prestige = 999
+							learning = 15
+							intrigue = 15
+							trait = champion_tzeentch
+							trait = chosen_tzeentch
+							trait = prince_tzeentch
+							trait = scholar
+							trait = mystic
+							trait = lore_tzeentch
+							trait = mut_crests
+							trait = mut_spines
+							trait = mut_horns
+							trait = mut_scales
+							trait = mut_thirdeye
+							trait = mut_tongue
+							trait = mut_doublehead
+							trait = mut_beak
+							trait = mut_bigeyes
+							trait = mut_eyes
+							trait = mut_teeth
+							trait = elusive_shadow
+							trait = mastermind_theologian
+							trait = deceitful
+							trait = quick
+							trait = bright
+							trait = genius
+							trait = smart
+						}
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					has_character_flag = weak_heir_warning
+				}
+				had_character_flag = {
+					flag = weak_heir_warning days = 2190
+				}
+			}
+		}
+		NOT = {
+			has_character_flag = STOP_weak_heir_warning
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	immediate = {
+		log = "work event id = norscan.10 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "EVTOPTAnorscan.8.a"
+		current_heir = {
+			tooltip = {
+			} set_character_flag = weak_heir_warning
+		}
+		custom_tooltip = {
+			text = TOOLTIPnorscan.8
+		}
+	}
+
+	option = {
+		name = "EVTOPTBnorscan.8.b"
+		set_character_flag = STOP_weak_heir_warning
+		custom_tooltip = {
+			text = TOOLTIPnorscan.9
+		}
+	}
+}
+
+# by Milla Isaksson
+# Shieldmaiden comes to the aid of her liege (from event 79010)
+character_event = {
+	id = 79000
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	desc = {
+		text = EVTDESC_79000_A
+		trigger = {
+			FROM = {
+				has_character_flag = protected_liege
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79000_B
+		trigger = {
+			FROM = {
+				has_character_flag = protected_liege_well
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79000 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_79000
+		custom_tooltip = {
+			text = EVTOPTA_79000_TOOLTIP
+		}
+		add_character_modifier = {
+			name = lucky_to_be_alive
+			duration = 365
+		}
+		hidden_tooltip = {
+			FROM = {
+				clr_character_flag = protected_liege
+			}
+		}
+		trigger = {
+			FROM = {
+				has_character_flag = protected_liege
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTB_79000
+		custom_tooltip = {
+			text = EVTOPTA_79000_TOOLTIP
+		}
+		opinion = {
+			who = FROM
+			modifier = opinion_loyal_shieldmaiden
+		}
+		FROM = {
+			opinion = {
+				who = ROOT
+				modifier = opinion_was_praised
+			}
+			add_character_modifier = {
+				name = favored_shieldmaiden
+				duration = 1095
+			}
+			clr_character_flag = protected_liege_well
+		}
+		trigger = {
+			FROM = {
+				has_character_flag = protected_liege_well
+			}
+		}
+	}
+}
+
+# Shieldmaiden fights alongside her liege, but is struck down
+character_event = {
+	id = 79001
+	desc = EVTDESC_79001
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	only_rulers = yes
+	is_triggered_only = yes
+	min_age = 16
+	religion = norscan_gods
+
+	trigger = {
+		NOT = {
+			trait = incapable
+		}
+		any_courtier_or_vassal = {
+			trait = shieldmaiden
+			NOT = {
+				trait = incapable
+			}
+			prisoner = no
+			has_minor_title = title_commander
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79001 for [Root.GetBestName]"
+		random_courtier_or_vassal = {
+			limit = {
+				trait = shieldmaiden
+				NOT = {
+					trait = incapable
+				}
+				prisoner = no
+				has_minor_title = title_commander
+			}
+			save_event_target_as = my_shieldmaiden
+		}
+	}
+
+	option = {
+		name = EVTOPTA_79001
+		custom_tooltip = {
+			text = EVTOPTA_79001_TOOLTIP
+		}
+		hidden_tooltip = {
+			ROOT = {
+				save_event_target_as = shieldmaiden_liege
+			}
+			event_target:my_shieldmaiden = {
+				character_event = {
+					id = 79002
+				}
+			}
+		}
+	}
+}
+
+# Shieldmaiden is injured
+character_event = {
+	id = 79002
+	desc = EVTDESC_79002
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = 79002 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_79002
+		custom_tooltip = {
+			text = EVTOPTA_79002_TOOLTIP
+		}
+		add_maimed_trait_effect = yes
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = 79003 days = 10 random = 10
+				}
+			}
+		}
+	}
+}
+
+# Liege looks for Shieldmaiden, finds her alone, offers support
+character_event = {
+	id = 79003
+	picture = GFX_evt_recovery
+	border = GFX_event_normal_frame_war
+	prisoner = no
+	is_triggered_only = yes
+
+	trigger = {
+		event_target:my_shieldmaiden = {
+			is_alive = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			trait = shieldmaiden
+		}
+	}
+	desc = {
+		text = EVTDESC_79003_A
+		trigger = {
+			FROM = {
+				trait = maimed
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79003_B
+		trigger = {
+			FROM = {
+				trait = one_eyed
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79003_C
+		trigger = {
+			FROM = {
+				trait = one_legged
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79003_D
+		trigger = {
+			FROM = {
+				trait = one_handed
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79003_E
+		trigger = {
+			FROM = {
+				trait = disfigured
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79003_F
+		trigger = {
+			FROM = {
+				trait = mangled
+			}
+		}
+	}
+	desc = {
+		# Fallback
+		text = EVTDESC_79003_G
+		trigger = {
+			FROM = {
+				NOT = {
+					trait = maimed
+					trait = one_eyed
+					trait = one_legged
+					trait = one_handed
+					trait = disfigured
+					trait = mangled
+				}
+			}
+		}
+	}
+
+	# Let my physician look at you
+	immediate = {
+		log = "work event id = 79003 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_79003
+		custom_tooltip = {
+			text = EVTOPTA_79003_TOOLTIP
+		}
+		tooltip = {
+			FROM = {
+				add_character_modifier = {
+					name = lucky_to_be_alive
+					duration = -1
+				}
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_shieldmaiden = {
+				set_character_flag = was_diagnosed_lucky
+				character_event = {
+					id = 79004
+				}
+			}
+		}
+	}
+
+	# You're amazing
+	option = {
+		name = EVTOPTB_79003
+		custom_tooltip = {
+			text = EVTOPTB_79003_TOOLTIP
+		}
+		tooltip = {
+			opinion = {
+				who = FROM
+				modifier = opinion_budding_friendship
+			}
+			FROM = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_budding_friendship
+				}
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_shieldmaiden = {
+				set_character_flag = was_offered_friendship
+				character_event = {
+					id = 79004
+				}
+			}
+		}
+	}
+
+	# You're the best shieldmaiden ever
+	option = {
+		name = EVTOPTC_79003
+		custom_tooltip = {
+			text = EVTOPTC_79003_TOOLTIP
+		}
+		tooltip = {
+			opinion = {
+				who = FROM
+				modifier = opinion_loyal_shieldmaiden
+			}
+			FROM = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_was_praised
+				}
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_shieldmaiden = {
+				set_character_flag = was_praised
+				character_event = {
+					id = 79004
+				}
+			}
+		}
+	}
+}
+
+# Shieldmaiden is offered support
+character_event = {
+	id = 79004
+	picture = GFX_evt_recovery
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	desc = {
+		text = EVTDESC_79004_A
+		trigger = {
+			has_character_flag = was_diagnosed_lucky
+		}
+	}
+	desc = {
+		text = EVTDESC_79004_B
+		trigger = {
+			has_character_flag = was_offered_friendship
+		}
+	}
+	desc = {
+		text = EVTDESC_79004_C
+		trigger = {
+			has_character_flag = was_praised
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79004 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_79004
+		if = {
+			limit = {
+				has_character_flag = was_diagnosed_lucky
+			}
+			add_character_modifier = {
+				name = lucky_to_be_alive
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = was_offered_friendship
+			}
+			opinion = {
+				who = FROM
+				modifier = opinion_budding_friendship
+			}
+			FROM = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_budding_friendship
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = was_praised
+			}
+			opinion = {
+				who = FROM
+				modifier = opinion_was_praised
+			}
+			FROM = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_loyal_shieldmaiden
+				}
+			}
+		}
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = 79005 days = 70 random = 30
+				}
+			}
+		}
+	}
+}
+
+# Liege and Shieldmaiden walk through gardens, are surprised by kitten
+character_event = {
+	id = 79005
+	picture = GFX_evt_garden
+	border = GFX_event_normal_frame_war
+	prisoner = no
+	is_triggered_only = yes
+
+	trigger = {
+		event_target:my_shieldmaiden = {
+			is_alive = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			trait = shieldmaiden
+		}
+	}
+	desc = {
+		text = EVTDESC_79005_A
+		trigger = {
+			FROM = {
+				has_character_flag = was_diagnosed_lucky
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79005_B
+		trigger = {
+			FROM = {
+				has_character_flag = was_offered_friendship
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79005_C
+		trigger = {
+			FROM = {
+				has_character_flag = was_praised
+			}
+		}
+	}
+
+	# Oooh, can I keep it?
+	immediate = {
+		log = "work event id = 79005 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_79005
+		custom_tooltip = {
+			text = EVTOPTA_79005_TOOLTIP
+		}
+		add_cat_effect = yes
+		tooltip = {
+			add_friend = FROM
+		}
+		hidden_tooltip = {
+			FROM = {
+				set_character_flag = liege_took_cat
+				character_event = {
+					id = 79006
+				}
+			}
+		}
+		trigger = {
+			NOT = {
+				has_character_modifier = pet_cat
+			}
+		}
+	}
+
+	# Shieldmaiden should keep it!
+	option = {
+		name = EVTOPTB_79005
+		custom_tooltip = {
+			text = EVTOPTB_79005_TOOLTIP
+		}
+		tooltip = {
+			FROM = {
+				add_character_modifier = {
+					name = pet_cat
+					duration = -1
+				}
+			}
+		}
+		tooltip = {
+			add_friend = FROM
+		}
+		hidden_tooltip = {
+			FROM = {
+				set_character_flag = I_got_cat
+				character_event = {
+					id = 79006
+				}
+			}
+		}
+		trigger = {
+			FROM = {
+				NOT = {
+					has_character_modifier = pet_cat
+				}
+			}
+		}
+	}
+
+	# Give it to my child!
+	option = {
+		name = EVTOPTC_79005
+		custom_tooltip = {
+			text = EVTOPTC_79005_TOOLTIP
+		}
+		random_child = {
+			limit = {
+				at_location = ROOT
+				is_adult = no
+				NOT = {
+					has_character_modifier = pet_cat
+				}
+			}
+			add_cat_effect = yes
+			opinion = {
+				who = ROOT
+				modifier = opinion_gave_me_pet
+			}
+		}
+		hidden_tooltip = {
+			FROM = {
+				clr_character_flag = was_diagnosed_lucky
+				clr_character_flag = was_offered_friendship
+				clr_character_flag = was_praised
+			}
+		}
+		trigger = {
+			any_courtier = {
+				is_child_of = ROOT
+				at_location = ROOT
+				is_adult = no
+				NOT = {
+					has_character_modifier = pet_cat
+				}
+			}
+		}
+	}
+
+	# Let it be
+	option = {
+		name = EVTOPTD_79005
+		custom_tooltip = {
+			text = EVTOPTD_79005_TOOLTIP
+		}
+		tooltip = {
+			add_friend = FROM
+		}
+		hidden_tooltip = {
+			FROM = {
+				set_character_flag = no_cat
+				character_event = {
+					id = 79006
+				}
+			}
+		}
+	}
+}
+
+# Shieldmaiden post cat incident
+character_event = {
+	id = 79006
+	picture = GFX_evt_garden
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	desc = {
+		text = EVTDESC_79006_A
+		trigger = {
+			has_character_flag = liege_got_cat
+		}
+	}
+	desc = {
+		text = EVTDESC_79006_B
+		trigger = {
+			has_character_flag = I_got_cat
+		}
+	}
+	desc = {
+		text = EVTDESC_79006_C
+		trigger = {
+			has_character_flag = no_cat
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79006 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = {
+			text = EVTOPTA_79006
+			trigger = {
+				has_character_flag = liege_got_cat
+			}
+		}
+		name = {
+			text = EVTOPTB_79006
+			trigger = {
+				has_character_flag = I_got_cat
+			}
+		}
+		name = {
+			text = EVTOPTC_79006
+			trigger = {
+				has_character_flag = no_cat
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = I_got_cat
+			}
+			add_cat_effect = yes
+		}
+		add_friend = FROM
+		clr_character_flag = was_diagnosed_lucky
+		clr_character_flag = was_offered_friendship
+		clr_character_flag = was_praised
+		clr_character_flag = liege_got_cat
+		clr_character_flag = I_got_cat
+		clr_character_flag = no_cat
+	}
+}
+
+# Shieldmaiden training montage
+character_event = {
+	id = 79007
+	desc = EVTDESC_79007
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	min_age = 16
+	capable_only = yes
+	only_rulers = yes
+	prisoner = no
+	is_triggered_only = yes
+	religion = norscan_gods
+
+	trigger = {
+		trait = shieldmaiden
+		NOR = {
+			martial = 17
+			has_character_modifier = fell_into_the_river
+			has_character_modifier = lost_dog
+		}
+	}
+	weight_multiplier = {
+		factor = 1
+		modifier = {
+			NOT = {
+				martial = 17
+			}
+			factor = 5.0
+		}
+		modifier = {
+			trait = ambitious
+			factor = 2.0
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79007 for [Root.GetBestName]"
+	}
+
+	option = {
+		# I'll go rowing every morning
+		name = EVTOPTA_79007
+		random_list = {
+			50 = {
+				modifier = {
+					factor = 1.1
+					martial = 10
+				}
+				modifier = {
+					factor = 1.1
+					martial = 12
+				}
+				modifier = {
+					factor = 1.1
+					martial = 14
+				}
+				modifier = {
+					factor = 1.1
+					martial = 16
+				}
+				change_martial = 1
+			}
+			50 = {
+				add_character_modifier = {
+					name = fell_into_the_river
+					duration = 730
+				}
+			}
+		}
+	}
+
+	option = {
+		# I'll take runs with my dog!
+		name = EVTOPTB_79007
+		random_list = {
+			30 = {
+				modifier = {
+					factor = 1.1
+					martial = 10
+				}
+				modifier = {
+					factor = 1.1
+					martial = 12
+				}
+				modifier = {
+					factor = 1.1
+					martial = 14
+				}
+				modifier = {
+					factor = 1.1
+					martial = 16
+				}
+				change_martial = 2
+			}
+			70 = {
+				add_character_modifier = {
+					name = lost_dog
+					duration = -1
+				}
+				hidden_tooltip = {
+					character_event = {
+						id = 79008 days = 30 random = 30
+					}
+				} # dog returns
+			}
+		}
+		trigger = {
+			has_character_modifier = pet_hunting_dog
+		}
+	}
+
+	option = {
+		# Brand new armor is the way to go!
+		name = EVTOPTC_79007
+		scaled_wealth = -0.4
+		add_character_modifier = {
+			name = fake_it_til_you_make_it
+			duration = 730
+		}
+	}
+
+	option = {
+		name = EVTOPTD_79007
+		custom_tooltip = {
+			text = EVTOPTD_79007_TOOLTIP
+		}
+	}
+}
+
+# Shieldmaiden gets dog back (or not, if it died already)
+character_event = {
+	id = 79008
+	picture = GFX_evt_hunting_scene
+	border = GFX_event_normal_frame_war
+	desc = {
+		text = EVTDESC_79008_A
+		picture = GFX_evt_hunting_scene
+		trigger = {
+			has_character_modifier = pet_hunting_dog
+		}
+	}
+	desc = {
+		text = EVTDESC_79008_B
+		picture = GFX_evt_emissary
+		trigger = {
+			NOT = {
+				has_character_modifier = pet_hunting_dog
+			}
+		}
+	}
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = 79008 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = {
+			text = EVTOPTA_79008
+			trigger = {
+				has_character_modifier = pet_hunting_dog
+			}
+		}
+		name = {
+			text = EVTOPTB_79008
+			trigger = {
+				NOT = {
+					has_character_modifier = pet_hunting_dog
+				}
+			}
+		}
+		remove_character_modifier = lost_dog
+	}
+}
+
+# Shieldmaiden intervenes in combat for her liege
+character_event = {
+	id = 79009
+	desc = EVTDESC_79009
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	religion = norscan_gods
+
+	trigger = {
+		trait = shieldmaiden
+		liege = {
+			at_location = ROOT
+			age = 16
+			prisoner = no
+			NOT = {
+				has_character_modifier = lucky_to_be_alive
+			}
+		}
+		NOT = {
+			trait = incapable
+			prisoner = no
+			has_character_modifier = favored_shieldmaiden
+			has_character_modifier = bad_shieldmaiden
+			has_character_modifier = clumsy_shieldmaiden
+			has_character_modifier = inattentive_soldier
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79009 for [Root.GetBestName]"
+		liege = {
+			save_event_target_as = my_liege
+		}
+	}
+
+	option = {
+		# Throw my shield (defensive)
+		name = EVTOPTA_79009
+		custom_tooltip = {
+			text = EVTOPTA_79009_TOOLTIP
+		}
+		random_list = {
+			30 = {
+				modifier = {
+					factor = 1.1
+					combat_rating = 1
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 2
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 3
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 4
+				}
+				modifier = {
+					factor = 1.1
+					martial = 11
+				}
+				modifier = {
+					factor = 1.1
+					martial = 12
+				}
+				modifier = {
+					factor = 1.1
+					martial = 14
+				}
+				modifier = {
+					factor = 1.1
+					martial = 16
+				}
+				modifier = {
+					factor = 1.1
+					martial = 18
+				}
+				modifier = {
+					factor = 1.1
+					martial = 20
+				}
+				# success
+				hidden_tooltip = {
+					change_martial = 1
+				}
+				set_character_flag = protected_liege
+				character_event = {
+					id = 79010 tooltip = EVTOPTA_79009_TOOLTIP_1
+				} # decent outcome
+			}
+			10 = {
+				modifier = {
+					factor = 2
+					trait = severely_injured
+				}
+				modifier = {
+					factor = 2
+					NOT = {
+						combat_rating = 1
+					}
+				}
+				# fail
+				set_character_flag = failed_to_protect_liege
+				character_event = {
+					id = 79010 tooltip = EVTOPTA_79009_TOOLTIP_2
+				} # bad outcome
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 1.2
+				trait = craven
+			}
+			modifier = {
+				factor = 1.2
+				trait = shy
+			}
+			modifier = {
+				factor = 1.2
+				trait = paranoid
+			}
+			modifier = {
+				factor = 1.2
+				trait = cynical
+			}
+			modifier = {
+				factor = 1.1
+				NOT = {
+					martial = 10
+				}
+			}
+			modifier = {
+				factor = 1.1
+				NOT = {
+					martial = 12
+				}
+			}
+			modifier = {
+				factor = 1.1
+				NOT = {
+					martial = 15
+				}
+			}
+		}
+	}
+
+	option = {
+		# Throw my spear (offensive)
+		name = EVTOPTB_79009
+		custom_tooltip = {
+			text = EVTOPTB_79009_TOOLTIP
+		}
+		random_list = {
+			20 = {
+				modifier = {
+					factor = 1.1
+					combat_rating = 1
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 2
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 3
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 4
+				}
+				modifier = {
+					factor = 1.1
+					martial = 11
+				}
+				modifier = {
+					factor = 1.1
+					martial = 12
+				}
+				modifier = {
+					factor = 1.1
+					martial = 14
+				}
+				modifier = {
+					factor = 1.1
+					martial = 16
+				}
+				modifier = {
+					factor = 1.1
+					martial = 18
+				}
+				modifier = {
+					factor = 1.1
+					martial = 20
+				}
+				# success
+				hidden_tooltip = {
+					change_martial = 2
+				}
+				set_character_flag = protected_liege_well
+				character_event = {
+					id = 79010 tooltip = EVTOPTB_79009_TOOLTIP_1
+				} # great outcome
+			}
+			20 = {
+				# fail
+				set_character_flag = failed_terribly_to_protect_liege
+				character_event = {
+					id = 79010 tooltip = EVTOPTB_79009_TOOLTIP_2
+				} # terrible outcome
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				is_friend = event_target:my_liege
+			}
+			modifier = {
+				factor = 10
+				is_lover = event_target:my_liege
+			}
+			modifier = {
+				factor = 1.2
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.2
+				trait = brave
+			}
+			modifier = {
+				factor = 1.2
+				trait = just
+			}
+			modifier = {
+				factor = 1.2
+				martial = 15
+			}
+			modifier = {
+				factor = 1.2
+				martial = 17
+			}
+		}
+	}
+
+	option = {
+		# Let them die (betrayal!)
+		name = EVTOPTC_79009
+		custom_tooltip = {
+			text = EVTOPTC_79009_TOOLTIP
+		}
+		random_list = {
+			10 = {
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						NOT = {
+							martial = 7
+						}
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						NOT = {
+							martial = 5
+						}
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						NOT = {
+							martial = 3
+						}
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						NOT = {
+							martial = 1
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					event_target:my_liege = {
+						OR = {
+							trait = slow
+							trait = imbecile
+							trait = dull
+						}
+					}
+				}
+				set_character_flag = liege_bites_the_dust
+				character_event = {
+					id = 79011 tooltip = EVTOPTC_79009_TOOLTIP_1
+				} # liege is slain on the battlefield
+			}
+			10 = {
+				modifier = {
+					factor = 2
+					event_target:my_liege = {
+						trait = duelist
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						combat_rating = 1
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						combat_rating = 2
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						combat_rating = 3
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						combat_rating = 4
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						martial = 10
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						martial = 12
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						martial = 14
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						martial = 16
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						martial = 18
+					}
+				}
+				modifier = {
+					factor = 1.1
+					event_target:my_liege = {
+						martial = 20
+					}
+				}
+				set_character_flag = liege_is_confounded
+				character_event = {
+					id = 79011 tooltip = EVTOPTC_79009_TOOLTIP_2
+				} # liege handles themselves well, survives
+			}
+		}
+		trigger = {
+			OR = {
+				trait = deceitful
+				AND = {
+					nor = {
+						opinion = {
+							who = event_target:my_liege
+							value = 25
+						}
+						trait = kind
+						trait = honest
+					}
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				NOT = {
+					opinion = {
+						who = event_target:my_liege
+						value = -25
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				event_target:my_liege = {
+					current_heir = {
+						character = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				is_rival = event_target:my_liege
+			}
+			modifier = {
+				factor = 0.5
+				event_target:my_liege = {
+					is_close_relative = ROOT
+				}
+			}
+			modifier = {
+				factor = 1.1
+				has_focus = focus_intrigue
+			}
+			modifier = {
+				factor = 1.1
+				trait = arbitrary
+			}
+		}
+	}
+}
+
+# Shieldmaiden: Battle aftermath (no betrayal)
+character_event = {
+	id = 79010
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	desc = {
+		text = EVTDESC_79010_A
+		picture = GFX_evt_melee
+		trigger = {
+			has_character_flag = protected_liege
+		}
+	}
+	desc = {
+		text = EVTDESC_79010_B
+		picture = GFX_evt_melee
+		trigger = {
+			has_character_flag = failed_to_protect_liege
+		}
+	}
+	desc = {
+		text = EVTDESC_79010_C
+		picture = GFX_evt_melee
+		trigger = {
+			has_character_flag = protected_liege_well
+		}
+	}
+	desc = {
+		text = EVTDESC_79010_D
+		picture = GFX_evt_melee
+		trigger = {
+			has_character_flag = failed_terribly_to_protect_liege
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79010 for [Root.GetBestName]"
+	}
+
+	option = {
+		# I succeeded!
+		name = EVTOPTA_79010
+		tooltip = {
+			event_target:my_liege = {
+				add_character_modifier = {
+					name = lucky_to_be_alive
+					duration = 365
+				}
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_liege = {
+				character_event = {
+					id = 79000
+				}
+			}
+		} # you have your liege's back
+		trigger = {
+			has_character_flag = protected_liege
+		}
+	}
+
+	option = {
+		# I failed - liege is maimed
+		name = EVTOPTB_79010
+		custom_tooltip = {
+			text = EVTOPTB_79010_TOOLTIP
+		}
+		tooltip = {
+			event_target:my_liege = {
+				add_maimed_trait_effect = yes
+			}
+			add_character_modifier = {
+				name = inattentive_soldier
+				duration = 1095
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_liege = {
+				character_event = {
+					id = 79013
+				}
+			}
+		} # liege is maimed, but survives
+		trigger = {
+			has_character_flag = failed_to_protect_liege
+		}
+	}
+
+	option = {
+		# I succeeded greatly!
+		name = EVTOPTC_79010
+		custom_tooltip = {
+			text = EVTOPTC_79010_TOOLTIP
+		}
+		tooltip = {
+			event_target:my_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_loyal_shieldmaiden
+				}
+			}
+			opinion = {
+				who = event_target:my_liege
+				modifier = opinion_was_praised
+			}
+			add_character_modifier = {
+				name = favored_shieldmaiden
+				duration = 3650
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_liege = {
+				character_event = {
+					id = 79000
+				}
+			}
+		} # you are praised
+		trigger = {
+			has_character_flag = protected_liege_well
+		}
+	}
+
+	option = {
+		# I failed terribly!
+		name = EVTOPTD_79010
+		custom_tooltip = {
+			text = EVTOPTD_79010_TOOLTIP
+		}
+		tooltip = {
+			add_maimed_trait_effect = yes
+			add_character_modifier = {
+				name = clumsy_shieldmaiden
+				duration = 1095
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_liege = {
+				character_event = {
+					id = 79013
+				}
+			}
+		} # you are maimed
+		trigger = {
+			has_character_flag = failed_terribly_to_protect_liege
+		}
+	}
+}
+
+# Shieldmaiden betrayed liege, aftermath
+character_event = {
+	id = 79011
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	desc = {
+		text = EVTDESC_79011_A
+		trigger = {
+			has_character_flag = liege_bites_the_dust
+		}
+	}
+	desc = {
+		text = EVTDESC_79011_B
+		trigger = {
+			has_character_flag = liege_is_confounded
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79011 for [Root.GetBestName]"
+	}
+
+	option = {
+		# Success! They got hurt/died
+		name = EVTOPTA_79011
+		tooltip = {
+			event_target:my_liege = {
+				death = {
+					death_reason = death_battle
+				}
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_liege = {
+				character_event = {
+					id = 79012
+				}
+			}
+		} # liege is notified
+		trigger = {
+			has_character_flag = liege_bites_the_dust
+		}
+	}
+
+	option = {
+		# I failed - I'm suspected of being a crappy shieldmaiden
+		name = EVTOPTB_79011
+		tooltip = {
+			add_character_modifier = {
+				name = bad_shieldmaiden
+				duration = 1095
+			}
+		}
+		hidden_tooltip = {
+			event_target:my_liege = {
+				character_event = {
+					id = 79012
+				}
+			}
+		} # liege is notified
+		trigger = {
+			has_character_flag = liege_is_confounded
+		}
+	}
+}
+
+# Liege: liege is killed
+character_event = {
+	id = 79012
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	desc = {
+		text = EVTDESC_79012_A
+		trigger = {
+			FROM = {
+				has_character_flag = liege_bites_the_dust
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79012_B
+		trigger = {
+			FROM = {
+				has_character_flag = liege_is_confounded
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79012 for [Root.GetBestName]"
+	}
+
+	option = {
+		# I am killed on the battlefield - OH NOES
+		name = EVTOPTA_79012
+		hidden_tooltip = {
+			FROM = {
+				clr_character_flag = liege_bites_the_dust
+			}
+		}
+		death = {
+			death_reason = death_battle
+		}
+		trigger = {
+			FROM = {
+				has_character_flag = liege_bites_the_dust
+			}
+		}
+	}
+
+	option = {
+		# My Shieldmaiden is the worst bodyguard ever
+		name = EVTOPTB_79012
+		FROM = {
+			add_character_modifier = {
+				name = bad_shieldmaiden
+				duration = 1095
+			}
+		}
+		hidden_tooltip = {
+			FROM = {
+				clr_character_flag = liege_is_confounded
+			}
+		}
+		trigger = {
+			FROM = {
+				has_character_flag = liege_is_confounded
+			}
+		}
+	}
+}
+
+# Liege: shieldmaiden or liege is injured/maimed
+character_event = {
+	id = 79013
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	desc = {
+		text = EVTDESC_79013_A
+		trigger = {
+			FROM = {
+				has_character_flag = failed_to_protect_liege
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79013_B
+		trigger = {
+			FROM = {
+				has_character_flag = failed_terribly_to_protect_liege
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79013 for [Root.GetBestName]"
+	}
+
+	option = {
+		# I am badly injured
+		name = EVTOPTA_79013
+		custom_tooltip = {
+			text = EVTOPTA_79013_TOOLTIP
+		}
+		add_maimed_trait_effect = yes
+		FROM = {
+			add_character_modifier = {
+				name = inattentive_soldier
+				duration = 1095
+			}
+		}
+		hidden_tooltip = {
+			FROM = {
+				clr_character_flag = failed_to_protect_liege
+			}
+		}
+		trigger = {
+			FROM = {
+				has_character_flag = failed_to_protect_liege
+			}
+		}
+	}
+
+	option = {
+		# My shieldmaiden is injured
+		name = EVTOPTB_79013
+		custom_tooltip = {
+			text = EVTOPTB_79013_TOOLTIP
+		}
+		FROM = {
+			add_maimed_trait_effect = yes
+			add_character_modifier = {
+				name = clumsy_shieldmaiden
+				duration = 1095
+			}
+		}
+		hidden_tooltip = {
+			FROM = {
+				clr_character_flag = failed_terribly_to_protect_liege
+			}
+		}
+		trigger = {
+			FROM = {
+				has_character_flag = failed_terribly_to_protect_liege
+			}
+		}
+	}
+}
+
+# Appointing a Shieldmaiden (sent to potential Shieldmaiden)
+character_event = {
+	id = 79020
+	desc = EVTDESC_79020
+	picture = GFX_evt_viking_throneroom_oldgods
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = 79020 for [Root.GetBestName]"
+	}
+
+	option = {
+		# heck yeah
+		name = EVTOPTA_79020
+		set_character_flag = special_marshal
+		add_trait = shieldmaiden
+		prestige = 100
+		opinion = {
+			who = FROMFROM
+			modifier = opinion_shieldmaiden
+		}
+		hidden_tooltip = {
+			FROMFROM = {
+				character_event = {
+					id = 79021
+				}
+			}
+		}
+		ai_chance = {
+			factor = 100
+		}
+	}
+
+	option = {
+		# well, I don't wanna
+		name = EVTOPTB_79020
+		custom_tooltip = {
+			text = EVTOPTB_79020_TOOLTIP
+		}
+		hidden_tooltip = {
+			FROMFROM = {
+				character_event = {
+					id = 79022
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 1000
+				OR = {
+					trait = severely_injured
+					trait = one_eyed
+					trait = blinded
+					trait = one_legged
+					trait = one_handed
+					trait = disfigured
+					trait = mangled
+					trait = maimed
+					trait = wounded
+				}
+			}
+			modifier = {
+				factor = 100
+				NOT = {
+					opinion = {
+						who = liege
+						value = 0
+					}
+				}
+			}
+		}
+	}
+}
+
+# Shieldmaiden accepts (sent to liege)
+character_event = {
+	id = 79021
+	desc = EVTDESC_79021
+	picture = GFX_evt_viking_throneroom_oldgods
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = 79021 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_79021
+		hidden_tooltip = {
+			wealth = -50
+			prestige = 50
+		}
+	}
+}
+
+# Shieldmaiden refuses (sent to liege)
+character_event = {
+	id = 79022
+	desc = EVTDESC_79022
+	picture = GFX_evt_viking_throneroom_oldgods
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = 79022 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_79022
+		hidden_tooltip = {
+			FROM = {
+				add_character_modifier = {
+ 					modifier = recently_relieved_shieldmaiden_timer
+ 					days = 365
+ 					hidden = yes
+				}
+			}
+		}
+	}
+}
+
+# Relieving Shieldmaiden of her duties (sent to target Shieldmaiden)
+character_event = {
+	id = 79023
+	picture = GFX_evt_viking_throneroom_oldgods
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+	desc = {
+		text = EVTDESC_79023_A
+		trigger = {
+			has_character_modifier = fell_into_the_river
+		}
+	}
+	desc = {
+		text = EVTDESC_79023_B
+		trigger = {
+			has_character_modifier = favored_shieldmaiden
+		}
+	}
+	desc = {
+		text = EVTDESC_79023_C
+		trigger = {
+			has_character_modifier = inattentive_soldier
+		}
+	}
+	desc = {
+		text = EVTDESC_79023_D
+		trigger = {
+			OR = {
+				trait = severely_injured
+				has_character_modifier = lucky_to_be_alive
+				trait = one_eyed
+				trait = blinded
+				trait = one_legged
+				trait = one_handed
+				trait = disfigured
+				trait = mangled
+				trait = maimed
+				trait = wounded
+			}
+		}
+	}
+	desc = {
+		text = EVTDESC_79023_E
+		trigger = {
+			NOR = {
+				has_character_modifier = clumsy_shieldmaiden
+				has_character_modifier = fell_into_the_river
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = 79023 for [Root.GetBestName]"
+	}
+
+	option = {
+		# I understand
+		name = EVTOPTA_79023
+		custom_tooltip = {
+			text = EVTOPTA_79023_TOOLTIP
+		}
+		# hidden_tooltip = {
+		random_list = {
+			500 = {
+				modifier = {
+					factor = 0
+					NOT = {
+						had_character_flag = {
+							flag = special_marshal years = 20
+						}
+					}
+				}
+				give_nickname = nick_the_valkyrie
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					NOT = {
+						had_character_flag = {
+							flag = special_marshal days = 90
+						}
+					}
+				}
+				give_nickname = nick_the_shieldmaiden
+			}
+			100 = {
+				modifier = {
+					factor = 0
+					NOR = {
+						has_character_modifier = clumsy_shieldmaiden
+						has_character_modifier = fell_into_the_river
+						has_character_modifier = inattentive_soldier
+					}
+				}
+				give_nickname = nick_the_clumsy
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					NAND = {
+						trait = brave
+						had_character_flag = {
+							flag = special_marshal days = 90
+						}
+					}
+				}
+				give_nickname = nick_the_fearless
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					NAND = {
+						trait = impaler
+						had_character_flag = {
+							flag = special_marshal days = 90
+						}
+					}
+				}
+				give_nickname = nick_the_impaler
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					NAND = {
+						martial = 18
+						had_character_flag = {
+							flag = special_marshal days = 90
+						}
+					}
+				}
+				give_nickname = nick_bloodaxe
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					NAND = {
+						has_character_modifier = favored_shieldmaiden
+						had_character_flag = {
+							flag = special_marshal years = 5
+						}
+						NOT = {
+							age = 30
+						}
+					}
+				}
+				give_nickname = nick_the_legendary
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					NAND = {
+						has_character_modifier = favored_shieldmaiden
+						had_character_flag = {
+							flag = special_marshal days = 90
+						}
+					}
+				}
+				give_nickname = nick_the_defender
+			}
+			20 = {
+				modifier = {
+					factor = 0
+					NOR = {
+						trait = severely_injured
+						has_character_modifier = lucky_to_be_alive
+						trait = one_eyed
+						trait = blinded
+						trait = one_legged
+						trait = one_handed
+						trait = disfigured
+						trait = mangled
+						trait = maimed
+						trait = wounded
+					}
+				}
+				give_nickname = nick_the_survivor
+			}
+		}
+		remove_opinion = {
+			who = FROMFROM
+			modifier = opinion_shieldmaiden
+		}
+		# }
+		clr_character_flag = special_marshal
+		remove_trait = shieldmaiden
+	}
+}

@@ -1,0 +1,4409 @@
+society_decisions = {
+
+	#General
+	request_to_rank_up_within_society = { #Society decisions are only evaluated by members of societies
+		only_playable = yes
+		hide_in_decisions_list = yes # This is shown in the Society View
+		potential = {
+			hidden_tooltip = {
+				OR = {
+					#In some societies, there can only be 1 member at rank 4
+					society_rank < 3
+					NOR = {
+						society_member_of = the_assassins
+						is_devil_worshiper_trigger = yes
+					}
+				}
+				society_rank < 4
+				days_in_society > 365
+				has_dlc = "Mystics"
+				is_in_society = yes
+				OR = {
+					#Players can always rank up (if they have the power)
+					ai = no
+					AND = {
+						ai = yes
+						society_can_rank_up = yes
+					}
+				}
+			}
+		}
+		allow = {
+			#Rank requirements. IMPORTANT!!! If you change the requirements, the customizable loc keys "GetSocietyRankUpTooltip" 1, 2, 3, and 4 must be updated, as it displays these requirements.
+			custom_tooltip = {
+				# Sufficient currency
+				text = request_to_rank_up_within_society_currency_tt
+				OR = {
+					AND = {
+						society_rank == 1
+						society_currency >= 750
+					}
+					AND = {
+						society_rank == 2
+						society_currency >= 1000
+					}
+					society_currency >= 2000 # rank 3
+				}
+			}
+			custom_tooltip = {
+				text = must_not_have_sent_request_already_tooltip
+				NOT = {
+					has_character_flag = has_sent_request_to_rank_up
+				}
+			}
+			custom_tooltip = {
+				text = must_be_allowed_to_rank_up_tooltip
+				days_at_current_society_rank >= 1095 #IMPORTANT! Update tooltip.
+			}
+			custom_tooltip = {
+				text = must_have_grandmaster_tooltip #You must have a grand master
+				any_society_member = {
+					is_society_grandmaster = yes
+					same_society_as = ROOT
+				}
+			}
+			custom_tooltip = {
+				text = must_have_multiple_rank_4 #Society must allow multiple characters at Rank 4
+				NAND = {
+					society_rank == 3
+								 OR = {
+						society_member_of = the_assassins
+						is_devil_worshiper_trigger = yes
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision request_to_rank_up_within_society for [Root.GetBestName]"
+			#Rank up cost
+			if = {
+				limit = {
+					society_rank == 1
+				}
+				change_society_currency = -750
+			}
+			if = {
+				limit = {
+					society_rank == 2
+				}
+				change_society_currency = -1000
+			}
+			if = {
+				limit = {
+					society_rank == 3
+				}
+				change_society_currency = -2000
+			}
+			#Perform rank up
+			hidden_tooltip = {
+				save_event_target_as = rank_up_target
+				set_character_flag = has_sent_request_to_rank_up
+				character_event = {
+					id = MNM.10002 days = 20 random = 10
+				} # sends hidden delayed event to self, which then sends request to Leader of the society
+				#Conversus power for benedictines
+				if = {
+					limit = {
+						society_member_of = monastic_order_benedictine
+						society_rank == 3
+					}
+					character_event = {
+						id = MNM.4600 days = 10 random = 350
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05 #Slow down
+			}
+			modifier = {
+				factor = 0.5
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+		}
+	}
+
+	#The Assassins
+	assassins_borrow_money = {
+		only_playable = yes
+		potential = {
+			has_dlc = "Mystics"
+			society_member_of = the_assassins
+			NOT = {
+				society_rank = {
+					society = the_assassins
+					rank == 4
+				}
+			}
+			NOT = {
+				has_character_modifier = assassins_debt
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = assassins_borrow_money_tooltip
+				any_society_member = {
+					is_society_grandmaster = yes
+					society_member_of = the_assassins
+					OR = {
+						ai = no
+						NOT = {
+							primary_title = {
+								title = d_hashshashin
+							}
+						}
+						AND = {
+							primary_title = {
+								title = d_hashshashin
+							}
+							wealth = 50
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision assassins_borrow_money for [Root.GetBestName]"
+			custom_tooltip = {
+				text = assassins_borrow_money_effect_tooltip
+			}
+			hidden_tooltip = {
+				random_society_member = {
+					limit = {
+						is_society_grandmaster = yes
+						society_member_of = the_assassins
+					}
+					character_event = {
+						id = MNM.6000
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 #Slow down
+			}
+			modifier = {
+				factor = 0
+				wealth = 1
+			}
+			modifier = {
+				factor = 0.1
+				war = no
+			}
+		}
+	}
+	assassins_pay_debt = {
+		only_playable = yes
+		potential = {
+			has_dlc = "Mystics"
+			has_character_modifier = assassins_debt
+			NOT = {
+				has_character_flag = block_payback
+			}
+			any_society_member = {
+				is_society_grandmaster = yes
+				society_member_of = the_assassins
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = assassins_pay_debt_tooltip
+				OR = {
+					AND = {
+						is_variable_equal = {
+							which = assassins_debt value = 50
+						}
+						wealth = 50
+					}
+					AND = {
+						is_variable_equal = {
+							which = assassins_debt value = 250
+						}
+						wealth = 250
+					}
+					AND = {
+						is_variable_equal = {
+							which = assassins_debt value = 500
+						}
+						wealth = 500
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision assassins_pay_debt for [Root.GetBestName]"
+			pay_back_assassins_effect = yes
+			remove_assassins_debt_effect = yes
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1 #Slow it down
+			}
+			modifier = {
+				factor = 0.1
+				trait = greedy
+			}
+			modifier = {
+				factor = 0.1
+				war = yes
+			}
+			modifier = {
+				factor = 0
+				has_character_flag = assassins_refused_to_pay_debt
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					AND = {
+						is_variable_equal = {
+							which = assassins_debt value = 50
+						}
+						OR = {
+							NOT = {
+								wealth = 50
+							}
+							AND = {
+								nor = {
+									monthly_income = 0
+									wealth = 100
+								}
+							}
+						}
+					}
+					AND = {
+						is_variable_equal = {
+							which = assassins_debt value = 250
+						}
+						OR = {
+							NOT = {
+								wealth = 250
+							}
+							AND = {
+								nor = {
+									monthly_income = 0
+									wealth = 500
+								}
+							}
+						}
+					}
+					AND = {
+						is_variable_equal = {
+							which = assassins_debt value = 500
+						}
+						OR = {
+							NOT = {
+								wealth = 500
+							}
+							AND = {
+								nor = {
+									monthly_income = 0
+									wealth = 1000
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	assassins_donate = {
+		only_playable = yes
+		potential = {
+			has_dlc = "Mystics"
+			society_member_of = the_assassins
+			society_rank < 4
+		}
+		allow = {
+			wealth = 200
+		}
+		effect = {
+			log = "work decision assassins_donate for [Root.GetBestName]"
+			tooltip = {
+				wealth = -200
+				add_society_currency_minor_effect = yes
+			}
+			hidden_effect = {
+				random_society_member = {
+					limit = {
+						society_rank = {
+							rank == 4
+								 society = the_assassins
+						}
+					}
+					character_event = {
+						id = MNM.6004
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.001 #Slow it down
+			}
+			modifier = {
+				factor = 0.1
+				trait = greedy
+			}
+			modifier = {
+				factor = 0.1
+				war = yes
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					wealth = 300
+				}
+			}
+		}
+	}
+	assassins_raise_troops = {
+		only_playable = yes
+		is_high_prio = yes
+		is_mercenary = yes
+		potential = {
+			has_dlc = "Mystics"
+			society_rank = {
+				society = the_assassins
+				rank == 4
+			}
+		}
+		allow = {
+			war = yes
+			has_society_currency_major_trigger = yes
+		}
+		effect = {
+			log = "work decision assassins_raise_troops for [Root.GetBestName]"
+			capital_scope = {
+				ROOT = {
+					spawn_unit = {
+						owner = ROOT
+						province = PREV
+						home = PREV
+						troops = {
+							archers = {
+								1500 1500
+							}
+							light_infantry = {
+								2500 2500
+							}
+							light_cavalry = {
+								1000 1000
+							}
+						}
+						attrition = 1.0
+						disband_on_peace = yes
+						maintenance_multiplier = 1
+						earmark = assassin_troops
+					}
+				}
+			}
+			detract_society_currency_major_effect = yes
+			sound_effect = generic_click_01
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.02 #Slowdown
+			}
+		}
+	}
+	assassins_raise_ships = {
+		only_playable = yes
+		is_high_prio = yes
+		is_mercenary = yes
+		potential = {
+			has_dlc = "Mystics"
+			society_rank = {
+				society = the_assassins
+				rank >= 3
+			}
+		}
+		allow = {
+			war = yes
+			has_society_currency_medium_trigger = yes
+		}
+		effect = {
+			log = "work decision assassins_raise_ships for [Root.GetBestName]"
+			spawn_fleet = {
+				province = closest
+				owner = ROOT
+				disband_on_peace = yes
+				earmark = assassin_ships
+				troops = {
+					galleys = {
+						45 45
+					}
+				}
+			}
+			detract_society_currency_medium_effect = yes
+			sound_effect = generic_click_01
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	assassins_drug_effect = {
+		potential = {
+			has_dlc = "Mystics"
+			society_member_of = the_assassins
+			NOT = {
+				has_character_flag = assassins_taking_drugs
+			}
+		}
+		allow = {
+			has_society_currency_minor_trigger = yes
+		}
+		effect = {
+			log = "work decision assassins_drug_effect for [Root.GetBestName]"
+			detract_society_currency_minor_effect = yes
+			custom_tooltip = {
+				text = assassins_drug_decision_tt
+			}
+			hidden_effect = {
+				remove_character_modifier = withdrawal_symptoms
+				character_event = {
+					id = MNM.6800 days = 0
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	#Bleeding Heart
+	monastic_orders_go_celibate = {
+		potential = {
+			OR = {
+				society_member_of = cult_of_shallya
+			}
+			society_rank >= 2
+			nor = {
+				has_character_modifier = promise_of_celibacy
+				trait = celibate
+			}
+		}
+		allow = {
+			NOT = {
+				trait = celibate
+				trait = hedonist
+				trait = seducer
+				trait = seductress
+			}
+		}
+		effect = {
+			log = "work decision monastic_orders_go_celibate for [Root.GetBestName]"
+			tooltip = {
+				add_trait = celibate
+			}
+			character_event = {
+				id = MNM.4090
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	monastic_orders_stop_celibate = {
+		potential = {
+			OR = {
+				society_member_of = cult_of_shallya
+			}
+			society_rank >= 2
+			trait = celibate
+		}
+		allow = {
+			trait = celibate
+		}
+		effect = {
+			log = "work decision monastic_orders_stop_celibate for [Root.GetBestName]"
+			tooltip = {
+				remove_trait = celibate
+			}
+			character_event = {
+				id = MNM.4091
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	monastic_orders_donate_to_charity = {
+		only_playable = yes
+		potential = {
+			is_monastic_member_trigger = yes
+			OR = {
+				has_quest = quest_monastic_order_donate_to_charity
+				NOT = {
+					has_character_modifier = recently_donated_to_charity
+				}
+			}
+			NOT = {
+				has_character_flag = donate_to_charity_cooldown
+			}
+		}
+		allow = {
+			wealth = 100
+		}
+		effect = {
+			log = "work decision monastic_orders_donate_to_charity for [Root.GetBestName]"
+			set_character_flag = donate_to_charity_cooldown
+			tooltip = {
+				wealth = -100
+				if = {
+					limit = {
+						has_quest = quest_monastic_order_donate_to_charity
+					}
+					add_society_currency_medium_effect = yes
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_quest = quest_monastic_order_donate_to_charity
+						}
+					}
+					add_society_currency_minor_effect = yes
+				}
+				add_character_modifier = {
+					modifier = recently_donated_to_charity
+					days = 360
+				}
+				if = {
+					limit = {
+						NOR = {
+							trait = charitable
+							trait = greedy
+						}
+					}
+					random = {
+						chance = 30
+						add_trait = charitable
+					}
+				}
+				if = {
+					limit = {
+						trait = greedy
+					}
+					random = {
+						chance = 40
+						remove_trait = greedy
+					}
+				}
+			}
+			hidden_effect = {
+				random_society_member = {
+					limit = {
+						same_society_as = ROOT
+						is_society_grandmaster = yes
+					}
+					character_event = {
+						id = MNM.4013
+					}
+				}
+			}
+		}
+	}
+	monastic_order_penance = {
+		potential = {
+			has_dlc = "Mystics"
+			is_christian_monastic_member_trigger = yes
+			has_quest = quest_monastic_order_penance
+		}
+		allow = {
+			has_quest = quest_monastic_order_penance
+			custom_tooltip = {
+				text = monastic_order_penance_allow_tt
+				OR = {
+					NOT = {
+						has_character_flag = holy_seclusion_timer
+					}
+					had_character_flag = {
+						flag = holy_seclusion_timer days = 1000
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision monastic_order_penance for [Root.GetBestName]"
+			add_character_modifier = {
+				name = doing_penance
+				duration = -1
+			}
+			hidden_effect = {
+				character_event = {
+					id = MNM.4403
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.1
+			modifier = {
+				factor = 0.01
+				war = yes
+			}
+			modifier = {
+				factor = 0.1
+				OR = {
+					trait = gregarious
+					trait = socializer
+				}
+			}
+			modifier = {
+				factor = 5
+				is_virtous = yes
+			}
+		}
+	}
+	monastic_order_meditation = {
+		potential = {
+			has_dlc = "Mystics"
+			is_dharmic_monastic_member_trigger = yes
+			has_quest = quest_monastic_order_meditation
+		}
+		allow = {
+			has_quest = quest_monastic_order_meditation
+			custom_tooltip = {
+				text = monastic_order_meditation_allow_tt
+				OR = {
+					NOT = {
+						has_character_flag = holy_seclusion_timer
+					}
+					had_character_flag = {
+						flag = holy_seclusion_timer days = 1000
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision monastic_order_meditation for [Root.GetBestName]"
+			add_character_modifier = {
+				name = in_meditation
+				duration = -1
+			}
+			hidden_effect = {
+				character_event = {
+					id = MNM.4403
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.1
+			modifier = {
+				factor = 0.01
+				war = yes
+			}
+			modifier = {
+				factor = 0.1
+				OR = {
+					trait = gregarious
+					trait = socializer
+				}
+			}
+			modifier = {
+				factor = 5
+				is_virtous = yes
+			}
+		}
+	}
+	monastic_order_rejoin_world = {
+		potential = {
+			has_dlc = "Mystics"
+			OR = {
+				has_character_modifier = doing_penance
+				has_character_modifier = in_meditation
+			}
+		}
+		allow = {
+			OR = {
+				has_character_modifier = doing_penance
+				has_character_modifier = in_meditation
+			}
+			piety = 100
+		}
+		effect = {
+			log = "work decision monastic_order_rejoin_world for [Root.GetBestName]"
+			remove_character_modifier = doing_penance
+			remove_character_modifier = in_meditation
+			hidden_effect = {
+				clr_character_flag = success_seculison_desc_A #Flags from 4426
+				clr_character_flag = success_seculison_desc_B
+				clr_character_flag = success_seculison_desc_C
+			}
+			piety = -100
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	monastic_orders_invite_ascetic = {
+		only_playable = yes
+		potential = {
+			has_dlc = "Mystics"
+			society_rank >= 3
+			is_monastic_member_trigger = yes
+			NOT = {
+				has_character_flag = ascetic_arriving
+			}
+		}
+		allow = {
+			has_society_currency_medium_trigger = yes
+			is_inaccessible_trigger = no
+		}
+		effect = {
+			log = "work decision monastic_orders_invite_ascetic for [Root.GetBestName]"
+			set_character_flag = ascetic_arriving
+			detract_society_currency_medium_effect = yes
+			custom_tooltip = {
+				text = monastic_orders_invite_ascetic_tt
+				character_event = {
+					id = MNM.4432 days = 7
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.001
+			modifier = {
+				factor = 0.1
+				any_courtier = {
+					is_monastic_member_trigger = yes
+				} #Less likely to invite if there is already someone else at court
+			}
+			modifier = {
+				any_courtier = {
+					has_job_title = job_spiritual learning = 16
+				}
+				factor = 0.01
+			}
+		}
+	}
+
+	#Chaos Worshiper
+	devil_worshipers_invite_disciple_of_devil = { #Power: Invite disciple of devil
+		only_playable = yes
+		potential = {
+			has_dlc = "Mystics"
+			society_rank >= 3
+			is_devil_worshiper_trigger = yes
+			NOT = {
+				has_character_flag = disciple_arriving
+			}
+		}
+		allow = {
+			has_society_currency_minor_trigger = yes
+			is_inaccessible_trigger = no
+		}
+		effect = {
+			log = "work decision devil_worshipers_invite_disciple_of_devil for [Root.GetBestName]"
+			set_character_flag = disciple_arriving
+			detract_society_currency_minor_effect = yes
+			custom_tooltip = {
+				text = devil_worshipers_invite_disciple_of_devil_tt
+				character_event = {
+					id = MNM.7822 days = 7
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	decision_abduct = {
+		filter = all
+		ai_target_filter = realm
+		only_playable = yes
+		from_potential = {
+			always = no #disabled for now
+			ai = no
+			OR = {
+				is_devil_worshiper_trigger = yes
+				society_member_of = the_assassins
+			}
+			NOT = {
+				trait = incapable
+			}
+			prisoner = no
+			NOT = {
+				has_any_opinion_modifier = opinion_abducting
+			}
+		}
+		potential = {
+			ai = yes
+			nor = {
+				character = FROM
+				trait = prince_khorne
+				trait = prince_nurgle
+				trait = prince_slaanesh
+				trait = prince_tzeentch
+				trait = creature_forestspirit
+				trait = creature_treekin
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+				trait = creature_slann
+				trait = creature_celdragon
+			}
+			is_patrician = no
+			OR = {
+				lower_tier_than = DUKE
+				is_landed = no
+			}
+			OR = {
+				father_even_if_dead = {
+					lower_tier_than = DUKE
+					is_patrician = no
+					ai = yes
+				}
+				NOT = {
+					father = {
+						always = yes
+					}
+				}
+			}
+			OR = {
+				mother_even_if_dead = {
+					lower_tier_than = DUKE
+					is_patrician = no
+					ai = yes
+				}
+				NOT = {
+					mother = {
+						always = yes
+					}
+				}
+			}
+			OR = {
+				spouse = {
+					lower_tier_than = DUKE
+					is_patrician = no
+					ai = yes
+				}
+				is_married = no
+			}
+		}
+		allow = {
+			in_revolt = no
+			nor = {
+				war_with = FROM
+				same_society_as = FROM
+			}
+			prisoner = no
+			OR = {
+				AND = {
+					is_landed = no
+					FROM = {
+						has_society_currency_tiny_trigger = yes
+					}
+				}
+				AND = {
+					is_landed = yes
+					NOT = {
+						higher_tier_than = BARON
+					}
+					FROM = {
+						has_society_currency_minor_trigger = yes
+					}
+				}
+				AND = {
+					higher_tier_than = BARON
+					FROM = {
+						has_society_currency_medium_trigger = yes
+					}
+				}
+			}
+			is_within_diplo_range = FROM
+		}
+		effect = {
+			log = "work decision decision_abduct for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						is_landed = yes
+					}
+				}
+				FROM = {
+					detract_society_currency_tiny_effect = yes
+				}
+			}
+			if = {
+				limit = {
+					is_landed = yes
+					NOT = {
+						higher_tier_than = BARON
+					}
+				}
+				FROM = {
+					detract_society_currency_minor_effect = yes
+				}
+			}
+			if = {
+				limit = {
+					higher_tier_than = BARON
+				}
+				FROM = {
+					detract_society_currency_medium_effect = yes
+				}
+			}
+			hidden_tooltip = {
+				FROM = {
+					any_opinion_modifier_target = {
+						limit = {
+							reverse_has_opinion_modifier = {
+								who = PREV
+								modifier = opinion_abducting
+							}
+						}
+						reverse_remove_opinion = {
+							who = PREV
+							modifier = opinion_abducting
+						}
+					}
+					opinion = {
+						who = ROOT
+						modifier = opinion_abducting
+						months = 12000
+					}
+					character_event = {
+						id = MNM.20070 days = 1
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0 		# 1 = 100% chance every month (for each allowed target!)
+		}
+	}
+	stop_abduct_decision = {
+		filter = self
+		ai_target_filter = self
+		potential = {
+			ai = no
+			OR = {
+				is_devil_worshiper_trigger = yes
+				society_member_of = the_assassins
+			}
+			has_any_opinion_modifier = opinion_abducting
+		}
+		effect = {
+			log = "work decision stop_abduct_decision for [Root.GetBestName]"
+			random_opinion_modifier_target = {
+				limit = {
+					ROOT = {
+						has_opinion_modifier = {
+							who = PREV
+							modifier = opinion_abducting
+						}
+					}
+				}
+				save_event_target_as = target_abduction
+				ROOT = {
+					character_event = {
+						id = MNM.20100 tooltip = stop_abduct_decision_tt
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	stop_abduct_decision_target = {
+		filter = all
+		ai_target_filter = realm
+		from_potential = {
+			ai = no
+			OR = {
+				is_devil_worshiper_trigger = yes
+				society_member_of = the_assassins
+			}
+			has_any_opinion_modifier = opinion_abducting
+		}
+		potential = {
+			FROM = {
+				has_opinion_modifier = {
+					who = ROOT
+					modifier = opinion_abducting
+				}
+			}
+		}
+		effect = {
+			log = "work decision stop_abduct_decision_target for [Root.GetBestName]"
+			save_event_target_as = target_abduction
+			hidden_tooltip = {
+				FROM = {
+					character_event = {
+						id = MNM.20100
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	chaos_cult_uprising = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				society_member_of = cult_of_khorne
+				society_member_of = cult_of_nurgle
+				society_member_of = cult_of_tzeentch
+				society_member_of = cult_of_slaanesh
+				society_member_of = cult_of_undivided
+			}
+			society_rank == 4
+		}
+		allow = {
+			has_society_currency_major_trigger = yes
+		}
+		effect = {
+			log = "work decision chaos_cult_uprising for [Root.GetBestName]"
+			detract_society_currency_major_effect = yes
+			set_character_flag = cultist_uprising_leader
+			custom_tooltip = {
+				text = openly_adopt_faith_effect_tooltip
+				hidden_effect = {
+					character_event = {
+						id = DR_cults.3811
+					}
+					top_liege = {
+						any_realm_character = {
+							# if = {
+							# limit = {
+							# NOT = {
+							# same_society_as = ROOT
+							# }
+							# OR = {
+							# has_prevs_secret_religion_truly_trigger = yes
+							# has_sympathy_for_true_religion_of_prev_trigger = yes
+							# }
+							# }
+							# character_event = { id = DR_cults.3810 } # Allow sympathisers the chance to flip
+							# }
+							if = {
+								limit = {
+									is_ruler = yes
+									any_demesne_province = {
+										OR = {
+											AND = {
+												has_province_modifier = secret_khorne_community
+												ROOT = {
+													society_member_of = cult_of_khorne
+												}
+											}
+											AND = {
+												has_province_modifier = secret_nurgle_community
+												ROOT = {
+													society_member_of = cult_of_nurgle
+												}
+											}
+											AND = {
+												has_province_modifier = secret_tzeentch_community
+												ROOT = {
+													society_member_of = cult_of_tzeentch
+												}
+											}
+											AND = {
+												has_province_modifier = secret_slaanesh_community
+												ROOT = {
+													society_member_of = cult_of_slaanesh
+												}
+											}
+											AND = {
+												has_province_modifier = secret_undivided_community
+												ROOT = {
+													society_member_of = cult_of_undivided
+												}
+											}
+										}
+									}
+								}
+								character_event = {
+									id = DR_cults.3820
+								} # Flip provinces with local cult modifier
+							}
+						}
+					}
+					flip_secret_religious_community_provinces = yes
+					convert_to_secret_religion = yes
+					top_liege = {
+						any_realm_lord = {
+							character_event = {
+								id = DR_cults.3830
+							} # Inform lieges unless they're part of the cult flipping, save a flag on previous events.
+						}
+						any_realm_character = {
+							limit = {
+								same_society_as = ROOT
+							}
+							leave_society = yes
+						}
+						any_realm_character = {
+							limit = {
+								has_character_flag = currently_part_of_secret_religion_uncovering
+							}
+							clr_character_flag = currently_part_of_secret_religion_uncovering
+						}
+					}
+					leave_society = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.001 # Slow down
+			}
+			modifier = {
+				factor = 0
+				any_society_member = {
+					NOT = {
+						character = ROOT
+					}
+					same_realm = ROOT
+					ai = no
+					society_rank > 2
+				}
+			}
+			modifier = {
+				#Don't do it unless you are confident in support
+				factor = 0
+				NOR = {
+					realm_character_percent = {
+						target = 0.3
+						OR = {
+							same_society_as = ROOT
+							is_openly_of_prevs_secret_religion_trigger = yes
+						}
+					}
+					AND = {
+						realm_character_percent = {
+							target = 0.25
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+						liege = {
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+					}
+					AND = {
+						realm_character_percent = {
+							target = 0.20
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+						top_liege = {
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+						liege = {
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+					}
+					AND = {
+						realm_character_percent = {
+							target = 0.15
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+						any_vassal = {
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+						top_liege = {
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+						liege = {
+							OR = {
+								same_society_as = ROOT
+								is_openly_of_prevs_secret_religion_trigger = yes
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.5
+				realm_character_percent = {
+					target = 0.15
+					OR = {
+						same_society_as = ROOT
+						is_openly_of_prevs_secret_religion_trigger = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				realm_character_percent = {
+					target = 0.25
+					OR = {
+						same_society_as = ROOT
+						is_openly_of_prevs_secret_religion_trigger = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				realm_character_percent = {
+					target = 0.35
+					OR = {
+						same_society_as = ROOT
+						is_openly_of_prevs_secret_religion_trigger = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				realm_character_percent = {
+					target = 0.5
+					OR = {
+						same_society_as = ROOT
+						is_openly_of_prevs_secret_religion_trigger = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				realm_character_percent = {
+					target = 0.65
+					OR = {
+						same_society_as = ROOT
+						is_openly_of_prevs_secret_religion_trigger = yes
+					}
+				}
+			}
+		}
+	}
+}
+#targeted_decisions
+
+targeted_decisions = {
+	
+	#The Assassins
+	assassins_recruit = { #Action: recruit assassins
+		ai_target_filter = realm
+		is_in_society = yes # Note - Only works for targeted_decisions. For non-targeted decisions you can use "society_decisions"
+		from_potential = {
+			is_adult = yes
+			prisoner = no
+			nor = {
+				trait = incapable
+				has_character_modifier = recruitment_timer
+			}
+			society_member_of = the_assassins
+			#Only level 2 and 3 AIs recruit
+			OR = {
+				ai = no
+				society_rank == 2
+				society_rank == 3
+			}
+		}
+		potential = {
+			OR = {
+				FROM = {
+					ai = no
+				}
+				ai = no
+			}
+			OR = {
+				FROM = {
+					ai = yes
+				}
+				is_within_diplo_range = FROM # AI only checks inside realm, so is by definition in range
+			}
+			is_adult = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			is_in_society = no
+			OR = {
+				is_female = no
+				has_game_rule = {
+					name = gender
+					value = all
+				}
+			}
+			#AI cannot invite other AIs when society is full
+			NAND = {
+				ai = yes
+				FROM = {
+					ai = yes
+				}
+				NOT = {
+					can_join_society = the_assassins
+				}
+			}
+			#Stopping the ai from making stupid choices
+			OR = {
+				FROM = {
+					ai = no
+				}
+				is_friend = FROM
+				is_lover = FROM
+				is_close_relative = FROM
+				interested_in_society = the_assassins
+			}
+			NAND = {
+				FROM = {
+					ai = yes
+				}
+				trait = zealous
+			}
+		}
+		allow = {
+			has_assassins_prerequisites = yes
+			is_inaccessible_trigger = no
+			FROM = {
+				custom_tooltip = {
+					text = recruit_delay_timer_tooltip
+					NOT = {
+						has_character_modifier = recruitment_delay_timer
+					}
+				}
+			}
+			ROOT = {
+				is_inaccessible_trigger = no
+				custom_tooltip = {
+					text = assassins_recruit_block_tooltip
+					OR = {
+						NOT = {
+							has_character_flag = assassins_attempted_recruitment
+						}
+						interested_in_society = the_assassins
+					}
+					NOT = {
+						has_character_flag = ongoing_recruitment
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision assassins_recruit for [Root.GetBestName]"
+			set_character_flag = assassins_attempted_recruitment
+			set_character_flag = ongoing_recruitment
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = {
+							religion = ormazd
+						}
+					}
+					character_event = {
+						id = MNM.6020 days = 3
+					}
+				}
+				if = {
+					limit = {
+						religion = ormazd
+					}
+					character_event = {
+						id = MNM.6022 days = 3
+					}
+				}
+				character_event = {
+					id = MNM.7030 days = 365
+				}
+				FROM = {
+					if = {
+						limit = {
+							ai = yes
+						}
+						add_character_modifier = {
+							name = recruitment_timer
+							days = 730
+							hidden = yes
+						}
+					}
+					add_character_modifier = {
+						name = recruitment_delay_timer
+						days = 90
+						hidden = yes
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				factor = 10 # recruit interested parties
+				interested_in_society = the_assassins
+			}
+			modifier = {
+				factor = 0 # don't recruit characters interested in something else
+				NOT = {
+					interested_in_society = the_assassins
+				}
+				is_interested_in_any_society = yes
+			}
+		}
+	}
+	assassins_scare_ruler = { #Power: scare ruler
+		only_playable = yes
+		ai_target_filter = realm
+		from_potential = {
+			has_dlc = "Conclave"
+			is_playable = yes
+			is_adult = yes
+			NOT = {
+				trait = incapable
+			}
+			society_rank = {
+				society = the_assassins
+				rank >= 2
+			}
+			prisoner = no
+		}
+		potential = {
+			NOT = {
+				character = FROM
+			}
+			age = 10
+			is_ruler = yes
+			OR = {
+				FROM = {
+					ai = yes
+				} # Only checks realm, so by definition in range
+				is_within_diplo_range = FROM
+			}
+		}
+		allow = {
+			ROOT = {
+				NOT = {
+					society_member_of = the_assassins
+				}
+				prisoner = no
+				is_inaccessible_trigger = no
+				NOT = {
+					owes_favor_to = FROM
+				}
+			}
+			OR = {
+				FROM = {
+					society_rank == 4
+				}
+				ROOT = {
+					same_realm = FROM
+				}
+			}
+			FROM = {
+				has_society_currency_medium_trigger = yes
+				is_inaccessible_trigger = no
+			}
+			NOT = {
+				has_opinion_modifier = {
+					modifier = opinion_threatened_me
+					who = FROM
+				}
+			}
+		}
+		effect = {
+			log = "work decision assassins_scare_ruler for [Root.GetBestName]"
+			FROM = {
+				detract_society_currency_medium_effect = yes
+			}
+			random_list = {
+				50 = {
+					modifier = {
+						factor = 9
+						FROM = {
+							society_rank == 4
+						}
+					}
+					modifier = {
+						factor = 3
+						FROM = {
+							society_rank == 3
+						}
+					}
+					hidden_effect = {
+						character_event = {
+							id = MNM.6840 days = 1
+						}
+					}
+					FROM = {
+						add_favor = ROOT
+					}
+				}
+				50 = {
+					modifier = {
+						#Makes it even harder to threaten someone 2 steps above you
+						factor = 3
+						OR = {
+							AND = {
+								tier = EMPEROR
+								FROM = {
+									lower_tier_than = KING
+								}
+							}
+							AND = {
+								tier = KING
+								FROM = {
+									tier = BARON
+								}
+							}
+						}
+					}
+					modifier = {
+						#Makes it harder to threaten someone above you
+						factor = 3
+						higher_tier_than = FROM
+					}
+					custom_tooltip = {
+						text = assassins_scare_ruler_fail
+					}
+					hidden_effect = {
+						FROM = {
+							character_event = {
+								id = MNM.6980 days = 1
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				FROM = {
+					is_benevolent_trigger = yes
+				}
+				factor = 0.1
+			}
+			modifier = {
+				FROM = {
+					is_evil_trigger = yes
+				}
+				factor = 2
+			}
+			modifier = {
+			}
+			modifier = {
+				OR = {
+					is_friend = FROM
+					is_lover = FROM
+					NOR = {
+						liege = {
+							character = FROM
+						}
+						is_liege_of = FROM
+					}
+				}
+				factor = 0
+			}
+		}
+	}
+	assassins_mark_for_death = { #Power: mark for death
+		only_playable = yes
+		ai_target_filter = realm
+		ai_target_filter = rivals
+		from_potential = {
+			is_playable = yes
+			is_adult = yes
+			prisoner = no
+			society_rank = {
+				society = the_assassins
+				rank == 4
+			}
+		}
+		potential = {
+			NOT = {
+				character = FROM
+			}
+			is_adult = yes
+			is_within_diplo_range = FROM
+			#Limits for performance and sense-making
+			OR = {
+				FROM = {
+					ai = no
+				}
+				is_foe = FROM
+				NOT = {
+					reverse_opinion = {
+						who = FROM value = -30
+					}
+				}
+				holds_favor_on = FROM
+				any_spouse = {
+					#Unfaithful spouse
+					character = FROM
+					any_lover = {
+						NOT = {
+							character = FROM
+						}
+					}
+				}
+				any_lover = {
+					any_spouse = {
+						character = FROM
+					}
+				} #Lover of spouse
+				any_lover = {
+					any_lover = {
+						character = FROM
+					}
+				} #Lover of lover
+				ROOT = {
+					any_claim = {
+						any_claimant = {
+							character = FROM
+						}
+					}
+				} #Somneone sharing claims
+				AND = {
+					true_religion_shiite_trigger = no
+					is_ruler = yes
+					OR = {
+						trait = zealous
+						trait = cruel
+						trait = arbitrary
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = assassins_mark_for_death_allow_tooltip
+				FROM = {
+					NOT = {
+						has_character_flag = assassins_marked_someone_for_death
+					}
+					has_society_currency_medium_trigger = yes
+				}
+			}
+		}
+		effect = {
+			log = "work decision assassins_mark_for_death for [Root.GetBestName]"
+			custom_tooltip = {
+				text = assassins_mark_for_death_effect_tooltip
+				FROM = {
+					set_character_flag = assassins_marked_someone_for_death
+					character_event = {
+						id = MNM.6842
+					}
+				}
+				set_character_flag = assassins_target_marked_for_death
+			}
+			FROM = {
+				detract_society_currency_medium_effect = yes
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				FROM = {
+					is_benevolent_trigger = yes
+				}
+				factor = 0.1
+			}
+			modifier = {
+				FROM = {
+					is_evil_trigger = yes
+				}
+				factor = 4
+			}
+			modifier = {
+				FROM = {
+					trait = ambitious
+				}
+				factor = 2
+			}
+			modifier = {
+				OR = {
+					is_friend = FROM
+					is_lover = FROM
+				}
+				factor = 0
+			}
+		}
+	}
+	assassins_clear_marked_for_death_target = { #Action: Clear marked for death
+		only_playable = yes
+		ai_target_filter = realm
+		from_potential = {
+			ai = no
+			is_playable = yes
+			is_adult = yes
+			prisoner = no
+			society_rank = {
+				society = the_assassins
+				rank == 4
+			}
+		}
+		potential = {
+			NOT = {
+				character = FROM
+			}
+			is_adult = yes
+			is_within_diplo_range = FROM
+			has_character_flag = assassins_target_marked_for_death
+		}
+		allow = {
+			custom_tooltip = {
+				text = assassins_clear_marked_for_death_target_allow_tooltip
+				has_character_flag = assassins_target_marked_for_death
+			}
+		}
+		effect = {
+			log = "work decision assassins_clear_marked_for_death_target for [Root.GetBestName]"
+			custom_tooltip = {
+				text = assassins_clear_marked_for_death_target_effect_tooltip
+				clr_character_flag = assassins_target_marked_for_death
+				FROM = {
+					clr_character_flag = assassins_marked_someone_for_death
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	#Bleeding Heart
+	monastic_orders_spiritual_guidance = {
+		### Monastic Order Rank 2 power : targeted decision to remove one of target's vices
+		potential = {
+			NOT = {
+				trait = incapable
+			}
+			OR = {
+				same_realm = FROM
+				same_society_as = FROM
+			}
+			is_within_diplo_range = FROM
+		}
+		from_potential = {
+			has_DLC = "Mystics"
+			society_rank >= 2
+			is_monastic_member_trigger = yes
+			is_adult = yes
+			NOT = {
+				trait = incapable
+			}
+			religion = ROOT
+		}
+		allow = {
+			FROM = {
+				has_society_currency_medium_trigger = yes	###requires 300SocCur
+				is_inaccessible_trigger = no
+				prisoner = no
+				in_command = no
+			}
+			is_inaccessible_trigger = no
+			prisoner = no
+			in_command = no
+			same_realm = FROM
+			OR = {
+				is_landed = yes
+				is_patrician = yes
+				is_close_relative = FROM
+			}
+			NOT = {
+				has_opinion_modifier = {
+					###opinion modifier 10yrs cooldown
+					who =  FROM
+					modifier = opinion_spiritual_guidance
+				}
+			}
+			custom_tooltip = {
+				text = spiritual_guidance_tooltip
+				OR ={
+					AND = {
+						trait = lustful
+						FROM = {
+							NOT = {
+								trait = lustful
+							}
+						}
+					}
+					AND = {
+						trait = gluttonous
+						FROM = {
+							NOT = {
+								trait = gluttonous
+							}
+						}
+					}
+					AND = {
+						trait = greedy
+						FROM = {
+							NOT = {
+								trait = greedy
+							}
+						}
+					}
+					AND = {
+						trait = slothful
+						FROM = {
+							NOT = {
+								trait = slothful
+							}
+						}
+					}
+					AND = {
+						trait = wroth
+						FROM = {
+							NOT = {
+								trait = wroth
+							}
+						}
+					}
+					AND = {
+						trait = envious
+						FROM = {
+							NOT = {
+								trait = envious
+							}
+						}
+					}
+					AND = {
+						trait = proud
+						FROM = {
+							NOT = {
+								trait = proud
+							}
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision monastic_orders_spiritual_guidance for [Root.GetBestName]"
+			FROM = {
+				detract_society_currency_medium_effect = yes	###lose 300SocCur
+			}
+			random_list = {
+				###Will randomly remove one sin that target has and you don't
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							NOT = {
+								trait = lustful
+							}
+							FROM = {
+								trait = lustful
+							}
+						}
+					}
+					set_character_flag = spiritual_guidance_lustful
+					remove_trait = lustful
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							NOT = {
+								trait = gluttonous
+							}
+							FROM = {
+								trait = gluttonous
+							}
+						}
+					}
+					set_character_flag = spiritual_guidance_gluttonous
+					remove_trait = gluttonous
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							NOT = {
+								trait = greedy
+							}
+							FROM = {
+								trait = greedy
+							}
+						}
+					}
+					set_character_flag = spiritual_guidance_greedy
+					remove_trait = greedy
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							NOT = {
+								trait = slothful
+							}
+							FROM = {
+								trait = slothful
+							}
+						}
+					}
+					set_character_flag = spiritual_guidance_slothful
+					remove_trait = slothful
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							NOT = {
+								trait = wroth
+							}
+							FROM = {
+								trait = wroth
+							}
+						}
+					}
+					set_character_flag = spiritual_guidance_wroth
+					remove_trait = wroth
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							NOT = {
+								trait = envious
+							}
+							FROM = {
+								trait = envious
+							}
+						}
+					}
+					set_character_flag = spiritual_guidance_envious
+					remove_trait = envious
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							NOT = {
+								trait = proud
+							}
+							FROM = {
+								trait = proud
+							}
+						}
+					}
+					set_character_flag = spiritual_guidance_proud
+					remove_trait = proud
+				}
+			}
+			opinion = {
+				###opinion mostly serves as a 10 years cooldown ; +5 Opinion
+				who = FROM
+				modifier = opinion_spiritual_guidance
+				months = 120
+			}
+			FROM = {
+				character_event = {
+					id = MNM.4950
+				}
+			}
+			character_event = {
+				id = MNM.4951
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					AND = {
+						is_close_relative = FROM						###AI will only target landed relatives in the same realm
+						same_realm = FROM
+						OR = {
+							is_landed = yes
+							is_patrician = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	monastic_orders_teach_virtue = {
+		### Monastic Order Rank 3 power : targeted decision to give target a virtue
+		potential = {
+			NOT = {
+				trait = incapable
+			}
+			OR = {
+				same_realm = FROM
+				same_society_as = FROM
+			}
+			is_within_diplo_range = FROM
+		}
+		from_potential = {
+			has_DLC = "Mystics"
+			society_rank >= 3
+			is_monastic_member_trigger = yes
+			is_adult = yes
+			NOT = {
+				trait = incapable
+			}
+			religion = ROOT
+		}
+		allow = {
+			FROM = {
+				has_society_currency_major_trigger = yes	###requires 500SocCur
+				is_inaccessible_trigger = no
+				prisoner = no
+				in_command = no
+			}
+			is_inaccessible_trigger = no
+			prisoner = no
+			in_command = no
+			same_realm = FROM
+			OR = {
+				is_landed = yes
+				is_patrician = yes
+				is_close_relative = FROM
+			}
+			NOT = {
+				has_opinion_modifier = {
+					###opinion modifier 10yrs cooldown
+					who =  FROM
+					modifier = opinion_teach_virtue
+				}
+			}
+			custom_tooltip = {
+				text = teach_virtue_tooltip
+				OR ={
+					AND = {
+						NOT = {
+							trait = chaste
+						}
+						FROM = {
+							trait = chaste
+						}
+					}
+					AND = {
+						NOT = {
+							trait = temperate
+						}
+						FROM = {
+							trait = temperate
+						}
+					}
+					AND = {
+						NOT = {
+							trait = charitable
+						}
+						FROM = {
+							trait = charitable
+						}
+					}
+					AND = {
+						NOT = {
+							trait = diligent
+						}
+						FROM = {
+							trait = diligent
+						}
+					}
+					AND = {
+						NOT = {
+							trait = patient
+						}
+						FROM = {
+							trait = patient
+						}
+					}
+					AND = {
+						NOT = {
+							trait = kind
+						}
+						FROM = {
+							trait = kind
+						}
+					}
+					AND = {
+						NOT = {
+							trait = humble
+						}
+						FROM = {
+							trait = humble
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision monastic_orders_teach_virtue for [Root.GetBestName]"
+			FROM = {
+				detract_society_currency_major_effect = yes	###lose 500SocCur
+			}
+			random_list = {
+				###Will randomly add one virtue that you have and target doesn't
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							trait = chaste
+							FROM = {
+								NOT = {
+									trait = chaste
+								}
+							}
+						}
+					}
+					set_character_flag = teach_virtue_chaste
+					add_trait = chaste
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							trait = temperate
+							FROM = {
+								NOT = {
+									trait = temperate
+								}
+							}
+						}
+					}
+					set_character_flag = teach_virtue_temperate
+					add_trait = temperate
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							trait = charitable
+							FROM = {
+								NOT = {
+									trait = charitable
+								}
+							}
+						}
+					}
+					set_character_flag = teach_virtue_charitable
+					add_trait = charitable
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							trait = diligent
+							FROM = {
+								NOT = {
+									trait = diligent
+								}
+							}
+						}
+					}
+					set_character_flag = teach_virtue_diligent
+					add_trait = diligent
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							trait = patient
+							FROM = {
+								NOT = {
+									trait = patient
+								}
+							}
+						}
+					}
+					set_character_flag = teach_virtue_patient
+					add_trait = patient
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							trait = kind
+							FROM = {
+								NOT = {
+									trait = kind
+								}
+							}
+						}
+					}
+					set_character_flag = teach_virtue_kind
+					add_trait = kind
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						OR = {
+							trait = humble
+							FROM = {
+								NOT = {
+									trait = humble
+								}
+							}
+						}
+					}
+					set_character_flag = teach_virtue_humble
+					add_trait = humble
+				}
+			}
+			opinion = {
+				###opinion mostly serves as a 10 years cooldown ; +10 Opinion
+				who = FROM
+				modifier = opinion_teach_virtue
+				months = 120
+			}
+			FROM = {
+				character_event = {
+					id = MNM.4960
+				}
+			}
+			character_event = {
+				id = MNM.4961
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					AND = {
+						is_close_relative = FROM						###AI will only target landed relatives in the same realm
+						same_realm = FROM
+						OR = {
+							is_landed = yes
+							is_patrician = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	shallya_healing = { #Shallyans: Lay on Hands
+		is_in_society = yes
+		filter = self
+		ai_target_filter = self
+		potential = {
+			has_dlc = "Mystics"
+			society_member_of = cult_of_shallya
+			society_rank >= 3
+			NOR = {
+				has_character_flag = shallya_healing_in_effect
+				has_character_modifier = shallya_healing_recent
+			}
+		}
+		allow = {
+			has_society_currency_medium_trigger = yes
+			custom_tooltip = {
+				text = shallya_healing_tooltip
+				OR = {
+					has_disease_trigger = yes
+					has_symptom_trigger = yes
+					has_injury_trigger = yes
+					is_maimed_trigger = yes
+					trait = infirm
+					trait = mangled
+					trait = eunuch
+					trait = blinded
+					trait = incapable
+				}
+			}
+		}
+		effect = {
+			log = "work decision shallya_healing for [Root.GetBestName]"
+			character_event = {
+				id = DR_societies.7118
+				days = 0
+			}
+			detract_society_currency_medium_effect = yes
+			set_character_flag = shallya_healing_in_effect
+		}
+		ai_will_do = {
+			factor = 0.5
+			modifier = {
+				OR = {
+					is_maimed_trigger = yes
+					has_disease_trigger = yes
+					trait = mangled
+					trait = infirm
+					trait = incapable
+					trait = eunuch
+				}
+				factor = 2
+			}
+		}
+	}
+
+	#Chaos Worshiper
+	prisoner_dark_sacrifice = { #Action: Sacrifice prisoner
+		only_playable = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			has_dlc = "Mystics"
+			is_playable = yes
+			is_adult = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			is_devil_worshiper_trigger = yes
+		}
+		potential = {
+			host = {
+				character = FROM
+			}
+			NOT = {
+				has_character_flag = demon_child_non_pagan
+			}
+			prisoner = yes
+		}
+		ai_will_do = {
+			factor = 0.5
+			modifier = {
+				factor = 0.01
+				NOR = {
+					trait = dwarf
+					is_priest = yes
+					is_ascetic_trigger = yes
+					is_virgin_trigger = yes
+					is_landed = yes
+				}
+			}
+		}
+		effect = {
+			log = "work decision prisoner_dark_sacrifice for [Root.GetBestName]"
+			FROM = {
+				increase_visibility_effect = yes
+				major_chaos_corruption_effect = yes
+			}
+			hidden_effect = {
+				FROM = { #get events based on outcome: for dwarf, virgin, child, holy person, head of religion			
+					if = {
+						limit = {
+							ROOT = {
+								controls_religion = yes #Head of religion
+							}
+						}
+						character_event = {
+							id = DR_cults.7500
+						}
+						break = yes
+					}
+					if = {
+						limit = {
+							OR = {
+								AND = {
+									FROM = {
+										society_member_of = cult_of_khorne
+									}
+									ROOT = {
+										society_member_of = cult_of_tzeentch
+									}
+								}
+								AND = {
+									FROM = {
+										society_member_of = cult_of_khorne
+									}
+									ROOT = {
+										society_member_of = cult_of_slaanesh
+									}
+								}
+								AND = {
+									FROM = {
+										society_member_of = cult_of_nurgle
+									}
+									ROOT = {
+										society_member_of = cult_of_tzeentch
+									}
+								}
+								AND = {
+									FROM = {
+										society_member_of = cult_of_tzeentch
+									}
+									ROOT = {
+										society_member_of = cult_of_nurgle
+									}
+								}
+								AND = {
+									FROM = {
+										society_member_of = cult_of_slaanesh
+									}
+									ROOT = {
+										society_member_of = cult_of_khorne
+									}
+								}
+							}
+						}
+						character_event = {
+							id = DR_cults.7502
+						}
+						break = yes
+					}
+					if = {
+						limit = {
+							ROOT = {
+								OR = {
+									is_priest = yes
+									is_ascetic_trigger = yes
+								}
+							}
+						}
+						character_event = {
+							id = DR_cults.7501
+						}
+						break = yes
+					}
+					if = {
+						limit = {
+							ROOT = {
+								NOT = {
+									age = 16
+								} #Virgin
+							}
+						}
+						character_event = {
+							id = DR_cults.7503
+						}
+						break = yes
+					}
+					if = {
+						limit = {
+							ROOT = {
+								is_virgin_trigger = yes
+							}
+						}
+						character_event = {
+							id = DR_cults.7504
+						}
+						break = yes
+					}
+					character_event = {
+						id = DR_cults.7505
+					} #regular dude
+				}
+			}
+		}
+	}
+	devil_worshipers_corrupt_priest = { #Action: corrupt a priest
+		only_playable = yes
+		ai_target_filter = realm
+		from_potential = {
+			is_devil_worshiper_trigger = yes
+			society_rank > 1
+		}
+		potential = {
+			ai = yes
+			is_within_diplo_range = FROM
+			religion = FROM
+			OR = {
+				AND = {
+					same_realm = FROM
+					OR = {
+						AND = {
+							is_landed = yes
+							capital_holding = {
+								holding_type = TEMPLE
+							}
+						}
+						AND = {
+							tier = baron
+							liege = {
+								any_demesne_province = {
+									any_province_holding = {
+										owner = {
+											character = ROOT
+										}
+										holding_type = TEMPLE
+									}
+								}
+							}
+						}
+					}
+				}
+				FROM = {
+					has_quest = quest_devil_worshipers_corrupt_priest
+					quest_target = {
+						character = ROOT
+					}
+				}
+			}
+			OR = {
+				is_inaccessible_trigger = no
+				AND = {
+					FROM = {
+						has_character_modifier = in_seclusion
+						at_location = ROOT
+					}
+					ROOT = {
+						has_character_modifier = in_seclusion
+					}
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				prisoner = no
+				NOT = {
+					trait = incapable
+				}
+				custom_tooltip = {
+					text = is_accessible
+					OR = {
+						is_inaccessible_trigger = no
+						AND = {
+							FROM = {
+								has_character_modifier = in_seclusion
+								at_location = ROOT
+							}
+							ROOT = {
+								has_character_modifier = in_seclusion
+							}
+						}
+					}
+				}
+				OR = {
+					custom_tooltip = {
+						text = corrupt_priest_not_recently_attempted
+						ROOT = {
+							NOR = {
+								has_character_flag = attempted_corrupt_priest
+								has_opinion_modifier = {
+									who = FROM modifier = opinion_successful_corruption
+								}
+								has_opinion_modifier = {
+									who = FROM modifier = opinion_failed_corruption
+								}
+							}
+						}
+					}
+					custom_tooltip = {
+						text = corrupt_priest_has_quest
+						has_quest = quest_devil_worshipers_corrupt_priest
+					}
+				}
+			}
+			ROOT = {
+				prisoner = no
+				NOT = {
+					trait = incapable
+				}
+				is_inaccessible_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision devil_worshipers_corrupt_priest for [Root.GetBestName]"
+			FROM = {
+				increase_visibility_effect = yes
+			}
+			custom_tooltip = {
+				text = corrupt_priest_effect_TOOLTIP
+			}
+			ROOT = {
+				set_character_flag = attempted_corrupt_priest
+				hidden_effect = {
+					character_event = {
+						id = DR_cults.7825 days = 3 random = 7
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				factor = 0.5
+				is_benevolent_trigger = yes
+			}
+			modifier = {
+				factor = 2
+				is_evil_trigger = yes
+			}
+			modifier = {
+				factor = 50
+				FROM = {
+					is_quest_target_of = ROOT
+				}
+			}
+			modifier = {
+				factor = 0.5
+				NOT = {
+					FROM = {
+						any_vassal = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+	}
+	devil_worshipers_induction = {
+		is_in_society = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			is_devil_worshiper_trigger = yes
+			society_rank >= 2
+			NOR = {
+				is_inaccessible_trigger = yes
+				prisoner = yes
+			}
+			OR = {
+				ai = no
+				NOR = {
+					AND = {
+						society_member_of = cult_of_khorne
+						is_society_rank_full = {
+							society = cult_of_khorne
+							rank = 1
+						}
+					}
+					AND = {
+						society_member_of = cult_of_nurgle
+						is_society_rank_full = {
+							society = cult_of_nurgle
+							rank = 1
+						}
+					}
+					AND = {
+						society_member_of = cult_of_tzeentch
+						is_society_rank_full = {
+							society = cult_of_tzeentch
+							rank = 1
+						}
+					}
+					AND = {
+						society_member_of = cult_of_slaanesh
+						is_society_rank_full = {
+							society = cult_of_slaanesh
+							rank = 1
+						}
+					}
+					AND = {
+						society_member_of = cult_of_undivided
+						is_society_rank_full = {
+							society = cult_of_undivided
+							rank = 1
+						}
+					}
+				}
+			}
+		}
+		potential = {
+			ai = yes
+			prisoner = yes
+			OR = {
+				religion_group = old_world_group
+				religion_group = ormazd_gods_group
+				religion_group = oriental_gods_group
+				religion = stromfels
+			}
+			nor = {
+				trait = witch_hunter
+				trait = creature_nehekharan
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+				trait = vampire_lahmian_hidden
+				trait = vampire_carstein_hidden
+				trait = vampire_blood_hidden
+				trait = vampire_strigoi_hidden
+				trait = vampire_necrarch_hidden
+				trait = vampire_jade_hidden
+				trait = vampire_mahtmasi_hidden
+			}
+		}
+		allow = {
+			age = 16
+			FROM = {
+				society_currency >= 25
+			}
+			nor = {
+				same_society_as = FROM
+				trait = zealous
+				has_character_modifier = recent_induction_attempt
+			}
+		}
+		effect = {
+			log = "work decision devil_worshipers_induction for [Root.GetBestName]"
+			FROM = {
+				increase_visibility_minor_effect = yes
+				change_society_currency = -25
+				character_event = {
+					id = DR_cults.7121
+					days = 0
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				is_rival = FROM
+				factor = 0
+			}
+			modifier = {
+				NOT = {
+					dynasty = FROM
+				}
+				is_ruler = no
+				factor = 0
+			}
+		}
+	}
+	devil_worshipers_summon_familiar = { #Power: Summon familiar
+		is_in_society = yes
+		filter = self
+		ai_target_filter = self
+		potential = {
+			always = no # disabled for now
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			character = FROM
+			has_dlc = "Mystics"
+			society_rank >= 2
+			is_devil_worshiper_trigger = yes
+		}
+		allow = {
+			custom_tooltip = {
+				text = devil_worshipers_summon_familiar_cd_tooltip
+				NOT = {
+					has_character_modifier = summon_familiar_cooldown
+				}
+			}
+			has_society_currency_major_trigger = yes
+		}
+		effect = {
+			log = "work decision devil_worshipers_summon_familiar for [Root.GetBestName]"
+			increase_visibility_effect = yes
+			hidden_effect = {
+				add_character_modifier = {
+					name = summon_familiar_cooldown
+					years = 5
+					hidden = yes
+				}
+				character_event = {
+					id = MNM.7815
+				}
+			}
+			detract_society_currency_major_effect = yes
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					has_character_modifier = wolf_familiar
+					has_character_modifier = cat_familiar
+					has_character_modifier = owl_familiar
+					has_character_modifier = raven_familiar
+				}
+			}
+		}
+	}
+	the_devil_worshipers_tainted_touch = { #Power: Tainted touch
+		is_in_society = yes
+		ai_target_filter = realm
+		from_potential = {
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			OR = {
+				has_society_currency_major_trigger = yes
+				ai = no
+			}
+			OR = {
+				war = yes
+				num_of_rivals = 1
+				ai = no
+			}
+			society_member_of = cult_of_nurgle
+			society_rank > 1
+		}
+		potential = {
+			NOT = {
+				character = FROM
+			}
+			OR = {
+				NOR = {
+					character_disease_trigger = yes
+					has_character_flag = developing_illness
+					has_character_flag = disease_not_serious
+				}
+				FROM = {
+					ai = no
+				}
+			}
+			OR = {
+				NOT = {
+					has_character_modifier = curse_cooldown_timer
+				}
+				FROM = {
+					ai = no
+				}
+			}
+			OR = {
+				AND = {
+					FROM = {
+						ai = no
+					}
+					is_within_diplo_range = FROM
+				}
+				AND = {
+					FROM = {
+						ai = yes
+					}
+					same_realm = FROM
+				}
+			}
+			OR = { #Makes sure the AI does good choices
+				FROM = {
+					ai = no
+				}
+				is_foe = FROM
+				war_with = FROM
+				holds_favor_on = FROM
+				any_spouse = { #Unfaithful spouse
+					character = FROM 
+					any_lover = {
+						NOT = {
+							character = FROM
+						}
+					}
+				}
+				any_lover = {
+					any_spouse = {
+						character = FROM
+					}
+				} #Lover of spouse
+				any_lover = {
+					any_lover = {
+						character = FROM
+					}
+				} #Lover of lover
+			}
+		}
+		allow = {
+			FROM = {
+				has_society_currency_major_trigger = yes
+			}
+			OR = {
+				same_realm = FROM
+				is_foe = FROM
+				same_society_as = FROM
+				war_with = FROM
+			}
+			custom_tooltip = {
+				text = the_devil_worshipers_tainted_touch_allow_2_tt
+				hidden_tooltip = {
+					NOT = {
+						has_character_modifier = curse_cooldown_timer
+					}
+				}
+			}
+			custom_tooltip = {
+				text = the_devil_worshipers_tainted_touch_allow_tt
+				NOR = {
+					character_disease_trigger = yes
+					has_character_flag = developing_illness
+					has_character_flag = disease_not_serious
+				}
+			}
+		}
+		effect = {
+			log = "work decision the_devil_worshipers_tainted_touch for [Root.GetBestName]"
+			FROM = {
+				increase_visibility_effect = yes
+			}
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = curse_cooldown_timer
+					hidden = yes
+					years = 10
+				}
+			}
+			custom_tooltip = {
+				text = the_devil_worshipers_tainted_touch_tooltip
+				if = {
+					limit = {
+						has_dlc = "Reapers"
+					}
+					character_event = {
+						id = DR_cults.7819 days = 3
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_dlc = "Reapers"
+						}
+					}
+					character_event = {
+						id = DR_cults.7819 days = 14 random = 14
+					}
+				}
+			}
+			FROM = {
+				save_event_target_as = curser
+				detract_society_currency_major_effect = yes
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	chaos_cult_demonic_possession = { # Power: Demonic Possession
+		is_in_society = yes
+		ai_target_filter = sub_realm
+		from_potential = {
+			is_cultist_trigger = yes
+			society_rank > 1
+		}
+		potential = {
+			OR = {
+				host = {
+					character = FROM
+				}
+				liege = {
+					character = FROM
+				}
+			}
+			nor = {
+				character = FROM
+				trait = avatar_kurnous
+				trait = avatar_isha
+				trait = everqueen
+			}
+			OR = {
+				trait = creature_elf
+				trait = creature_chaos_dwarf
+				trait = creature_dwarf
+				trait = creature_human
+				trait = creature_amazon
+				trait = creature_beastman
+			}
+			is_undead_trigger = no
+		}
+		allow = {
+			FROM = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				has_society_currency_minor_trigger = yes
+				custom_tooltip = {
+					text = is_accessible
+					OR = {
+						is_incapacitated_trigger = no
+						AND = {
+							FROM = {
+								has_character_modifier = in_seclusion
+								at_location = ROOT
+							}
+							ROOT = {
+								has_character_modifier = in_seclusion
+							}
+						}
+					}
+				}
+			}
+			NOT = {
+				trait = incapable
+			}
+			prisoner = yes
+		}
+		effect = {
+			log = "work decision chaos_cult_demonic_possession for [Root.GetBestName]"
+			# ROOT = {
+			# set_character_flag = possessing_courtier
+			# hidden_effect = {
+			# character_event = { id = DR_cults.7840 days = 3 random = 7 }
+			# }
+			# }
+			FROM = {
+				detract_society_currency_minor_effect = yes
+				increase_visibility_effect = yes
+				character_event = {
+					id = wh_chaos.17
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				factor = 0.5
+				is_benevolent_trigger = yes
+			}
+			modifier = {
+				factor = 0.25
+				ROOT = {
+					is_landed = no
+				}
+			}
+			modifier = {
+				factor = 3
+				ROOT = {
+					among_most_powerful_vassals = 5
+				}
+			}
+		}
+	}
+	khorne_recruit = {
+		is_in_society = yes
+		filter = all
+		ai_target_filter = realm
+		from_potential = {
+			is_adult = yes
+			NOT = {
+				has_character_modifier = recruitment_timer
+			}
+			society_member_of = cult_of_khorne
+			OR = {
+				ai = no
+				society_rank = {
+					society = cult_of_khorne
+					rank == 2
+				}
+				society_rank = {
+					society = cult_of_khorne
+					rank == 3
+				}
+			}
+		}
+		potential = {
+			OR = {
+				FROM = {
+					ai = no
+				}
+				ai = no
+			}
+			is_within_diplo_range = FROM
+			is_adult = yes
+			is_in_society = no
+			#AI cannot invite other AIs when society is full
+			NAND = {
+				ai = yes
+				FROM = {
+					ai = yes
+				}
+				NOT = {
+					can_join_society = cult_of_khorne
+				}
+			}
+			#Blocks so AI recruits sensible people (who might say no)
+			OR = {
+				FROM = {
+					ai = no
+				}
+				is_friend = FROM
+				is_lover = FROM
+				is_close_relative = FROM
+				trait = trusting
+				has_impious_trait_trigger = yes
+				trait = drunkard
+				trait = possessed
+				trait = lunatic
+				interested_in_society = cult_of_khorne
+			}
+		}
+		allow = {
+			from = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			age = 16
+			is_incorruptible_trigger = no
+			not = {
+				trait = witch_hunter
+			}
+			OR = {
+				religion_group = old_world_group
+				religion_group = ormazd_gods_group
+				religion_group = oriental_gods_group
+				religion = stromfels
+			}
+			OR = {
+				trait = wroth
+				trait = cruel
+				trait = brave
+				trait = duelist
+				trait = hunter
+				trait = impaler
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+			custom_tooltip = {
+				text = satanists_recruit_block_tooltip
+				OR = {
+					NOT = {
+						has_character_flag = khorne_attempted_recruitment
+					}
+					interested_in_society = cult_of_khorne
+				}
+				NOT = {
+					has_character_flag = being_recruited_by_khorne
+				}
+			}
+			FROM = {
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision khorne_recruit for [Root.GetBestName]"
+			set_character_flag = khorne_attempted_recruitment
+			set_character_flag = being_recruited_by_khorne
+			FROM = {
+				save_event_target_as = chaos_cult_recruiter
+			}
+			hidden_effect = {
+				character_event = {
+					id = DR_cults.7001 days = 3
+				} # recruitment chain
+				character_event = {
+					id = DR_cults.7030 days = 365
+				} # sends delayed back up, in case recruitment fails somehow
+				FROM = {
+					if = {
+						limit = {
+							ai = yes
+						}
+						add_character_modifier = {
+							name = recruitment_timer
+							days = 730
+							hidden = yes
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				factor = 10 # recruit interested parties
+				interested_in_society = cult_of_khorne
+			}
+		}
+	}
+	nurgle_recruit = {
+		is_in_society = yes
+		filter = all
+		ai_target_filter = realm
+		from_potential = {
+			is_adult = yes
+			NOT = {
+				has_character_modifier = recruitment_timer
+			}
+			society_member_of = cult_of_nurgle
+			OR = {
+				ai = no
+				society_rank = {
+					society = cult_of_nurgle
+					rank == 2
+				}
+				society_rank = {
+					society = cult_of_nurgle
+					rank == 3
+				}
+			}
+		}
+		potential = {
+			OR = {
+				FROM = {
+					ai = no
+				}
+				ai = no
+			}
+			is_within_diplo_range = FROM
+			is_adult = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			is_in_society = no
+			#AI cannot invite other AIs when society is full
+			NAND = {
+				ai = yes
+				FROM = {
+					ai = yes
+				}
+				NOT = {
+					can_join_society = cult_of_nurgle
+				}
+			}
+			#Blocks so AI recruits sensible people (who might say no)
+			OR = {
+				FROM = {
+					ai = no
+				}
+				is_friend = FROM
+				is_lover = FROM
+				is_close_relative = FROM
+				trait = trusting
+				has_impious_trait_trigger = yes
+				trait = drunkard
+				trait = possessed
+				trait = lunatic
+				interested_in_society = cult_of_nurgle
+			}
+		}
+		allow = {
+			age = 16
+			nor = {
+				trait = witch_hunter
+				trait = creature_nehekharan
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+				trait = vampire_lahmian_hidden
+				trait = vampire_carstein_hidden
+				trait = vampire_blood_hidden
+				trait = vampire_strigoi_hidden
+				trait = vampire_necrarch_hidden
+				trait = vampire_jade_hidden
+				trait = vampire_mahtmasi_hidden
+			}
+			OR = {
+				religion_group = old_world_group
+				religion_group = ormazd_gods_group
+				religion_group = oriental_gods_group
+				religion = stromfels
+			}
+			OR = {
+				trait = envious
+				trait = kind
+				trait = content
+				trait = weak
+				trait = infirm
+				trait = sickly
+				is_ill = yes
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+			is_incapacitated_trigger = no
+			custom_tooltip = {
+				text = satanists_recruit_block_tooltip
+				OR = {
+					NOT = {
+						has_character_flag = nurgle_attempted_recruitment
+					}
+					interested_in_society = cult_of_nurgle
+				}
+				NOT = {
+					has_character_flag = being_recruited_by_nurgle
+				}
+			}
+			FROM = {
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision nurgle_recruit for [Root.GetBestName]"
+			set_character_flag = nurgle_attempted_recruitment
+			set_character_flag = being_recruited_by_nurgle
+			FROM = {
+				save_event_target_as = chaos_cult_recruiter
+			}
+			hidden_effect = {
+				character_event = {
+					id = DR_cults.7001 days = 3
+				} # recruitment chain
+				character_event = {
+					id = DR_cults.7030 days = 365
+				} # sends delayed back up, in case recruitment fails somehow
+				FROM = {
+					if = {
+						limit = {
+							ai = yes
+						}
+						add_character_modifier = {
+							name = recruitment_timer
+							days = 730
+							hidden = yes
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				factor = 10 # recruit interested parties
+				interested_in_society = cult_of_nurgle
+			}
+		}
+	}
+	tzeentch_recruit = {
+		is_in_society = yes
+		filter = all
+		ai_target_filter = realm
+		from_potential = {
+			is_adult = yes
+			prisoner = no
+			nor = {
+				trait = incapable
+				has_character_modifier = recruitment_timer
+			}
+			society_member_of = cult_of_tzeentch
+			OR = {
+				ai = no
+				society_rank = {
+					society = cult_of_tzeentch
+					rank == 2
+				}
+				society_rank = {
+					society = cult_of_tzeentch
+					rank == 3
+				}
+			}
+		}
+		potential = {
+			OR = {
+				FROM = {
+					ai = no
+				}
+				ai = no
+			}
+			is_within_diplo_range = FROM
+			is_adult = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			is_in_society = no
+			#AI cannot invite other AIs when society is full
+			NAND = {
+				ai = yes
+				FROM = {
+					ai = yes
+				}
+				NOT = {
+					can_join_society = cult_of_tzeentch
+				}
+			}
+			#Blocks so AI recruits sensible people (who might say no)
+			OR = {
+				FROM = {
+					ai = no
+				}
+				is_friend = FROM
+				is_lover = FROM
+				is_close_relative = FROM
+				trait = trusting
+				has_impious_trait_trigger = yes
+				trait = drunkard
+				trait = possessed
+				trait = lunatic
+				interested_in_society = cult_of_tzeentch
+			}
+		}
+		allow = {
+			age = 16
+			nor = {
+				trait = witch_hunter
+				trait = creature_nehekharan
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+				trait = vampire_lahmian_hidden
+				trait = vampire_carstein_hidden
+				trait = vampire_blood_hidden
+				trait = vampire_strigoi_hidden
+				trait = vampire_necrarch_hidden
+				trait = vampire_jade_hidden
+				trait = vampire_mahtmasi_hidden
+			}
+			OR = {
+				religion_group = old_world_group
+				religion_group = ormazd_gods_group
+				religion_group = oriental_gods_group
+				religion = stromfels
+			}
+			OR = {
+				trait = ambitious
+				trait = cruel
+				trait = deceitful
+				trait = arbitrary
+				trait = cynical
+				trait = scholar
+				trait = mystic
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+			is_incapacitated_trigger = no
+			custom_tooltip = {
+				text = satanists_recruit_block_tooltip
+				OR = {
+					NOT = {
+						has_character_flag = tzeentch_attempted_recruitment
+					}
+					interested_in_society = cult_of_tzeentch
+				}
+				NOT = {
+					has_character_flag = being_recruited_by_tzeentch
+				}
+			}
+			FROM = {
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision tzeentch_recruit for [Root.GetBestName]"
+			set_character_flag = tzeentch_attempted_recruitment
+			set_character_flag = being_recruited_by_tzeentch
+			FROM = {
+				save_event_target_as = chaos_cult_recruiter
+			}
+			hidden_effect = {
+				character_event = {
+					id = DR_cults.7001 days = 3
+				} # recruitment chain
+				character_event = {
+					id = DR_cults.7030 days = 365
+				} # sends delayed back up, in case recruitment fails somehow
+				FROM = {
+					if = {
+						limit = {
+							ai = yes
+						}
+						add_character_modifier = {
+							name = recruitment_timer
+							days = 730
+							hidden = yes
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				factor = 10 # recruit interested parties
+				interested_in_society = cult_of_tzeentch
+			}
+		}
+	}
+	slaanesh_recruit = {
+		is_in_society = yes
+		filter = all
+		ai_target_filter = realm
+		from_potential = {
+			is_adult = yes
+			prisoner = no
+			nor = {
+				trait = incapable
+				has_character_modifier = recruitment_timer
+			}
+			society_member_of = cult_of_slaanesh
+			OR = {
+				ai = no
+				society_rank = {
+					society = cult_of_slaanesh
+					rank == 2
+				}
+				society_rank = {
+					society = cult_of_slaanesh
+					rank == 3
+				}
+			}
+		}
+		potential = {
+			OR = {
+				FROM = {
+					ai = no
+				}
+				ai = no
+			}
+			is_within_diplo_range = FROM
+			is_adult = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			is_in_society = no
+			#AI cannot invite other AIs when society is full
+			NAND = {
+				ai = yes
+				FROM = {
+					ai = yes
+				}
+				NOT = {
+					can_join_society = cult_of_slaanesh
+				}
+			}
+			#Blocks so AI recruits sensible people (who might say no)
+			OR = {
+				FROM = {
+					ai = no
+				}
+				is_friend = FROM
+				is_lover = FROM
+				is_close_relative = FROM
+				trait = trusting
+				has_impious_trait_trigger = yes
+				trait = drunkard
+				trait = possessed
+				trait = lunatic
+				interested_in_society = cult_of_slaanesh
+			}
+		}
+		allow = {
+			age = 16
+			nor = {
+				trait = witch_hunter
+				trait = creature_nehekharan
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+				trait = vampire_lahmian_hidden
+				trait = vampire_carstein_hidden
+				trait = vampire_blood_hidden
+				trait = vampire_strigoi_hidden
+				trait = vampire_necrarch_hidden
+				trait = vampire_jade_hidden
+				trait = vampire_mahtmasi_hidden
+			}
+			OR = {
+				religion_group = old_world_group
+				religion_group = ormazd_gods_group
+				religion_group = oriental_gods_group
+				religion = stromfels
+			}
+			OR = {
+				trait = lustful
+				trait = proud
+				trait = gluttonous
+				trait = greedy
+				trait = cruel
+				trait = hedonist
+				trait = poet
+				trait = impaler
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+			is_incapacitated_trigger = no
+			custom_tooltip = {
+				text = satanists_recruit_block_tooltip
+				OR = {
+					NOT = {
+						has_character_flag = slaanesh_attempted_recruitment
+					}
+					interested_in_society = cult_of_slaanesh
+				}
+				NOT = {
+					has_character_flag = being_recruited_by_slaanesh
+				}
+			}
+			FROM = {
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision slaanesh_recruit for [Root.GetBestName]"
+			set_character_flag = slaanesh_attempted_recruitment
+			set_character_flag = being_recruited_by_slaanesh
+			FROM = {
+				save_event_target_as = chaos_cult_recruiter
+			}
+			hidden_effect = {
+				character_event = {
+					id = DR_cults.7001 days = 3
+				} # recruitment chain
+				character_event = {
+					id = DR_cults.7030 days = 365
+				} # sends delayed back up, in case recruitment fails somehow
+				FROM = {
+					if = {
+						limit = {
+							ai = yes
+						}
+						add_character_modifier = {
+							name = recruitment_timer
+							days = 730
+							hidden = yes
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				factor = 10 # recruit interested parties
+				interested_in_society = cult_of_slaanesh
+			}
+		}
+	}
+	undivided_recruit = {
+		is_in_society = yes
+		filter = all
+		ai_target_filter = realm
+		from_potential = {
+			is_adult = yes
+			prisoner = no
+			nor = {
+				trait = incapable
+				has_character_modifier = recruitment_timer
+			}
+			society_member_of = cult_of_undivided
+			OR = {
+				ai = no
+				society_rank = {
+					society = cult_of_undivided
+					rank == 2
+				}
+				society_rank = {
+					society = cult_of_undivided
+					rank == 3
+				}
+			}
+		}
+		potential = {
+			OR = {
+				FROM = {
+					ai = no
+				}
+				ai = no
+			}
+			is_within_diplo_range = FROM
+			is_adult = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			is_in_society = no
+			#AI cannot invite other AIs when society is full
+			NAND = {
+				ai = yes
+				FROM = {
+					ai = yes
+				}
+				NOT = {
+					can_join_society = cult_of_undivided
+				}
+			}
+			#Blocks so AI recruits sensible people (who might say no)
+			OR = {
+				FROM = {
+					ai = no
+				}
+				is_friend = FROM
+				is_lover = FROM
+				is_close_relative = FROM
+				trait = trusting
+				has_impious_trait_trigger = yes
+				trait = drunkard
+				trait = possessed
+				trait = lunatic
+				interested_in_society = cult_of_undivided
+			}
+		}
+		allow = {
+			age = 16
+			nor = {
+				trait = witch_hunter
+				trait = creature_nehekharan
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+				trait = vampire_lahmian_hidden
+				trait = vampire_carstein_hidden
+				trait = vampire_blood_hidden
+				trait = vampire_strigoi_hidden
+				trait = vampire_necrarch_hidden
+				trait = vampire_jade_hidden
+				trait = vampire_mahtmasi_hidden
+			}
+			OR = {
+				religion_group = old_world_group
+				religion_group = ormazd_gods_group
+				religion_group = oriental_gods_group
+				religion = stromfels
+			}
+			OR = {
+				trait = ambitious
+				trait = proud
+				trait = gluttonous
+				trait = greedy
+				trait = cruel
+				trait = wroth
+				trait = cynical
+				trait = mystic
+				trait = mutation_minor
+				trait = mutation_major
+				trait = mutation_massive
+			}
+			is_incapacitated_trigger = no
+			custom_tooltip = {
+				text = satanists_recruit_block_tooltip
+				OR = {
+					NOT = {
+						has_character_flag = undivided_attempted_recruitment
+					}
+					interested_in_society = cult_of_undivided
+				}
+				NOT = {
+					has_character_flag = being_recruited_by_undivided
+				}
+			}
+			FROM = {
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision undivided_recruit for [Root.GetBestName]"
+			set_character_flag = undivided_attempted_recruitment
+			set_character_flag = being_recruited_by_undivided
+			FROM = {
+				save_event_target_as = chaos_cult_recruiter
+			}
+			hidden_effect = {
+				character_event = {
+					id = DR_cults.7001 days = 3
+				} # recruitment chain
+				character_event = {
+					id = DR_cults.7030 days = 365
+				} # sends delayed back up, in case recruitment fails somehow
+				FROM = {
+					if = {
+						limit = {
+							ai = yes
+						}
+						add_character_modifier = {
+							name = recruitment_timer
+							days = 730
+							hidden = yes
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 # slow down
+			}
+			modifier = {
+				factor = 10 # recruit interested parties
+				interested_in_society = cult_of_undivided
+			}
+		}
+	}
+}
+#title_decisions
+
+title_decisions = {
+	
+	#Bleeding Heart
+	monastic_order_convert_county = { # Monastic Order Rank 4 Power - Convert County
+		only_rulers = yes
+		from_potential = {
+			has_dlc = "Mystics"
+			is_ruler = yes
+			is_monastic_member_trigger = yes
+			society_rank == 4
+		}
+		potential = {
+			tier = COUNT
+			location = {
+				NOT = {
+					religion = FROM
+				}
+			}
+			holder_scope = {
+				OR = {
+					is_liege_or_above = FROM
+					character = FROM
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				society_currency >= 1000
+			}
+			location = {
+				NOT = {
+					religion = FROM
+				}
+				owner = {
+					NOT = {
+						religion = PREV
+					}
+				} # Cannot convert counties of owners who has that religion
+			}
+		}
+		effect = {
+			log = "work decision monastic_order_convert_county for [Root.GetBestName]"
+			FROM = {
+				change_society_currency = -1000
+				hidden_tooltip = {
+					character_event = {
+						id = MNM.4990
+					}
+				}
+			}
+			location = {
+				religion = FROM
+				add_province_modifier = {
+					name = religious_tension
+					years = 2
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					# Notify county owner
+					limit = {
+						holder_scope = {
+							NOT = {
+								character = FROM
+							}
+						}
+					}
+					holder_scope = {
+						character_event = {
+							id = MNM.4991
+						}
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	#Chaos Worshiper
+	devil_worshiper_desecrate_temple_decision = {
+		only_playable = yes
+		ai_target_filter = realm_owned
+		from_potential = {
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			has_dlc = "Mystics"
+			has_quest = quest_devil_worshipers_desecrate_temple
+			NOT = {
+				has_character_flag = desecration_in_progress
+			}
+			is_devil_worshiper_trigger = yes
+		}
+		potential = {
+			OR = {
+				tier = BARON
+				tier = COUNT
+			}
+			OR = {
+				is_quest_target_of = FROM
+				location = {
+					capital_holding = {
+						is_quest_target_of = FROM
+					}
+				}
+			}
+			FROM = {
+				NOT = {
+					has_character_flag = desecration_in_progress
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				has_quest = quest_devil_worshipers_desecrate_temple
+			}
+			OR = {
+				is_quest_target_of = FROM
+				location = {
+					capital_holding = {
+						is_quest_target_of = FROM
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision devil_worshiper_desecrate_temple_decision for [Root.GetBestName]"
+			FROM = {
+				increase_visibility_effect = yes
+				custom_tooltip = {
+					text = devil_worshiper_desecrate_temple_decision_tt
+				}
+				set_character_flag = desecration_in_progress
+				ROOT = {
+					if = {
+						limit = {
+							owner = {
+								character = FROM
+							}
+						}
+						add_holding_modifier = {
+							name = desecrated_temple
+							years = 5
+						}
+						FROM = {
+							sound_effect = devil_worshippers_desecrate_temple
+							clr_quest = quest_devil_worshipers_desecrate_temple
+							add_society_currency_medium_effect = yes
+							break = yes
+						}
+					}
+				}
+				hidden_effect = {
+					character_event = {
+						id = MNM.7112 days = 7
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.5
+		}
+	}
+	chaos_cult_prepare_grounds = {
+		only_playable = yes
+		ai_target_filter = realm_owned
+		filter = realm_owned
+		from_potential = {
+			society_rank > 2
+			OR = {
+				society_member_of = cult_of_khorne
+				society_member_of = cult_of_nurgle
+				society_member_of = cult_of_tzeentch
+				society_member_of = cult_of_slaanesh
+				society_member_of = cult_of_undivided
+			}
+		}
+		potential = {
+			holder_scope = {
+				same_realm = FROM
+			}
+			OR = {
+				AND = {
+					FROM = {
+						society_member_of = cult_of_khorne
+					}
+					nor = {
+						location = {
+							religion = khorne
+						}
+						location = {
+							has_province_modifier = secret_khorne_community
+						}
+					}
+				}
+				AND = {
+					FROM = {
+						society_member_of = cult_of_nurgle
+					}
+					nor = {
+						location = {
+							religion = nurgle
+						}
+						location = {
+							has_province_modifier = secret_nurgle_community
+						}
+					}
+				}
+				AND = {
+					FROM = {
+						society_member_of = cult_of_tzeentch
+					}
+					nor = {
+						location = {
+							religion = tzeentch
+						}
+						location = {
+							has_province_modifier = secret_tzeentch_community
+						}
+					}
+				}
+				AND = {
+					FROM = {
+						society_member_of = cult_of_slaanesh
+					}
+					nor = {
+						location = {
+							religion = slaanesh
+						}
+						location = {
+							has_province_modifier = secret_slaanesh_community
+						}
+					}
+				}
+				AND = {
+					FROM = {
+						society_member_of = cult_of_undivided
+					}
+					nor = {
+						location = {
+							religion = chaos
+						}
+						location = {
+							has_province_modifier = secret_undivided_community
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			FROM = {
+				has_society_currency_medium_trigger = yes
+			}
+			custom_tooltip = {
+				text = prepare_grounds_allow_tooltip
+				hidden_trigger = {
+					FROM = {
+						NOT = {
+							has_character_flag = preparing_grounds_in_@ROOT
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision chaos_cult_prepare_grounds for [Root.GetBestName]"
+			location = {
+				save_event_target_as = target_province
+			}
+			FROM = {
+				society = {
+					save_event_target_as = original_society
+				}
+				if = {
+					limit = {
+						ai = no
+					}
+					detract_society_currency_medium_effect = yes
+				}
+				custom_tooltip = {
+					text = secret_religions_prepare_grounds_effect_tooltip
+					character_event = {
+						id = DR_cults.3850 days = 2
+					}
+				}
+			}
+			FROM = {
+				if = {
+					limit = {
+						is_society_grandmaster = yes
+					}
+					increase_visibility_minor_effect = yes
+				}
+				if = {
+					limit = {
+						NOT = {
+							is_society_grandmaster = yes
+						}
+					}
+					increase_visibility_effect = yes
+				}
+				set_character_flag = preparing_grounds_in_@ROOT
+				character_event = {
+					id = DR_cults.3849 days = 1200
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+}
+#settlement decision
+
+settlement_decisions = {
+
+	chaos_cult_desecrate_province_decision = {
+		only_playable = yes
+		ai_target_filter = realm_owned
+		# from_potential = {
+		# prisoner = no
+		# NOT = { trait = incapable }
+		# has_dlc = "Mystics"
+		# has_quest = quest_chaos_cult_desecrate_province
+		# NOT = { has_character_flag = desecration_in_progress }
+		# is_cultist_trigger = yes
+		# }
+		potential = {
+			location = {
+				is_quest_target_of = FROM
+			}
+			FROM = {
+				NOT = {
+					has_character_flag = desecration_in_progress
+				}
+				has_quest = quest_chaos_cult_desecrate_province
+				is_cultist_trigger = yes
+			}
+		}
+		allow = {
+			FROM = {
+				has_quest = quest_chaos_cult_desecrate_province
+			}
+			location = {
+				is_quest_target_of = FROM
+			}
+		}
+		effect = {
+			log = "work decision chaos_cult_desecrate_province_decision for [Root.GetBestName]"
+			FROM = {
+				increase_visibility_effect = yes
+				custom_tooltip = {
+					text = chaos_cult_desecrate_province_decision_tt
+				}
+				set_character_flag = desecration_in_progress
+				# ROOT = {
+				# if = {
+				# limit = {
+				# owner = { character = FROM }
+				# }
+				# if = {
+				# limit = {
+				# FROM = { society_member_of = cult_of_khorne }
+				# }
+				# add_province_modifier = { name = beastmen_unrest years = 5 }
+				# }
+				# if = {
+				# limit = {
+				# FROM = { society_member_of = cult_of_nurgle }
+				# }
+				# add_province_modifier = { name = nurgle_province_disease years = 5 }
+				# random_list = {
+				# 16 = {
+				# spawn_disease = tuberculosis
+				# }
+				# 16 = {
+				# spawn_disease = typhoid_fever
+				# }
+				# 16 = {
+				# spawn_disease = typhus
+				# }
+				# 16 = {
+				# spawn_disease = measles
+				# }
+				# 16 = {
+				# spawn_disease = small_pox
+				# }
+				# 16 = {
+				# spawn_disease = syphilis
+				# }
+				# }
+				# }
+				# if = {
+				# limit = {
+				# FROM = { society_member_of = cult_of_tzeentch }
+				# }
+				# add_province_modifier = { name = warpdust_traces years = 5 }
+				# }
+				# if = {
+				# limit = {
+				# FROM = { society_member_of = cult_of_slaanesh }
+				# }
+				# add_province_modifier = { name = slaanesh_hedonism years = 5 }
+				# }
+				# if = {
+				# limit = {
+				# FROM = { society_member_of = cult_of_undivided }
+				# }
+				# add_holding_modifier = {
+				# name = desecrated_temple
+				# years = 5
+				# }
+				# }
+				# FROM = {
+				# sound_effect = devil_worshippers_desecrate_temple
+				# clr_quest = quest_chaos_cult_desecrate_province
+				# add_society_currency_medium_effect = yes
+				# break = yes
+				# }
+				# }
+				# }
+				hidden_effect = {
+					character_event = {
+						id = DR_cults.7112
+						days = 7
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.5
+		}
+	}
+}
+#END

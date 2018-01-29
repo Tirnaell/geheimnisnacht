@@ -1,0 +1,4294 @@
+namespace = z_item_crafting_menu
+
+# Main Menu, USE ITEM, GIFT ITEM
+character_event = {
+	id = z_item_crafting_menu.0
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.0 for [Root.GetBestName]"
+		event_target:magic_caster = {
+			magic_points_setup = yes
+		}
+		character_event = {
+			id = z_item_crafting_menu.1
+		}
+	}
+}
+
+character_event = {
+	id = z_item_crafting_menu.1
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.1 for [Root.GetBestName]"
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_cancel"
+				value = 0
+			}
+			set_variable = {
+				which = "action_picked"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_weapon"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_armor"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_helmet"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_potion"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_banner"
+				value = 0
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = "0"
+			}
+			set_variable = {
+				which = "action_picked"
+				value = "1"
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_weapon" which = "action_nr"
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_armor" which = "action_nr"
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel" which = "action_nr"
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_helmet" which = "action_nr"
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_potion" which = "action_nr"
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "4"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_banner" which = "action_nr"
+				}
+			}
+		}
+		long_character_event = {
+			id = z_item_crafting_menu.2
+		}
+	}
+}
+
+long_character_event = {
+	id = z_item_crafting_menu.2
+	title = "Item Crafting"
+	# лол надо перенести в файл локализации
+	desc = "Of the many arts unique to the mage, none is perhaps more profound than the crafting of enchanted items. Unlike spells and rituals of power, the crafting of an item creates a persisting legacy of profound capability, capable of being wielded not just by the few for whom magic is a part of their blood, but any with the will and the heart to stand forth."
+	picture = "GFX_evt_mage_choose_lore"
+	is_triggered_only = yes
+
+	trigger = {
+		event_target:item_crafter = {
+			is_alive = yes
+		}
+	}
+
+	# next action
+	immediate = {
+		log = "work event id = z_item_crafting_menu.2 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "NEXT_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked" which = "action_nr"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked"
+					value = 1
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.2
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked" which = "action_nr"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = 1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.2
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	# previous action
+	option = {
+		name = "PREVIOUS_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked"
+							value = "1"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = -1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.2
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked"
+						value = "1"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked" which = "action_nr"
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.2
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = "Weapon Crafting"
+		custom_tooltip = {
+			text = "Engage in the crafting of a weapon ensorcelled with powerful sorceries. These weapons will greatly empower your combat ability."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked"
+					which = "d_action_craft_weapon"
+				}
+			}
+		}
+		character_event = {
+			id = z_item_crafting_menu.21
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Armor Crafting"
+		custom_tooltip = {
+			text = "Engage in the crafting of enchanted chest. These suits of armor will increase your defenses while dueling."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked"
+					which = "d_action_craft_armor"
+				}
+			}
+		}
+		character_event = {
+			id = z_item_crafting_menu.31
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Jewel Crafting"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent magic jewel, these items will boost your character's attributes."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked"
+					which = "d_action_craft_jewel"
+				}
+			}
+		}
+		character_event = {
+			id = z_item_crafting_menu.41
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Helm Crafting"
+		custom_tooltip = {
+			text = "Engage in the crafting of a enchanted helm. These helms will affect your character with a attribute boosts and increased defense in dueling."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked"
+					which = "d_action_craft_helmet"
+				}
+			}
+		}
+		character_event = {
+			id = z_item_crafting_menu.51
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Potion Crafting"
+		custom_tooltip = {
+			text = "Engage in the crafting of a enchanted helm. These helms will affect your character with a attribute boosts and increased defense in dueling."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked"
+					which = "d_action_craft_potion"
+				}
+			}
+		}
+		character_event = {
+			id = z_item_crafting_menu.61
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Banner Crafting"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted banner. These banners will boost your armies raw performance in combat."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked"
+					which = "d_action_craft_banner"
+				}
+			}
+		}
+		character_event = {
+			id = z_item_crafting_menu.71
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "I don't want to craft at this time"
+		event_target:item_crafter = {
+			clr_character_flag = casting
+		}
+		ai_chance = {
+			factor = 10
+		}
+	}
+}
+
+# Item Crafting Weapons
+character_event = {
+	id = z_item_crafting_menu.21
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.21 for [Root.GetBestName]"
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_cancel"
+				value = 0
+			}
+			set_variable = {
+				which = "action_picked"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_weapon_1"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_weapon_2"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_weapon_3"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_weapon_4"
+				value = 0
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = "0"
+			}
+			set_variable = {
+				which = "action_picked"
+				value = "1"
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_weapon_1" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_weapon_2" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_weapon_3" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "4"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_weapon_4" which = "action_nr"
+				}
+			}
+		}
+		long_character_event = {
+			id = z_item_crafting_menu.22
+		}
+	}
+}
+
+long_character_event = {
+	id = z_item_crafting_menu.22
+	title = "Craft Enchanted Swords"
+	desc = "The Crafting of Enchanted blades remains one of the singlemost important tasks for all mages of the realm. By equipping the knights and lords of the realm with enchanted armaments, the mages and sorcerers of the realm ensure the defence by force of arms."
+	picture = "GFX_evt_mage_choose_lore"
+	is_triggered_only = yes
+
+	trigger = {
+		event_target:item_crafter = {
+			is_alive = yes
+		}
+	}
+	# next action
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.22 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "NEXT_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked" which = "action_nr"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked"
+					value = 1
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.22
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked" which = "action_nr"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = 1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.22
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	# previous action
+
+	option = {
+		name = "PREVIOUS_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked"
+							value = "1"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = -1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.22
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked"
+						value = "1"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked" which = "action_nr"
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.22
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = "Craft Spear"
+		custom_tooltip = {
+			text = "The crafting of enchanted items is one of the most profound and arcane secrets preserved by the various magicals of the world. Enchanted weapon stand out as one of the most potent sources of personal enhancement availiable."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_weapon_1"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = w_spear1
+						wealth = -1000
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = w_spear2
+						wealth = -600
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = w_spear3
+						wealth = -300
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Sword"
+		custom_tooltip = {
+			text = "The crafting of enchanted items is one of the most profound and arcane secrets preserved by the various magicals of the world. Enchanted weapon stand out as one of the most potent sources of personal enhancement availiable."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_weapon_2"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = w_2hsword1
+						wealth = -1500
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = w_2hsword2
+						wealth = -600
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = w_2hsword3
+						wealth = -350
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Dagger"
+		custom_tooltip = {
+			text = "The crafting of enchanted items is one of the most profound and arcane secrets preserved by the various magicals of the world. Enchanted weapon stand out as one of the most potent sources of personal enhancement availiable."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_weapon_3"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = w_dagger1
+						wealth = -850
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = w_dagger2
+						wealth = -300
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Staff"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted blade of the shadows. These blades carry enchantments that bolster their ability to strike from an unknown corner."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_weapon_4"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = w_staff1
+						wealth = -1500
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = w_staff2
+						wealth = -850
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = w_staff3
+						wealth = -350
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Retun to Crafting Menu"
+		character_event = {
+			id = z_item_crafting_menu.0
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# Item Crafting Armor
+character_event = {
+	id = z_item_crafting_menu.31
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.31 for [Root.GetBestName]"
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_cancel"
+				value = 0
+			}
+			set_variable = {
+				which = "action_picked"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_armor_chest"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_armor_knights_plate"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_armor_robe"
+				value = 0
+			}
+				set_variable = {
+				which = "d_action_craft_armor_shield"
+				value = 0
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = "0"
+			}
+			set_variable = {
+				which = "action_picked"
+				value = "1"
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_armor_chest" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_armor_knights_plate" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "4"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_armor_robe" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_armor_shield" which = "action_nr"
+				}
+			}
+		}
+		long_character_event = {
+			id = z_item_crafting_menu.32
+		}
+	}
+}
+
+long_character_event = {
+	id = z_item_crafting_menu.32
+	title = "Arcane Spell Casting"
+	desc = "Arcane Magic, perhaps the most profound force in existance. This kind of power is one that rapidly exceeds the imagination and capability of many, unleashing unto the world forces at the limit's of comprehension."
+	picture = "GFX_evt_mage_choose_lore"
+	is_triggered_only = yes
+
+	trigger = {
+		event_target:item_crafter = {
+			is_alive = yes
+		}
+	}
+	# next action
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.32 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "NEXT_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked" which = "action_nr"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked"
+					value = 1
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.32
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked" which = "action_nr"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = 1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.32
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	# previous action
+
+	option = {
+		name = "PREVIOUS_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked"
+							value = "1"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = -1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.32
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked"
+						value = "1"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked" which = "action_nr"
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.32
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = "Craft Leather Chest"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent magic chest, this item will boost your combat skills."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_armor_chest"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = a_chest1
+						wealth = -1000
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = a_chest2
+						wealth = -650
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = a_chest3
+						wealth = -300
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Knights Armor"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent magic plate, this item will boost your combat skills."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_armor_knights_plate"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = a_knight1
+						wealth = -1000
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = a_knight2
+						wealth = -600
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = a_knight3
+						wealth = -300
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Robe"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent magic cloak, this item will boost your learning."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_armor_robe"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = a_robe1
+						wealth = -1500
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = a_robe2
+						wealth = -750
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = a_robe3
+						wealth = -500
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = "Craft Shield"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent shield, this item will boost your combat skills."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_armor_shield"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = charmed_shield
+						wealth = -750
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = shield_of_ptolos
+						wealth = -450
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = enchanted_shield
+						wealth = -300
+					}
+				}
+				4 = {
+					event_target:item_recipient = {
+						add_artifact = spellshield
+						wealth = -150
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Retun to Crafting Menu"
+		character_event = {
+			id = z_item_crafting_menu.0
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# Item Crafting Jewel
+character_event = {
+	id = z_item_crafting_menu.41
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.41 for [Root.GetBestName]"
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_cancel"
+				value = 0
+			}
+			set_variable = {
+				which = "action_picked"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_ring1"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_ring2"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_ring3"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_ring4"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_ring5"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_ring6"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_amulet1"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_amulet2"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_jewel_amulet3"
+				value = 0
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = "0"
+			}
+			set_variable = {
+				which = "action_picked"
+				value = "1"
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_ring1" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_ring2" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_ring3" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_ring4" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "3"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_ring5" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "4"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_ring6" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_amulet1" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_amulet2" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+					check_variable = {
+						which = "caster_level"
+						value = "6"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_jewel_amulet3" which = "action_nr"
+				}
+			}
+		}
+		long_character_event = {
+			id = z_item_crafting_menu.42
+		}
+	}
+}
+
+long_character_event = {
+	id = z_item_crafting_menu.42
+	title = "Craft Enchanted Ring"
+	desc = "The crafting of enchanted items is one of the most profound and arcane secrets preserved by the various magicals of the world. Enchanted rings stand out as one of the most potent sources of personal enhancement availiable."
+	picture = "GFX_evt_mage_choose_lore"
+	is_triggered_only = yes
+	trigger = {
+		event_target:item_crafter = {
+			is_alive = yes
+		}
+	}
+
+	# next action
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.42 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "NEXT_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked" which = "action_nr"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked"
+					value = 1
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.42
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked" which = "action_nr"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = 1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.42
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	# previous action
+
+	option = {
+		name = "PREVIOUS_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked"
+							value = "1"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = -1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.42
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked"
+						value = "1"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked" which = "action_nr"
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.42
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = "Craft Ring of Speed"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent magic ring, This item will boost your ability to get your army into position."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_ring1"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = ring_of_speed
+						wealth = -400
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Ring of Persuasion"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted ring, This ring will boost your diplomacy attribute profoundly."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_ring2"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = ring_of_persuasion
+						wealth = -350
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Ring of Insight"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted ring, This ring will boost your learning attribute profoundly."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_ring3"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = mages_ring_3
+						wealth = -500
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = mages_ring_2
+						wealth = -300
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = mages_ring_1
+						wealth = -200
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Ring of Invisibility"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted ring, this item will boost your intrigue attribute profoundly."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_ring4"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = ring_of_invisibility
+						wealth = -500
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Ring of Luck"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted ring, This ring will boost your stewardship attribute profoundly."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_ring5"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = ring_of_luck
+						wealth = -750
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Ring of Command"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted Ring, this item will boost your martial ability profoundly."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_ring6"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = ring_of_command
+						wealth = -1000
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+		option = {
+		name = "Craft Amulet of Defence"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted amulet, this item will boost your defence profoundly."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_amulet1"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = amulet_of_protection_5
+						wealth = -850
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = amulet_of_protection_3
+						wealth = -500
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = amulet_of_protection_1
+						wealth = -350
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Amulet of Insight"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted amulet, this item will boost your learning profoundly."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_amulet2"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = mages_amulet_3
+						wealth = -450
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = mages_amulet_2
+						wealth = -300
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = mages_amulet_1
+						wealth = -150
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Collar"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent enchanted collar."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_jewel_amulet3"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = amulet_collar
+						wealth = -1500
+					}
+
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Retun to Crafting Menu"
+		character_event = {
+			id = z_item_crafting_menu.0
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# Item Crafting Helm
+character_event = {
+	id = z_item_crafting_menu.51
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.51 for [Root.GetBestName]"
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_cancel"
+				value = 0
+			}
+			set_variable = {
+				which = "action_picked"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_helmet_crown"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_helmet_plate"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_helmet_hood"
+				value = 0
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = "0"
+			}
+			set_variable = {
+				which = "action_picked"
+				value = "1"
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "4"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_helmet_crown" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_helmet_plate" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "3"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_helmet_hood" which = "action_nr"
+				}
+			}
+		}
+		long_character_event = {
+			id = z_item_crafting_menu.52
+		}
+	}
+}
+
+long_character_event = {
+	id = z_item_crafting_menu.52
+	title = "Arcane Spell Casting"
+	desc = "Arcane Magic, perhaps the most profound force in existance. This kind of power is one that rapidly exceeds the imagination and capability of many, unleashing unto the world forces at the limit's of comprehension."
+	picture = "GFX_evt_mage_choose_lore"
+	is_triggered_only = yes
+
+	trigger = {
+		event_target:item_crafter = {
+			is_alive = yes
+		}
+	}
+
+	# next action
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.52 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "NEXT_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked" which = "action_nr"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked"
+					value = 1
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.52
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked" which = "action_nr"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = 1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.52
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	# previous action
+
+	option = {
+		name = "PREVIOUS_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked"
+							value = "1"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = -1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.52
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked"
+						value = "1"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked" which = "action_nr"
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.52
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = "Craft Crown"
+		custom_tooltip = {
+			text = "Engage in the crafting of a enchanted crown. These crown will affect your character with a attribute boosts and increased stewardship and vassal opinion."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_helmet_crown"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = h_crown1
+						wealth = -1500
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = h_crown2
+						wealth = -1000
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = h_crown3
+						wealth = -650
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Knights Helmet"
+		custom_tooltip = {
+			text = "Engage in the crafting of a enchanted plate helm. These helm will affect your character with a attribute boosts and increased defense in dueling."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_helmet_plate"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = h_knight1
+						wealth = -950
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = h_knight2
+						wealth = -700
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = h_knight3
+						wealth = -300
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Hood"
+		custom_tooltip = {
+			text = "Engage in the crafting of a enchanted hood. These hood will affect your character with a attribute boosts and increased ///."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_helmet_hood"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = h_hood1
+						wealth = -1250
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = h_hood2
+						wealth = -750
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = h_hood3
+						wealth = -450
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Retun to Crafting Menu"
+		character_event = {
+			id = z_item_crafting_menu.0
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# Item Crafting Potion
+character_event = {
+	id = z_item_crafting_menu.61
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.61 for [Root.GetBestName]"
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_cancel"
+				value = 0
+			}
+			set_variable = {
+				which = "action_picked"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_potion_healing"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_potion_beauty"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_potion_love"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_potion_ethernal"
+				value = 0
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = "0"
+			}
+			set_variable = {
+				which = "action_picked"
+				value = "1"
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_potion_healing" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "2"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_potion_beauty" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "3"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_potion_love" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+ 					check_variable = {
+						which = "caster_level"
+						value = "4"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_potion_ethernal" which = "action_nr"
+				}
+			}
+		}
+		long_character_event = {
+			id = z_item_crafting_menu.62
+		}
+	}
+}
+
+long_character_event = {
+	id = z_item_crafting_menu.62
+	title = "Arcane Spell Casting"
+	desc = "Arcane Magic, perhaps the most profound force in existance. This kind of power is one that rapidly exceeds the imagination and capability of many, unleashing unto the world forces at the limit's of comprehension."
+	picture = "GFX_evt_mage_choose_lore"
+	is_triggered_only = yes
+
+	trigger = {
+		event_target:item_crafter = {
+			is_alive = yes
+		}
+	}
+
+	# next action
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.62 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "NEXT_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked" which = "action_nr"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked"
+					value = 1
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.62
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked" which = "action_nr"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = 1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.62
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	# previous action
+
+	option = {
+		name = "PREVIOUS_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked"
+							value = "1"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = -1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.62
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked"
+						value = "1"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked" which = "action_nr"
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.62
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = "Craft Potion of Healing"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent magic potion, this item will boost your success at casting spells."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_potion_healing"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = potion_of_healing
+						wealth = -350
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Potion of Beauty"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent potion, this item will remove some congenital negative trait and make more attractive."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_potion_beauty"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						if = {
+							limit = { trait = pretty }
+							add_trait = beautiful
+							hidden_tooltip = { remove_trait = pretty }
+							break = yes
+						}
+						if = {
+							limit = { trait = fair }
+							add_trait = pretty
+							hidden_tooltip = { remove_trait = fair }
+							break = yes
+						}
+						if = {
+							limit = {
+								NOT = { trait = beautiful }
+								NOT = { trait = pretty }
+								NOT = { trait = fair }
+								NOT = { trait = plain }
+								NOT = { trait = ugly }
+								NOT = { trait = unsightly }
+								NOT = { trait = monstrous }
+							}
+						add_trait = fair
+						break = yes
+						}
+						if = {
+							limit = { trait = plain }
+							remove_trait = plain
+							break = yes
+						}
+						if = {
+							limit = { trait = ugly }
+							add_trait = plain
+							hidden_tooltip = { remove_trait = ugly }
+							break = yes
+						}
+						if = {
+							limit = { trait = unsightly }
+							add_trait = ugly
+							hidden_tooltip = { remove_trait = unsightly }
+							break = yes
+						}
+						wealth = -500
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Love Elixir"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent magic potion. Increace fertility and relationship."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_potion_love"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = elixir_of_love
+						wealth = -750
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Elixir of Eternal Youth"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent legendary magic potion. Unable to die of oldness."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_potion_ethernal"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = elixir_of_eternal_youth
+						wealth = -5000
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Retun to Crafting Menu"
+		character_event = {
+			id = z_item_crafting_menu.0
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# Item Crafting Banner
+character_event = {
+	id = z_item_crafting_menu.71
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.71 for [Root.GetBestName]"
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_cancel"
+				value = 0
+			}
+			set_variable = {
+				which = "action_picked"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_banner_eternal_flame"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_banner_scarecrow"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_banner_discipline"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_banner_swiftness"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_banner_rampagers"
+				value = 0
+			}
+			set_variable = {
+				which = "d_action_craft_banner_rangers"
+				value = 0
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "action_nr"
+				value = "0"
+			}
+			set_variable = {
+				which = "action_picked"
+				value = "1"
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_banner_eternal_flame" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_banner_scarecrow" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_banner_discipline" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_banner_swiftness" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_banner_rampagers" which = "action_nr"
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					in_command = no
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_nr"
+					value = 1
+				}
+				change_variable = {
+					which = "d_action_craft_banner_rangers" which = "action_nr"
+				}
+			}
+		}
+		long_character_event = {
+			id = z_item_crafting_menu.72
+		}
+	}
+}
+
+long_character_event = {
+	id = z_item_crafting_menu.72
+	title = "Arcane Spell Casting"
+	desc = "Arcane Magic, perhaps the most profound force in existance. This kind of power is one that rapidly exceeds the imagination and capability of many, unleashing unto the world forces at the limit's of comprehension."
+	picture = "GFX_evt_mage_choose_lore"
+	is_triggered_only = yes
+
+	trigger = {
+		event_target:item_crafter = {
+			is_alive = yes
+		}
+	}
+
+	# next action
+
+	immediate = {
+		log = "work event id = z_item_crafting_menu.72 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "NEXT_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked" which = "action_nr"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked"
+					value = 1
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.72
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked" which = "action_nr"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = 1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.72
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	# previous action
+
+	option = {
+		name = "PREVIOUS_ACTION"
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOT = {
+						is_variable_equal = {
+							which = "action_picked"
+							value = "1"
+						}
+					}
+				}
+			}
+			event_target:item_crafter = {
+				change_variable = {
+					which = "action_picked"
+					value = -1
+				}
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.72
+				}
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					is_variable_equal = {
+						which = "action_picked"
+						value = "1"
+					}
+				}
+			}
+			event_target:item_crafter = {
+				set_variable = {
+					which = "action_picked" which = "action_nr"
+				} # circular menu
+			}
+			hidden_tooltip = {
+				repeat_event = {
+					id = z_item_crafting_menu.72
+				}
+			}
+			break = yes
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = "Craft Banner of Eternal Flame"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent banner, this item will boost damage or make more experimentality."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_banner_eternal_flame"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = banner_of_eternal_flame
+						wealth = -1000
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = razor_standard
+						wealth = -750
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = lichebone_pennant
+						wealth = -250
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Scarecrow Banner"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent banner, this item will boost morale and make more experimentality."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_banner_scarecrow"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = scarecrow_banner
+						wealth = -700
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = wailing_banner
+						wealth = -500
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = lichebone_pennant
+						wealth = -250
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Standard of Discipline"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent banner, this item will boost morale or make more experimentality."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_banner_discipline"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = standard_of_discipline
+						wealth = -600
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = gleaming_pennant
+						wealth = -450
+					}
+				}
+				3 = {
+					event_target:item_recipient = {
+						add_artifact = lichebone_pennant
+						wealth = -250
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Banner of Swiftness"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent banner, this item will strong boost of movement speed or make more experimentality."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_banner_swiftness"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = banner_of_swiftness
+						wealth = -850
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = lichebone_pennant
+						wealth = -250
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Rampagers Standard"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent banner, this item will boost cavalery or make more experimentality."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_banner_rampagers"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = rampagers_standard
+						wealth = -500
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = lichebone_pennant
+						wealth = -250
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Craft Rangers Standard"
+		custom_tooltip = {
+			text = "Engage in the crafting of a potent banner, this item will take terrain boost or make more experimentality."
+		}
+		trigger = {
+			event_target:item_crafter = {
+				is_variable_equal = {
+					which = "action_picked" which = "d_action_craft_banner_rangers"
+				}
+			}
+		}
+		event_target:item_crafter = {
+			set_variable = {
+				which = "miscast"
+				value = 1
+			}
+			set_variable = {
+				which = "dispel"
+				value = 1
+			}
+			z_miscast_case = yes
+			dispel_setup_effect = yes
+			if = {
+				limit = {
+					event_target:item_crafter = {
+						has_character_flag = has_dispel
+					}
+				}
+				z_dispell_case = yes
+				event_target:item_crafter = {
+					clr_character_flag = has_dispel
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:item_crafter = {
+					NOR = {
+						has_character_flag = miscast
+						has_character_flag = dispeled
+					}
+				}
+			}
+			character_event = {
+				id = z_spell_menu.99998
+			}
+			random_list = {
+				1 = {
+					event_target:item_recipient = {
+						add_artifact = rangers_standard
+						wealth = -500
+					}
+				}
+				2 = {
+					event_target:item_recipient = {
+						add_artifact = lichebone_pennant
+						wealth = -250
+					}
+				}
+			}
+		}
+		z_spell_process_non_combat = yes
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = "Retun to Crafting Menu"
+		character_event = {
+			id = z_item_crafting_menu.0
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}

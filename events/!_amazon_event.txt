@@ -1,0 +1,70 @@
+namespace = amazon
+# may be make gateway for clean events
+# on death to pass an amazon barony to a randomly generated female
+character_event = {
+	id = amazon.001
+	hide_window = yes
+	religion = amazon
+	culture = amazon_main
+	only_rulers = yes
+	max_age = 100
+	is_triggered_only = yes
+
+	trigger = {
+		primary_title = {
+			tier = BARON
+		}
+	}
+
+	immediate = {
+		log = "work event id = aicleanup.001 for [Root.GetBestName]"
+		random_list = {
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = NONE
+					religion = ROOT
+					culture = ROOT
+					female = yes
+					age = 20
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = RANDOM
+					religion = ROOT
+					culture = ROOT
+					female = yes
+					age = 30
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = RANDOM
+					religion = ROOT
+					culture = ROOT
+					female = yes
+					age = 40
+				}
+			}
+			25 = {
+				create_character = {
+					random_traits = yes
+					dynasty = NONE
+					religion = ROOT
+					culture = ROOT
+					female = yes
+					age = 50
+				}
+			}
+		}
+		new_character = {
+			add_trait = creature_amazon
+			character_event = {
+				id = aicleanup.002
+			}
+		}
+	}
+}

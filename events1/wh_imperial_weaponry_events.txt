@@ -1,0 +1,30 @@
+namespace = EVTweaponry
+
+# weaponry events
+# The Emperor alone wields the Hammer of Sigmar!
+character_event = {
+	id = EVTweaponry.3
+	desc = EVTDESCweaponry.3
+	picture = GFX_duel5
+	is_triggered_only = yes
+
+	trigger = {
+		has_landed_title = e_the_empire
+		nor = {
+			has_artifact = ghal_maraz
+			any_character = {
+				has_artifact = ghal_maraz
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = EVTweaponry.3 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTAweaponry.3
+		add_artifact = ghal_maraz
+		piety = 150
+	}
+}

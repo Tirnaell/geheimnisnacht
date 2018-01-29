@@ -1,0 +1,9417 @@
+decisions = {
+	#???
+	impose_marriage_dominance = {
+		only_playable = yes
+		potential = {
+			is_married = yes
+			higher_tier_than = COUNT
+			OR = {
+				trait = creature_human
+				trait = creature_dwarf
+				trait = creature_chaos_dwarf
+				trait = creature_elf
+				trait = creature_halfling
+				trait = creature_amazon
+			}
+			OR = {
+				AND = {
+					is_female = yes
+					is_married_matrilineally = no
+				}
+				AND = {
+					is_female = no
+					is_married_matrilineally = yes
+				}
+			}
+			OR = {
+				ai = no
+				NOT = {
+					trait = content
+				}
+			}
+			spouse = {
+				is_ruler = no
+				is_landed = no
+				NOT = {
+					any_close_relative = {
+						higher_tier_than = COUNT
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			OR = {
+				AND = {
+					is_female = yes
+					is_married_matrilineally = no
+				}
+				AND = {
+					is_female = no
+					is_married_matrilineally = yes
+				}
+			}
+			spouse = {
+				is_ruler = no
+				is_landed = no
+				NOT = {
+					any_close_relative = {
+						higher_tier_than = COUNT
+					}
+				}
+			}
+			OR = {
+				AND = {
+					is_female = no
+					NOT = {
+						top_liege = {
+							primary_title = {
+								OR = {
+									has_law = enatic_succession
+									has_law = enatic_cognatic_succession
+								}
+							}
+						}
+					}
+				}
+				AND = {
+					is_female = yes
+					NOT = {
+						top_liege = {
+							primary_title = {
+								OR = {
+									has_law = agnatic_succession
+									has_law = cognatic_succession
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision impose_marriage_dominance for [Root.GetBestName]"
+			if = {
+				limit = {
+					is_female = yes
+				}
+				set_character_flag = no_wedding_event
+				spouse = {
+					set_character_flag = no_wedding_event
+					remove_spouse = spouse
+					add_spouse_matrilineal = ROOT
+					clr_character_flag = no_wedding_event
+				}
+				clr_character_flag = no_wedding_event
+			}
+			if = {
+				limit = {
+					is_female = no
+				}
+				set_character_flag = no_wedding_event
+				spouse = {
+					set_character_flag = no_wedding_event
+					remove_spouse = spouse
+					add_spouse = ROOT
+					clr_character_flag = no_wedding_event
+				}
+				clr_character_flag = no_wedding_event
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+			}
+		}
+	}
+
+	#GLOBAL
+	ai_race_trait_check = {
+		potential = {
+			#ai = yes
+			is_demon_trigger = no
+			nor = {
+				trait = creature_human
+				trait = creature_amazon
+				trait = creature_elf
+				trait = creature_dwarf
+				trait = creature_chaos_dwarf
+				trait = chaos_dwarf_sorcerer
+				trait = creature_halfling
+				trait = creature_orc
+				trait = creature_goblin
+				trait = creature_snotling
+				trait = creature_nehekharan
+				trait = creature_skink
+				trait = creature_saurus
+				trait = creature_slann
+				trait = creature_skaven
+				trait = creature_forestspirit
+				trait = creature_treekin
+				trait = creature_beastman
+				trait = creature_ogre
+				trait = creature_chaosspawn
+				trait = vampire_carstein_visible
+				trait = vampire_lahmian_visible
+				trait = creature_celdragon
+			}
+		}
+		allow = {
+		}
+		effect = {
+			log = "work decision ai_race_trait_check for [Root.GetBestName]"
+			character_event = {
+				id = wh_maintenance.51
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	ai_intermarriage_fix = {
+		potential = {
+			ai = yes
+			spouse = {
+				is_alive = yes
+			}
+			OR = {
+				spouse = {
+					cannot_marry_race_trigger = yes
+				}
+				nor = {
+					AND = {
+						spouse = { ai = no }
+						has_global_flag = optionB
+					}
+					# beastmen can hybridize with everyone else
+					spouse = {
+						trait = creature_beastman
+					}
+					trait = creature_beastman
+					# human
+					and = {
+						spouse = {
+							trait = creature_human
+						}
+						trait = creature_human
+					}
+					# elf
+					and = {
+						spouse = {
+							trait = creature_elf
+						}
+						trait = creature_elf
+					}
+					# dwarf
+					and = {
+						spouse = {
+							or = {
+								trait = creature_dwarf
+								trait = creature_chaos_dwarf
+							}
+						}
+						or = {
+							trait = creature_dwarf
+							trait = creature_chaos_dwarf
+						}
+					}
+					# halfling
+					and = {
+						spouse = {
+							trait = creature_halfling
+						}
+						trait = creature_halfling
+					}
+					# ogre
+					and = {
+						spouse = {
+							trait = creature_ogre
+						}
+						trait = creature_ogre
+					}
+				}
+			}
+		}
+		allow = {
+		}
+		effect = {
+			log = "work decision ai_intermarriage_fix for [Root.GetBestName]"
+			any_spouse = {
+				remove_spouse = ROOT
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	ai_intermarriage_fix_elf = {
+		potential = {
+			ai = yes
+			trait = creature_elf
+			NOR = {
+				trait = elven_scion
+				trait = elven_maiden
+			}
+			age = 12
+			NOT = {
+				age = 45
+			}
+			is_married = no
+		}
+		allow = {
+		}
+		effect = {
+			log = "work decision ai_intermarriage_fix_elf for [Root.GetBestName]"
+			if = {
+				limit = {
+					is_female = yes
+				}
+				add_trait = elven_maiden
+			}
+			if = {
+				limit = {
+					is_female = no
+				}
+				add_trait = elven_scion
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	openslaverymenu = {
+		only_playable = yes
+		potential = {
+			age = 16
+			nor = {
+				religion = hashut
+				trait = creature_beastman
+			}
+			OR = {
+				religion_group = cytharai_group
+				religion_group = greenskin_gods_group
+				religion_group = chaos_gods_group
+				religion_group = old_gods_group
+				religion = amazon
+			}
+		}
+		allow = {
+			OR = {
+				check_variable = {
+					which = elfslaves value = 1
+				}
+				check_variable = {
+					which = dwarfslaves value = 1
+				}
+				check_variable = {
+					which = humanslaves value = 1
+				}
+			}
+		}
+		effect = {
+			log = "work decision openslaverymenu for [Root.GetBestName]"
+			character_event = {
+				id = slavery.2
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	pick_main_deity = { #Choose patron gods Dwarfs, Northern Gods, Tomb Kings
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			has_dlc = "The Old Gods"
+			is_playable = yes
+			is_adult = yes
+			prisoner = no
+			OR = {
+				religion = ancestor_gods
+				religion = norse_ancestor_gods
+				religion = nehekharan_gods
+				religion = northern_gods
+			}
+		}
+		allow = {
+			piety = 25
+			custom_tooltip = {
+				text = pick_main_deity_timer_tooltip
+				NOT = {
+					has_character_modifier = picked_main_deity_timer
+				}
+			}
+			prisoner = no
+		}
+		effect = {
+			log = "work decision pick_main_deity for [Root.GetBestName]"
+			if = {
+				limit = {
+					has_character_modifier = follower_of_grungni
+				}
+				remove_character_modifier = follower_of_grungni
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_grimnir
+				}
+				remove_character_modifier = follower_of_grimnir
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_valaya
+				}
+				remove_character_modifier = follower_of_valaya
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_thungni
+				}
+				remove_character_modifier = follower_of_thungni
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_ursun
+				}
+				remove_character_modifier = follower_of_ursun
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_dazh
+				}
+				remove_character_modifier = follower_of_dazh
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_tor
+				}
+				remove_character_modifier = follower_of_tor
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_kalita
+				}
+				remove_character_modifier = follower_of_kalita
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_ptra
+				}
+				remove_character_modifier = follower_of_ptra
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_asaph
+				}
+				remove_character_modifier = follower_of_asaph
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_phakth
+				}
+				remove_character_modifier = follower_of_phakth
+			}
+			if = {
+				limit = {
+					has_character_modifier = follower_of_usirian
+				}
+				remove_character_modifier = follower_of_usirian
+			}
+			piety = -25
+			custom_tooltip = {
+				text = pick_main_deity_tooltip
+				#Starts main deity events
+				hidden_tooltip = {
+					if = {
+						limit = {
+							has_minor_deity_trigger = no
+						}
+						character_event = {
+							id = TOG.7100 days = 10
+						}
+					}
+				}
+				#Event for picking main deity
+				trigger_switch = {
+					on_trigger = religion
+					ancestor_gods 				= {
+						character_event = {
+							id = TOG.7110
+						}
+					}
+					norse_ancestor_gods 		= {
+						character_event = {
+							id = TOG.7110
+						}
+					}
+					northern_gods				= {
+						character_event = {
+							id = TOG.7200
+						}
+					}
+					nehekharan_gods				= {
+						character_event = {
+							id = TOG.7300
+						}
+					}
+				}
+				add_character_modifier = {
+					name = picked_main_deity_timer
+					duration = 3650
+					hidden = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.1
+		}
+	}
+	search_youth_fountain = { #Only for lustria jungle province
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			OR = {
+				trait = creature_amazon
+				trait = creature_skink
+				trait = creature_human
+			}
+			war = no
+			capital_scope = {
+				region = world_new_world_lustria
+			}
+			nor = {
+				has_character_flag = searching_the_fountain
+				trait = pregnant
+				trait = immortal
+			}
+		}
+		allow = {
+			prestige = 50
+			wealth = 450
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision search_youth_fountain for [Root.GetBestName]"
+			prestige = -50
+			wealth = -450
+			if = {
+				limit = {
+					trait = creature_skink
+				}
+				decadence = 4
+			}
+			hidden_tooltip = {
+				character_event = {
+					id = slizardmen.70
+				}
+				set_character_flag = searching_the_fountain
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.001
+			}
+			modifier = {
+				factor = 1.5
+				trait = brave
+			}
+			modifier = {
+				factor = 1.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 2.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 0.15
+				trait = craven
+			}
+			modifier = {
+				factor = 0
+				trait = maimed
+			}
+			modifier = {
+				factor = 0
+				trait = wounded
+			}
+		}
+	}
+	expel_strigany = {
+		only_playable = yes
+		only_independent = yes
+		potential = {
+			age = 16
+			nor = {
+				has_character_modifier = expelled_strigany
+				culture_group = strigany_group
+				trait = vampire_strigoi_visible
+			}
+			OR = {
+				capital_scope = {
+					has_province_modifier = strigany_caravan
+				}
+				any_vassal = {
+					capital_scope = {
+						has_province_modifier = strigany_caravan
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			prestige = 150
+			piety = 50
+		}
+		effect = {
+			log = "work decision expel_strigany for [Root.GetBestName]"
+			wealth = 150
+			piety = -150
+			prestige = -50
+			add_character_modifier = {
+				name = expelled_strigany
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				capital_scope = {
+					remove_province_modifier = strigany_caravan
+				}
+				any_courtier = {
+					limit = {
+						culture_group = strigany_group
+					}
+					set_variable = {
+						which = "strigany_presence_v" value = 0
+					}
+					banish = yes
+				}
+				any_vassal = {
+					capital_scope = {
+						remove_province_modifier = strigany_caravan
+					}
+					any_courtier = {
+						limit = {
+							culture_group = strigany_group
+						}
+						set_variable = {
+							which = "strigany_presence_v" value = 0
+						}
+						banish = yes
+					}
+					any_vassal = {
+						capital_scope = {
+							remove_province_modifier = strigany_caravan
+						}
+						any_courtier = {
+							limit = {
+								culture_group = strigany_group
+							}
+							set_variable = {
+								which = "strigany_presence_v" value = 0
+							}
+							banish = yes
+						}
+						any_vassal = {
+							capital_scope = {
+								remove_province_modifier = strigany_caravan
+							}
+							any_courtier = {
+								limit = {
+									culture_group = strigany_group
+								}
+								set_variable = {
+									which = "strigany_presence_v" value = 0
+								}
+								banish = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 1.5
+				trait = zealous
+			}
+			modifier = {
+				factor = 1.5
+				trait = greedy
+			}
+			modifier = {
+				factor = 2
+				trait = paranoid
+			}
+			modifier = {
+				factor = 0.5
+				trait = craven
+			}
+			modifier = {
+				factor = 0.15
+				trait = trusting
+			}
+			modifier = {
+				factor = 1.5
+				religion = sigmarite
+			}
+			modifier = {
+				factor = 3
+				capital_scope = {
+					has_province_modifier = strigany_strife
+				}
+			}
+		}
+	}
+	welcome_strigany = {
+		only_playable = yes
+		only_independent = yes
+		potential = {
+			age = 16
+			has_character_modifier = expelled_strigany
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 25
+			prestige = 150
+			piety = 50
+		}
+		effect = {
+			log = "work decision welcome_strigany for [Root.GetBestName]"
+			wealth = -25
+			piety = -150
+			prestige = -50
+			remove_character_modifier = expelled_strigany
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 1.5
+				trait = cynical
+			}
+			modifier = {
+				factor = 1.5
+				trait = charitable
+			}
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+			modifier = {
+				factor = 5
+				trait = vampire_strigoi_visible
+			}
+			modifier = {
+				factor = 10
+				culture = strigany
+			}
+		}
+	}
+	welcome_the_witch_hunters = {
+		potential = {
+			higher_tier_than = DUKE
+			independent = yes
+			trait = creature_human
+			has_character_modifier = expelled_k_witch_hunters_order
+		}
+		allow = {
+			wealth = 150
+		}
+		effect = {
+			log = "work decision welcome_the_witch_hunters for [Root.GetBestName]"
+			wealth = -150
+			if = {
+				limit = {
+					religion = sigmarite
+				}
+				piety = 500
+			}
+			if = {
+				limit = {
+					NOT = {
+						religion = sigmarite
+					}
+					religion_group = old_world_group
+				}
+				piety = 250
+			}
+			if = {
+				limit = {
+					nor = {
+						religion_group = old_world_group
+						religion_group = chaos_gods_group
+					}
+				}
+				piety = 50
+			}
+			if = {
+				limit = {
+					religion_group = chaos_gods_group
+				}
+				piety = -750
+			}
+			remove_character_modifier = expelled_k_witch_hunters_order
+			hidden_tooltip = {
+				decrease_visibility_effect = yes
+				k_witch_hunters_order = {
+					holder_scope = {
+						letter_event = {
+							id = swhunters.8
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01 #Slow down
+			}
+			modifier = {
+				factor = 100
+				NOR =  {
+					religion_group = chaos_gods_group
+					trait = vampire_carstein_visible
+					trait = vampire_blood_visible
+					trait = vampire_lahmian_visible
+					trait = vampire_necrarch_visible
+					trait = vampire_strigoi_visible
+					trait = vampire_mahtmasi_visible
+					trait = vampire_jade_visible
+					trait = vampire_carstein_hidden
+					trait = vampire_blood_hidden
+					trait = vampire_lahmian_hidden
+					trait = vampire_necrarch_hidden
+					trait = vampire_strigoi_hidden
+					trait = vampire_mahtmasi_hidden
+					trait = vampire_jade_hidden
+					trait = lunatic_2
+					trait = lunatic_3
+					society_member_of = cult_of_khorne
+					society_member_of = cult_of_nurgle
+					society_member_of = cult_of_slaanesh
+					society_member_of = cult_of_tzeentch
+					trait = mutation_minor
+					trait = mutation_major
+					trait = mutation_massive
+				}
+			}
+			modifier = {
+				factor = 0
+				OR =  {
+					religion_group = chaos_gods_group
+					trait = vampire_carstein_visible
+					trait = vampire_blood_visible
+					trait = vampire_lahmian_visible
+					trait = vampire_necrarch_visible
+					trait = vampire_strigoi_visible
+					trait = vampire_mahtmasi_visible
+					trait = vampire_jade_visible
+					trait = mutation_massive
+				}
+			}
+			modifier = {
+				factor = 0.01
+				OR =  {
+					wh_has_any_magic_potential_reveal_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				NAND = {
+					trait = lore_ice
+					is_female = yes
+					religion = ursun
+				}
+				wh_is_mage_trigger = yes
+			}
+		}
+	}
+	call_templars = {
+		only_rulers = yes
+		potential = {
+			higher_tier_than = COUNT
+			religion_group = old_world_group
+			trait = creature_human
+			is_heretic = no
+			is_title_active = k_witch_hunters_order
+			NOT = {
+				trait = witch_hunter
+			}
+			location = {
+				region = world_old_world
+			}
+			NOT = {
+				has_character_modifier = expelled_k_witch_hunters_order
+			}
+			OR = {
+				NOT = {
+					has_character_flag = asked_templars_assistance
+				}
+				had_character_flag = {
+					flag = asked_templars_assistance days = 900
+				}
+			}
+			is_nomadic = no
+			is_tribal = no
+		}
+		allow = {
+			war = yes
+			piety = 150
+			wealth = 50
+			k_witch_hunters_order = {
+				holder_scope = {
+					war = no
+				}
+			}
+			any_war = {
+				OR = {
+					is_primary_war_attacker = yes
+					is_primary_war_defender = yes
+				}
+				OR = {
+					any_defender = {
+						religion_group = chaos_gods_group
+					}
+ 					any_attacker = {
+						religion_group = chaos_gods_group
+					}
+					any_defender = {
+						has_character_modifier = expelled_k_witch_hunters_order
+					}
+ 					any_attacker = {
+						has_character_modifier = expelled_k_witch_hunters_order
+					}
+					any_defender = {
+						religion_group = necromantic_group
+					}
+ 					any_attacker = {
+						religion_group = necromantic_group
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision  any_attacker for [Root.GetBestName]"
+			piety = -150
+			wealth = -50
+			set_character_flag = asked_templars_assistance
+			hidden_tooltip = {
+				k_witch_hunters_order = {
+					holder_scope = {
+						letter_event = {
+							id = swhunters.25
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.75 # Slow it down
+			}
+			modifier = {
+				factor = 0.75 # Small realms more likely to ask for help
+				higher_tier_than = COUNT
+			}
+			modifier = {
+				factor = 0.5  # Small realms more likely to ask for help
+				higher_tier_than = DUKE
+			}
+			modifier = {
+				factor = 0	# Don't worry, I've got this
+				any_war = {
+					defender = {
+						character = ROOT
+						war_score = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 0	# Don't worry, I've got this
+				any_war = {
+					attacker = {
+						character = ROOT
+						war_score = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				any_war = {
+					defender = {
+						character = ROOT
+						NOT = {
+							war_score = -10
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				any_war = {
+					defender = {
+						character = ROOT
+						NOT = {
+							war_score = -50
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 3
+				any_war = {
+					defender = {
+						character = ROOT
+						NOT = {
+							war_score = -75
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				k_witch_hunters_order = {
+					holder_scope = {
+						NOT = {
+							religion = ROOT
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.25
+				k_witch_hunters_order = {
+					holder_scope = {
+						NOT = {
+							opinion = {
+								who = ROOT value = 0
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	restore_eternal_empire = { #for mirmidians
+		is_high_prio = yes
+		potential = {
+			age = 16
+			NOT = {
+				has_global_flag = ee_restored
+			}
+			religion = myrmidian
+			OR = {
+				culture_group = estalian_group
+				culture_group = tilean_group
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			prestige = 1500
+			OR = {
+				has_landed_title = e_estalia
+				has_landed_title = e_tilea
+			}
+			has_landed_title = c_magritta
+			completely_controls = d_remas
+			completely_controls = d_luccini
+			completely_controls = d_bilbali
+		}
+		effect = {
+			log = "work decision restore_eternal_empire for [Root.GetBestName]"
+			wealth = -500
+			prestige = 500
+			activate_title = {
+				title = e_eternal_empire status = yes
+			}
+			hidden_tooltip = {
+				k_astarios = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_cantonia = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_castillona = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_tigarre = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_obregon = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_calafina = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_tobaro = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_adriata = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_miragliano = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_trantio = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_remas = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_pavona = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_luccini = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_sartosa = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_monte_castello = {
+					de_jure_liege = e_eternal_empire
+				}
+				k_verezzo = {
+					de_jure_liege = e_eternal_empire
+				}
+				if = {
+					limit = {
+						has_landed_title = e_estalia
+					}
+					e_estalia = {
+						any_direct_de_jure_vassal_title = {
+							de_jure_liege = e_eternal_empire
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_landed_title = e_tilea
+					}
+					e_tilea = {
+						any_direct_de_jure_vassal_title = {
+							de_jure_liege = e_eternal_empire
+						}
+					}
+				}
+			}
+			primary_title = {
+				e_eternal_empire = {
+					grant_title = ROOT
+					copy_title_laws = PREV
+					copy_title_history = PREV
+				}
+			}
+			hidden_tooltip = {
+				e_eternal_empire = {
+					make_primary_title = yes
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_landed_title = e_estalia
+						e_estalia = {
+							has_holder = no
+						}
+					}
+				}
+				e_estalia = {
+					destroy_landed_title = THIS
+				}
+				activate_title = {
+					title = e_estalia status = no
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_landed_title = e_tilea
+						e_tilea = {
+							has_holder = no
+						}
+					}
+				}
+				e_tilea = {
+					destroy_landed_title = THIS
+				}
+				activate_title = {
+					title = e_tilea status = no
+				}
+			}
+			set_global_flag = ee_restored
+			narrative_event = {
+				id = DR_misc.1
+				tooltip = EVTTOOLTIPETERNALRESTORED
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	create_elective_league = { # Only for human rulers inside the Borderlands region
+		only_playable = yes
+		potential = {
+			ai = no  # adjacency calculation is expensive, so ai instead uses MTTH event ElectiveLeagues.30
+			OR = {
+				real_tier = KING
+				real_tier = DUKE
+				real_tier = COUNT
+			}
+			league_potential_trigger = yes
+		}
+		allow = {
+			is_feudal = yes
+			# religion_allows_feudal_elective_trigger = yes
+			any_independent_ruler = {
+				THIS_and_PREV_same_rank_trigger = yes
+				THIS_can_join_PREV_league_trigger = yes
+				THIS_and_FROM_are_adjacent_trigger = yes
+			}
+		}
+		effect = {
+			log = "work decision create_elective_league for [Root.GetBestName]"
+			custom_tooltip = {
+				text = create_elective_league_effect
+				hidden_tooltip = {
+					character_event = {
+						id = DR_misc.1031
+					}
+				}
+			}
+		}
+	}
+
+	#IMPERIAL
+	claim_the_throne = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			age = 16
+			culture_group = imperial_group
+			nor = {
+				has_character_flag = claimed_empire
+				has_global_flag = united_empire
+				trait = witch_hunter
+				religion_group = chaos_gods_group
+				government = congregation_government
+			}
+			higher_tier_than = DUKE
+			e_the_empire ={
+				has_holder = no
+			}
+			is_vampire_trigger = no
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			custom_tooltip = {
+				text = IS_IMPERIAL_HERO
+				has_character_flag = imperial_hero
+			}
+			prestige = 2000
+			piety = 2000
+			diplomacy = 12
+		}
+		effect = {
+			log = "work decision claim_the_throne for [Root.GetBestName]"
+			character_event = {
+				id = unification.0
+			}
+			character_event = {
+				id = EVTweaponry.3
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	mend_imperial_schism = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			age = 16
+			tier = EMPEROR
+			OR = {
+				religion = sigmarite
+				religion = ulrican
+				religion = taalite
+			}
+			NOT = {
+				has_global_flag = imperial_churches_unified
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 1000
+			is_heretic = no
+			# religion_authority = 0.7
+			has_landed_title = e_the_empire
+		}
+		effect = {
+			log = "work decision mend_imperial_schism for [Root.GetBestName]"
+			narrative_event = {
+				id = DR_imperial.1
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					trait = zealous
+				}
+			}
+		}
+	}
+	distribute_runefangs = {
+		only_playable = yes
+		potential = {
+			tier = EMPEROR
+			calc_true_if = {
+				amount = 2
+				has_artifact = goblin_bane
+				has_artifact = legbiter
+				has_artifact = crow_feeder
+				has_artifact = brain_wounder
+				has_artifact = mothers_ruin
+				has_artifact = dragon_tooth
+				has_artifact = orc_hewer
+				has_artifact = stone_breaker
+				has_artifact = blood_bringer
+				has_artifact = troll_cleaver
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			trait = charitable
+		}
+		effect = {
+			log = "work decision distribute_runefangs for [Root.GetBestName]"
+			if = {
+				limit = {
+					has_artifact = dragon_tooth
+					NOT = {
+						has_landed_title = k_reikland
+					}
+					any_vassal = {
+						has_landed_title = k_reikland
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_reikland
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = dragon_tooth
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_artifact = mothers_ruin
+					NOT = {
+						has_landed_title = k_averland
+					}
+					any_vassal = {
+						has_landed_title = k_averland
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_averland
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = mothers_ruin
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_artifact = goblin_bane
+					NOT = {
+						has_landed_title = k_hochland
+					}
+					any_vassal = {
+						has_landed_title = k_hochland
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_hochland
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = goblin_bane
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_artifact = legbiter
+					NOT = {
+						has_landed_title = k_middenland
+					}
+					any_vassal = {
+						has_landed_title = k_middenland
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_middenland
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = legbiter
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_artifact = crow_feeder
+					NOT = {
+						has_landed_title = k_nordland
+					}
+					any_vassal = {
+						has_landed_title = k_nordland
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_nordland
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = crow_feeder
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_artifact = brain_wounder
+					NOT = {
+						has_landed_title = k_ostland
+					}
+					any_vassal = {
+						has_landed_title = k_ostland
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_ostland
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = brain_wounder
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_artifact = troll_cleaver
+					NOT = {
+						has_landed_title = k_ostermark
+					}
+					any_vassal = {
+						has_landed_title = k_ostermark
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_ostermark
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = troll_cleaver
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_artifact = orc_hewer
+					NOT = {
+						has_landed_title = k_stirland
+					}
+					any_vassal = {
+						has_landed_title = k_stirland
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_stirland
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = orc_hewer
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_landed_title = k_talabecland
+					}
+					any_vassal = {
+						has_landed_title = k_talabecland
+					}
+					has_artifact = stone_breaker
+				}
+				destroy_artifact = stone_breaker
+				any_vassal = {
+					limit = {
+						has_landed_title = k_talabecland
+					}
+					add_artifact = stone_breaker
+				}
+			}
+			if = {
+				limit = {
+					has_artifact = blood_bringer
+					NOT = {
+						has_landed_title = k_wissenland
+					}
+					any_vassal = {
+						has_landed_title = k_wissenland
+					}
+				}
+				any_vassal = {
+					limit = {
+						has_landed_title = k_wissenland
+					}
+					root = {
+						any_artifact = {
+							limit = {
+								artifact_type = blood_bringer
+							}
+							transfer_artifact = {
+								from = root
+								to = prevprev
+							}
+						}
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	put_engineer_to_work = {
+		only_playable = yes
+		potential = {
+			ai = no
+			capital_scope = {
+				NOR = {
+					has_province_modifier = engineer_working_artillery
+					has_province_modifier = engineer_working_steam_tank
+				}
+				owner = {
+					character = ROOT
+				}
+			}
+			any_courtier = {
+				trait = engineer
+				prisoner = no
+			}
+			NOT = {
+				has_character_flag = flag_ordering_engineer
+			}
+		}
+		allow = {
+			wealth = 100
+		}
+		effect = {
+			log = "work decision put_engineer_to_work for [Root.GetBestName]"
+			set_character_flag = flag_ordering_engineer
+			character_event = {
+				id = DR_universities.133
+			}
+		}
+		# ai_will_do = {
+		# factor = 1
+		# modifier = {
+		# factor = 0
+		# has_character_modifier = loan_timer
+		# OR = {
+		# stewardship = 9
+		# trait = temperate
+		# NOT = {
+		# OR = {
+		# trait = gluttonous
+		# trait = hedonist
+		# trait = slothful
+		# }
+		# }
+		# }
+		# }
+		# }
+	}
+
+	#BRETONIAN
+	patrolyourlands = {
+		only_playable = yes
+		potential = {
+			age = 16
+			religion = grail
+			nor = {
+				trait = on_knight_quest
+				has_character_flag = on_grail_quest
+			}
+			OR = {
+				trait = bretonnian_knight_errant
+				trait = bretonnian_knight
+				trait = grail_knight
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			NOT = {
+				trait = craven
+			}
+		}
+		effect = {
+			log = "work decision patrolyourlands for [Root.GetBestName]"
+			character_event = {
+				id = wh_bretonnia.2
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_children = no
+			}
+			modifier = {
+				factor = 0
+				age = 35
+			}
+			modifier = {
+				factor = 0
+				war = yes
+			}
+			modifier = {
+				factor = 0
+				nor = {
+					trait = brave
+					trait = proud
+					trait = ambitious
+				}
+			}
+		}
+	}
+	returntoyourcastle = {
+		potential = {
+			trait = on_knight_quest
+			not = {
+				has_character_flag = on_grail_quest
+			}
+		}
+		allow = {
+		}
+		effect = {
+			log = "work decision returntoyourcastle for [Root.GetBestName]"
+			character_event = {
+				id = wh_bretonnia.5
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				nor = {
+					age = 35
+					has_character_flag = on_grail_quest
+					war = yes
+				}
+			}
+		}
+	}
+	goonthegrailquest = {
+		only_playable = yes
+		potential = {
+			age = 16
+			religion = grail
+			trait = bretonnian_knight
+			nor = {
+				trait = grail_knight
+				has_character_flag = on_grail_quest
+			}
+		}
+		allow = {
+			or = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				trait = on_knight_quest
+			}
+			not = {
+				trait = wounded
+			}
+		}
+		effect = {
+			log = "work decision goonthegrailquest for [Root.GetBestName]"
+			if = {
+				limit = {
+					trait = on_knight_quest
+				}
+				remove_trait = on_knight_quest
+			}
+			character_event = {
+				id = wh_bretonnia.21
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05
+			}
+			modifier = {
+				factor = 0.05
+				has_children = no
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 10
+				}
+			}
+			modifier = {
+				factor = 2
+				martial = 10
+			}
+			modifier = {
+				factor = 2
+				martial = 15
+			}
+			modifier = {
+				factor = 2
+				martial = 20
+			}
+			modifier = {
+				factor = 0.01
+				nor = {
+					trait = ambitious
+					trait = zealous
+					trait = proud
+					trait = brave
+				}
+			}
+			modifier = {
+				factor = 0.01
+				tier = COUNT
+			}
+		}
+	}
+
+	#DWARF
+	raise_throngs = {
+		only_playable = yes
+		is_high_prio = yes
+		is_mercenary = yes
+		potential = {
+			is_playable = yes
+			is_landed = yes
+			OR = {
+				religion = ancestor_gods
+				religion = norse_ancestor_gods
+			}
+		}
+		allow = {
+			war = yes
+			custom_tooltip = {
+				text = raise_defensive_unit_tooltip
+				hidden_tooltip = {
+					any_war = {
+						is_primary_war_defender = yes
+						#Defending against heathen
+						OR = {
+							#Defender is ancestor gods but attacker is not
+							AND = {
+								ROOT = {
+									religion = ancestor_gods
+								}
+								attacker = {
+									NOT = {
+										religion = ancestor_gods
+									}
+								}
+							}
+							#Defender is norse ancestor gods but attacker is not
+							AND = {
+								ROOT = {
+									religion = norse_ancestor_gods
+								}
+								attacker = {
+									NOT = {
+										religion = norse_ancestor_gods
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			piety = 100
+		}
+		effect = {
+			log = "work decision raise_throngs for [Root.GetBestName]"
+			custom_tooltip = {
+				text = summon_defensive_throng
+			}
+			piety = -80
+			hidden_tooltip = {
+				capital_scope = {
+					ROOT = {
+						spawn_unit = {
+							owner = ROOT
+							home = PREV
+							province = PREV
+							disband_on_peace = yes
+							maintenance_multiplier = 0.25
+							attrition = 1.0
+							troops = {
+								heavy_infantry = {
+									1000 1000
+								}
+								archers = {
+									600 600
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	open_book_of_grudges = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			ai = no
+			religion_group = dwarf_gods_group
+			trait = creature_dwarf
+		}
+		allow = {
+		}
+		effect = {
+			log = "work decision open_book_of_grudges for [Root.GetBestName]"
+			character_event = {
+				id = DR_dwarfs.4
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	claim_the_high_kingship = {
+		only_playable = yes
+		potential = {
+			age = 16
+			culture = dwarf_main
+			higher_tier_than = COUNT
+			nor = {
+				has_character_flag = claimed_dwarf_empire
+				has_global_flag = united_dwarf_empire
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			age = 200
+			culture = dwarf_main
+			higher_tier_than = BARON
+			prestige = 5000
+			piety = 1000
+			diplomacy = 18
+		}
+		effect = {
+			log = "work decision claim_the_high_kingship for [Root.GetBestName]"
+			character_event = {
+				id = dwarfunification.0
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	SJ_become_a_mason_decision = { #Become a mason
+		only_playable = yes
+		potential = {
+			culture_group = dwarf_group
+			religion_group = dwarf_gods_group
+			nor = {
+				has_character_flag = SJ_have_become_mason
+				trait = slow
+				trait = infirm
+				trait = imbecile
+			}
+			any_realm_province = {
+				OR = {
+					terrain = hills
+					terrain = mountain
+					terrain = impassable_mountains
+				}
+			}
+			age = 16
+			is_ruler = yes
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			OR = {
+				trait = diligent
+				trait = envious
+				trait = ambitious
+				trait = zealous
+			}
+			nor = {
+				trait = stressed
+				trait = wroth
+			}
+		}
+		effect = {
+			log = "work decision SJ_become_a_mason_decision for [Root.GetBestName]"
+			set_character_flag = SJ_dwarfen_new_mason
+			set_character_flag = SJ_have_become_mason
+			custom_tooltip = {
+				text = SJDwarftooltips.tooltip2
+			}
+			hidden_tooltip = {
+				if = {
+					limit = {
+						ai = no
+						NOT = {
+							has_character_flag = SJ_has_had_mason_info_event
+						}
+					}
+					narrative_event = {
+						id = SJDwarfevents.4
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 5
+				trait = architect
+			}
+			modifier = {
+				factor = 5
+				trait = envious
+			}
+			modifier = {
+				factor = 5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 2
+				trait = patient
+			}
+			modifier = {
+				factor = 2
+				trait = gardener
+			}
+			modifier = {
+				factor = 2
+				trait = zealous
+			}
+			modifier = {
+				factor = 2
+				trait = proud
+			}
+			modifier = {
+				factor = 0.5
+				trait = craven
+			}
+			modifier = {
+				factor = 0.5
+				trait = humble
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					trait = content
+					trait = slothful
+					trait = depressed
+				}
+			}
+		}
+	}
+
+	#NORSCAN
+	ancestor_worship = { #REMINDER: TWEAK FOR OLD FAITH/NORTHERN GODS/AKGHAN
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			has_dlc = "The Old Gods"
+			is_adult = yes
+			prisoner = no
+			religion_group = old_gods_group
+		}
+		allow = {
+			war = no
+			custom_tooltip = {
+				text = UNOCCUPIED_DEMESNE_TITLE
+				hidden_tooltip = {
+					any_demesne_title = {
+						NOT = {
+							higher_tier_than = count
+						}
+						is_occupied = no
+					}
+				}
+			}
+			NOT = {
+				is_inaccessible_trigger = yes
+			}
+			custom_tooltip = {
+				text = is_not_busy_trigger_tooltip
+				hidden_tooltip = {
+					NOT = {
+						has_character_flag = do_not_disturb
+					}
+				}
+			}
+			custom_tooltip = {
+				text = worship_cooldown_tooltip
+				hidden_tooltip = {
+					NOT = {
+						has_character_modifier = worshipped_ancestors_timer
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision ancestor_worship for [Root.GetBestName]"
+			set_character_flag = recent_minor_decision
+			set_character_flag = do_not_disturb
+			custom_tooltip = {
+				text = prepare_worship_ancestors
+				hidden_tooltip = {
+					character_event = {
+						id = TOG.7000
+					}
+					add_character_modifier = {
+						name = worshipped_ancestors_timer
+						years = 10
+						hidden = yes
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.01
+			modifier = {
+				factor = 0.01
+				trait = cynical
+			}
+			modifier = {
+				factor = 5
+				trait = zealous
+			}
+			modifier = {
+				factor = 0
+				has_character_flag = recent_minor_decision
+				NOT = {
+					had_character_flag = {
+						flag = recent_minor_decision
+						days = 730
+					}
+				}
+			}
+		}
+	}
+	patron_dark_god = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			religion = norscan_gods
+			age = 16
+			NOT = {
+				has_character_flag = darkgod_embraced
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision patron_dark_god for [Root.GetBestName]"
+			set_character_flag = darkgod_embraced
+			if = {
+				limit = {
+					religion = norscan_gods
+				}
+				# Choose God
+				character_event = {
+					id = norscan.1
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.01
+			modifier = {
+				factor = 5
+				trait = zealous
+			}
+			modifier = {
+				factor = 0.5
+				trait = cynical
+			}
+		}
+	}
+	hold_blot = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			has_dlc = "The Old Gods"
+			is_playable = yes
+			age = 16
+			prisoner = no
+			religion = norscan_gods
+			nor = {
+				has_character_modifier = held_blot_timer
+				has_character_flag = holding_blot
+			}
+		}
+		allow = {
+			war = no
+			custom_tooltip = {
+				text = UNOCCUPIED_DEMESNE_TITLE
+				hidden_tooltip = {
+					any_demesne_title = {
+						NOT = {
+							higher_tier_than = count
+						}
+						is_occupied = no
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					month = 2
+				}
+				month = 10
+			}
+			wealth = 50
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			NOT = {
+				is_inaccessible_trigger = yes
+			}
+			custom_tooltip = {
+				text = is_not_busy_trigger_tooltip
+				hidden_tooltip = {
+					NOT = {
+						has_character_flag = do_not_disturb
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision hold_blot for [Root.GetBestName]"
+			wealth = -50
+			set_character_flag = holding_blot
+			set_character_flag = recent_minor_decision
+			set_character_flag = do_not_disturb
+			hidden_tooltip = {
+				character_event = {
+					id = TOG.699 days = 150
+				} # Safety catch flag clearing
+			}
+			custom_tooltip = {
+				text = prepare_blot
+				hidden_tooltip = {
+					character_event = {
+						id = TOG.600
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_dlc = "Reapers"
+				}
+				custom_tooltip = {
+					text = capital_prospers_custom_tooltip
+					hidden_tooltip = {
+						capital_scope = {
+							change_variable = {
+								which = prosperity_value value = 8
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					wealth = 300
+				}
+			}
+			modifier = {
+				factor = 0
+				trait = shy
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					diplomacy = 10
+				}
+			}
+			modifier = {
+				factor = 0
+				has_character_flag = recent_minor_decision
+				NOT = {
+					had_character_flag = {
+						flag = recent_minor_decision
+						days = 730
+					}
+				}
+			}
+		}
+	}
+	commission_runestone = {
+		only_playable = yes
+		potential = {
+			has_dlc = "The Old Gods"
+			is_playable = yes
+			age = 16
+			prisoner = no
+			culture_group = norscan_group
+			NOT = {
+				has_character_flag = commissioned_runestone
+			}
+		}
+		allow = {
+			wealth = 100
+			prisoner = no
+		}
+		effect = {
+			log = "work decision commission_runestone for [Root.GetBestName]"
+			wealth = -100
+			set_character_flag = commissioned_runestone
+			hidden_tooltip = {
+				character_event = {
+					id = TOG.500
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					wealth = 300
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					age = 30
+				}
+			}
+		}
+	}
+
+	#TOMB KINGS
+	tk_cover_face = {
+		potential = {
+			prisoner = no
+			trait = khemri_tomb_king
+			NOT = {
+				trait = khemri_mask
+			}
+			is_incapacitated_trigger = no
+			OR = {
+				ai = no
+				trait = proud
+				trait = shy
+			}
+		}
+		allow = {
+			OR = {
+				ai = no
+				trait = proud
+				trait = shy
+			}
+			prestige = 750
+		}
+		effect = {
+			log = "work decision tk_cover_face for [Root.GetBestName]"
+			prestige = -750
+			add_trait = khemri_mask
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05
+			}
+			modifier = {
+				factor = 0
+				age = 1990
+			}
+			modifier = {
+				factor = 0
+				nor = {
+					trait = fair
+					trait = pretty
+					trait = beautiful
+				}
+			}
+		}
+	}
+	tk_show_face = {
+		potential = {
+			prisoner = no
+			ai = no
+			trait = creature_nehekharan
+			NOT = {
+				trait = incapable
+			}
+			trait = khemri_mask
+		}
+		allow = {
+			OR = {
+				ai = no
+				trait = proud
+				trait = shy
+			}
+		}
+		effect = {
+			log = "work decision tk_show_face for [Root.GetBestName]"
+			remove_trait = khemri_mask
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	embrace_nehekharan_gods = {
+		potential = {
+			age = 16
+			prisoner = no
+			culture = nehekka
+			NOT = {
+				age = 40
+			}
+			is_incapacitated_trigger = no
+			NOT = {
+				trait = creature_nehekharan
+			}
+			ruled_years = 20
+			liege = {
+				trait = creature_nehekharan
+				ruled_years = 80
+			}
+		}
+		allow = {
+			NOT = {
+				religion = nehekharan_gods
+			}
+			piety = 200
+		}
+		effect = {
+			log = "work decision embrace_nehekharan_gods for [Root.GetBestName]"
+			piety = -200
+			religion = nehekharan_gods
+			any_courtier = {
+				limit = {
+					dynasty = ROOT
+					is_landed = no
+				}
+				religion = nehekharan_gods
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					liege = {
+						reverse_opinion = {
+							who = ROOT
+							value = 0
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.2
+				liege = {
+					reverse_opinion = {
+						who = ROOT
+						value = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 1.2
+				liege = {
+					reverse_opinion = {
+						who = ROOT
+						value = 40
+					}
+				}
+			}
+			modifier = {
+				factor = 1.2
+				liege = {
+					reverse_opinion = {
+						who = ROOT
+						value = 60
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					reverse_opinion = {
+						who = ROOT
+						value = 80
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					reverse_opinion = {
+						who = ROOT
+						value = 100
+					}
+				}
+			}
+		}
+	}
+
+	#SHADOWMEN
+	convert_to_shadowmen = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			OR = {
+				capital_scope = {
+					has_province_modifier = locust_plague
+				}
+				capital_scope = {
+					has_province_modifier = cursed_lands
+				}
+			}
+			age = 16
+			trait = creature_human
+			religion = akghan
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 50
+			religion = akghan
+		}
+		effect = {
+			log = "work decision convert_to_shadowmen for [Root.GetBestName]"
+			piety = -150
+			religion = shadowmen
+			any_dynasty_member = {
+				limit = {
+					is_close_relative = yes
+				}
+				character_event = {
+					id = svampires.89
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+			}
+			modifier = {
+				factor = 0
+				trait = zealous
+			}
+			modifier = {
+				factor = 1.4
+				trait = cynical
+			}
+			modifier = {
+				factor = 0.5
+				trait = brave
+			}
+			modifier = {
+				factor = 2
+				trait = craven
+			}
+			modifier = {
+				factor = 0.1
+				age = 40
+			}
+		}
+	}
+
+	#ORMAZD/ARABY
+	become_ormazd_caliph = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			religion = ormazd
+			k_caliph_al_umma = {
+				has_holder = no
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			has_landed_title = e_araby
+			piety = 300
+			any_courtier = {
+				religion = ormazd
+				trait = ormazd_sayyid
+				NOT = {
+					character = PREV
+				}
+			}
+		}
+		effect = {
+			log = "work decision become_ormazd_caliph for [Root.GetBestName]"
+			piety = -300
+			activate_title = {
+				title = k_caliph_al_umma status = yes
+			}
+			if = {
+				limit = {
+					trait = ormazd_sayyid
+				}
+				k_caliph_al_umma = {
+					grant_title = PREV
+				}
+			}
+			random_courtier = {
+				limit = {
+					religion = ormazd
+					trait = ormazd_sayyid
+					ROOT = {
+						NOT = {
+							trait = ormazd_sayyid
+						}
+					}
+					OR = {
+						is_priest = yes
+						NOT = {
+							ROOT = {
+								any_courtier = {
+									religion = ormazd
+									trait = ormazd_sayyid
+									is_priest = yes
+								}
+							}
+						}
+					}
+				}
+				k_caliph_al_umma = {
+					grant_title = PREV
+				}
+			}
+			k_caliph_al_umma = {
+				holder_scope = {
+					e_araby = {
+						holder_scope = {
+							set_defacto_vassal = PREVPREV
+						}
+					}
+				}
+			}
+			any_independent_ruler = {
+				limit = {
+					religion = ROOT
+				}
+				long_character_event = {
+					id = ormazdian.4
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	go_on_hajj = { #Pilgrimage to Martek ( Ormazd, Kitabid )
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_playable = yes
+			OR = {
+				religion = ormazd
+				religion = kitabid
+			}
+			nor = {
+				trait = hajjaj
+				trait = on_hajj
+				has_character_flag = preparing_hajj
+				has_character_flag = ramadan
+				has_character_flag = activated_hajj
+			}
+		}
+		allow = {
+			age = 16
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			scaled_wealth = 0.2
+			war = no
+			in_command = no
+			custom_tooltip = {
+				text = UNOCCUPIED_DEMESNE_TITLE
+				hidden_tooltip = {
+					any_demesne_title = {
+						NOT = {
+							higher_tier_than = count
+						}
+						is_occupied = no
+					}
+				}
+			}
+			NOT = {
+				is_inaccessible_trigger = yes
+			}
+			custom_tooltip = {
+				text = health_travel_condition
+				hidden_tooltip = {
+					nor = {
+						trait = incapable
+						trait = blinded
+						trait = has_tuberculosis
+						trait = has_typhoid_fever
+						trait = has_typhus
+						trait = has_bubonic_plague
+						trait = has_measles
+						trait = has_small_pox
+						trait = has_aztec_disease
+					}
+				}
+			}
+			custom_tooltip = {
+				text = is_not_busy_trigger_tooltip
+				hidden_tooltip = {
+					NOT = {
+						has_character_flag = do_not_disturb
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision go_on_hajj for [Root.GetBestName]"
+			scaled_wealth = -0.2
+			clr_character_flag = promise_hajj
+			set_character_flag = activated_hajj
+			set_character_flag = recent_minor_decision
+			set_character_flag = do_not_disturb
+			if = {
+				limit = {
+					trait = decadent
+				}
+				remove_trait = decadent
+			}
+			hidden_tooltip = {
+				letter_event = {
+					id = 86000
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				trait = cynical
+			}
+			modifier = {
+				factor = 0
+				is_ruler = no
+				trait = decadent
+			}
+			modifier = {
+				factor = 2
+				is_ruler = yes
+				trait = decadent
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					wealth = 300
+				}
+			}
+			modifier = {
+				# Monthly randomizer for when AI takes decision (1% chance)
+				factor = 0
+				random = 1
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					age = 30
+				}
+			}
+		}
+	}
+	celebrate_atruhayid_festival = { # Parade of the Idols ( Atruhayid )
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_feudal = yes
+			religion = atruhayid
+			nor = {
+				has_character_modifier = holding_atruhayid_feast
+				has_character_modifier = large_feast_timer
+				has_character_modifier = fabulous_feast
+				has_character_flag = do_not_disturb
+				liege = {
+					has_character_modifier = holding_atruhayid_feast
+				}
+			}
+			num_of_vassals = 1
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			any_demesne_title = {
+				NOT = {
+					higher_tier_than = count
+				}
+				is_occupied = no
+			}
+			scaled_wealth = 0.2
+			month = 5
+			NOT = {
+				month = 9
+			}
+			prestige = 100
+		}
+		effect = {
+			log = "work decision celebrate_atruhayid_festival for [Root.GetBestName]"
+			scaled_wealth = -0.2
+			add_character_modifier = {
+				name = holding_atruhayid_feast
+				duration = 365
+			}
+			set_character_flag = recent_minor_decision
+			set_character_flag = do_not_disturb
+			hidden_tooltip = {
+				character_event = {
+					id = DR_misc.1500
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0.1
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 2
+				}
+			}
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 0.5
+				NOT = {
+					diplomacy = 10
+				}
+			}
+			modifier = {
+				factor = 0
+				has_character_flag = recent_minor_decision
+				NOT = {
+					had_character_flag = {
+						flag = recent_minor_decision
+						days = 730
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					age = 30
+				}
+			}
+		}
+	}
+	sadaqah_saddka  = {
+		only_playable = yes
+		potential = {
+			is_playable = yes
+			ai = no
+			OR = {
+				religion = ormazd
+				religion = kitabid
+			}
+			is_adult = yes
+			demesne_size = 1
+			NOT = {
+				has_character_flag = voluntary_charity
+			}
+			rightful_religious_head_scope = {
+				nor = {
+					character = ROOT
+					has_opinion_modifier = {
+						who = ROOT modifier = opinion_sadaqah
+					}
+				}
+			}
+		}
+		allow = {
+			scaled_wealth = 1.0
+			is_heretic = no
+		}
+		effect = {
+			log = "work decision sadaqah_saddka  for [Root.GetBestName]"
+			set_character_flag = voluntary_charity
+			scaled_wealth = -0.25
+			piety = 25
+			rightful_religious_head_scope = {
+				character_event = {
+					id = 31000 days = 5 random = 12 tooltip = "sadaqah_voluntary_charity"
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				ai = yes
+				OR = {
+					NOT = {
+						scaled_wealth = 10.0
+					}
+					piety = 0
+				}
+			}
+		}
+	}
+
+	#ASUR
+	matrimonial_inheritance_decision = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			# Sadly the limitations on the code cause always gameover on succession for the player
+			ai = yes
+			is_married = yes
+			trait = creature_elf
+			culture_group = asur_group
+			age = 300
+			nor = {
+				has_character_modifier = asked_matriheir_timer
+				trait = in_matriheritage
+				trait = phoenix_king
+				trait = everqueen
+				trait = everqueen_heir
+			}
+			spouse = {
+				ai = yes
+				is_married = yes
+				trait = creature_elf
+				culture_group = asur_group
+				nor = {
+					trait = phoenix_king
+					trait = everqueen
+					trait = everqueen_heir
+				}
+				age = 300
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			NOT = {
+				num_of_children = 1
+			}
+			primary_title = {
+				OR = {
+					has_law = succ_gavelkind
+					has_law = succ_primogeniture
+					has_law = succ_ultimogeniture
+				}
+			}
+			OR = {
+				age = 400
+				trait = infertile
+			}
+			spouse = {
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+				OR = {
+					age = 400
+					trait = infertile
+				}
+				primary_title = {
+					OR = {
+						has_law = succ_gavelkind
+						has_law = succ_primogeniture
+						has_law = succ_ultimogeniture
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision matrimonial_inheritance_decision for [Root.GetBestName]"
+			spouse = {
+				character_event = {
+					id = asur.55
+				}
+			}
+			add_character_modifier = {
+				modifier = asked_matriheir_timer
+				duration = 3650
+				hidden = yes
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = paranoid
+			}
+			modifier = {
+				factor = 0.75
+				trait = humble
+			}
+			modifier = {
+				factor = 0.75
+				trait = stubborn
+			}
+			modifier = {
+				factor = 0
+				spouse = {
+					is_rival = ROOT
+				}
+			}
+			modifier = {
+				factor = 1.5
+				spouse = {
+					is_friend = ROOT
+				}
+			}
+			modifier = {
+				factor = 2
+				spouse = {
+					is_lover = ROOT
+				}
+			}
+			modifier = {
+				factor = 2
+				spouse = {
+					num_of_children = 1
+				}
+			}
+			modifier = {
+				factor = 2
+				trait = infertile
+				spouse = {
+					trait = infertile
+					any_dynasty_member = {
+						count = 2
+						NOT = {
+							trait = infertile
+						}
+					}
+				}
+			}
+		}
+	}
+	passing_asuryan = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			trait = creature_elf
+			is_female = no
+			age = 12
+			has_landed_title = e_ulthuan
+			OR = {
+				religion_group = cadai_group
+				religion_group = cytharai_group
+			}
+			nor = {
+				religion = asrai_cadai
+				trait = burnt_by_asuryan
+				has_character_flag = asuryan_crowning_flag
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			NOR = {
+				trait = phoenix_king
+			}
+			prestige = 100
+		}
+		effect = {
+			log = "work decision passing_asuryan for [Root.GetBestName]"
+			set_character_flag = asuryan_crowning_flag
+			character_event = {
+				id = asur.1
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = mutation_minor
+			}
+			modifier = {
+				factor = 0
+				trait = mutation_major
+			}
+			modifier = {
+				factor = 0
+				trait = mutation_massive
+			}
+			modifier = {
+				factor = 0.75
+				trait = has_nurgles_rot
+			}
+			modifier = {
+				factor = 0.75
+				trait = craven
+			}
+			modifier = {
+				factor = 0.15
+				culture_group = druchi_group	#Think of the precedent!
+				NOT = {
+					trait = ambitious
+				}
+			}
+			modifier = {
+				factor = 0.5
+				trait = asuryan_stain	#Think of the precedent!
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+		}
+	}
+	renounce_cadai = { # Burnt Asur may change religion_group like Malekith
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			has_landed_title = e_ulthuan
+			religion = cadai
+			trait = burnt_by_asuryan
+			NOT = {
+				has_character_flag = renounced_cadai
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			has_landed_title = e_ulthuan
+			religion = cadai
+			trait = burnt_by_asuryan
+			piety = 25
+			prestige = 100
+			NOT = {
+				trait = zealous
+			}
+			war = no
+		}
+		effect = {
+			log = "work decision renounce_cadai for [Root.GetBestName]"
+			set_character_flag = renounced_cadai
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			religion = cytharai
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+			k_avelorn = {
+				holder_scope = {
+					opinion = {
+						who = ROOT
+						modifier = opinion_renounced_cadai
+						months = 12000
+					}
+				}
+			}
+			hidden_tooltip = {
+				any_realm_character = {
+					limit = {
+						OR = {
+							tier = KING
+							dynasty = ROOT
+						}
+						religion = cadai
+						trait = creature_elf
+						nor = {
+							is_theocracy = yes
+							character = ROOT
+						}
+						can_change_religion = yes
+					}
+					character_event = {
+						id = asur.12
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05 # Slow it down a lot
+			}
+			modifier = {
+				factor = 0.15
+				trait = humble
+			}
+			modifier = {
+				factor = 0.15
+				trait = slothful
+			}
+			modifier = {
+				factor = 0.15
+				trait = slow
+			}
+			modifier = {
+				factor = 0.25
+				trait = imbecile
+			}
+			modifier = {
+				factor = 0.15
+				trait = content
+			}
+			modifier = {
+				factor = 3
+				trait = lunatic_3
+			}
+			modifier = {
+				factor = 2
+				trait = envious
+			}
+			modifier = {
+				factor = 3
+				trait = wroth
+			}
+			modifier = {
+				factor = 1.5
+				trait = cynical
+			}
+		}
+	}
+	asurpolitical_stand = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			culture_group = asur_group
+			trait = creature_elf
+			capital_scope = {
+				empire = {
+					title = e_ulthuan
+				}
+			}
+			nor = {
+				has_character_flag = elf_politics_flag
+				trait = isolationist_elf
+				trait = interventionist_elf
+			}
+			age = 16
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision asurpolitical_stand for [Root.GetBestName]"
+			set_character_flag = elf_politics_flag
+			character_event = {
+				id = asur.13
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 0.25
+				trait = slothful
+			}
+		}
+	}
+	phoenix_asurpolitical_stand = {
+		only_playable = yes
+		potential = {
+			culture_group = asur_group
+			trait = creature_elf
+			has_character_flag = elf_politics_flag
+			has_landed_title = e_ulthuan
+			capital_scope = {
+				empire = {
+					title = e_ulthuan
+				}
+			}
+			OR = {
+				NOT = {
+					has_character_flag = phoenixking_changedpolicy
+				}
+				had_character_flag = {
+					flag = phoenixking_changedpolicy
+					days = 3650
+				}
+			}
+			age = 16
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			prestige = 500
+		}
+		effect = {
+			log = "work decision phoenix_asurpolitical_stand for [Root.GetBestName]"
+			prestige = -500
+			set_character_flag = phoenixking_changedpolicy
+			if= {
+				limit = {
+					trait = interventionist_elf
+				}
+				character_event = {
+					id = asur.19
+				}
+			}
+			if= {
+				limit = {
+					trait = isolationist_elf
+				}
+				character_event = {
+					id = asur.20
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	donate_tribute_to_ulthuan = {
+		only_playable = yes
+		only_independent = yes
+		potential = {
+			religion_group = cadai_group
+			nor = {
+				religion = asrai_cadai
+				# only if you are a colony
+				capital_scope = {
+					empire = {
+						title = e_ulthuan
+					}
+				}
+			}
+			# only if Ulthuan is open
+			e_ulthuan = {
+				holder_scope = {
+					trait = interventionist_elf
+				}
+			}
+			trait = creature_elf
+			e_ulthuan = {
+				holder_scope = {
+					top_liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			OR = {
+				wealth = 250
+				AND = {
+					is_tributary = no
+					has_dlc = "Horse Lords"
+				}
+			}
+		}
+		effect = {
+			log = "work decision donate_tribute_to_ulthuan for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_ulthuan
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_ulthuan
+					duration = 365
+				}
+			}
+			if = {
+				limit = {
+					is_tributary = yes
+				}
+				wealth = -250
+			}
+			hidden_tooltip = {
+				e_ulthuan = {
+					holder_scope = {
+						character_event = {
+							id = asur.36 days = 1
+						}
+					}
+				}
+			}
+			prestige = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+			modifier = {
+				factor = 0.5
+				war = yes
+			}
+			modifier = {
+				factor = 100
+				is_tributary = no
+				has_dlc = "Horse Lords"
+			}
+			modifier = {
+				factor = 0.5
+				e_ulthuan = {
+					holder_scope = {
+						NOT = {
+							religion = ROOT
+						}
+					}
+				}
+			}
+		}
+	}
+	plea_to_ulthuan = {
+		only_playable = yes
+		only_independent = yes
+		potential = {
+			religion_group = cadai_group
+			nor = {
+				religion = asrai_cadai
+				# only if you are a colony
+				capital_scope = {
+					empire = {
+						title = e_ulthuan
+					}
+				}
+			}
+			# only if Ulthuan is open
+			e_ulthuan = {
+				holder_scope = {
+					trait = interventionist_elf
+				}
+			}
+			trait = creature_elf
+			e_ulthuan = {
+				holder_scope = {
+					top_liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 1000
+			prestige = 500
+		}
+		effect = {
+			log = "work decision plea_to_ulthuan for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_ulthuan
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_ulthuan
+					duration = 1000
+				}
+			}
+			hidden_tooltip = {
+				e_ulthuan = {
+					holder_scope = {
+						character_event = {
+							id = asur.46
+						}
+					}
+				}
+			}
+			wealth = -1000
+			prestige = -500
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5 # Slow it down
+			}
+			modifier = {
+				factor = 0.5
+				war = yes
+			}
+			modifier = {
+				factor = 0.5
+				e_ulthuan = {
+					holder_scope = {
+						NOT = {
+							religion = ROOT
+						}
+					}
+				}
+			}
+		}
+	}
+	call_ulthuan = {
+		only_playable = yes
+		potential = {
+			religion_group = cadai_group
+			nor = {
+				religion = asrai_cadai
+				# only if you are a colony
+				capital_scope = {
+					empire = {
+						title = e_ulthuan
+					}
+				}
+			}
+			# only if Ulthuan is open
+			e_ulthuan = {
+				holder_scope = {
+					trait = interventionist_elf
+				}
+			}
+			trait = creature_elf
+			e_ulthuan = {
+				holder_scope = {
+					top_liege = {
+						NOT = {
+							character = ROOT }
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					has_character_flag = asked_ulthuan_assistance
+				}
+				had_character_flag = {
+					flag = asked_ulthuan_assistance
+					days = 900
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = yes
+			prestige = 50
+			piety = 50
+			# Ulthuan will never answer to help against other Asur
+			any_war = {
+				OR = {
+					defender = {
+						NOT = {
+							trait = creature_elf
+							religion_group = cadai_group
+						}
+					}
+ 					attacker = {
+						NOT = {
+							trait = creature_elf
+							religion_group = cadai_group
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision  attacker for [Root.GetBestName]"
+			set_character_flag = asked_ulthuan_assistance
+			hidden_tooltip = {
+				e_ulthuan = {
+					holder_scope = {
+						character_event = {
+							id = asur.39
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.75 # Slow it down
+			}
+			modifier = {
+				factor = 0.75 # Small colonies more likely to ask for help
+				higher_tier_than = COUNT
+			}
+			modifier = {
+				factor = 0.5  # Small colonies more likely to ask for help
+				higher_tier_than = DUKE
+			}
+			modifier = {
+				factor = 0	# Don't worry, I've got this
+				any_war = {
+					defender = {
+						character = ROOT
+						war_score = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 0	# Don't worry, I've got this
+				any_war = {
+					attacker = {
+						character = ROOT
+						war_score = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				any_war = {
+					defender = {
+						character = ROOT
+						NOT = {
+							war_score = -10
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				any_war = {
+					defender = {
+						character = ROOT
+						NOT = {
+							war_score = -50
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 3
+				any_war = {
+					defender = {
+						character = ROOT
+						NOT = {
+							war_score = -75
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				e_ulthuan = {
+					holder_scope = {
+						NOT = {
+							religion = ROOT
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.25
+				e_ulthuan = {
+					holder_scope = {
+						NOT = {
+							opinion = {
+								who = ROOT
+								value = 0
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	restore_everqueendom = {
+		only_playable = yes
+		only_independent = yes
+		is_high_prio = yes
+		potential = {
+			trait = phoenix_king
+			religion_group = cadai_group
+			nor = {
+				religion = asrai_cadai
+				trait = everqueen
+				trait = everqueen_heir
+			}
+			has_landed_title = e_ulthuan
+			k_avelorn = {
+				holder_scope = {
+					OR = {
+						character = ROOT
+						is_liege_or_above = ROOT
+					}
+					nor =  {
+						trait = everqueen
+						trait = everqueen_heir
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			k_avelorn = {
+				holder_scope = {
+					OR = {
+						character = ROOT
+						is_liege_or_above = ROOT
+					}
+					nor =  {
+						trait = everqueen
+						trait = everqueen_heir
+					}
+				}
+			}
+			d_gaen_vale = {
+				holder_scope = {
+					OR = {
+						character = ROOT
+						is_liege_or_above = ROOT
+					}
+					nor =  {
+						trait = everqueen
+						trait = everqueen_heir
+					}
+				}
+			}
+			c_gaen_vale = {
+				holder_scope = {
+					OR = {
+						character = ROOT
+						is_liege_or_above = ROOT
+					}
+					nor =  {
+						trait = everqueen
+						trait = everqueen_heir
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision restore_everqueendom for [Root.GetBestName]"
+			if = {
+				limit = {
+					everqueen_heir = {
+						is_alive = yes
+					}
+				}
+				# if Everprincess exists, give it to her
+				everqueen_heir = {
+					k_avelorn = {
+						grant_title = PREV
+					}
+					d_gaen_vale = {
+						grant_title = PREV
+					}
+					c_gaen_vale = {
+						grant_title = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_married = yes
+					NOT = {
+						everqueen_heir =  {
+							is_alive = yes
+						}
+					}
+				}
+				# if not, but Phoenix King is married, spouse becomes Everqueen
+				spouse = {
+					add_trait = everqueen
+					k_avelorn = {
+						grant_title = PREV
+					}
+					d_gaen_vale = {
+						grant_title = PREV
+					}
+					c_gaen_vale = {
+						grant_title = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_married = no
+					NOT = {
+						everqueen_heir =  {
+							is_alive = yes
+						}
+					}
+				}
+				# else create a new character
+				create_character = {
+					random_traits = no
+					dynasty = RANDOM
+					religion = cadai
+					culture = sapherian
+					female = yes
+					age = 14
+					attributes = {
+						diplomacy = 8
+						stewardship = 6
+						intrigue = 8
+						learning = 6
+					}
+				}
+				new_character = {
+					piety = 200
+					prestige = 150
+					add_trait = everqueen
+					random_list = {
+						# Small chance of having some unusual memorable trait
+						30 = {
+							add_trait = fair
+						}
+						20 = {
+							add_trait = pretty
+						}
+						20 = {
+							add_trait = beautiful
+						}
+						30 = {
+						}
+					}
+					random_list = {
+						# Small chance of having some unusual memorable trait
+						10 = {
+							add_trait = quick
+						}
+						10 = {
+							add_trait = brilliant
+						}
+						10 = {
+							add_trait = genius
+						}
+						70 = {
+						}
+					}
+					random_list = {
+						# Small chance of having some unusual memorable trait
+						10 = {
+							add_trait = zealous
+						}
+						30 = {
+							add_trait = kind
+						}
+						20 = {
+							add_trait = humble
+						}
+						40 = {
+						}
+					}
+					random_list = {
+						20 = {
+							add_trait = magic_potential_2
+						}
+						60 = {
+							add_trait = magic_potential_3
+						}
+						20 = {
+							add_trait = magic_potential_4
+						}
+					}
+					k_avelorn = {
+						grant_title = PREV
+					}
+					d_gaen_vale = {
+						grant_title = PREV
+					}
+					c_gaen_vale = {
+						grant_title = PREV
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = envious
+			}
+		}
+	}
+
+	#ASRAI
+	enter_oak_of_ages = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			has_landed_title = e_athel_loren
+			has_landed_title = c_yn_edri_eternos	#Oak of the Ages
+			trait = creature_elf
+			religion_group = cadai_group
+			age = 12
+			nor = {
+				trait = avatar_isha
+				trait = avatar_kurnous
+			}
+			capital_scope = {
+				empire = {
+					title = e_athel_loren
+				}
+			}
+			OR = {
+				AND = {
+					is_female = yes
+					NOT = {
+						avatar_isha = {
+							is_alive = yes
+						}
+					}
+				}
+				AND = {
+					is_female = no
+					NOT = {
+						avatar_kurnous = {
+							is_alive = yes
+						}
+					}
+				}
+			}
+			NOT = {
+				religion = cult_of_pleasure
+			}
+		}
+		allow = {
+			piety = 100
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			religion_group = cadai_group
+		}
+		effect = {
+			log = "work decision enter_oak_of_ages for [Root.GetBestName]"
+			piety = -100
+			hidden_tooltip = {
+				if = {
+					limit = {
+						is_female = yes
+					}
+					add_trait = avatar_isha
+				}
+				if = {
+					limit = {
+						is_female = no
+					}
+					add_trait = avatar_kurnous
+				}
+				long_character_event = {
+					id = asrai.1
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						religion = asrai_cadai
+					}
+				}
+				religion = asrai_cadai
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				NOT = {
+					religion = asrai_cadai
+				}
+			}
+		}
+	}
+	spouseenter_oak_of_ages = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_married = yes
+			has_landed_title = e_athel_loren
+			has_landed_title = c_yn_edri_eternos	#Oak of the Ages
+			trait = creature_elf
+			religion_group = cadai_group
+			spouse = {
+				trait = creature_elf
+				NOT = {
+					religion = cult_of_pleasure
+				}
+				religion_group = cadai_group
+			}
+			OR = {
+				trait = avatar_isha
+				trait = avatar_kurnous
+			}
+			capital_scope = {
+				empire = {
+					title = e_athel_loren
+				}
+			}
+			spouse = {
+				is_alive = yes
+			}
+			OR = {
+				AND = {
+					is_female = yes
+					NOT = {
+						avatar_kurnous = {
+							is_alive = yes
+						}
+					}
+				}
+				AND = {
+					is_female = no
+					NOT = {
+						avatar_isha = {
+							is_alive = yes
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 100
+			spouse = {
+				NOT = {
+					religion = cult_of_pleasure
+				}
+				religion_group = cadai_group
+				OR = {
+					piety = 100
+					ROOT = {
+						piety = 750
+					}
+					custom_tooltip = {
+						text = IS_NOT_INCAPACITATED
+						is_incapacitated_trigger = no
+					}
+				}
+			}
+			religion_group = cadai_group
+		}
+		effect = {
+			log = "work decision spouseenter_oak_of_ages for [Root.GetBestName]"
+			piety = -100
+			hidden_tooltip = {
+				spouse = {
+					if = {
+						limit = {
+							is_female = yes
+						}
+						add_trait = avatar_isha
+					}
+					if = {
+						limit = {
+							is_female = no
+						}
+						add_trait = avatar_kurnous
+					}
+					long_character_event = {
+						id = asrai.1
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							religion = asrai_cadai
+						}
+					}
+					religion = asrai_cadai
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				NOT = {
+					religion = asrai_cadai
+				}
+			}
+		}
+	}
+	appease_spirits = {
+		only_playable = yes
+		potential = {
+			NOT = {
+				has_character_modifier = appease_spirits_timer
+			}
+			OR = {
+				trait = creature_elf
+				trait = creature_treekin
+			}
+			OR = {
+				religion_group = cadai_group
+				religion_group = cytharai_group
+			}
+			capital_scope = {
+				empire = {
+					title = e_athel_loren
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			OR = {
+				wealth = 100
+				AND = {
+					num_of_children = 1
+					any_child = {
+						nor = {
+							age = 20
+							is_ruler = yes
+						}
+						host = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision appease_spirits for [Root.GetBestName]"
+			hidden_tooltip = {
+				character_event = {
+					id = asrai.24
+				}
+				add_character_modifier = {
+					name = appease_spirits_timer
+					duration = 20
+					hidden = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				NOT = {
+					religion = asrai_cadai
+				}
+			}
+			modifier = {
+				factor = 0.5
+				NOT = {
+					wealth = 100
+				}
+			}
+			modifier = {
+				factor = 1.75
+				religion = asrai_cadai
+				NOT = {
+					piety = -100
+				}
+			}
+			modifier = {
+				factor = 0
+				piety = 10
+			}
+			modifier = {
+				factor = 0
+				month = 9
+			}
+		}
+	}
+	restore_forest = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			OR = {
+				is_tribal = yes
+				is_feudal = yes
+			}
+			religion = asrai_cadai
+			OR = {
+				trait = creature_elf
+				trait = creature_treekin
+			}
+			any_demesne_title = {
+				location = {
+					is_tribal = no
+					empire = {
+						title = e_athel_loren
+					}
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			any_demesne_title = {
+				location = {
+					is_tribal = no
+					empire = {
+						title = e_athel_loren
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision restore_forest for [Root.GetBestName]"
+			hidden_tooltip = {
+				any_demesne_title = {
+					limit = {
+						location = {
+							is_tribal = no
+						}
+					}
+					location = {
+						# Only capital holding turns tribal
+						any_province_holding = {
+							limit = {
+								is_capital = yes
+							}
+							convert_to = TRIBAL
+							refill_holding_levy = yes
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	summon_spirits = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			OR = {
+				any_courtier = {
+					trait = creature_forestspirit
+				}
+				spouse = {
+					trait = avatar_kurnous
+				}
+				trait = avatar_kurnous
+			}
+			capital_scope = {
+				empire = {
+					title = e_athel_loren
+				}
+			}
+			OR = {
+				trait = creature_treekin
+				trait = creature_elf
+			}
+			NOT = {
+				has_character_modifier = summoned_spirits_timer
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = yes
+			NOT = {
+				month = 3
+			}
+			OR = {
+				AND = {
+					piety = 150
+					trait = creature_elf
+				}
+				AND = {
+					piety = 100
+					trait = creature_treekin
+				}
+			}
+		}
+		effect = {
+			log = "work decision summon_spirits for [Root.GetBestName]"
+			if = {
+				limit = {
+					trait = creature_elf
+				}
+				piety = -150
+			}
+			if = {
+				limit = {
+					trait = creature_treekin
+				}
+				piety = -100
+			}
+			add_character_modifier = {
+				name = summoned_spirits_timer
+				duration = 200
+				hidden = yes
+			}
+			hidden_tooltip = {
+				character_event = {
+					id = asrai.48
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 10
+				war = yes
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					piety = 300
+				}
+			}
+			modifier = {
+				factor = 0.5
+				trait = brave
+			}
+			modifier = {
+				factor = 1.5
+				trait = creature_treekin
+			}
+			modifier = {
+				factor = 1.5
+				trait = craven
+			}
+		}
+	}
+
+	#DARK ELVES(druchii)
+	goraiding = {
+		only_playable = yes
+		potential = {
+			age = 16
+			culture_group = druchi_group
+			OR = {
+				trait = ambitious
+				trait = brave
+				ai = no
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 50
+			nor = {
+				wealth = 1000
+				trait = wounded
+			}
+		}
+		effect = {
+			log = "work decision goraiding for [Root.GetBestName]"
+			character_event = {
+				id = wh_druchii.350
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				not = {
+					num_of_children = 2
+				}
+			}
+			modifier = {
+				factor = 0
+				age = 35
+			}
+		}
+	}
+	returnfromraiding = {
+		potential = {
+			trait = on_dark_elf_raid
+			ai = no
+		}
+		allow = {
+		}
+		effect = {
+			log = "work decision returnfromraiding for [Root.GetBestName]"
+			character_event = {
+				id = wh_druchii.354
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	holdafeast = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			culture_group = druchi_group
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			nor = {
+				has_character_modifier = holding_large_druchi_feast
+				has_character_modifier = large_feast_timer
+				has_character_modifier = fabulous_feast
+				has_character_flag = guest_druchi_feast_started
+				has_character_flag = do_not_disturb
+				liege = {
+					has_character_modifier = holding_large_druchi_feast
+				}
+			}
+			num_of_vassals = 1
+		}
+		allow = {
+			war = no
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			any_demesne_title = {
+				NOT = {
+					higher_tier_than = count
+				}
+				is_occupied = no
+			}
+			wealth = 25
+			# month = 10
+			prestige = 100
+		}
+		effect = {
+			log = "work decision holdafeast for [Root.GetBestName]"
+			wealth = -25
+			add_character_modifier = {
+				name = holding_large_druchi_feast
+				duration = -1
+			}
+			set_character_flag = recent_minor_decision
+			set_character_flag = do_not_disturb
+			hidden_tooltip = {
+				character_event = {
+					id = druchii_feast.1000
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					wealth = 200
+				}
+			}
+			modifier = {
+				factor = 0
+				trait = shy
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					diplomacy = 10
+				}
+			}
+			modifier = {
+				factor = 0
+				has_character_flag = recent_minor_decision
+				NOT = {
+					had_character_flag = {
+						flag = recent_minor_decision
+						days = 730
+					}
+				}
+			}
+		}
+	}
+	hire_sorceress = { 	# think about it
+
+		only_playable = yes
+		potential = {
+			age = 16
+			culture_group = druchi_group
+			higher_tier_than = BARON
+		}
+		allow = {
+			age = 16
+			culture_group = druchi_group
+			higher_tier_than = BARON
+			wealth = 500
+			any_playable_ruler = {
+				NOT = {
+					character = ROOT
+				}
+				any_courtier = {
+					custom_tooltip = {
+						text = IS_NOT_INCAPACITATED
+						is_incapacitated_trigger = no
+					}
+					trait = druchi_sorceress
+					nor = {
+						has_character_modifier = magic_power_4
+						has_character_flag = hired_sorceress
+					}
+					is_landed  = no
+					is_married = no
+				}
+			}
+		}
+		effect = {
+			log = "work decision hire_sorceress for [Root.GetBestName]"
+			character_event = {
+				id = wh_druchii.300
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	druchii_police_decision = {
+		only_playable = yes
+		potential = {
+			has_landed_title = e_naggaroth
+			trait = creature_elf
+			religion_group = cytharai_group
+			capital_scope = {
+				empire = {
+					title = e_naggaroth
+				}
+			}
+			ruled_years = 100
+			any_vassal = {
+				in_faction = yes
+				count = 3
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			NOT = {
+				has_character_modifier = recently_employed_druchiiservices
+			}
+			prestige = 500
+			wealth = 350
+		}
+		effect = {
+			log = "work decision druchii_police_decision for [Root.GetBestName]"
+			prestige = -200
+			wealth = -350
+			add_character_modifier = {
+				modifier = recently_employed_druchiiservices
+				duration = 250
+			}
+			hidden_tooltip = {
+				any_vassal = {
+ 					limit = {
+						in_faction = yes
+						capital_scope = {
+							empire = {
+								title = e_naggaroth
+							}
+						}
+					}
+					character_event = {
+						id = wh_druchii.104
+					}
+					opinion = {
+						modifier = opinion_coerced_into_leaving_faction
+						who = ROOT
+					}
+				}
+				any_vassal = {
+ 					limit = {
+						capital_scope = {
+							empire = {
+								title = e_naggaroth
+							}
+						}
+					}
+					opinion = {
+						modifier = opinion_cracked_onme
+						who = ROOT
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						trait = cruel
+					}
+				}
+				random = {
+					chance = 10
+					add_trait = cruel
+					hidden_tooltip = {
+						character_event = {
+							id = 38259
+						} #Notify Cruel
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+			}
+			modifier = {
+				factor = 0.25
+				NOT = {
+					any_vassal = {
+						in_faction = yes
+						count = 5
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				any_vassal = {
+					in_faction = yes
+					count = 10
+				}
+			}
+			modifier = {
+				factor = 1.5
+				religion = cytharai
+			}
+			modifier = {
+				factor = 1.25
+				wealth = 500
+			}
+			modifier = {
+				factor = 1.75
+				wealth = 1000
+			}
+			modifier = {
+				factor = 0.2
+				trait = trusting
+			}
+			modifier = {
+				factor = 0.2
+				trait = kind
+			}
+			modifier = {
+				factor = 1.25
+				trait = cruel
+			}
+			modifier = {
+				factor = 1.5
+				trait = paranoid
+			}
+			modifier = {
+				factor = 2
+				trait = malekith	#paranoid
+			}
+		}
+	}
+	witch_elf_decision = {
+		potential = {
+			trait = creature_elf
+			religion_group = cytharai_group
+			is_female = yes
+			age = 15
+			nor = {
+				age = 100
+				trait = druchi_witch_elf
+				trait = druchi_sorceress
+				wh_is_mage_trigger = yes
+				higher_tier_than = DUKE
+			}
+			capital_scope = {
+				empire = {
+					title = e_naggaroth
+				}
+			}
+			OR = {
+				independent = yes
+				top_liege = {
+					religion = cytharai
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			martial = 6
+		}
+		effect = {
+			log = "work decision witch_elf_decision for [Root.GetBestName]"
+			piety = 250
+			prestige = 30
+			hidden_tooltip = {
+				if = {
+					limit = {
+						liege = {
+							is_close_relative = ROOT
+							NOT = {
+								character = ROOT
+							}
+						}
+					}
+					liege = {
+						character_event = {
+							id = wh_druchii.200
+						}
+					}
+					break = yes
+				}
+			}
+			hidden_tooltip = {
+				character_event = {
+					id = wh_druchii.201
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+			}
+			modifier = {
+				factor = 0.5
+				age = 30
+			}
+			modifier = {
+				factor = 1.5
+				religion = cytharai
+			}
+			modifier = {
+				factor = 0.25
+				NOT = {
+					religion = cytharai
+				}
+			}
+			modifier = {
+				factor = 0.25
+				NOT = {
+					religion = cytharai
+				}
+				higher_tier_than = COUNT
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					religion = cytharai
+				}
+				trait = zealous
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					trait = homosexual
+				}
+				any_lover = {
+					is_alive = yes
+				}
+			}
+			modifier = {
+				factor = 0.75
+				NOT = {
+					trait = homosexual
+				}
+				trait = lustful
+			}
+			modifier = {
+				factor = 1.35
+				trait = homosexual
+			}
+			modifier = {
+				factor = 0.35
+				trait = cynical
+			}
+			modifier = {
+				factor = 0.75
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.75
+				trait = hedonist
+			}
+			modifier = {
+				factor = 0.75
+				trait = addict
+			}
+			modifier = {
+				factor = 0.5
+				trait = kind
+			}
+			modifier = {
+				factor = 1.25
+				trait = cruel
+			}
+			modifier = {
+				factor = 1.5
+				trait = brave
+			}
+			modifier = {
+				factor = 2
+				trait = zealous
+			}
+		}
+	}
+
+	#LIZARD
+	awaken_slann = {
+		is_high_prio = yes
+		only_playable = yes
+		only_independent = yes
+		potential = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			# think about it
+			ai = no
+			trait = creature_skink
+			war = yes
+			or = {
+				is_primary_war_defender = yes
+				is_primary_war_attacker = yes
+			}
+			nor = {
+				has_character_modifier = wakeslann_cooldown
+				trait = defective
+			}
+			any_vassal = {
+				trait = creature_slann
+				trait = lizardman_sleepingslann
+			}
+		}
+		allow = {
+			piety = 400
+			NOT = {
+				decadence = 75
+			}
+		}
+		effect = {
+			log = "work decision awaken_slann for [Root.GetBestName]"
+			piety = -300
+			decadence = 2
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = wakeslann_cooldown
+					hidden = yes
+					duration = 900
+				}
+				random_vassal = {
+					limit = {
+						trait = creature_slann
+						trait = lizardman_sleepingslann
+					}
+					character_event = {
+						id = slizardmen.34
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	#AMAZON
+	free_stock_slaves = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			NOT = {
+				trait = creature_amazon
+			}
+			OR = {
+				trait = in_stock
+				any_vassal = {
+					trait = in_stock
+				}
+				any_courtier = {
+					trait = in_stock
+				}
+			}
+			OR = {
+				independent = yes
+				top_liege = {
+					NOT = {
+						trait = creature_amazon
+					}
+				}
+			}
+		}
+		allow = {
+			NOT = {
+				trait = creature_amazon
+			}
+			OR = {
+				trait = in_stock
+				any_vassal = {
+					trait = in_stock
+				}
+				any_courtier = {
+					trait = in_stock
+				}
+			}
+			OR = {
+				independent = yes
+				top_liege = {
+					NOT = {
+						trait = creature_amazon
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision free_stock_slaves for [Root.GetBestName]"
+			remove_trait = in_stock
+			any_vassal = {
+				remove_trait = in_stock
+			}
+			any_courtier = {
+				remove_trait = in_stock
+			}
+		}
+		ai_will_do = {
+			factor = 5
+		}
+	}
+	hold_fertility_ritual = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			age = 16
+			religion = amazon
+			trait = creature_amazon
+			is_female = yes
+			higher_tier_than = BARON
+		}
+		allow = {
+			wealth = 25
+			month = 4
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			nor = {
+				month = 6
+				trait = pregnant
+				trait = disinherited_amazon
+				trait = questing
+				has_character_flag = holding_amazon_ritual
+			}
+			war = no
+			any_courtier = {
+				is_female = no
+				age = 16
+				OR = {
+					NOT = {
+						age = 45
+					}
+					is_immortal_trigger = yes
+				}
+				OR = {
+					custom_tooltip = {
+						text = AMAZON_EXC_REQUIREMENT
+						has_character_flag = amazon_exception
+					}
+					trait = in_stock
+				}
+			}
+		}
+		effect = {
+			log = "work decision hold_fertility_ritual for [Root.GetBestName]"
+			ROOT = {
+				character_event = {
+					id = amazon.8
+				}
+				hidden_tooltip = {
+					set_variable = {
+						which = "eating_count" value = 0
+					}
+					set_variable = {
+						which = "drinking_count" value = 0
+					}
+				}
+			}
+			any_courtier = {
+				hidden_tooltip = {
+					set_variable = {
+						which = "eating_count" value = 0
+					}
+					set_variable = {
+						which = "drinking_count" value = 0
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 5
+		}
+	}
+	amazon_brawling_tournament = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			trait = creature_amazon
+			higher_tier_than = COUNT
+			is_female = yes
+			NOT = {
+				trait = disinherited_amazon
+			}
+			war = no
+			OR = {
+				NOT = {
+					age = 45
+				}
+				is_immortal_trigger = yes
+			}
+			nor = {
+				has_character_flag = brawling_participant
+				has_character_modifier = am_brawling_cooldown
+				trait = pregnant
+			}
+			OR = {
+				any_courtier = {
+					trait = creature_amazon
+					prisoner = no
+					nor = {
+						has_character_flag = brawling_participant
+						trait = disinherited
+						trait = disinherited_amazon
+						trait = pregnant
+					}
+					custom_tooltip = {
+						text = IS_NOT_INCAPACITATED
+						is_incapacitated_trigger = no
+					}
+					age = 16
+					OR = {
+						NOT = {
+							age = 45
+						}
+						is_immortal_trigger = yes
+					}
+					count = 2
+				}
+				any_vassal = {
+					trait = creature_amazon
+					prisoner = no
+					age = 16
+					has_character_flag = brawling_participant
+					nor = {
+						trait = disinherited
+						trait = disinherited_amazon
+						trait = pregnant
+					}
+					custom_tooltip = {
+						text = IS_NOT_INCAPACITATED
+						is_incapacitated_trigger = no
+					}
+					OR = {
+						NOT = {
+							age = 45
+						}
+						is_immortal_trigger = yes
+					}
+					count = 2
+				}
+			}
+		}
+		allow = {
+			prestige = 150
+			wealth = 50
+			independent = yes
+			war = no
+			prisoner = no
+			month = 6
+			NOT = {
+				month = 11
+			}
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision amazon_brawling_tournament for [Root.GetBestName]"
+			prestige = -150
+			wealth = -50
+			decadence = -5
+			hidden_tooltip = {
+				set_variable = {
+					which = "brawl_player"
+					value = 0
+				}
+				set_character_flag = brawling_participant
+				set_character_flag = brawling_host
+				set_character_flag = do_not_disturb
+				clr_character_flag = am_fight_1
+				clr_character_flag = am_fight_2
+				clr_character_flag = am_fight_3
+				clr_character_flag = am_fight_4
+				clr_character_flag = am_fight_5
+				clr_character_flag = am_fight_6
+				clr_character_flag = am_fight_7
+				clr_character_flag = am_fight_8
+				clr_character_flag = am_fight_9
+				clr_character_flag = am_fight_10
+				clr_character_flag = am_fight_11
+				diplomatic_immunity = yes
+				character_event = {
+					id = slizardmen.61
+				}
+				character_event = {
+					id = slizardmen.61900 days = 30
+				}
+				add_character_modifier = {
+					name = am_brawling_cooldown
+					hidden = yes
+					duration = 1200
+				}
+				any_vassal = {
+					limit = {
+						trait = creature_amazon
+						nor = {
+							has_character_flag = brawling_participant
+							trait = disinherited
+							trait = disinherited_amazon
+							trait = pregnant
+						}
+						custom_tooltip = {
+							text = IS_NOT_INCAPACITATED
+							is_incapacitated_trigger = no
+						}
+						age = 16
+						OR = {
+							NOT = {
+								age = 45
+							}
+							is_immortal_trigger = yes
+						}
+					}
+					letter_event = {
+						id = slizardmen.61001 days = 2 random = 5
+					}
+					set_character_flag = do_not_disturb
+					diplomatic_immunity = yes
+					character_event = {
+						id = slizardmen.61900 days = 30
+					}
+				}
+				any_courtier = {
+					limit = {
+						trait = creature_amazon
+						prisoner = no
+						is_ruler = no
+						age = 16
+						nor = {
+							has_character_flag = brawling_participant
+							trait = disinherited
+							trait = disinherited_amazon
+							trait = pregnant
+						}
+						custom_tooltip = {
+							text = IS_NOT_INCAPACITATED
+							is_incapacitated_trigger = no
+						}
+						OR = {
+							NOT = {
+								age = 45
+							}
+							is_immortal_trigger = yes
+						}
+					}
+					letter_event = {
+						id = slizardmen.61001 days = 2 random = 5
+					}
+					set_character_flag = do_not_disturb
+					diplomatic_immunity = yes
+					character_event = {
+						id = slizardmen.61900 days = 30
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+			}
+			modifier = {
+				factor = 1.5
+				trait = brave
+			}
+			modifier = {
+				factor = 1.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.15
+				trait = craven
+			}
+			modifier = {
+				factor = 0
+				trait = maimed
+			}
+			modifier = {
+				factor = 0
+				trait = wounded
+			}
+		}
+	}
+
+	#CATHAY
+	employ_clay_sculptor = {
+		only_playable = yes
+		potential = {
+			religion = draconite
+			age = 14
+			OR = {
+				culture = cathayan
+				culture = living_jade
+			}
+			NOT = {
+				any_courtier = {
+					trait = clay_sculptor
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 100
+			wealth = 100
+			OR = {
+				custom_tooltip = {
+					text = HAS_LINK_WITH_CATHAY
+					has_dynasty_flag = link_with_cathay
+				}
+				top_liege = {
+					custom_tooltip = {
+						text = HAS_LINK_WITH_CATHAY
+						has_dynasty_flag = link_with_cathay
+					}
+					religion = draconite
+				}
+			}
+		}
+		effect = {
+			log = "work decision employ_clay_sculptor for [Root.GetBestName]"
+			piety = -100
+			wealth = -100
+			hidden_tooltip = {
+				create_random_steward = {
+					random_traits = yes
+					age = 54
+					female = no
+				}
+				new_character = {
+					add_trait = clay_sculptor
+					add_trait = eunuch
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				NOT = {
+					culture = cathayan
+				}
+			}
+		}
+	}
+	employ_astromancer = {
+		only_playable = yes
+		potential = {
+			religion = draconite
+			age = 14
+			OR = {
+				culture = cathayan
+				culture = living_jade
+			}
+			NOT = {
+				any_courtier = {
+					trait = astromancer
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 450
+			wealth = 250
+			OR = {
+				custom_tooltip = {
+					text = HAS_LINK_WITH_CATHAY
+					has_dynasty_flag = link_with_cathay
+				}
+				top_liege = {
+					custom_tooltip = {
+						text = HAS_LINK_WITH_CATHAY
+						has_dynasty_flag = link_with_cathay
+					}
+					religion = draconite
+				}
+			}
+		}
+		effect = {
+			log = "work decision employ_astromancer for [Root.GetBestName]"
+			piety = -450
+			wealth = -250
+			hidden_tooltip = {
+				create_random_priest = {
+					random_traits = yes
+					age = 54
+					female = no
+				}
+				new_character = {
+					add_trait = astromancer
+					add_trait = lore_heavens
+					random_list = {
+						70 = {
+							add_trait = celibate
+						}
+						29 = {
+							add_trait = eunuch
+						}
+						1 = {
+							add_trait = chaste
+						}
+					}
+					random_list = {
+						45 = {
+							add_trait = magic_potential_1
+						}
+						45 = {
+							add_trait = magic_potential_2
+						}
+						10 = {
+							add_trait = magic_potential_3
+						}
+					}
+					random_list = {
+						25 = {
+							add_character_modifier = {
+								name = magic_power_1
+								duration = -1
+							}
+						}
+						70 = {
+							add_character_modifier = {
+								name = magic_power_2
+								duration = -1
+							}
+						}
+						5 = {
+							add_character_modifier = {
+								name = magic_power_3
+								duration = -1
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				NOT = {
+					culture = cathayan
+				}
+			}
+		}
+	}
+	establish_cathay_link = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			religion = draconite
+			OR = {
+				culture = cathayan
+				culture = living_jade
+			}
+			nor = {
+				has_dynasty_flag = link_with_cathay
+				top_liege = {
+					has_dynasty_flag = link_with_cathay
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			prestige = 500
+			wealth = 500
+			OR = {
+				capital_scope = {
+					port = yes
+				}
+				AND = {
+					OR = {
+						wh_is_mage_trigger = yes
+						learning = 15
+						trait = vampire_jade_visible
+						any_courtier = {
+							trait = astromancer
+						}
+					}
+					has_artifact = dark_crystal
+				}
+			}
+		}
+		effect = {
+			log = "work decision establish_cathay_link for [Root.GetBestName]"
+			prestige = -500
+			wealth = -500
+			hidden_tooltip = {
+				set_dynasty_flag = link_with_cathay
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				NOT = {
+					culture = cathayan
+				}
+			}
+		}
+	}
+	shashala_relinked = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			has_nickname = nick_the_grand_generaless
+			religion = draconite
+			trait = vampire_jade_visible
+			NOT = {
+				has_dynasty_flag = relinked_shashala_flag
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			prestige = 100
+			piety = 100
+			has_artifact = dark_crystal
+		}
+		effect = {
+			log = "work decision shashala_relinked for [Root.GetBestName]"
+			prestige = -100
+			piety = -100
+			set_dynasty_flag = relinked_shashala_flag
+			hidden_tooltip = {
+				long_character_event = {
+					id = svampires.75
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	naparaya_relinked = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			religion = draconite
+			trait = creature_human
+			culture = cathayan
+			is_vampire_trigger = no
+			has_dynasty_flag = link_with_cathay
+			NOT = {
+				has_dynasty_flag = relinked_naparaya_flag
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			prestige = 100
+			piety = 100
+			k_coiled_covenant = {
+				has_holder = no
+			}
+			completely_controls = k_dragon_isles
+			completely_controls = k_naparaya
+			NOT = {
+				any_independent_ruler = {
+					trait = vampire_jade_visible
+					realm_size = 40
+				}
+			}
+		}
+		effect = {
+			log = "work decision naparaya_relinked for [Root.GetBestName]"
+			prestige = -100
+			piety = -100
+			set_dynasty_flag = relinked_naparaya_flag
+			hidden_tooltip = {
+				long_character_event = {
+					id = svampires.75001
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	#CHAOS DWARF
+	grand_sacrifice_hashut = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_ruler = yes
+			religion = hashut
+			NOT = {
+				has_character_flag = making_grand_sacrifice_hashut
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			OR = {
+				num_of_prisoners = 1
+				capital_holding = {
+					OR = {
+						has_building = ca_chaos_dwarf_slave_levy_1
+						has_building = ca_chaos_dwarf_slave_levy_2
+						has_building = ca_chaos_dwarf_slave_levy_3
+						has_building = ca_chaos_dwarf_slave_levy_4
+						has_building = ct_chaos_dwarf_slave_levy_1
+						has_building = ct_chaos_dwarf_slave_levy_2
+						has_building = ct_chaos_dwarf_slave_levy_3
+						has_building = ct_chaos_dwarf_slave_levy_4
+						has_building = tp_chaos_dwarf_slave_levy_1
+						has_building = tp_chaos_dwarf_slave_levy_2
+						has_building = tp_chaos_dwarf_slave_levy_3
+						has_building = tp_chaos_dwarf_slave_levy_4
+					}
+				}
+				capital_holding = {
+					OR = {
+						has_building = ca_chaos_dwarf_factory_1
+						has_building = ca_chaos_dwarf_factory_2
+						has_building = ca_chaos_dwarf_factory_3
+						has_building = ca_chaos_dwarf_factory_4
+						has_building = ct_chaos_dwarf_factory_1
+						has_building = ct_chaos_dwarf_factory_2
+						has_building = ct_chaos_dwarf_factory_3
+						has_building = ct_chaos_dwarf_factory_4
+						has_building = tp_chaos_dwarf_factory_1
+						has_building = tp_chaos_dwarf_factory_2
+						has_building = tp_chaos_dwarf_factory_3
+						has_building = tp_chaos_dwarf_factory_4
+					}
+				}
+			}
+			wealth = 500
+			piety = 250
+			NOT = {
+				has_character_modifier = recently_asked_hashut
+			}
+		}
+		effect = {
+			log = "work decision grand_sacrifice_hashut for [Root.GetBestName]"
+			long_character_event = {
+				id = wh_chaos_dwarf.26
+			}
+			set_character_flag = making_grand_sacrifice_hashut
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3 ROOT = {
+					trait = impaler
+				}
+			}
+			modifier = {
+				factor = 2 ROOT = {
+					trait = zealous
+				}
+			}
+			modifier = {
+				factor = 3 ROOT = {
+					trait = lunatic_3
+				}
+			}
+			modifier = {
+				factor = 2 ROOT = {
+					trait = lunatic_2
+				}
+			}
+			modifier = {
+				factor = 2 ROOT = {
+					trait = cruel
+				}
+			}
+			modifier = {
+				factor = 0.1 ROOT = {
+					trait = kind
+				}
+			}
+		}
+	}
+	become_chaos_dwarf_sorcerer = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_ruler = yes
+			religion = hashut
+			NOT = {
+				has_character_flag = chaos_dwarf_sorc_ceremony
+			}
+			NOT = {
+				trait = chaos_dwarf_sorcerer
+			}
+		}
+		allow = {
+			piety = 1000
+			check_variable = {
+				which = "hashut_favor"
+				value = 30
+			}
+		}
+		effect = {
+			FROM = {
+				long_character_event = {
+					id = wh_chaos_dwarf.5 days = 5
+				}
+				set_character_flag = chaos_dwarf_sorc_ceremony
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	get_taurus_mount ={
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			culture_group = dwarf_chaos_group
+			religion = hashut
+			nor = {
+				has_artifact = lamassu_mount
+				has_character_flag = taming_beast
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 1000
+		}
+		effect = {
+			log = "work decision get_taurus_mount for [Root.GetBestName]"
+			character_event = {
+				id = wh_chaos_dwarf.20
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+		}
+	}
+	get_lamassu_mount ={
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			culture_group = dwarf_chaos_group
+			religion = hashut
+			nor = {
+				has_artifact = lamassu_mount
+				has_character_flag = taming_beast
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 1000
+			trait = chaos_dwarf_sorcerer
+		}
+		effect = {
+			log = "work decision get_lamassu_mount for [Root.GetBestName]" 
+			character_event = {
+				id = wh_chaos_dwarf.22
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+		}
+	}
+
+	#SKAVEN
+	skaven_flip_flopping = {
+		is_high_prio = yes
+		potential = {
+			age = 16
+			NOR = {
+				trait = warlock_engineer
+				trait = plaguelord
+				trait = master_moulder
+				trait = eshin_assassin
+				trait = council_warlord
+				trait = grey_seer
+				liege = {
+					character = ROOT
+				}
+			}
+			trait = creature_skaven
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			liege = {
+				NOT = {
+					culture = ROOT
+				}
+			}
+		}
+		effect = {
+			log = "work decision skaven_flip_flopping for [Root.GetBestName]"
+			prestige = 50
+			liege = {
+				ROOT = {
+					culture = PREV
+				}
+			}
+			if = {
+				limit = {
+					higher_tier_than = BARON
+					is_landed = yes
+				}
+				liege = {
+					ROOT = {
+						any_demesne_title = {
+							culture = ROOT
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 5
+			}
+			modifier = {
+				factor = 0.5
+				trait = zealous
+			}
+			modifier = {
+				factor = 1.5
+				trait = cynical
+			}
+			modifier = {
+				factor = 0.5
+				trait = brave
+			}
+			modifier = {
+				factor = 2
+				trait = craven
+			}
+		}
+	}
+	acquire_warpstone = {
+		only_playable = yes
+		potential = {
+			age = 16
+			trait = creature_skaven
+			OR = {
+				trait = warlock_engineer
+				trait = plaguelord
+				trait = master_moulder
+				trait = eshin_assassin
+				trait = council_warlord
+				trait = grey_seer
+				higher_tier_than = COUNT
+			}
+			NOT = {
+				has_character_modifier = warpstone_5
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 500
+			prestige = 100
+		}
+		effect = {
+			log = "work decision acquire_warpstone for [Root.GetBestName]"
+			wealth = -500
+			if = {
+				limit = {
+					has_character_modifier = warpstone_4
+				}
+				remove_character_modifier = warpstone_1
+				remove_character_modifier = warpstone_2
+				remove_character_modifier = warpstone_3
+				remove_character_modifier = warpstone_4
+				remove_character_modifier = warpstone_5
+				add_character_modifier = {
+					name = warpstone_5 duration = -1
+				}
+				break = yes
+			}
+			if = {
+				limit = {
+					has_character_modifier = warpstone_3
+				}
+				remove_character_modifier = warpstone_1
+				remove_character_modifier = warpstone_2
+				remove_character_modifier = warpstone_3
+				remove_character_modifier = warpstone_4
+				remove_character_modifier = warpstone_5
+				add_character_modifier = {
+					name = warpstone_4 duration = -1
+				}
+				break = yes
+			}
+			if = {
+				limit = {
+					has_character_modifier = warpstone_2
+				}
+				remove_character_modifier = warpstone_1
+				remove_character_modifier = warpstone_2
+				remove_character_modifier = warpstone_3
+				remove_character_modifier = warpstone_4
+				remove_character_modifier = warpstone_5
+				add_character_modifier = {
+					name = warpstone_3 duration = -1
+				}
+				break = yes
+			}
+			if = {
+				limit = {
+					has_character_modifier = warpstone_1
+				}
+				remove_character_modifier = warpstone_1
+				remove_character_modifier = warpstone_2
+				remove_character_modifier = warpstone_3
+				remove_character_modifier = warpstone_4
+				remove_character_modifier = warpstone_5
+				add_character_modifier = {
+					name = warpstone_2 duration = -1
+				}
+				break = yes
+			}
+			if = {
+				limit = {
+					NOR = {
+						has_character_modifier = warpstone_1
+						has_character_modifier = warpstone_2
+						has_character_modifier = warpstone_3
+						has_character_modifier = warpstone_4
+						has_character_modifier = warpstone_5
+					}
+				}
+				remove_character_modifier = warpstone_1
+				remove_character_modifier = warpstone_2
+				remove_character_modifier = warpstone_3
+				remove_character_modifier = warpstone_4
+				remove_character_modifier = warpstone_5
+				add_character_modifier = {
+					name = warpstone_1 duration = -1
+				}
+				break = yes
+			}
+			hidden_tooltip = {
+				random = {
+					chance = 1
+					add_trait = addict
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 5
+			}
+			modifier = {
+				factor = 0.4
+				NOT = {
+					wealth = 600
+				}
+			}
+			modifier = {
+				factor = 0.5
+				trait = content
+			}
+			modifier = {
+				factor = 1.5
+				trait = greedy
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+			modifier = {
+				factor = 2
+				trait = addict
+			}
+		}
+	}
+	eat_warpstone = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			NOT = {
+				has_character_modifier = warpstone_timer
+			}
+			OR = {
+				has_character_modifier = warpstone_1
+				has_character_modifier = warpstone_2
+				has_character_modifier = warpstone_3
+				has_character_modifier = warpstone_4
+				has_character_modifier = warpstone_5
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision eat_warpstone for [Root.GetBestName]"
+			character_event = {
+				id = skavens.3
+			}
+			add_character_modifier = {
+				name = warpstone_timer
+				duration = 50
+				hidden = yes
+			}
+		}
+		revoke_allowed = {
+			always = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				war = no
+			}
+			modifier = {
+				factor = 10
+				war = yes
+			}
+			modifier = {
+				factor = 0.1
+				in_battle = no
+			}
+			modifier = {
+				factor = 10
+				in_battle = yes
+			}
+			modifier = {
+				factor = 1.5
+				has_character_modifier = warpstone_2
+			}
+			modifier = {
+				factor = 1.65
+				has_character_modifier = warpstone_3
+			}
+			modifier = {
+				factor = 1.75
+				has_character_modifier = warpstone_4
+			}
+			modifier = {
+				factor = 1.85
+				has_character_modifier = warpstone_5
+			}
+		}
+	}
+	skaven_gain_claim = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			trait = creature_skaven
+			independent = no
+			NOT = {
+				liege = {
+					character = ROOT
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			NOT = {
+				liege = {
+					primary_title = {
+						ROOT = {
+							has_claim = PREV
+						}
+					}
+				}
+			}
+			prestige = 200
+			liege = {
+				culture = ROOT
+			}
+		}
+		effect = {
+			log = "work decision skaven_gain_claim for [Root.GetBestName]"
+			prestige = -200
+			liege = {
+				primary_title = {
+					add_claim = ROOT
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 5
+				liege = {
+					is_incapacitated_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					trait = warlock_engineer
+					trait = plaguelord
+					trait = master_moulder
+					trait = eshin_assassin
+					trait = council_warlord
+					higher_tier_than = COUNT
+				}
+			}
+			modifier = {
+				factor = 1.5
+				trait = black_skaven
+			}
+			modifier = {
+				factor = 0.5
+				trait = trusting
+			}
+			modifier = {
+				factor = 1.5
+				trait = envious
+			}
+			modifier = {
+				factor = 1.5
+				trait = greedy
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+		}
+	}
+
+	#GREENSKIN
+	unite_the_clans = { 	#Create a titular empire tier title
+
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			religion_group = greenskin_gods_group
+			is_playable = yes
+			tier = KING
+			NOT = {
+				tier = EMPEROR
+			}
+		}
+		allow = {
+			is_adult = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			independent = yes
+			prestige = 2000
+			custom_tooltip = {
+				text = form_waaagh_requirement_tooltip
+				hidden_tooltip = {
+					any_demesne_title = {
+						count = 2
+						tier = KING
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision unite_the_clans for [Root.GetBestName]"
+			custom_tooltip = {
+				text = form_waaagh_info_tooltip
+			}
+			primary_title = {
+				create_title = {
+					tier = EMPEROR
+					landless = no
+					temporary = no
+					custom_created = yes
+					culture = ROOT
+					holder = ROOT
+					base_title = THIS
+					copy_title_laws = yes
+				}
+				# hidden_tooltip = {
+				# ROOT = {
+				# primary_title = {
+				# holder_scope = {
+				# any_title_under = {
+				# limit = {
+				# tier = KING
+				# empire = {
+				# has_holder = no
+				# }
+				# }
+				# de_jure_liege = PREVPREV
+				# }
+				# any_title_under = {
+				# limit = {
+				# tier = DUKE
+				# location = {
+				# kingdom = {
+				# empire = {
+				# has_holder = no
+				# }
+				# NOT = { de_jure_liege_or_above = PREVPREVPREVPREV }
+				# ROOT = {
+				# completely_controls = PREV
+				# }
+				# }
+				# }
+				# }
+				# location = {
+				# kingdom = {
+				# de_jure_liege = PREVPREVPREVPREV
+				# }
+				# }
+				# }
+				# }
+				# }
+				# }
+				# }
+			}
+			prestige = -1500
+			# custom_tooltip = { text = form_new_empire_tooltip }
+			# chronicle = {
+			# entry = CHRONICLE_FOUNDED_NEW_KINGDOM_OR_EMPIRE
+			# portrait = [Root.GetID]
+			# }
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	unite_the_clans_1 = {
+		is_high_prio = yes
+		only_playable = yes
+		potential = {
+			religion_group = greenskin_gods_group
+			is_playable = yes
+			tier = DUKE
+			NOT = {
+				tier = KING
+			}
+		}
+		allow = {
+			is_adult = yes
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
+			independent = yes
+			prestige = 500
+			num_of_count_titles_in_realm = 10
+			# custom_tooltip = {
+			# text = form_waaagh_kingdom_requirement_tooltip
+			# hidden_tooltip = {
+			# any_demesne_title = {
+			# count = 2
+			# tier = DUKE
+			# }
+			# }
+			# }
+		}
+		effect = {
+			log = "work decision unite_the_clans_1 for [Root.GetBestName]"
+			custom_tooltip = {
+				text = form_waaagh_kingdom_info_tooltip
+			}
+			primary_title = {
+				create_title = {
+					tier = KING
+					landless = no
+					temporary = no
+					custom_created = yes
+					culture = ROOT
+					holder = ROOT
+					base_title = THIS
+					copy_title_laws = yes
+				}
+				# hidden_tooltip = {
+				# empire = {
+				# ROOT = {
+				# primary_title = {
+				# de_jure_liege = PREVPREV
+				# }
+				# }
+				# }
+				# ROOT = {
+				# primary_title = {
+				# holder_scope = {
+				# any_title_under = {
+				# limit = {
+				# tier = DUKE
+				# kingdom = {
+				# has_holder = no
+				# }
+				# }
+				# de_jure_liege = PREVPREV
+				# }
+				# any_title_under = {
+				# limit = {
+				# tier = COUNT
+				# location = {
+				# duchy = {
+				# kingdom = {
+				# has_holder = no
+				# }
+				# NOT = { de_jure_liege_or_above = PREVPREVPREVPREV }
+				# ROOT = {
+				# completely_controls = PREV
+				# }
+				# }
+				# }
+				# }
+				# location = {
+				# duchy = {
+				# de_jure_liege = PREVPREVPREVPREV
+				# }
+				# }
+				# }
+				# }
+				# }
+				# }
+				# }
+			}
+			prestige = -400
+			# custom_tooltip = { text = form_new_kingdom_tooltip }
+			# chronicle = {
+			# entry = CHRONICLE_FOUNDED_NEW_KINGDOM_OR_EMPIRE
+			# portrait = [Root.GetID]
+			# }
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	duel_greenskin_liege_decision = {
+		is_high_prio = yes
+		potential = {
+			liege = {
+				age = 16
+				prisoner = no
+				has_regent = no
+				higher_tier_than = COUNT
+				nor = {
+					character = ROOT
+					trait = incapable
+				}
+				OR = {
+					religion_group = greenskin_gods_group
+					culture_group = orc_group
+					culture_group = goblin_group
+				}
+			}
+			age = 16
+			prisoner = no
+			has_regent = no
+			mercenary = no
+			holy_order = no
+			NOT = {
+				trait = blinded
+			}
+			is_female = no
+			OR = {
+				religion_group = greenskin_gods_group
+				culture_group = orc_group
+				culture_group = goblin_group
+			}
+			OR = {
+				ai = no
+				AND = {
+					nor = {
+						trait = craven
+						trait = content
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					tier = BARON
+				}
+				has_job_title = job_chancellor
+				has_job_title = job_marshal
+				has_job_title = job_treasurer
+				has_job_title = job_spymaster
+				has_job_title = job_spiritual
+				liege = {
+					is_close_relative = ROOT
+				}
+				trait = black_orc_trait
+			}
+		}
+		allow = {
+			prestige = 200
+			liege = {
+				nor = {
+					has_character_flag = do_not_disturb
+					war = yes
+					is_looting = yes
+					has_character_modifier = recent_greenskin_duel_timer
+					has_character_flag = duel
+				}
+			}
+			nor = {
+				has_character_flag = do_not_disturb
+				war = yes
+			}
+			custom_tooltip = {
+				text = duel_tooltip_recent_duel
+				hidden_tooltip = {
+					liege = {
+						NOT = {
+							has_character_modifier = recent_duel_timer
+						}
+					}
+					nor = {
+						has_character_modifier = recent_duel_timer
+						has_character_flag = duel
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision duel_greenskin_liege_decision for [Root.GetBestName]"
+			ROOT = {
+				add_character_modifier = {
+					modifier = recent_duel_timer
+					duration = 720
+					hidden = yes
+				}
+				save_event_target_as = duelist_a
+				set_character_flag = duel
+			}
+			liege = {
+				character_event = {
+					id = wh_greenskins.186
+				}
+			}
+			liege = {
+				save_event_target_as = duelist_b
+				set_character_flag = duel
+				hidden_tooltip = {
+					character_event = {
+						id = duelengine.1
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_character_modifier = declined_prestige_duel_timer
+			}
+			modifier = {
+				factor = 0.10
+			}
+			#the Opponent's traits
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = brave
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = strong
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = tough
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					trait = tall
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					trait = quick
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					trait = genius
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					trait = cruel
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = weak
+				}
+			}
+			modifier = {
+				factor = 4
+				liege = {
+					trait = eunuch
+				}
+			}
+			#Orcs won't take crap from Goblin Warbosses
+			modifier = {
+				factor = 10
+				culture_group = orc_group
+				liege = {
+					culture_group = goblin_group
+				}
+			}
+			#Weak Warbosses should get hit by this HARD TIME
+			modifier = {
+				factor = 5
+				liege = {
+					has_character_modifier = weak_warboss
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = goblin_small
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = orc_small
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					NOT = {
+						trait = deceitful
+					}
+				}
+				liege = {
+					is_ill = yes
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = master_warrior
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = orc_huge
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = goblin_huge
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					trait = brilliant_strategist
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = duelist
+				}
+			}
+			modifier = {
+				factor = 1.75
+				liege = {
+					trait = fat
+				}
+			}
+			modifier = {
+				factor = 1.75
+				liege = {
+					trait = undernourished
+				}
+			}
+			modifier = {
+				factor = 0.25
+				liege = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					trait = slow
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = imbecile
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = hunchback
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = dwarf
+				}
+			}
+			modifier = {
+				factor = 0.5
+				liege = {
+					prestige = 2000
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					NOT = {
+						age = 30
+					}
+				}
+				liege = {
+					age = 40
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = brave
+				}
+			}
+			modifier = {
+				factor = 0.25
+				liege = {
+					is_mother = ROOT
+				}
+			}
+			modifier = {
+				factor = 0.25
+				liege = {
+					is_father = ROOT
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					sibling = ROOT
+				}
+			}
+			#the Challengers traits
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = brave
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = ambitious
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = strong
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = tough
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = tall
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = quick
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = genius
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = brilliant
+				}
+			}
+			modifier = {
+				factor = 0.5
+				ROOT = {
+					trait = weak
+				}
+			}
+			modifier = {
+				factor = 0.5
+				ROOT = {
+					trait = goblin_small
+				}
+			}
+			modifier = {
+				factor = 0.5
+				ROOT = {
+					trait = orc_small
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = eunuch
+				}
+			}
+			modifier = {
+				factor = 0.25
+				ROOT = {
+					is_ill = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = master_warrior
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = brilliant_strategist
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = duelist
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = orc_huge
+				}
+			}
+			modifier = {
+				factor = 6
+				ROOT = {
+					trait = black_orc_trait
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = goblin_huge
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = fat
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = undernourished
+				}
+			}
+			modifier = {
+				factor = 5
+				ROOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					OR = {
+						has_job_title = job_chancellor
+						has_job_title = job_treasurer
+						has_job_title = job_spymaster
+						has_job_title = job_spiritual
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					is_landed = yes
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					NOT = {
+						religion = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					NOT = {
+						religion_group = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					NOT = {
+						culture_group = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -100
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 5
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -80
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -60
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -40
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -20
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = 0
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 40
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 60
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 80
+					}
+				}
+			}
+			modifier = {
+				factor = 0.25
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 100
+					}
+				}
+			}
+		}
+	}
+	gather_greenskin_army = {
+		is_high_prio = yes
+		is_mercenary = yes
+		potential = {
+			OR = {
+				religion_group = greenskin_gods_group
+				culture_group = orc_group
+				culture_group = goblin_group
+			}
+		}
+		allow = {
+			war = yes
+			prestige = 800
+		}
+		effect = {
+			log = "work decision gather_greenskin_army for [Root.GetBestName]"
+			prestige = -800
+			capital_scope = {
+				PREV = {
+					spawn_unit = {
+						owner = ROOT
+						leader = none
+						province = PREV
+						home = PREV
+						troops = {
+							archers = {
+								500 500
+							}
+							light_infantry = {
+								1700 1700
+							}
+							heavy_infantry = {
+								300 300
+							}
+						}
+						attrition = 1.0
+						disband_on_peace = yes
+						maintenance_multiplier = 0.5
+						leader = none
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	choose_greenskin_branch = {
+		only_playable = yes
+		potential = {
+			is_adult = yes
+			religion = greenskin_gods
+		}
+		allow = {
+			nor = {
+				trait = greenskin_gods_gork
+				trait = greenskin_gods_mork
+			}
+		}
+		effect = {
+			log = "work decision choose_greenskin_branch for [Root.GetBestName]"
+			# Choose branch
+			character_event = {
+				id = wh_greenskins.206
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	reform_backbinz_horde = {
+		is_high_prio = yes
+		only_playable = yes
+		only_independent = yes
+		potential = {
+			capital_scope = {
+				region = world_greater_araby_southlands
+			}
+			age = 16
+			trait = creature_goblin
+			NOT = {
+				e_da_backbinz = {
+					has_holder = yes
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 150
+			prestige = 500
+			piety = 50
+			OR = {
+				completely_controls = k_durbaita
+				completely_controls = k_tulwark
+				completely_controls = k_medes
+				completely_controls = k_ka_sabar
+			}
+		}
+		effect = {
+			log = "work decision reform_backbinz_horde for [Root.GetBestName]"
+			wealth = -150
+			piety = 350
+			prestige = 600
+			long_character_event = {
+				id = srandoms.1
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	#BEASTMEN
+	duel_beastman_decision = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			liege = {
+				age = 16
+				NOT = {
+					character = ROOT
+				}
+				trait = creature_beastman
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			age = 16
+			is_female = no
+			nor = {
+				trait = pet_consort
+				trait = blinded
+			}
+			trait = creature_beastman
+			OR = {
+				ai = no
+				nor = {
+					trait = craven
+					trait = content
+				}
+			}
+			OR = {
+				has_job_title = job_chancellor
+				has_job_title = job_marshal
+				has_job_title = job_treasurer
+				has_job_title = job_spymaster
+				has_job_title = job_spiritual
+				# strange place
+				# any_vassal = {
+				# 	character = ROOT
+				# }
+				# siblings can always fight for dominance
+				liege = {
+					sibling = ROOT
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			prestige = 200
+			nor = {
+				has_character_flag = duel
+				has_character_flag = do_not_disturb
+			}
+			liege = {
+				nor = {
+					has_character_flag = do_not_disturb
+					is_looting = yes
+					has_character_flag = duel
+				}
+			}
+			custom_tooltip = {
+				text = duel_tooltip_recent_duel
+				hidden_tooltip = {
+					liege = {
+						NOT = {
+							has_character_modifier = recent_duel_timer
+						}
+					}
+					NOT = {
+						has_character_modifier = recent_duel_timer
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision duel_beastman_decision for [Root.GetBestName]"
+			ROOT = {
+				add_character_modifier = {
+					modifier = recent_duel_timer
+					duration = 720
+					hidden = yes
+				}
+			}
+			save_event_target_as = duelist_a
+			set_character_flag = duel
+			liege = {
+				character_event = {
+					id = wh_chaos_beastmen.23
+				}
+				save_event_target_as = duelist_b
+				set_character_flag = duel
+				hidden_tooltip = {
+					character_event = {
+						id = duelengine.1
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				has_character_modifier = declined_prestige_duel_timer
+			}
+			modifier = {
+				factor = 0.25
+			}
+			#the Opponent's traits
+			modifier = {
+				factor = 0.75
+				liege = {
+					war = yes
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = horns_big
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = brave
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = strong
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = tough
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					trait = tall
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					trait = quick
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					trait = genius
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					trait = cruel
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = weak
+				}
+			}
+			modifier = {
+				factor = 4
+				liege = {
+					trait = eunuch
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					NOT = {
+						trait = deceitful
+					}
+				}
+				liege = {
+					is_ill = yes
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = master_warrior
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					trait = brilliant_strategist
+				}
+			}
+			modifier = {
+				factor = 0.75
+				liege = {
+					trait = duelist
+				}
+			}
+			modifier = {
+				factor = 1.75
+				liege = {
+					trait = fat
+				}
+			}
+			modifier = {
+				factor = 1.75
+				liege = {
+					trait = undernourished
+				}
+			}
+			modifier = {
+				factor = 0.25
+				liege = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					trait = slow
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = imbecile
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = hunchback
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					trait = dwarf
+				}
+			}
+			modifier = {
+				factor = 0.5
+				liege = {
+					prestige = 2000
+				}
+			}
+			modifier = {
+				factor = 0.85
+				liege = {
+					piety = 500
+				}
+				ROOT = {
+					religion = ROOT
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					NOT = {
+						age = 30
+					}
+				}
+				liege = {
+					age = 40
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = brave
+				}
+			}
+			modifier = {
+				factor = 0.25
+				liege = {
+					is_mother = ROOT
+				}
+			}
+			modifier = {
+				factor = 0.25
+				liege = {
+					is_father = ROOT
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					sibling = ROOT
+				}
+			}
+			#the Challengers traits
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = brave
+				}
+			}
+			modifier = {
+				factor = 0.5
+				ROOT = {
+					trait = horns_small
+				}
+				liege = {
+					NOT = {
+						trait = horns_none
+					}
+				}
+			}
+			modifier = {
+				factor = 0.15
+				ROOT = {
+					trait = horns_none
+				}
+				liege = {
+					NOT = {
+						trait = horns_none
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = horns_big
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = ambitious
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = strong
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = tough
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = tall
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = quick
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					trait = genius
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = brilliant
+				}
+			}
+			modifier = {
+				factor = 0.5
+				ROOT = {
+					trait = weak
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = eunuch
+				}
+			}
+			modifier = {
+				factor = 0.25
+				ROOT = {
+					is_ill = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = master_warrior
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = brilliant_strategist
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					trait = duelist
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = fat
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					trait = undernourished
+				}
+			}
+			modifier = {
+				factor = 5
+				ROOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					OR = {
+						has_job_title = job_chancellor
+						has_job_title = job_treasurer
+						has_job_title = job_spymaster
+						has_job_title = job_spiritual
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					is_landed = yes
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					religion = khorne
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					NOT = {
+						religion = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				liege = {
+					NOT = {
+						religion_group = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				liege = {
+					NOT = {
+						culture_group = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -100
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 5
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -80
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -60
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -40
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = -20
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				ROOT = {
+					NOT = {
+						opinion = {
+							who = liege
+							value = 0
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 40
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 60
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 80
+					}
+				}
+			}
+			modifier = {
+				factor = 0.25
+				ROOT = {
+					opinion = {
+						who = liege
+						value = 100
+					}
+				}
+			}
+		}
+	}
+	gather_beastmen_army = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			trait = creature_beastman
+		}
+		allow = {
+			war = yes
+			prestige = 500
+		}
+		effect = {
+			log = "work decision gather_beastmen_army for [Root.GetBestName]"
+			prestige = -500
+			population = 200
+			#population_factor = 0.1
+			location = {
+				root = {
+					spawn_unit = {
+						owner = ROOT
+						province = prev
+						home = prev
+						troops = {
+							archers = {
+								5 5
+							}
+							light_infantry = {
+								25 25
+							}
+							heavy_infantry = {
+								45 45
+							}
+							light_cavalry = {
+								5 5
+							}
+						}
+						attrition = 1.0
+						disband_on_peace = yes
+						cannot_inherit = yes
+						maintenance_multiplier = 0.075
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	beastman_slaver = {
+		only_playable = yes
+		potential = {
+			age = 16
+			trait = creature_beastman
+			religion_group = chaos_gods_group
+		}
+		allow = {
+			OR = {
+				check_variable = {
+					which = elfslaves
+					value = 1
+				}
+				check_variable = {
+					which = dwarfslaves
+					value = 1
+				}
+				check_variable = {
+					which = humanslaves
+					value = 1
+				}
+			}
+		}
+		effect = {
+			log = "work decision beastman_slaver for [Root.GetBestName]"
+			character_event = {
+				id = wh_chaos_beastmen.43
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	beastman_herdstone_offering = {
+		only_playable = yes
+		potential = {
+			age = 16
+			trait = creature_beastman
+			religion_group = chaos_gods_group
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			capital_scope = {
+				has_province_modifier = beastman_herdstone
+			}
+			wealth = 450
+			piety = 250
+		}
+		effect = {
+			log = "work decision beastman_herdstone_offering for [Root.GetBestName]"
+			wealth = -450
+			piety = -250
+			hidden_tooltip = {
+				random_list = {
+					60 = {
+						character_event = {
+							id = wh_chaos_beastmen.49
+						}
+					} #small contingent of troops
+					10 = {
+						character_event = {
+							id = wh_chaos_beastmen.50
+						}
+					} # large contingent of troops
+					5 = {
+						character_event = {
+							id = wh_chaos_beastmen.51
+						}
+					} # giants
+					25 = {
+						character_event = {
+							id = wh_chaos_beastmen.52
+						}
+					} # raiders
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	#VAMPIRE
+	ask_liege_vampirization = {
+		only_playable = yes
+		potential = {
+			independent = no
+			is_living_human_trigger = yes
+			liege = {
+				age = 16
+				OR = {
+					trait = vampire_lahmian_visible
+					trait = vampire_carstein_visible
+					# trait = vampire_blood_visible #Special cases with harsher restrictions
+					# trait = vampire_strigoi_visible
+					# trait = vampire_necrarch_visible
+					trait = vampire_jade_visible
+					trait = vampire_mahtmasi_visible
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			prestige = 500
+			war = no
+			liege = {
+				war = no
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			OR = {
+				# ai = no
+				trait = ambitious
+				trait = lunatic_1
+				trait = lunatic_2
+				trait = lunatic_3
+				liege = {
+					any_lover = {
+						religion = ROOT
+						character = ROOT
+					}
+				}
+				AND = {
+					age = 60
+					OR = {
+						trait = craven
+						trait = paranoid
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision ask_liege_vampirization for [Root.GetBestName]"
+			prestige = -500
+			liege = {
+				character_event = {
+					id = vampire.11
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.001
+				NOT = {
+					liege = {
+						any_lover = {
+							religion = ROOT
+							character = ROOT
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.01
+				trait = craven
+			}
+			modifier = {
+				factor = 0.1
+				trait = shy
+			}
+			modifier = {
+				factor = 0
+				is_female = no
+				liege = {
+					trait = vampire_lahmian_visible
+				}
+			}
+			modifier = {
+				factor = 0.1
+				liege = {
+					trait = vampire_strigoi_visible
+				}
+			}
+			modifier = {
+				factor = 10
+				liege = {
+					any_spouse = {
+						religion = ROOT
+						character = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 0.01
+				liege = {
+					trait = just
+				}
+			}
+			modifier = {
+				factor = 0.01
+				liege = {
+					trait = kind
+				}
+			}
+			modifier = {
+				factor = 0.1
+				liege = {
+					trait = paranoid
+				}
+			}
+		}
+	}
+	retake_lahmia = { #lahmian
+		only_playable = yes
+		only_independent = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			independent = yes
+			trait = lahmian_queen
+			NOT = {
+				has_global_flag = wh_retake_lahmia
+			}
+		}
+		allow = {
+			wealth = 2500
+			prestige = 2500
+			piety = 500
+			has_landed_title = k_lahmia
+		}
+		effect = {
+			log = "work decision retake_lahmia for [Root.GetBestName]"
+			wealth = -2500
+			piety = 100
+			prestige = 800
+			hidden_tooltip = {
+				set_global_flag = wh_retake_lahmia
+				c_lahmia = {
+					ROOT = {
+						capital = PREV
+					}
+				}
+				give_nickname = nick_the_beautiful_sun
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	rebuild_palace_and_blood_temple = {
+		only_playable = yes
+		only_independent = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			trait = lahmian_queen
+			NOT = {
+				has_global_flag = wh_rebuild_palace_and_blood_temple
+			}
+		}
+		allow = {
+			wealth = 1500
+			prestige = 1000
+			piety = 200
+			has_landed_title = c_lahmia
+		}
+		effect = {
+			log = "work decision rebuild_palace_and_blood_temple for [Root.GetBestName]"
+			wealth = -1500
+			piety = 500
+			prestige = 1000
+			hidden_tooltip = {
+				set_global_flag = wh_rebuild_palace_and_blood_temple
+				1127 = {
+					add_province_modifier = {
+						name = great_city_lahmia
+						days = -1
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	strigoi_hibernate = { #strigany
+		only_playable = yes
+		potential = {
+			trait = vampire_strigoi_visible
+			age = 16
+			NOR = {
+				trait = incapable
+				trait = resting
+				trait = blood_questing
+				has_character_modifier = strigoi_resting_timer
+			}
+		}
+		allow = {
+		}
+		effect = {
+			log = "work decision strigoi_hibernate for [Root.GetBestName]"
+			piety = 75
+			add_trait = resting
+			disband_event_forces = shambling_ghouls
+			add_character_modifier = {
+				name = strigoi_resting_timer
+				duration = 400
+				hidden = yes
+			}
+			if = {
+				limit = {
+					capital_scope = {
+						owner = {
+							character = ROOT
+						}
+					}
+				}
+				capital_scope = {
+					add_province_modifier = {
+						name = hidden_hibernated_strigoi
+						duration = -1
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0.75
+				trait = proud
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					age = 80
+				}
+			}
+			modifier = {
+				factor = 0
+				piety = 1000
+			}
+			modifier = {
+				factor = 0.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.5
+				trait = content
+			}
+			modifier = {
+				factor = 0.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.05
+				has_character_modifier = bloodthirsty
+			}
+			modifier = {
+				factor = 0.25
+				has_character_modifier = exquisite_agonies
+			}
+			modifier = {
+				factor = 1.5
+				has_character_modifier = heart_of_melancholy
+			}
+		}
+	}
+	strigoi_hibernate_stop = {
+		potential = {
+			trait = vampire_strigoi_visible
+			age = 16
+			trait = resting
+			NOR = {
+				trait = incapable
+				trait = blood_questing
+				# has_character_modifier = heart_of_melancholy
+				has_character_modifier = strigoi_resting_timer
+			}
+		}
+		allow = {
+			trait = resting
+		}
+		effect = {
+			log = "work decision strigoi_hibernate_stop for [Root.GetBestName]"
+			piety = -50
+			remove_trait = resting
+			if = {
+				limit = {
+					capital_scope = {
+						owner = {
+							character = ROOT
+						}
+					}
+				}
+				capital_scope = {
+					remove_province_modifier = hidden_hibernated_strigoi
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 1.25
+				trait = proud
+			}
+			modifier = {
+				factor = 5
+				piety = 1000
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+			modifier = {
+				factor = 0.5
+				trait = content
+			}
+			modifier = {
+				factor = 1.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 10
+				has_character_modifier = bloodthirsty
+			}
+			modifier = {
+				factor = 4
+				has_character_modifier = exquisite_agonies
+			}
+		}
+	}
+	strygos_prepared_invasion = {
+		only_playable = yes
+		only_independent = yes
+		potential = {
+			age = 16
+			lower_tier_than = EMPEROR
+			NOT = {
+				has_character_flag = preparing_strygos_invasion
+				e_strygos = {
+					has_holder = yes
+				}
+				e_strygos_2 = {
+					has_holder = yes
+				}
+			}
+			OR = {
+				trait = vampire_strigoi_visible
+				AND = {
+					culture_group = strigany_group
+					is_living_human_trigger = yes
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 100
+			prestige = 500
+			piety = 150
+		}
+		effect = {
+			log = "work decision strygos_prepared_invasion for [Root.GetBestName]"
+			piety = -50
+			wealth = -100
+			prestige = -400
+			add_character_modifier = {
+				modifier = preparing_strygos_invasion
+				duration = 720
+			}		#gives timer
+			hidden_tooltip = {
+				set_character_flag = preparing_strygos_invasion			#Prevents AI from starting the war immediately
+				if = {
+					limit = {
+						ai = yes
+					}
+					character_event = {
+						id = svampires.30 days = 555
+					}
+				} #Craven AI needs to attack
+				character_event = {
+					id = svampires.24
+				}	#Umbrella
+				character_event = {
+					id = svampires.26 days = 720
+				}	#Fail event if not at war already
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 1.25
+				trait = proud
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+			modifier = {
+				factor = 0
+				war = yes
+			}
+			modifier = {
+				factor = 0.5
+				trait = content
+			}
+			modifier = {
+				factor = 0
+				nor = {
+					trait = ambitious
+					trait = vampire_strigoi_visible
+				}
+			}
+			modifier = {
+				factor = 0.75
+				NOT = {
+					wealth = 200
+				}
+			}
+			modifier = {
+				factor = 2
+				wealth = 300
+			}
+			modifier = {
+				factor = 0.5
+				lower_tier_than = DUKE
+			}
+			modifier = {
+				factor = 10
+				higher_tier_than = COUNT
+			}
+			modifier = {
+				factor = 1.5
+				has_character_modifier = bloodthirsty
+			}
+			modifier = {
+				factor = 0.01
+				has_character_modifier = heart_of_melancholy
+			}
+		}
+	}
+	embrace_strygan_culture = {
+		only_playable = yes
+		only_independent = yes
+		potential = {
+			age = 16
+			capital_scope = {
+				location = {
+					region = world_badlands_strygos
+				}
+			}
+			has_global_flag = strygos_culture_swapping
+			OR = {
+				trait = vampire_strigoi_visible
+				culture = strigany
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision embrace_strygan_culture for [Root.GetBestName]"
+			culture = strygan
+			capital_scope = {
+				culture = strygan
+				religion = vampiric
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0.5
+				trait = cynical
+			}
+			modifier = {
+				factor = 5
+				trait = vampire_strigoi_visible
+			}
+			modifier = {
+				factor = 2
+				culture = strigany
+			}
+		}
+	}
+	reform_strygos = {
+		only_playable = yes
+		only_independent = yes
+		is_high_prio = yes
+		potential = {
+			age = 16
+			nor = {
+				e_strygos = {
+					has_holder = yes
+				}
+				e_strygos_2 = {
+					has_holder = yes
+				}
+			}
+			OR = {
+				trait = vampire_strigoi_visible
+				AND = {
+					culture_group = strigany_group
+					is_living_human_trigger = yes
+				}
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 150
+			prestige = 1500
+			piety = 50
+			has_landed_title = k_strygos
+			has_landed_title = d_mourkain
+			has_landed_title = c_mourkain
+			completely_controls = k_strygos
+			OR = {
+				completely_controls = k_badlands
+				completely_controls = k_khernarch
+			}
+		}
+		effect = {
+			log = "work decision reform_strygos for [Root.GetBestName]"
+			wealth = -150
+			piety = -50
+			prestige = 300
+			hidden_tooltip = {
+				if = {
+					limit = {
+						trait = vampire_strigoi_visible
+					}
+					long_character_event = {
+						id = svampires.31
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							trait = vampire_strigoi_visible
+						}
+					}
+					long_character_event = {
+						id = svampires.31001
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	open_crystal = { #jade
+		only_playable = yes
+		potential = {
+			has_artifact = dark_crystal
+			has_character_flag = forbidden_jade_crystal
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision open_crystal for [Root.GetBestName]"
+			clr_character_flag = forbidden_jade_crystal
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					trait = greedy
+					trait = paranoid
+				}
+			}
+		}
+	}
+	gaze_into_crystal = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			has_artifact = dark_crystal
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			has_artifact = dark_crystal
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+			OR = {
+				learning = 15
+				wh_is_mage_trigger = yes
+				trait = vampire_jade_visible
+				any_courtier = {
+					trait = astromancer
+				}
+			}
+		}
+		effect = {
+			log = "work decision gaze_into_crystal for [Root.GetBestName]"
+			hidden_tooltip = {
+				if = {
+					limit = {
+						trait = vampire_jade_visible
+					}
+					character_event = {
+						id = svampires.60005
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							trait = vampire_jade_visible
+						}
+					}
+					character_event = {
+						id = svampires.60006
+					}
+				}
+				add_character_modifier = {
+					name = magic_cooldown
+					duration = 300
+					hidden = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0 #already handled by events
+				trait = vampire_jade_visible
+			}
+			modifier = {
+				factor = 0.01
+				NOR = {
+					trait = ambitious
+					trait = greedy
+					trait = cynical
+				}
+			}
+			modifier = {
+				factor = 0
+				trait = paranoid
+				religion = draconite
+			}
+		}
+	}
+	forbid_crystal = {
+		only_playable = yes
+		potential = {
+			has_artifact = dark_crystal
+			NOT = {
+				has_character_flag = forbidden_jade_crystal
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision forbid_crystal for [Root.GetBestName]"
+			set_character_flag = forbidden_jade_crystal
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0
+				NOR = {
+					trait = greedy
+					trait = paranoid
+				}
+			}
+		}
+	}
+
+	mahtmasi_scare_goblins = { #mahtmasi
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			trait = vampire_mahtmasi_visible
+			has_landed_title = k_shadowrealm
+			any_war = {
+				attacker = {
+					religion = spider_god
+				}
+			}
+			NOT = {
+				has_character_modifier = magic_cooldown
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+		}
+		effect = {
+			log = "work decision mahtmasi_scare_goblins for [Root.GetBestName]"
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = magic_cooldown
+					hidden = yes
+					duration = 300
+				}
+			}
+			any_war = {
+				limit = {
+					attacker = {
+						religion = spider_god
+					}
+				}
+				attacker = {
+					character_event = {
+						id = svampires.78
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 10
+				war = yes
+			}
+		}
+	}
+	use_shadow_plot = {
+		only_playable = yes
+		potential = {
+			OR = {
+				trait = vampire_mahtmasi_visible
+				AND = {
+					religion = shadowmen
+					trait = lore_necromancy
+					has_character_modifier = magic_power_4
+				}
+				AND = {
+					trait = lore_shadows
+					has_character_modifier = magic_power_4
+				}
+			}
+			OR = {
+				has_plot = plot_make_voodoo_doll
+				has_plot = plot_kill_character
+				has_plot = plot_kill_spouse
+			}
+			NOT = {
+				has_character_flag = murder_in_motion
+				has_character_flag = voodoo_success_flag
+				has_character_modifier = magic_cooldown
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 200
+		}
+		effect = {
+			log = "work decision use_shadow_plot for [Root.GetBestName]"
+			piety = -200
+			set_character_flag = using_shadow_plot
+			hidden_tooltip = {
+				character_event = {
+					id = svampires.88
+				}
+				add_character_modifier = {
+					name = magic_cooldown
+					hidden = yes
+					duration = 300
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					trait = patient
+					trait = trusting
+				}
+			}
+		}
+	}
+
+	create_blood_host = { #blood dragon
+		potential = {
+			trait = vampire_blood_visible
+			age = 16
+			NOR = {
+				trait = resting
+				trait = blood_questing
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			check_variable = {
+				which = "blooddragon_reserve" value = 10
+			}
+			wealth = 30
+		}
+		effect = {
+			log = "work decision create_blood_host for [Root.GetBestName]"
+			wealth = -30
+			change_variable = {
+				which = "blooddragon_reserve" value = -10
+			}
+			location = {
+				ROOT = {
+					spawn_unit = {
+						province = PREV
+						reinforces = yes
+						troops = {
+							vampire_knights = {
+								10 10
+							}
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 1.25
+				trait = proud
+			}
+			modifier = {
+				factor = 1.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 0.5
+				trait = content
+			}
+			modifier = {
+				factor = 0.5
+				NOT = {
+					wealth = 200
+				}
+			}
+		}
+	}
+	increase_bloodorder_size = {
+		potential = {
+			has_dlc = "Horse Lords"
+			trait = vampire_blood_visible
+			primary_title = {
+				mercenary = yes
+				adventurer = yes
+			}
+		}
+		allow = {
+			prisoner = no
+			prestige = 150
+		}
+		effect = {
+			log = "work decision increase_bloodorder_size for [Root.GetBestName]"
+			prestige = -150
+			primary_title = {
+				change_title_army_size = 0.07 # Increase of percentage
+				band_creator = {
+					if = {
+						limit = {
+							is_alive = yes
+						}
+						character_event = {
+							id = svampires.17
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.025
+				band_creator = {
+					is_alive = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					trait = ambitious
+				}
+				trait = greedy
+			}
+			modifier = {
+				factor = 2
+				trait = proud
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+			modifier = {
+				factor = 2
+				wealth = 200
+			}
+			modifier = {
+				factor = 2
+				wealth = 400
+			}
+			modifier = {
+				factor = 3
+				wealth = 800
+			}
+			modifier = {
+				factor = 4
+				wealth = 1200
+			}
+			modifier = {
+				factor = 5
+				wealth = 1600
+			}
+		}
+	}
+	# start_blood_quest = { # think about it
+	# 	is_high_prio = yes
+	# 	only_rulers = yes
+	# 	potential = {
+	# 		always = no	#deactivated for now
+	# 		trait = vampire_blood_visible
+	# 		is_incapacitated_trigger = no
+	# 		higher_tier_than = BARON
+	# 	}
+	# 	allow = {
+	# 		prisoner = no
+	# 		war = no
+	# 		prestige = 50
+	# 		piety = 20
+	# 	}
+	# 	effect = {
+	# 		prestige = -50
+	# 		piety = -20
+	# 		clr_character_flag = empire_questing
+	# 		clr_character_flag = border_princes_questing
+	# 		clr_character_flag = kislev_questing
+	# 		clr_character_flag = bretonnia_questing
+	# 		clr_character_flag = estilea_questing
+	# 		clr_character_flag = badlands_questing
+	# 		clr_character_flag = araby_questing
+	# 		clr_character_flag = nehekhara_questing
+	# 		clr_character_flag = norsca_questing
+	# 		clr_character_flag = mountains_questing
+	# 		clr_character_flag = darklands_questing
+	# 		clr_character_flag = ulthuan_questing
+	# 		clr_character_flag = naggaroth_questing
+	# 		clr_character_flag = athel_loren_questing
+	# 		clr_character_flag = chaos_wastes_questing
+	# 		clr_character_flag = ocean_questing
+	# 		hidden_tooltip = {
+	# 			character_event = {
+	# 				id = sblooddragons.22
+	# 			}
+	# 			add_trait = blood_questing
+	# 			add_character_modifier = {
+ 	# 				name = blood_quest_startup
+	# 				duration = 150
+	# 				hidden = yes
+	# 			}
+	# 			any_courtier = {
+	# 				limit = {
+	# 					NOR = {
+	# 						trait = incapable
+	# 						prisoner = yes
+	# 						trait = resting
+	# 						trait = blood_questing
+	# 						is_ruler = yes
+	# 					}
+	# 					trait = vampire_blood_visible
+	# 				}
+	# 				character_event = {
+	# 					id = sblooddragons.23
+	# 				}
+	# 			}
+	# 			any_vassal = {
+	# 				limit = {
+	# 					NOR = {
+	# 						trait = incapable
+	# 						prisoner = yes
+	# 						trait = resting
+	# 						trait = blood_questing
+	# 					}
+	# 					trait = vampire_blood_visible
+	# 				}
+	# 				character_event = {
+	# 					id = sblooddragons.23
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# 	revoke_allowed = {
+	# 		always = no
+	# 	}
+	# 	ai_will_do = {
+	# 		factor = 1
+	# 		modifier = {
+	# 			factor = 0
+	# 			war = yes
+	# 		}
+	# 		modifier = {
+	# 			factor = 2
+	# 			trait = proud
+	# 		}
+	# 		modifier = {
+	# 			factor = 2
+	# 			trait = ambitious
+	# 		}
+	# 		modifier = {
+	# 			factor = 0.5
+	# 			trait = content
+	# 		}
+	# 		modifier = {
+	# 			factor = 5
+	# 			primary_title = {
+	# 				mercenary = yes
+	# 				adventurer = yes
+	# 			}
+	# 		}
+	# 	}
+	# }
+	# stop_blood_questing = {
+		# only_rulers = yes
+		# potential = {
+			# trait = blood_questing
+			# is_ruler = yes
+			# NOT = {
+				# has_character_modifier = blood_quest_startup
+				# has_character_flag = ocean_questing
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV
+							# modifier = opinion_blood_questing
+						# }
+					# }
+					# has_character_flag = ocean_questing
+				# }
+			# }
+		# }
+		# allow = {
+			# prestige = 30
+			# piety = 10
+		# }
+		# effect = {
+			# log = "work decision stop_blood_questing for [Root.GetBestName]"
+			# prestige = -30
+			# piety = -10
+			# clr_character_flag = empire_questing
+			# clr_character_flag = border_princes_questing
+			# clr_character_flag = kislev_questing
+			# clr_character_flag = bretonnia_questing
+			# clr_character_flag = estilea_questing
+			# clr_character_flag = badlands_questing
+			# clr_character_flag = araby_questing
+			# clr_character_flag = nehekhara_questing
+			# clr_character_flag = norsca_questing
+			# clr_character_flag = mountains_questing
+			# clr_character_flag = darklands_questing
+			# clr_character_flag = ulthuan_questing
+			# clr_character_flag = naggaroth_questing
+			# clr_character_flag = athel_loren_questing
+			# clr_character_flag = chaos_wastes_questing
+			# clr_character_flag = ocean_questing
+			# hidden_tooltip = {
+				# character_event = {
+					# id = sblooddragons.24
+				# }
+				# clr_character_flag = blood_quest_leader
+				# remove_trait = blood_questing
+				# if = {
+					# limit = {
+						# liege = {
+							# ROOT = {
+								# has_opinion_modifier = {
+									# who = PREV modifier = opinion_blood_questing }
+							# }
+						# }
+					# }
+					# liege = {
+						# letter_event = {
+							# id = sblooddragons.24001
+						# }
+					# }
+				# }
+				# any_courtier = {
+					# limit = {
+						# has_opinion_modifier = {
+							# who = ROOT modifier = opinion_blood_questing
+						# }
+						# trait = vampire_blood_visible
+					# }
+					# letter_event = {
+						# id = sblooddragons.24002
+					# }
+				# }
+				# any_vassal = {
+					# limit = {
+						# has_opinion_modifier = {
+							# who = ROOT modifier = opinion_blood_questing
+						# }
+						# trait = vampire_blood_visible
+					# }
+					# letter_event = {
+						# id = sblooddragons.24002
+					# }
+				# }
+			# }
+		# }
+		# revoke_allowed = {
+			# always = no
+		# }
+		# ai_will_do = {
+			# factor = 1
+			# modifier = {
+				# factor = 0.1
+			# }
+			# modifier = {
+				# factor = 0
+				# has_character_modifier = bloodthirsty
+			# }
+			# modifier = {
+				# factor = 100
+				# trait = resting
+			# }
+			# modifier = {
+				# factor = 0
+				# independent = yes
+				# war = no
+				# wealth = 5
+			# }
+			# modifier = {
+				# factor = 0.1
+				# NOR = {
+					# trait = infirm
+					# trait = incapable
+					# trait = blinded
+					# trait = wounded
+					# trait = maimed
+					# trait = eunuch
+				# }
+			# }
+			# modifier = {
+				# factor = 10
+				# war = yes
+			# }
+			# modifier = {
+				# factor = 0.5
+				# trait = proud
+			# }
+			# modifier = {
+				# factor = 0.5
+				# trait = ambitious
+			# }
+			# modifier = {
+				# factor = 1.5
+				# trait = content
+			# }
+			# modifier = {
+				# factor = 0.5
+				# primary_title = {
+					# mercenary = yes
+					# adventurer = yes
+				# }
+			# }
+			# modifier = {
+				# factor = 1.75
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# NOT = {
+					# liege = {
+						# ROOT = {
+							# opinion = {
+								# who = PREV
+								# value = -80
+							# }
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 1.5
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# NOT = {
+					# liege = {
+						# ROOT = {
+							# opinion = {
+								# who = PREV
+								# value = -60
+							# }
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 1.5
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# NOT = {
+					# liege = {
+						# ROOT = {
+							# opinion = {
+								# who = PREV
+								# value = -40
+							# }
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 1.2
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# NOT = {
+					# liege = {
+						# ROOT = {
+							# opinion = {
+								# who = PREV
+								# value = -20
+							# }
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 1.2
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# NOT = {
+					# liege = {
+						# ROOT = {
+							# opinion = {
+								# who = PREV
+								# value = 0
+							# }
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 0.8
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# liege = {
+					# ROOT = {
+						# opinion = {
+							# who = PREV
+							# value = 20
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 0.6
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# liege = {
+					# ROOT = {
+						# opinion = {
+							# who = PREV
+							# value = 40
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 0.5
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# liege = {
+					# ROOT = {
+						# opinion = {
+							# who = PREV
+							# value = 60
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 0.25
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# liege = {
+					# ROOT = {
+						# opinion = {
+							# who = PREV
+							# value = 80
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 0.05
+				# liege = {
+					# ROOT = {
+						# has_opinion_modifier = {
+							# who = PREV modifier = opinion_blood_questing
+						# }
+					# }
+				# }
+				# liege = {
+					# ROOT = {
+						# opinion = {
+							# who = PREV
+							# value = 100
+						# }
+					# }
+				# }
+			# }
+		# }
+	# }
+
+	nagashi_experiment = {
+		only_playable = yes
+		potential = {
+			religion = nagashi
+			trait = lore_necromancy
+			age = 16
+			not = {
+				has_character_flag = experimenting_necromancy
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			check_variable = {
+				which = "sample_counter" value = 5
+			}
+		}
+		effect = {
+			log = "work decision nagashi_experiment for [Root.GetBestName]"
+			set_character_flag = experimenting_necromancy
+			character_event = {
+				id = svampires.47
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 1.25
+				trait = proud
+			}
+			modifier = {
+				factor = 1.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 0.75
+				trait = content
+			}
+			modifier = {
+				factor = 5
+				war = yes
+			}
+			modifier = {
+				factor = 2.5
+				has_character_modifier = bloodthirsty
+			}
+		}
+	}
+}
+#END

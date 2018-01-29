@@ -1,0 +1,414 @@
+namespace = ulthuan
+
+# Provinces in Ulthuan slowly depopulate even during peace, but much faster during times of war when the province is occupied - first we assign each province in Ulthuan a modifier
+province_event = {
+	id = ulthuan.0
+	hide_window = yes
+	is_triggered_only = yes
+	culture_group = asur_group
+
+	trigger = {
+		region = world_ulthuan
+		nor = {
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = off
+			}
+			has_province_modifier = ulthuan
+			province_id = 1492 # Not Lothern, it welcomes visitors from around the world and hence non elves replace elven population losses
+		}
+	}
+
+	immediate = {
+		log = "work event id = ulthuan.0 for [Root.GetBestName]"
+		add_province_modifier = {
+			name = ulthuan
+			duration = -1
+		}
+	}
+}
+
+# Now count tier and above rulers get the event informing them that their province has been depopulated to lightly depopulated
+character_event = {
+	id = ulthuan.1
+	desc = ulthuan1desc # Whether through war or just the slow passage of time, the population in this province has fallen. Such is the fate of all elves in Ulthuan, to slowly diminish, but they will never yield to their enemies even so.
+	picture = "GFX_evt_elf_city"
+	culture_group = asur_group
+	only_playable = yes
+
+	trigger = {
+		NOT = {
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = off
+			}
+		}
+		any_demesne_province = {
+			has_province_modifier = ulthuan
+			nor = {
+				has_province_modifier = ulthuan_lightly_depopulated
+				has_province_modifier = ulthuan_moderately_depopulated
+				has_province_modifier = ulthuan_heavily_depopulated
+				has_province_modifier = ulthuan_severely_depopulated
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 200# 200 years
+		modifier = {
+			factor = 0.33
+			liege = {
+				war = yes
+				has_raised_levies = ROOT
+			}
+		}
+		modifier = {
+			factor = 3
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = decreased
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = ulthuan.1 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = OK
+		random_demesne_province = {
+			if = {
+				limit = {
+					has_province_modifier = ulthuan
+					nor = {
+						has_province_modifier = ulthuan_lightly_depopulated
+						has_province_modifier = ulthuan_moderately_depopulated
+						has_province_modifier = ulthuan_heavily_depopulated
+						has_province_modifier = ulthuan_severely_depopulated
+					}
+				}
+				add_province_modifier = {
+					name = ulthuan_lightly_depopulated
+					duration = -1
+				}
+			}
+		}
+	}
+}
+
+character_event = {
+	id = ulthuan.2
+	desc = ulthuan2desc # Whether through war or just the slow passage of time, the population in this province is now moderately depopulated. Empty villages and mansions dot the country side, their former inhabitants now only a distant memory.
+	picture = "GFX_evt_elf_city"
+	only_playable = yes
+
+	trigger = {
+		NOT = {
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = off
+			}
+		}
+		any_demesne_province = {
+			has_province_modifier = ulthuan
+			has_province_modifier = ulthuan_lightly_depopulated
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 200# 200 years
+		modifier = {
+			factor = 0.5
+			liege = {
+				war = yes
+				has_raised_levies = ROOT
+			}
+		}
+		modifier = {
+			factor = 3
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = decreased
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = ulthuan.2 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = OK
+		random_demesne_province = {
+			if = {
+				limit = {
+					has_province_modifier = ulthuan
+					has_province_modifier = ulthuan_lightly_depopulated
+				}
+				remove_province_modifier = ulthuan_lightly_depopulated
+				add_province_modifier = {
+					name = ulthuan_moderately_depopulated
+					duration = -1
+				}
+			}
+		}
+	}
+}
+
+character_event = {
+	id = ulthuan.3
+	desc = ulthuan3desc # Whether through war or just the slow passage of time, the population in this province is now heavily depopulated. The Lords there struggle to maintain a semblance of civilization, and many areas are now devoid of elves entirely, given over to nature and the wild beasts.
+	picture = "GFX_evt_elf_city"
+	only_playable = yes
+
+	trigger = {
+		NOT = {
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = off
+			}
+		}
+		any_demesne_province = {
+			has_province_modifier = ulthuan
+			has_province_modifier = ulthuan_moderately_depopulated
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 200# 200 years
+		modifier = {
+			factor = 3
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = decreased
+			}
+		}
+		modifier = {
+			factor = 0.5
+			liege = {
+				war = yes
+				has_raised_levies = ROOT
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = ulthuan.3 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = OK
+		random_demesne_province = {
+			if = {
+				limit = {
+					has_province_modifier = ulthuan
+					has_province_modifier = ulthuan_moderately_depopulated
+				}
+				remove_province_modifier = ulthuan_moderately_depopulated
+				add_province_modifier = {
+					name = ulthuan_heavily_depopulated
+					duration = -1
+				}
+			}
+		}
+	}
+}
+
+character_event = {
+	id = ulthuan.4
+	desc = ulthuan4desc # Whether through war or just the slow passage of time, the population in this province is now severely depopulated. The major noble families still maintain their mansions and the immediate surrounds, but they have lost the ability to control much more than that.
+	picture = "GFX_evt_elf_city"
+	only_playable = yes
+
+	trigger = {
+		NOT = {
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = off
+			}
+		}
+		any_demesne_province = {
+			has_province_modifier = ulthuan
+			has_province_modifier = ulthuan_heavily_depopulated
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 200# 200 years
+		modifier = {
+			factor = 3
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = decreased
+			}
+		}
+		modifier = {
+			factor = 0.5
+			liege = {
+				war = yes
+				has_raised_levies = ROOT
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = ulthuan.4 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = OK
+		random_demesne_province = {
+			if = {
+				limit = {
+					has_province_modifier = ulthuan
+					has_province_modifier = ulthuan_heavily_depopulated
+				}
+				remove_province_modifier = ulthuan_heavily_depopulated
+				add_province_modifier = {
+					name = ulthuan_severely_depopulated
+					duration = -1
+				}
+			}
+		}
+	}
+}
+
+# Now for when a province is occupied, the population decline is even faster
+character_event = {
+	id = ulthuan.5
+	desc = ulthuan5desc # This province is occupied by enemies and many precious elven lives have been lost.
+	picture = "GFX_evt_elf_city"
+	only_playable = yes
+	culture_group = asur_group
+
+	trigger = {
+		NOT = {
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = off
+			}
+		}
+		any_demesne_title = {
+			location = {
+				has_province_modifier = ulthuan
+			}
+			tier = baron
+			NOT = {
+				controlled_by = ROOT
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 5# 5 years
+		modifier = {
+			factor = 5
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = decreased
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = ulthuan.5 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = OK
+		random_demesne_province = {
+			if = {
+				limit = {
+					NOT = {
+						controlled_by = ROOT
+					}
+				}
+				if = {
+					limit = {
+						has_province_modifier = ulthuan
+						has_province_modifier = ulthuan_heavily_depopulated
+					}
+					remove_province_modifier = ulthuan_heavily_depopulated
+					add_province_modifier = {
+						name = ulthuan_severely_depopulated
+						duration = -1
+					}
+				}
+				if = {
+					limit = {
+						has_province_modifier = ulthuan
+						has_province_modifier = ulthuan_moderately_depopulated
+					}
+					remove_province_modifier = ulthuan_moderately_depopulated
+					add_province_modifier = {
+						name = ulthuan_heavily_depopulated
+						duration = -1
+					}
+				}
+				if = {
+					limit = {
+						has_province_modifier = ulthuan
+						has_province_modifier = ulthuan_lightly_depopulated
+					}
+					remove_province_modifier = ulthuan_lightly_depopulated
+					add_province_modifier = {
+						name = ulthuan_moderately_depopulated
+						duration = -1
+					}
+				}
+				if = {
+					limit = {
+						has_province_modifier = ulthuan
+						nor = {
+							has_province_modifier = ulthuan_lightly_depopulated
+							has_province_modifier = ulthuan_moderately_depopulated
+							has_province_modifier = ulthuan_heavily_depopulated
+							has_province_modifier = ulthuan_severely_depopulated
+						}
+					}
+					add_province_modifier = {
+						name = ulthuan_lightly_depopulated
+						duration = -1
+					}
+				}
+			}
+		}
+	}
+}
+
+# Add the Ulthuan pop modifiers
+character_event = {
+	id = ulthuan.6
+	hide_window = yes
+	only_playable = yes
+	is_triggered_only = yes
+
+	trigger = {
+		has_landed_title = e_ulthuan
+		nor = {
+			has_game_rule = {
+				name = warhammer_ulthuan_depopulation
+				value = off
+			}
+			has_global_flag = ulthuan_pop_set
+		}
+	}
+
+	immediate = {
+		log = "work event id = ulthuan.6 for [Root.GetBestName]"
+		any_realm_province = {
+			limit = {
+				region = world_ulthuan
+				NOT = {
+					has_province_modifier = ulthuan
+				}
+			}
+			province_event = {
+				id = ulthuan.0
+			}
+		}
+		set_global_flag = ulthuan_pop_set
+	}
+}

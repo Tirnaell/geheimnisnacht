@@ -1,0 +1,1935 @@
+# Written by Henrik Fåhraeus
+# Holy Order Decisions are listed for each existing holy order of the right religion
+
+decisions = {
+
+	donate_money_to_assassins = {
+		potential = {
+			OR = {
+				religion = ormazd
+				religion = kitabid
+			}
+			is_heretic = no
+			is_title_active = d_hashishin
+			NOT = {
+				has_character_modifier = expelled_d_hashishin
+			}
+			has_dlc = "Sons of Abraham"
+			d_hashishin = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 300
+		}
+		effect = {
+			log = "work decision donate_money_to_assassins for [Root.GetBestName]"
+			hidden_tooltip = {
+				d_hashishin = {
+					holder_scope = {
+						character_event = {
+							id = SoA.1140
+						}
+					}
+				}
+			}
+			wealth = -300
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = {
+						wealth = 1000
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	donate_money_to_knights_black_rose = {
+		potential = {
+			religion = taalite
+			is_heretic = no
+			is_title_active = d_knights_of_the_black_rose
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_knights_of_the_black_rose
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_of_the_black_rose = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 300
+		}
+		effect = {
+			log = "work decision donate_money_to_knights_black_rose for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_holy_order
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				d_knights_of_the_black_rose = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1140
+						}
+					}
+				}
+			}
+			wealth = -300
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = {
+						wealth = 1000
+					}
+					AND = {
+						NOT = {
+							controls_religion = taalite
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	donate_money_to_knights_blazing_sun = {
+		potential = {
+			religion = myrmidian
+			is_heretic = no
+			is_title_active = d_knights_of_the_blazing_sun
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_knights_of_the_blazing_sun
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_of_the_blazing_sun = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 300
+		}
+		effect = {
+			log = "work decision donate_money_to_knights_blazing_sun for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_holy_order
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				d_knights_of_the_blazing_sun = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1140
+						}
+					}
+				}
+			}
+			wealth = -300
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = {
+						wealth = 1000
+					}
+					AND = {
+						NOT = {
+							controls_religion = myrmidian
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	donate_money_to_knights_mariner = {
+		potential = {
+			religion = manannite
+			is_heretic = no
+			is_title_active = d_knights_mariner
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_knights_mariner
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_mariner = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 300
+		}
+		effect = {
+			log = "work decision donate_money_to_knights_mariner for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_holy_order
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				d_knights_mariner = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1140
+						}
+					}
+				}
+			}
+			wealth = -300
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = {
+						wealth = 1000
+					}
+					AND = {
+						NOT = {
+							controls_religion = manannite
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	donate_money_to_knights_white_wolf = {
+		potential = {
+			religion = ulrican
+			is_heretic = no
+			is_title_active = d_knights_of_the_white_wolf
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_knights_of_the_white_wolf
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_of_the_white_wolf = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 300
+		}
+		effect = {
+			log = "work decision donate_money_to_knights_white_wolf for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_holy_order
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				d_knights_of_the_white_wolf = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1140
+						}
+					}
+				}
+			}
+			wealth = -300
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = {
+						wealth = 1000
+					}
+					AND = {
+						NOT = {
+							controls_religion = ulrican
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	donate_money_to_knights_sigmars_blood = {
+		potential = {
+			religion = sigmarite
+			is_heretic = no
+			is_title_active = d_knights_of_sigmars_blood
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_knights_of_sigmars_blood
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_of_sigmars_blood = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 300
+		}
+		effect = {
+			log = "work decision donate_money_to_knights_sigmars_blood for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_holy_order
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				d_knights_of_sigmars_blood = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1140
+						}
+					}
+				}
+			}
+			wealth = -300
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = {
+						wealth = 1000
+					}
+					AND = {
+						NOT = {
+							controls_religion = sigmarite
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	donate_money_to_sisters_sigmar = {
+		potential = {
+			religion = sigmarite
+			is_heretic = no
+			is_title_active = d_sisters_of_sigmar
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_sisters_of_sigmar
+			}
+			has_dlc = "Sons of Abraham"
+			d_sisters_of_sigmar = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 300
+		}
+		effect = {
+			log = "work decision donate_money_to_sisters_sigmar for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_holy_order
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				d_sisters_of_sigmar = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1140
+						}
+					}
+				}
+			}
+			wealth = -300
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = {
+						wealth = 1000
+					}
+					AND = {
+						NOT = {
+							controls_religion = sigmarite
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	donate_money_to_order_eagle = {
+		potential = {
+			religion = myrmidian
+			is_heretic = no
+			is_title_active = d_order_of_the_eagle
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_order_of_the_eagle
+			}
+			has_dlc = "Sons of Abraham"
+			d_order_of_the_eagle = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 300
+		}
+		effect = {
+			log = "work decision donate_money_to_order_eagle for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_holy_order
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				d_order_of_the_eagle = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1140
+						}
+					}
+				}
+			}
+			wealth = -300
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = {
+						wealth = 1000
+					}
+					AND = {
+						NOT = {
+							controls_religion = myrmidian
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	donate_money_to_witch_hunters = {
+		potential = {
+			religion = sigmarite
+			trait = creature_human
+			is_heretic = no
+			is_title_active = k_witch_hunters_order
+			NOT = {
+				trait = witch_hunter
+			}
+			location = {
+				region = world_old_world
+			}
+			NOT = {
+				has_character_modifier = expelled_k_witch_hunters_order
+			}
+			k_witch_hunters_order = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			wealth = 500
+		}
+		effect = {
+			log = "work decision donate_money_to_witch_hunters for [Root.GetBestName]"
+			if = {
+				limit = {
+					NOT = {
+						has_character_modifier = donated_to_holy_order
+					}
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				decrease_visibility_effect = yes
+				k_witch_hunters_order = {
+					holder_scope = {
+						character_event = {
+							id = swhunters.6
+						}
+					}
+				}
+			}
+			wealth = -500
+			piety = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					nor = {
+						wealth = 1000
+						controls_religion = sigmarite
+					}
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+			modifier = {
+				factor = 0.02 # Slow it down
+				trait = greedy
+			}
+			modifier = {
+				factor = 0.05 # Slow it down
+				trait = cynical
+			}
+			modifier = {
+				factor = 2
+				trait = zealous
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					society_member_of = cult_of_khorne
+					society_member_of = cult_of_nurgle
+					society_member_of = cult_of_slaanesh
+					society_member_of = cult_of_tzeentch
+					trait = mutation_minor
+					trait = mutation_major
+					trait = mutation_massive
+				}
+			}
+		}
+	}
+	expel_the_assassins = {
+		potential = {
+			ai = no
+			OR = {
+				religion = ormazd
+				religion = kitabid
+			}
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			is_title_active = d_hashishin
+			NOT = {
+				has_character_modifier = expelled_d_hashishin
+			}
+			any_realm_province = {
+				any_province_lord = {
+					d_hashishin = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			has_dlc = "Sons of Abraham"
+		}
+		allow = {
+			piety = 1000
+		}
+		effect = {
+			log = "work decision expel_the_assassins for [Root.GetBestName]"
+			piety = -1000
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			hidden_tooltip = {
+				d_hashishin = {
+					holder_scope = {
+						character_event = {
+							id = SoA.1460
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_d_hashishin
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	expel_the_knights_black_rose = {
+		potential = {
+			ai = no
+			religion = taalite
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			NOT = {
+				trait = witch_hunter
+			}
+			is_title_active = d_knights_of_the_black_rose
+			NOT = {
+				has_character_modifier = expelled_d_knights_of_the_black_rose
+			}
+			any_realm_province = {
+				any_province_lord = {
+					d_knights_of_the_black_rose = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			has_dlc = "Sons of Abraham"
+		}
+		allow = {
+			piety = 1000
+		}
+		effect = {
+			log = "work decision expel_the_knights_black_rose for [Root.GetBestName]"
+			piety = -1000
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			hidden_tooltip = {
+				d_knights_of_the_black_rose = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1360
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_d_knights_of_the_black_rose
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	expel_the_knights_blazing_sun = {
+		potential = {
+			ai = no
+			religion = myrmidian
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			is_title_active = d_knights_of_the_blazing_sun
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_knights_of_the_blazing_sun
+			}
+			any_realm_province = {
+				any_province_lord = {
+					d_knights_of_the_blazing_sun = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			has_dlc = "Sons of Abraham"
+		}
+		allow = {
+			piety = 1000
+		}
+		effect = {
+			log = "work decision expel_the_knights_blazing_sun for [Root.GetBestName]"
+			piety = -1000
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			hidden_tooltip = {
+				d_knights_of_the_blazing_sun = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1260
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_d_knights_of_the_blazing_sun
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	expel_the_knights_mariner = {
+		potential = {
+			ai = no
+			religion = manannite
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			is_title_active = d_knights_mariner
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_knights_mariner
+			}
+			any_realm_province = {
+				any_province_lord = {
+					d_knights_mariner = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			has_dlc = "Sons of Abraham"
+		}
+		allow = {
+			piety = 1000
+		}
+		effect = {
+			log = "work decision expel_the_knights_mariner for [Root.GetBestName]"
+			piety = -1000
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			hidden_tooltip = {
+				d_knights_mariner = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1460
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_d_knights_mariner
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	expel_the_knights_white_wolf = {
+		potential = {
+			ai = no
+			religion = ulrican
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			NOT = {
+				trait = witch_hunter
+			}
+			is_title_active = d_knights_of_the_white_wolf
+			NOT = {
+				has_character_modifier = expelled_d_knights_of_the_white_wolf
+			}
+			any_realm_province = {
+				any_province_lord = {
+					d_knights_of_the_white_wolf = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			has_dlc = "Sons of Abraham"
+		}
+		allow = {
+			piety = 1000
+		}
+		effect = {
+			log = "work decision expel_the_knights_white_wolf for [Root.GetBestName]"
+			piety = -1000
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			hidden_tooltip = {
+				d_knights_of_the_white_wolf = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1060
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_d_knights_of_the_white_wolf
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	expel_the_knights_sigmars_blood = {
+		potential = {
+			ai = no
+			religion = sigmarite
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			is_title_active = d_knights_of_sigmars_blood
+			nor = {
+				has_character_modifier = expelled_d_knights_of_sigmars_blood
+				trait = witch_hunter
+			}
+			any_realm_province = {
+				any_province_lord = {
+					d_knights_of_sigmars_blood = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			has_dlc = "Sons of Abraham"
+		}
+		allow = {
+			piety = 1000
+		}
+		effect = {
+			log = "work decision expel_the_knights_sigmars_blood for [Root.GetBestName]"
+			piety = -1000
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			hidden_tooltip = {
+				d_knights_of_sigmars_blood = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1160
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_d_knights_of_sigmars_blood
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	expel_the_sisters_sigmar = {
+		potential = {
+			ai = no
+			religion = sigmarite
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			is_title_active = d_sisters_of_sigmar
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_sisters_of_sigmar
+			}
+			any_realm_province = {
+				any_province_lord = {
+					d_sisters_of_sigmar = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			has_dlc = "Sons of Abraham"
+		}
+		allow = {
+			piety = 1000
+		}
+		effect = {
+			log = "work decision expel_the_sisters_sigmar for [Root.GetBestName]"
+			piety = -1000
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			hidden_tooltip = {
+				d_sisters_of_sigmar = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1560
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_d_sisters_of_sigmar
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	expel_the_order_eagle = {
+		potential = {
+			ai = no
+			religion = myrmidian
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			is_title_active = d_order_of_the_eagle
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = expelled_d_order_of_the_eagle
+			}
+			any_realm_province = {
+				any_province_lord = {
+					d_order_of_the_eagle = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			has_dlc = "Sons of Abraham"
+		}
+		allow = {
+			piety = 1000
+		}
+		effect = {
+			log = "work decision expel_the_order_eagle for [Root.GetBestName]"
+			piety = -1000
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			hidden_tooltip = {
+				d_order_of_the_eagle = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1660
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_d_order_of_the_eagle
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	expel_the_witch_hunters = {
+		potential = {
+			higher_tier_than = DUKE
+			independent = yes
+			trait = creature_human
+			nor = {
+				has_character_modifier = expelled_k_witch_hunters_order
+				trait = witch_hunter
+			}
+			OR = {
+				any_courtier = {
+					trait = witch_hunter
+				}
+				any_vassal = {
+					any_courtier = {
+						trait = witch_hunter
+					}
+				}
+				any_realm_province = {
+					any_province_lord = {
+						k_witch_hunters_order = {
+							holder_scope = {
+								OR = {
+									character = PREVPREV
+									is_vassal_or_below = PREVPREV
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			piety = 50
+		}
+		effect = {
+			log = "work decision expel_the_witch_hunters for [Root.GetBestName]"
+			if = {
+				limit = {
+					religion = sigmarite
+				}
+				piety = -1000
+			}
+			if = {
+				limit = {
+					NOT = {
+						religion = sigmarite
+					}
+					religion_group = old_world_group
+				}
+				piety = -500
+			}
+			if = {
+				limit = {
+					nor = {
+						religion_group = old_world_group
+						religion_group = chaos_gods_group
+					}
+				}
+				piety = -250
+			}
+			if = {
+				limit = {
+					religion_group = chaos_gods_group
+				}
+				piety = 150
+			}
+			k_cult_of_sigmar = {
+				holder_scope = {
+					religion_authority = {
+						modifier = holy_order_expelled
+						years = 20
+					}
+				}
+			}
+			hidden_tooltip = {
+				increase_visibility_effect = yes
+				k_witch_hunters_order = {
+					holder_scope = {
+						character_event = {
+							id = swhunters.7
+						}
+					}
+				}
+				any_courtier = {
+					limit = {
+						trait = witch_hunter
+					}
+					banish = yes
+				}
+				any_vassal = {
+					any_courtier = {
+						limit = {
+							trait = witch_hunter
+						}
+						banish = yes
+					}
+					any_vassal = {
+						any_courtier = {
+							limit = {
+								trait = witch_hunter
+							}
+							banish = yes
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_k_witch_hunters_order
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.001 #Slow down
+			}
+			modifier = {
+				factor = 0
+				NOR =  {
+					religion_group = chaos_gods_group
+					trait = vampire_carstein_visible
+					trait = vampire_blood_visible
+					trait = vampire_lahmian_visible
+					trait = vampire_necrarch_visible
+					trait = vampire_strigoi_visible
+					trait = vampire_mahtmasi_visible
+					trait = vampire_jade_visible
+					trait = vampire_carstein_hidden
+					trait = vampire_blood_hidden
+					trait = vampire_lahmian_hidden
+					trait = vampire_necrarch_hidden
+					trait = vampire_strigoi_hidden
+					trait = vampire_mahtmasi_hidden
+					trait = vampire_jade_hidden
+					trait = lunatic_2
+					trait = lunatic_3
+					society_member_of = cult_of_khorne
+					society_member_of = cult_of_nurgle
+					society_member_of = cult_of_slaanesh
+					society_member_of = cult_of_tzeentch
+					trait = mutation_minor
+					trait = mutation_major
+					trait = mutation_massive
+				}
+			}
+			modifier = {
+				factor = 100
+				OR =  {
+					religion_group = chaos_gods_group
+					trait = vampire_carstein_visible
+					trait = vampire_blood_visible
+					trait = vampire_lahmian_visible
+					trait = vampire_necrarch_visible
+					trait = vampire_strigoi_visible
+					trait = vampire_mahtmasi_visible
+					trait = vampire_jade_visible
+					trait = mutation_massive
+				}
+			}
+			modifier = {
+				factor = 10
+				OR =  {
+					wh_has_any_magic_potential_reveal_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 15
+				NAND = {
+					trait = lore_ice
+					is_female = yes
+					religion = ursun
+				}
+				wh_is_mage_trigger = yes
+			}
+		}
+	}
+	borrow_money_assassins = {
+		potential = {
+			OR = {
+				religion = ormazd
+				religion = kitabid
+			}
+			is_heretic = no
+			is_title_active = d_hashishin
+			nor = {
+				has_character_modifier = borrowed_from_hashishin
+				has_character_modifier = expelled_d_hashishin
+				is_nomadic = yes
+			}
+			has_dlc = "Sons of Abraham"
+			d_hashishin = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			d_hashishin = {
+				holder_scope = {
+					wealth = 300
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_assassins for [Root.GetBestName]"
+			add_character_modifier = {
+				name = borrowed_from_hashishin
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				d_hashishin = {
+					holder_scope = {
+						character_event = {
+							id = SoA.1410
+						}
+					}
+				}
+			}
+			wealth = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+		}
+	}
+	borrow_money_knights_blazing_sun = {
+		potential = {
+			religion = myrmidian
+			is_heretic = no
+			is_title_active = d_knights_of_the_blazing_sun
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = borrowed_from_knights_blazing_sun
+				has_character_modifier = expelled_d_knights_of_the_blazing_sun
+				is_nomadic = yes
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_of_the_blazing_sun = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			d_knights_of_the_blazing_sun = {
+				holder_scope = {
+					wealth = 300
+					ROOT = {
+						NOT = {
+							excommunicated_for = PREV
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_knights_blazing_sun for [Root.GetBestName]"
+			add_character_modifier = {
+				name = borrowed_from_knights_blazing_sun
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				d_knights_of_the_blazing_sun = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1210
+						}
+					}
+				}
+			}
+			wealth = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+		}
+	}
+	borrow_money_knights_black_rose = {
+		potential = {
+			religion = taalite
+			is_heretic = no
+			is_title_active = d_knights_of_the_black_rose
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = borrowed_from_knights_black_rose
+				has_character_modifier = expelled_d_knights_of_the_black_rose
+				is_nomadic = yes
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_of_the_black_rose = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			d_knights_of_the_black_rose = {
+				holder_scope = {
+					wealth = 300
+					ROOT = {
+						NOT = {
+							excommunicated_for = PREV
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_knights_black_rose for [Root.GetBestName]"
+			add_character_modifier = {
+				name = borrowed_from_knights_black_rose
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				d_knights_of_the_black_rose = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1310
+						}
+					}
+				}
+			}
+			wealth = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+		}
+	}
+	borrow_money_knights_mariner = {
+		potential = {
+			religion = manannite
+			is_heretic = no
+			is_title_active = d_knights_mariner
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = borrowed_from_knights_mariner
+				has_character_modifier = expelled_d_knights_mariner
+				is_nomadic = yes
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_mariner = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			d_knights_mariner = {
+				holder_scope = {
+					wealth = 300
+					ROOT = {
+						NOT = {
+							excommunicated_for = PREV
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_knights_mariner for [Root.GetBestName]"
+			add_character_modifier = {
+				name = borrowed_from_knights_mariner
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				d_knights_mariner = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1410
+						}
+					}
+				}
+			}
+			wealth = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+		}
+	}
+	borrow_money_knights_white_wolf = {
+		potential = {
+			religion = ulrican
+			is_heretic = no
+			is_title_active = d_knights_of_the_white_wolf
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = borrowed_from_knights_white_wolf
+				has_character_modifier = expelled_d_knights_of_the_white_wolf
+				is_nomadic = yes
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_of_the_white_wolf = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			d_knights_of_the_white_wolf = {
+				holder_scope = {
+					wealth = 300
+					ROOT = {
+						NOT = {
+							excommunicated_for = PREV
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_knights_white_wolf for [Root.GetBestName]"
+			add_character_modifier = {
+				name = borrowed_from_knights_white_wolf
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				d_knights_of_the_white_wolf = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1010
+						}
+					}
+				}
+			}
+			wealth = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+		}
+	}
+	borrow_money_knights_sigmars_blood = {
+		potential = {
+			religion = sigmarite
+			is_heretic = no
+			is_title_active = d_knights_of_sigmars_blood
+			nor = {
+				has_character_modifier = borrowed_from_knights_sigmars_blood
+				has_character_modifier = expelled_d_knights_of_sigmars_blood
+				is_nomadic = yes
+				trait = witch_hunter
+			}
+			has_dlc = "Sons of Abraham"
+			d_knights_of_sigmars_blood = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			d_knights_of_sigmars_blood = {
+				holder_scope = {
+					wealth = 300
+					ROOT = {
+						NOT = {
+							excommunicated_for = PREV
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_knights_sigmars_blood for [Root.GetBestName]"
+			add_character_modifier = {
+				name = borrowed_from_knights_sigmars_blood
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				d_knights_of_sigmars_blood = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1110
+						}
+					}
+				}
+			}
+			wealth = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+		}
+	}
+	borrow_money_sisters_sigmar = {
+		potential = {
+			religion = sigmarite
+			is_heretic = no
+			is_title_active = d_sisters_of_sigmar
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = borrowed_from_sisters_sigmar
+				has_character_modifier = expelled_d_sisters_of_sigmar
+				is_nomadic = yes
+			}
+			has_dlc = "Sons of Abraham"
+			d_sisters_of_sigmar = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			d_sisters_of_sigmar = {
+				holder_scope = {
+					wealth = 300
+					ROOT = {
+						NOT = {
+							excommunicated_for = PREV
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_sisters_sigmar for [Root.GetBestName]"
+			add_character_modifier = {
+				name = borrowed_from_sisters_sigmar
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				d_sisters_of_sigmar = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1510
+						}
+					}
+				}
+			}
+			wealth = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+		}
+	}
+	borrow_money_order_eagle = {
+		potential = {
+			religion = myrmidian
+			is_heretic = no
+			is_title_active = d_order_of_the_eagle
+			nor = {
+				trait = witch_hunter
+				has_character_modifier = borrowed_from_order_eagle
+				has_character_modifier = expelled_d_order_of_the_eagle
+				is_nomadic = yes
+			}
+			has_dlc = "Sons of Abraham"
+			d_order_of_the_eagle = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			d_order_of_the_eagle = {
+				holder_scope = {
+					wealth = 300
+					ROOT = {
+						NOT = {
+							excommunicated_for = PREV
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_order_eagle for [Root.GetBestName]"
+			add_character_modifier = {
+				name = borrowed_from_order_eagle
+				duration = -1
+				inherit = yes
+			}
+			hidden_tooltip = {
+				d_order_of_the_eagle = {
+					holder_scope = {
+						character_event = {
+							id = SoA_HolyOrders.1610
+						}
+					}
+				}
+			}
+			wealth = 300
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+		}
+	}
+	borrow_money_witch_hunters = {
+		potential = {
+			religion = sigmarite
+			trait = creature_human
+			is_heretic = no
+			is_title_active = k_witch_hunters_order
+			nor = {
+				has_character_modifier = borrowed_from_k_witch_hunters_order
+				has_character_modifier = expelled_k_witch_hunters_order
+				is_nomadic = yes
+				trait = witch_hunter
+				government = congregation_government
+				has_any_opinion_modifier = opinion_refused_loan
+			}
+			location = {
+				region = world_old_world
+			}
+			k_witch_hunters_order = {
+				holder_scope = {
+					liege = {
+						NOT = {
+							character = ROOT }
+					}
+				}
+			}
+		}
+		allow = {
+			k_witch_hunters_order = {
+				holder_scope = {
+					wealth = 500
+					ROOT = {
+						NOT = {
+							excommunicated_for = PREV
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			log = "work decision borrow_money_witch_hunters for [Root.GetBestName]"
+			hidden_tooltip = {
+				k_witch_hunters_order = {
+					holder_scope = {
+						letter_event = {
+							id = swhunters.5
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				wealth = 0
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+			}
+			modifier = {
+				factor = 0.01 # Slow it down
+				k_witch_hunters_order = {
+					holder_scope = {
+						ai = no
+					}
+				}
+			}
+			modifier = {
+				factor = 0 # Slow it down
+				lower_tier_than = KING
+				k_witch_hunters_order = {
+					holder_scope = {
+						ai = no
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					society_member_of = cult_of_khorne
+					society_member_of = cult_of_nurgle
+					society_member_of = cult_of_slaanesh
+					society_member_of = cult_of_tzeentch
+					trait = mutation_minor
+					trait = mutation_major
+					trait = mutation_massive
+				}
+			}
+		}
+	}
+}

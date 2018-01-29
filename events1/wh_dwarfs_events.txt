@@ -1,0 +1,3872 @@
+namespace = DR_dwarfs
+
+# ON BIRTH: Set Grudges
+character_event = {
+	id = DR_dwarfs.1
+	desc = EVTDESCDR_dwarfs.1
+	is_triggered_only = yes
+	religion_group = dwarf_gods_group
+
+	trigger = {
+		trait = creature_dwarf
+		OR = {
+			mother_even_if_dead = {
+				dynasty = ROOT
+				# has_dynasty_flag = dyn_dwarf_grudge
+			}
+			father_even_if_dead = {
+				dynasty = ROOT
+				# has_dynasty_flag = dyn_dwarf_grudge
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.1 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.8
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					is_father = ROOT
+					is_mother = ROOT
+				}
+				is_alive = yes
+			}
+			any_opinion_modifier_target = {
+				limit = {
+					NOT = {
+						dynasty = PREV
+					}
+					reverse_has_opinion_modifier = {
+						who = PREV
+						modifier = opinion_dwarf_grudge
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							any_child = {
+								OR = {
+									character = ROOT
+									any_child = {
+										character = ROOT
+									}
+								}
+							}
+						}
+					}
+					reverse_opinion = {
+						who = ROOT
+						modifier = opinion_dwarf_grudge
+					}
+				}
+			}
+		}
+	}
+}
+
+# Dwarf Ruler loses war, start a Grudge
+# on_war_ended_defeat, here ROOT is defender and FROM attacker
+character_event = {
+	id = DR_dwarfs.2
+	desc = EVTDESCDR_dwarfs.2
+	picture = GFX_evt_dwarf_angry_look
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+		#is_lowborn = yes
+		# Not if FROM is from any race whom the Dwarfs have a race-wide grudge against
+		FROM = {
+			NOR = {
+				trait = creature_orc
+				trait = creature_goblin
+				trait = creature_skaven
+				trait = creature_chaos_dwarf
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.2 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "EVTOPTADR_dwarfs.2"
+		# strange place
+		IF = {
+			limit = {
+				FROM = {
+					dynasty = ROOT
+				}
+			}
+			custom_tooltip = {
+				text = TOOLTIPGRUDGEDYNASTY
+			}
+			FROM = {
+				dynasty = father_bastard
+				recalc_succession = yes
+				character_event = {
+					id = DR_dwarfs.53
+				}
+			}
+			break = yes
+		}
+		# The Grudgerizer
+		FROM = {
+			reverse_opinion = {
+				who = ROOT
+				months = 10000
+				modifier = opinion_dwarf_grudge
+			}
+		}
+		custom_tooltip = {
+			text = TOOLTIPNEWGRUDGE
+		}
+		hidden_tooltip = {
+			# add_trait = trait_dwarf_grudge # Grudge targetting
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = {
+						character = ROOT
+					}
+				}
+				# opinion = {
+				# who = FROM
+				# modifier = opinion_dwarf_grudge
+				# }
+				character_event = {
+					id = DR_dwarfs.3
+				}
+			}
+		}
+	}
+}
+
+# Dynasty members informed of Grudge
+character_event = {
+	id = DR_dwarfs.3
+	desc = EVTDESCDR_dwarfs.3
+	picture = GFX_evt_dwarf_grudge_book
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.3 for [Root.GetBestName]"
+	}
+
+	option = {
+		# A matter of honour!
+		name = EVTOPTADR_dwarfs.3
+		opinion = {
+			who = FROMFROM
+			months = 10000
+			modifier = opinion_dwarf_grudge
+		}
+		piety = 50
+	}
+	# option = { # Not my bussiness
+	# name = EVTOPTBDR_dwarfs.3
+	# piety = -50
+	# }
+}
+
+# Book of Grudges decision/Grudge checking event
+character_event = {
+	id = DR_dwarfs.4
+	desc = EVTDESCDR_dwarfs.4
+	picture = GFX_evt_dwarf_grudge_book
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.4 for [Root.GetBestName]"
+		# Find any Grudges
+		if = {
+			limit = {
+				any_opinion_modifier_target = {
+					is_alive = yes
+					NOT = {
+						dynasty = ROOT
+					}
+					reverse_has_opinion_modifier = {
+						who = ROOT
+						modifier = opinion_dwarf_grudge
+					}
+				}
+			}
+			set_character_flag = has_dwarf_grudge
+		}
+	}
+
+	# Grudges
+	option = {
+		name = EVTOPTBDR_dwarfs.4
+		trigger = {
+			has_character_flag = has_dwarf_grudge
+		}
+		any_opinion_modifier_target = {
+			limit = {
+				is_alive = yes
+				reverse_has_opinion_modifier = {
+					who = ROOT
+					modifier = opinion_dwarf_grudge
+				}
+				NOT = {
+					dynasty = ROOT
+				}
+			}
+			custom_tooltip = {
+				text = TOOLTIPLISTGRUDGES1
+			}
+		}
+		clr_character_flag = has_dwarf_grudge
+	}
+}
+
+# Jump to grudge event
+character_event = {
+	id = DR_dwarfs.5
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		# Not if ROOT is from any race whom the Dwarfs have a race-wide grudge against
+		NOR = {
+			trait = creature_orc
+			trait = creature_goblin
+			trait = creature_skaven
+			trait = creature_chaos_dwarf
+		}
+		FROM = {
+			religion_group = dwarf_gods_group
+			trait = creature_dwarf
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.5 for [Root.GetBestName]"
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.2
+			}
+		}
+	}
+}
+
+# Grudge CB victory
+# Take compensation
+character_event = {
+	id = DR_dwarfs.6
+	desc = EVTDESCDR_dwarfs.6
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+
+	immediate = {
+		log = "work event id = DR_dwarfs.6 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.6 # Take money
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = greedy
+			}
+			modifier = {
+				factor = 5
+				trait = proud
+			}
+			modifier = {
+				factor = 2
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 2
+				trait = craven
+			}
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+		}
+		piety = 100
+		FROMFROM = {
+			transfer_scaled_wealth = {
+				to = ROOT
+				value = all
+			}
+			if = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT
+						modifier = opinion_dwarf_grudge
+					}
+				}
+				custom_tooltip = {
+					text = REMOVEGRUDGESCLAN
+					hidden_tooltip = {
+						ROOT = {
+							remove_opinion = {
+								who = FROMFROM
+								modifier = opinion_dwarf_grudge
+							}
+							any_dynasty_member = {
+								limit = {
+									is_alive = yes
+									NOT = {
+										character = ROOT
+									}
+								}
+								remove_opinion = {
+									who = FROMFROM
+									modifier = opinion_dwarf_grudge
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTBDR_dwarfs.6 # Take whole family prisoner
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = patient
+			}
+			modifier = {
+				factor = 5
+				trait = humble
+			}
+			modifier = {
+				factor = 2
+				trait = temperate
+			}
+			modifier = {
+				factor = 2
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 2
+				trait = craven
+			}
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+		}
+		piety = 100
+		FROMFROM = {
+			any_courtier = {
+				limit = {
+					dynasty = FROMFROM
+				}
+				imprison = ROOT
+			}
+			if = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT
+						modifier = opinion_dwarf_grudge
+					}
+				}
+				custom_tooltip = {
+					text = REMOVEGRUDGESCLAN
+					hidden_tooltip = {
+						ROOT = {
+							remove_opinion = {
+								who = FROMFROM
+								modifier = opinion_dwarf_grudge
+							}
+							any_dynasty_member = {
+								limit = {
+									is_alive = yes
+									NOT = {
+										character = ROOT
+									}
+								}
+								remove_opinion = {
+									who = FROMFROM
+									modifier = opinion_dwarf_grudge
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTCDR_dwarfs.6 # Kill
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = wroth
+			}
+			modifier = {
+				factor = 3
+				OR = {
+					trait = lunatic_1
+					trait = lunatic_2
+					trait = lunatic_3
+				}
+			}
+			modifier = {
+				factor = 2
+				trait = envious
+			}
+			modifier = {
+				factor = 2
+				trait = cruel
+			}
+			modifier = {
+				factor = 2
+				trait = brave
+			}
+			modifier = {
+				factor = 2
+				trait = impaler
+			}
+		}
+		piety = 100
+		FROMFROM = {
+			death = {
+				death_reason = death_execution
+				killer = ROOT
+			}
+			if = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT
+						modifier = opinion_dwarf_grudge
+					}
+				}
+				custom_tooltip = {
+					text = REMOVEGRUDGESCLAN
+					hidden_tooltip = {
+						ROOT = {
+							remove_opinion = {
+								who = FROMFROM
+								modifier = opinion_dwarf_grudge
+							}
+							any_dynasty_member = {
+								limit = {
+									is_alive = yes
+									NOT = {
+										character = ROOT
+									}
+								}
+								remove_opinion = {
+									who = FROMFROM
+									modifier = opinion_dwarf_grudge
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Fall into negative honour Become slayer or live as oathbreaker on_yearly_pulse
+character_event = {
+	id = DR_dwarfs.7
+	desc = EVTDESCDR_dwarfs.7
+	picture = GFX_evt_dwarf_thinking
+	only_playable = yes
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+		nor = {
+			piety = -50
+			trait = dwarf_slayer
+			# trait = dwarf_slayer_king
+			trait = dwarf_oathbreaker
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.7 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.7
+		add_trait = dwarf_slayer
+		any_spouse = {
+			remove_spouse = PREV
+		}
+		any_consort = {
+			remove_consort = PREV
+		}
+		custom_tooltip = {
+			text = DWARFBECOMESLAYER
+		}
+		# Pass on claims to descendents
+		any_claim = {
+			# Legit Children
+			if = {
+				limit = {
+					ROOT = {
+						has_strong_claim = PREV
+					}
+				}
+				ROOT = {
+					any_child = {
+						limit = {
+							NOT = {
+								has_strong_claim = PREVPREV
+							}
+						}
+						add_claim = PREVPREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					ROOT = {
+						has_weak_claim = PREV
+					}
+				}
+				ROOT = {
+					any_child = {
+						limit = {
+							NOT = {
+								has_claim = PREVPREV
+							}
+						}
+						add_weak_claim = PREVPREV
+					}
+				}
+			}
+			# Grandchildren
+			ROOT = {
+				any_dynasty_member = {
+					limit = {
+						NOT = {
+							is_child_of = ROOT
+						}
+						OR = {
+							father_even_if_dead = {
+								is_child_of = ROOT is_alive = no
+							}
+							mother_even_if_dead = {
+								is_child_of = ROOT is_alive = no
+							}
+						}
+						NOT = {
+							has_claim = PREVPREV
+						}
+					}
+					add_weak_claim = PREVPREV
+				}
+			}
+		}
+		if = {
+			limit = {
+				is_ruler = yes
+			}
+			current_heir = {
+				ROOT = {
+					transfer_scaled_wealth = {
+						to = PREV
+						value = all
+					}
+				}
+				character_event = {
+					id = DR_dwarfs.8 days = 1
+				}
+			}
+			abdicate = yes
+		}
+		any_claim = {
+			remove_claim = ROOT
+		}
+		# Remove other patrons and add Grimnir
+		remove_character_modifier = follower_of_grungni
+		remove_character_modifier = follower_of_valaya
+		add_character_modifier = {
+			name = follower_of_grimnir
+			duration = -1
+		}
+		set_special_character_title = SLAYER_DWARF_TITLE
+		hidden_effect = {
+			set_graphical_culture = dwarf_slayer_culture
+		}
+	}
+
+	option = {
+		name = EVTOPTBDR_dwarfs.7
+		add_trait = dwarf_oathbreaker
+		custom_tooltip = {
+			text = DWARFBECOMEOATHBREAKER
+		}
+	}
+}
+
+# Heir - predecessor has become Slayer
+character_event = {
+	id = DR_dwarfs.8
+	desc = EVTDESCDR_dwarfs.8
+	picture = GFX_evt_dwarf_slayer
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.8 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.8
+	}
+}
+
+# Demand Grudge compensation decision
+character_event = {
+	id = DR_dwarfs.9
+	desc = EVTDESCDR_dwarfs.9
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.9 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.9 # Money
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = greedy
+			}
+			modifier = {
+				factor = 2
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 2
+				trait = humble
+			}
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.10
+			}
+		}
+	}
+
+	option = {
+		# Title ( Only if compensator is Dwarf and only if he's above 2 titles )
+		name = EVTOPTADR_dwarfs.9 # Titles
+		trigger = {
+			FROM = {
+				trait = creature_dwarf
+				religion_group = dwarf_gods_group
+				is_landed = yes
+				demesne_size = 2
+			}
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.13
+			}
+		}
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				trait = proud
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.75
+				FROM = {
+					demesne_size = 10
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					demesne_size = 8
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					demesne_size = 6
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					demesne_size = 4
+				}
+			}
+			modifier = {
+				factor = 0.5
+				NOT = {
+					FROM = {
+						demesne_size = 3
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTBDR_dwarfs.9 # I'd rather not
+		clr_character_flag = demanding_grudge_compensation
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+# Grudge Compensation demanded - Money - Offending Party Chooses
+character_event = {
+	id = DR_dwarfs.10
+	desc = EVTDESCDR_dwarfs.10
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.10 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.10 # Very well
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = humble
+			}
+			modifier = {
+				factor = 2
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.11
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTBDR_dwarfs.10 # Never!
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = greedy
+			}
+			modifier = {
+				factor = 5
+				trait = proud
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.12
+			}
+		}
+	}
+}
+
+# Grudge Compensation demanded - Money - Offending Party Accepts
+character_event = {
+	id = DR_dwarfs.11
+	desc = EVTDESCDR_dwarfs.11
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.11 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.11
+		clr_character_flag = demanding_grudge_compensation
+		FROM = {
+			transfer_scaled_wealth = {
+				to = ROOT
+				value = 3.0
+			}
+			if = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_dwarf_grudge
+					}
+				}
+				custom_tooltip = {
+					text = REMOVEGRUDGESCLAN
+					hidden_tooltip = {
+						ROOT = {
+							remove_opinion = {
+								who = FROM
+								modifier = opinion_dwarf_grudge
+							}
+							any_dynasty_member = {
+								limit = {
+									is_alive = yes
+									NOT = {
+										character = ROOT
+									}
+								}
+								remove_opinion = {
+									who = FROM
+									modifier = opinion_dwarf_grudge
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Grudge Compensation demanded - Money - Offending Party Rejects
+character_event = {
+	id = DR_dwarfs.12
+	desc = EVTDESCDR_dwarfs.12
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.12 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.12 # THRICE CURSED SON OF A GROBI
+		clr_character_flag = demanding_grudge_compensation
+	}
+}
+
+# Grudge Compensation demanded - Titles - Offending Party Chooses
+character_event = {
+	id = DR_dwarfs.13
+	desc = EVTDESCDR_dwarfs.13
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.13 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.10 # Very well
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = humble
+			}
+			modifier = {
+				factor = 2
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = COUNT
+					count = 2
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = COUNT
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+			}
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = COUNT
+					count = 4
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = COUNT
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = COUNT
+					count = 6
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = COUNT
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = COUNT
+					count = 8
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = COUNT
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = COUNT
+					count = 10
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = COUNT
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = COUNT
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREV
+							title = PREVPREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		# The Dukedoms now
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = DUKE
+					count = 2
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = DUKE
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+
+			}
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = DUKE
+					count = 4
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = DUKE
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = DUKE
+					count = 6
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = DUKE
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = DUKE
+					count = 8
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = DUKE
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = DUKE
+					count = 10
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = DUKE
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = DUKE
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREV
+							title = PREVPREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		# And the Kingdoms
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = KING
+					count = 2
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+
+			}
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = KING
+					count = 4
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = KING
+					count = 6
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = KING
+					count = 8
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				any_demesne_title = {
+					tier = KING
+					count = 10
+				}
+			}
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					NOT = {
+						is_primary_holder_title = yes
+					}
+				}
+				grant_title = FROM
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							title = PREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+				random_demesne_title = {
+					limit = {
+						tier = KING
+						nor = {
+							title = PREV
+							title = PREVPREV
+							title = PREVPREV
+							title = PREVPREVPREVPREV
+							is_primary_holder_title = yes
+						}
+					}
+					grant_title = FROM
+
+				}
+			}
+
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.13
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTBDR_dwarfs.10 # Never!
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = greedy
+			}
+			modifier = {
+				factor = 5
+				trait = proud
+			}
+			modifier = {
+				factor = 2
+				trait = ambitious
+			}
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.15
+			}
+		}
+	}
+}
+
+# Grudge Compensation demanded - Titles - Offending Party Accepts
+character_event = {
+	id = DR_dwarfs.14
+	desc = EVTDESCDR_dwarfs.14
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.14 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.11
+		clr_character_flag = demanding_grudge_compensation
+		FROM = {
+			if = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT
+						modifier = opinion_dwarf_grudge
+					}
+				}
+				custom_tooltip = {
+					text = REMOVEGRUDGESCLAN
+					hidden_tooltip = {
+						ROOT = {
+							remove_opinion = {
+								who = FROM
+								modifier = opinion_dwarf_grudge
+							}
+							any_dynasty_member = {
+								limit = {
+									is_alive = yes
+									NOT = {
+										character = ROOT
+									}
+								}
+								remove_opinion = {
+									who = FROM
+									modifier = opinion_dwarf_grudge
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Grudge Compensation demanded - Titles - Offending Party Rejects
+character_event = {
+	id = DR_dwarfs.15
+	desc = EVTDESCDR_dwarfs.15
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.15 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.12 # THRICE CURSED SON OF A GROBI
+		clr_character_flag = demanding_grudge_compensation
+	}
+}
+
+# If you declined a Dwarf's ally Call to Arms, get grudged on
+character_event = {
+	id = DR_dwarfs.25
+	desc = EVTDESCDR_dwarfs.25
+	picture = GFX_evt_dwarf_angry_look
+	is_triggered_only = yes
+	religion_group = dwarf_gods_group
+
+	trigger = {
+		trait = creature_dwarf
+		#is_lowborn = yes
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.25 for [Root.GetBestName]"
+		IF = {
+			limit = {
+				FROM = {
+					dynasty = ROOT
+				}
+			}
+			custom_tooltip = {
+				text = TOOLTIPGRUDGEDYNASTY
+			}
+			FROM = {
+				dynasty = father_bastard
+				recalc_succession = yes
+				character_event = {
+					id = DR_dwarfs.53
+				}
+			}
+			break = yes
+		}
+		# The Grudgerizer
+		FROM = {
+			reverse_opinion = {
+				who = ROOT
+				months = 10000
+				modifier = opinion_dwarf_grudge
+			}
+		}
+		custom_tooltip = {
+			text = TOOLTIPNEWGRUDGE
+		}
+		hidden_tooltip = {
+			# add_trait = trait_dwarf_grudge # Grudge targetting
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = {
+						character = ROOT
+					}
+				}
+				# opinion = {
+				# who = FROM
+				# modifier = opinion_dwarf_grudge
+				# }
+				character_event = {
+					id = DR_dwarfs.3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = OK
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.26
+			}
+		}
+	}
+}
+
+# You got Grudged event notice event ( Called FROM scope )
+character_event = {
+	id = DR_dwarfs.26
+	desc = EVTDESCDR_dwarfs.26
+	picture = GFX_evt_dwarf_angry_look
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.26 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = OK
+	}
+}
+
+# Divorcing from Dwarf? pay gold or get grudged on
+character_event = {
+	id = DR_dwarfs.27
+	desc = EVTDESCDR_dwarfs.27
+	picture = GFX_evt_dwarf_angry_look
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+		#is_lowborn = yes
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.27 for [Root.GetBestName]"
+	}
+
+	option = {
+		# They must pay gold
+		name = EVTOPTBDR_dwarfs.27
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = DR_dwarfs.28
+				}
+			}
+		}
+		if = {
+			limit = {
+				is_lover = FROM
+			}
+			random = {
+				chance = 50
+				remove_lover = FROM
+			}
+		}
+		if = {
+			limit = {
+				is_friend = FROM
+			}
+			random = {
+				chance = 25
+				remove_friend = FROM
+			}
+		}
+		if = {
+			limit = {
+				nor = {
+					is_friend = FROM
+					is_lover = FROM
+					num_of_rivals = 3
+				}
+			}
+			random = {
+				chance = 15
+				add_rival = FROM
+			}
+		}
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 1.5
+				trait = greedy
+			}
+		}
+	}
+}
+
+# The spouse requests payment - What to do
+character_event = {
+	id = DR_dwarfs.28
+	desc = EVTDESCDR_dwarfs.28
+	picture = GFX_evt_dwarf_angry_look
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.28 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.28
+		trigger = {
+			OR = {
+				AND = {
+					is_ruler = no
+					wealth = 50
+				}
+				AND = {
+					tier = BARON
+					wealth = 100
+				}
+				AND = {
+					tier = COUNT
+					wealth = 250
+				}
+				AND = {
+					tier = DUKE
+					wealth = 500
+				}
+				AND = {
+					tier = KING
+					wealth = 750
+				}
+				AND = {
+					tier = EMPEROR
+					wealth = 1000
+				}
+			}
+
+		}
+		if = {
+			limit = {
+				is_ruler = no
+			}
+			wealth = -50
+			FROM = {
+				wealth = 50
+			}
+		}
+		if = {
+			limit = {
+				tier = BARON
+			}
+			wealth = -100
+			FROM = {
+				wealth = 100
+			}
+		}
+		if = {
+			limit = {
+				tier = COUNT
+			}
+			wealth = -250
+			FROM = {
+				wealth = 250
+			}
+		}
+		if = {
+			limit = {
+				tier = DUKE
+			}
+			wealth = -500
+			FROM = {
+				wealth = 500
+			}
+		}
+		if = {
+			limit = {
+				tier = KING
+			}
+			wealth = -750
+			FROM = {
+				wealth = 750
+			}
+		}
+		if = {
+			limit = {
+				tier = EMPEROR
+			} # The higher you are, the more you have to pay.
+			wealth = -1000
+			FROM = {
+				wealth = 1000
+			}
+		}
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = DR_dwarfs.29
+				}
+			}
+		}
+		ai_chance = {
+			factor = 55
+			modifier = {
+				factor = 0.75
+				trait = humble
+			}
+			modifier = {
+				factor = 1.5
+				is_lover = FROM
+			}
+			modifier = {
+				factor = 1.75
+				is_friend = FROM
+			}
+			modifier = {
+				factor = 0.5
+				is_rival = FROM
+			}
+			modifier = {
+				factor = 0.75
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.75
+				trait = envious
+			}
+			modifier = {
+				factor = 0.75
+				trait = cruel
+			}
+			modifier = {
+				factor = 0.75
+				trait = proud
+			}
+			modifier = {
+				factor = 1.5
+				trait = charitable
+			}
+			modifier = {
+				factor = 1.5
+				trait = kind
+			}
+			modifier = {
+				factor = 1.5
+				trait = humble
+			}
+			modifier = {
+				factor = 1.5
+				trait = shy
+			}
+			modifier = {
+				factor = 0.5
+				NOT = {
+					wealth = 100
+				}
+			}
+			modifier = {
+				factor = 1.25
+				opinion = {
+					who = FROM
+					value = 20
+				}
+			}
+			modifier = {
+				factor = 1.25
+				opinion = {
+					who = FROM
+					value = 40
+				}
+			}
+			modifier = {
+				factor = 1.5
+				opinion = {
+					who = FROM
+					value = 60
+				}
+			}
+			modifier = {
+				factor = 1.5
+				opinion = {
+					who = FROM
+					value = 80
+				}
+			}
+			modifier = {
+				factor = 1.75
+				opinion = {
+					who = FROM
+					value = 100
+				}
+			}
+		}
+	}
+
+	# refuse to give the money
+	option = {
+		name = EVTOPTBDR_dwarfs.28
+		# Now, if the money was more than what he could give, give prestige hit as well.
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = DR_dwarfs.30
+				}
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					is_ruler = no
+				}
+			}
+			prestige = -50
+		}
+		if = {
+			limit = {
+				FROM = {
+					tier = BARON
+				}
+			}
+			prestige = -100
+		}
+		if = {
+			limit = {
+				FROM = {
+					tier = COUNT
+				}
+			}
+			prestige = -250
+		}
+		if = {
+			limit = {
+				FROM = {
+					tier = DUKE
+				}
+			}
+			prestige = -500
+		}
+		if = {
+			limit = {
+				FROM = {
+					tier = KING
+				}
+			}
+			prestige = -750
+		}
+		if = {
+			limit = {
+				FROM = {
+					tier = EMPEROR
+				}
+			} # In this case, the higher the rank of the divorced, the greater the hit
+			prestige = -1000
+		}
+		ai_chance = {
+			factor = 45
+			modifier = {
+				factor = 1.5
+				trait = proud
+			}
+			modifier = {
+				factor = 1.5
+				trait = stubborn
+			}
+			modifier = {
+				factor = 1.5
+				trait = ambitious
+			}
+		}
+	}
+}
+
+# Notify - The spouse has accepted the request.
+character_event = {
+	id = DR_dwarfs.29
+	desc = EVTDESCDR_dwarfs.29
+	picture = GFX_evt_dwarf_angry_look
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.29 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.29
+		clr_character_flag = was_matrimarried_flag
+		clr_character_flag = had_matriheritage
+		FROM = {
+			clr_character_flag = was_matrimarried_flag
+			clr_character_flag = had_matriheritage
+		}
+	}
+}
+
+# Notify - The spouse has refused the request.
+character_event = {
+	id = DR_dwarfs.30
+	desc = EVTDESCDR_dwarfs.30
+	picture = GFX_evt_dwarf_angry_look
+	border = GFX_event_normal_frame_war
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.30 for [Root.GetBestName]"
+	}
+
+	option = {
+		# Then get grudged on
+		name = EVTOPTADR_dwarfs.30
+		# hidden_tooltip = { FROM = { character_event = { id = sdivorce.3003 } } }
+		IF = {
+			limit = {
+				FROM = {
+					dynasty = ROOT
+				}
+			}
+			custom_tooltip = {
+				text = TOOLTIPGRUDGEDYNASTY
+			}
+			FROM = {
+				dynasty = father_bastard
+				recalc_succession = yes
+				character_event = {
+					id = DR_dwarfs.53
+				}
+			}
+			break = yes
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.26
+			}
+		}
+		# The Grudgerizer
+		FROM = {
+			reverse_opinion = {
+				who = ROOT
+				months = 10000
+				modifier = opinion_dwarf_grudge
+			}
+		}
+		custom_tooltip = {
+			text = TOOLTIPNEWGRUDGE
+		}
+		hidden_tooltip = {
+			# add_trait = trait_dwarf_grudge # Grudge targetting
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = {
+						character = ROOT
+					}
+				}
+				# opinion = {
+				# who = FROM
+				# modifier = opinion_dwarf_grudge
+				# }
+				character_event = {
+					id = DR_dwarfs.3
+				}
+			}
+		}
+	}
+}
+
+# If plot target a is Dwarf and the plot is discovered, get Grudged On
+character_event = {
+	id = DR_dwarfs.50
+	picture = GFX_evt_dwarf_angry_look
+	desc = {
+		trigger = {
+			has_character_flag = dwarf_grudge_plot_discovered
+		}
+		text = EVTDESCDR_dwarfs.50_alive_dwarf
+	}
+	desc = {
+		trigger = {
+			has_character_flag = dwarf_grudge_plot_discovered_dead_relative
+		}
+		text = EVTDESCDR_dwarfs.50_dead_dwarf_relative
+	}
+	is_triggered_only = yes
+	religion_group = dwarf_gods_group
+
+	trigger = {
+		FROM = {
+			NOR = {
+				trait = creature_orc
+				trait = creature_goblin
+				trait = creature_skaven
+				trait = creature_chaos_dwarf
+			}
+		}
+		#is_lowborn = yes
+		trait = creature_dwarf
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.50 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.50
+		IF = {
+			limit = {
+				FROM = {
+					dynasty = ROOT
+				}
+			}
+			custom_tooltip = {
+				text = TOOLTIPGRUDGEDYNASTY
+			}
+			FROM = {
+				dynasty = father_bastard
+				recalc_succession = yes
+				character_event = {
+					id = DR_dwarfs.53
+				}
+			}
+			break = yes
+		}
+		# The Grudgerizer
+		FROM = {
+			reverse_opinion = {
+				who = ROOT
+				months = 10000
+				modifier = opinion_dwarf_grudge
+			}
+		}
+		custom_tooltip = {
+			text = TOOLTIPNEWGRUDGE
+		}
+		hidden_tooltip = {
+			# Grudge targetting
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = {
+						character = ROOT
+					}
+				}
+				# opinion = {
+				# who = FROM
+				# modifier = opinion_dwarf_grudge
+				# }
+				character_event = {
+					id = DR_dwarfs.3
+				}
+			}
+		}
+		clr_character_flag = dwarf_grudge_plot_discovered
+		clr_character_flag = dwarf_grudge_plot_discovered_dead_relative
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.26
+			}
+		}
+	}
+}
+
+# Decline Call to Arms Grudge bounce
+character_event = {
+	id = DR_dwarfs.51
+	hide_window = yes
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.51 for [Root.GetBestName]"
+		save_event_target_as = dwarf_grudged_decline_call
+	}
+
+	option = {
+		name = OK
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.52
+			}
+		}
+	}
+}
+
+character_event = {
+	id = DR_dwarfs.52
+	hide_window = yes
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.52 for [Root.GetBestName]"
+		event_target:dwarf_grudged_decline_call = {
+			character_event = {
+				id = DR_dwarfs.26
+			}
+		}
+	}
+}
+
+# Dynastic Schism Grudge
+character_event = {
+	id = DR_dwarfs.53
+	desc = EVTDESCDR_dwarfs.53
+	picture = GFX_evt_dwarf_angry_look
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.53 for [Root.GetBestName]"
+	}
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = EVTOPTA_dwarfs.53
+		any_child = {
+			dynasty = ROOT
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.60
+			}
+		}
+		clr_character_flag = dwarf_grudge_plot_discovered
+		clr_character_flag = dwarf_grudge_plot_discovered_dead_relative
+	}
+	# option = {
+	# ai_chance = {
+	# factor = 0
+	# }
+	# name = EVTOPTB_dwarfs.53
+	# piety = -500
+	# }
+}
+
+# Add unfulfilled grudges modifier on_yearly_pulse
+character_event = {
+	id = DR_dwarfs.54
+	hide_window = yes
+	only_playable = yes
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+		any_opinion_modifier_target = {
+			reverse_has_opinion_modifier = {
+				who = ROOT
+				modifier = opinion_dwarf_grudge
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.54 for [Root.GetBestName]"
+		if = {
+			limit = {
+				any_opinion_modifier_target = {
+					count = 1
+					reverse_has_opinion_modifier = {
+						who = ROOT
+						modifier = opinion_dwarf_grudge
+					}
+				}
+				not = {
+					any_opinion_modifier_target = {
+						count = 2
+						reverse_has_opinion_modifier = {
+							who = ROOT
+							modifier = opinion_dwarf_grudge
+						}
+					}
+				}
+			}
+			remove_character_modifier = unfulfilled_grudges_2
+			remove_character_modifier = unfulfilled_grudges_3
+			remove_character_modifier = unfulfilled_grudges_4
+			remove_character_modifier = unfulfilled_grudges_5
+			add_character_modifier = {
+				name = unfulfilled_grudges_1
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				any_opinion_modifier_target = {
+					count = 2
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_dwarf_grudge
+					}
+				}
+				not = {
+					any_opinion_modifier_target = {
+						count = 3
+						reverse_has_opinion_modifier = {
+							who = ROOT modifier = opinion_dwarf_grudge
+						}
+					}
+				}
+			}
+			remove_character_modifier = unfulfilled_grudges_1
+			remove_character_modifier = unfulfilled_grudges_3
+			remove_character_modifier = unfulfilled_grudges_4
+			remove_character_modifier = unfulfilled_grudges_5
+			add_character_modifier = {
+				name = unfulfilled_grudges_2
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				any_opinion_modifier_target = {
+					count = 3
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_dwarf_grudge
+					}
+				}
+				not = {
+					any_opinion_modifier_target = {
+						count = 4
+						reverse_has_opinion_modifier = {
+							who = ROOT modifier = opinion_dwarf_grudge
+						}
+					}
+				}
+			}
+			remove_character_modifier = unfulfilled_grudges_2
+			remove_character_modifier = unfulfilled_grudges_1
+			remove_character_modifier = unfulfilled_grudges_4
+			remove_character_modifier = unfulfilled_grudges_5
+			add_character_modifier = {
+				name = unfulfilled_grudges_3
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				any_opinion_modifier_target = {
+					count = 4
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_dwarf_grudge
+					}
+				}
+				not = {
+					any_opinion_modifier_target = {
+						count = 5
+						reverse_has_opinion_modifier = {
+							who = ROOT modifier = opinion_dwarf_grudge
+						}
+					}
+				}
+			}
+			remove_character_modifier = unfulfilled_grudges_2
+			remove_character_modifier = unfulfilled_grudges_1
+			remove_character_modifier = unfulfilled_grudges_3
+			remove_character_modifier = unfulfilled_grudges_5
+			add_character_modifier = {
+				name = unfulfilled_grudges_4
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				any_opinion_modifier_target = {
+					count = 5
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_dwarf_grudge
+					}
+				}
+			}
+			remove_character_modifier = unfulfilled_grudges_2
+			remove_character_modifier = unfulfilled_grudges_1
+			remove_character_modifier = unfulfilled_grudges_3
+			remove_character_modifier = unfulfilled_grudges_4
+			add_character_modifier = {
+				name = unfulfilled_grudges_5
+				duration = -1
+			}
+		}
+	}
+}
+
+# Remove any unfulfilled grudges modifier on_yearly_pulse
+character_event = {
+	id = DR_dwarfs.55
+	hide_window = yes
+	only_playable = yes
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+		NOT = {
+			any_opinion_modifier_target = {
+				reverse_has_opinion_modifier = {
+					who = ROOT
+					modifier = opinion_dwarf_grudge
+				}
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.55 for [Root.GetBestName]"
+		remove_character_modifier = unfulfilled_grudges_1
+		remove_character_modifier = unfulfilled_grudges_2
+		remove_character_modifier = unfulfilled_grudges_3
+		remove_character_modifier = unfulfilled_grudges_4
+		remove_character_modifier = unfulfilled_grudges_5
+	}
+}
+
+# On_death Grudge - save killer and push Grudge event to heir
+character_event = {
+	id = DR_dwarfs.56
+	is_triggered_only = yes
+	religion_group = dwarf_gods_group
+	hide_window = yes
+
+	trigger = {
+		trait = creature_dwarf
+		#is_lowborn = yes
+		current_heir = {
+			dynasty = ROOT
+		}
+		killer = {
+			NOR = {
+				trait = creature_orc
+				trait = creature_goblin
+				trait = creature_skaven
+				trait = creature_chaos_dwarf
+				dynasty = ROOT
+				is_primary_heir = yes
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.56 for [Root.GetBestName]"
+		killer = {
+			save_event_target_as = grudge_killer
+		}
+		current_heir = {
+			character_event = {
+				id = DR_dwarfs.57
+			}
+		}
+	}
+}
+
+character_event = {
+	id = DR_dwarfs.57
+	picture = GFX_evt_dwarf_angry_look
+	desc = EVTDESCDR_dwarfs.50_dead_dwarf_relative
+	is_triggered_only = yes
+	only_playable = yes
+	religion_group = dwarf_gods_group
+
+	trigger = {
+		trait = creature_dwarf
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.57 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.50
+		IF = {
+			limit = {
+				event_target:grudge_killer = {
+					dynasty = ROOT
+				}
+			}
+			custom_tooltip = {
+				text = TOOLTIPGRUDGEDYNASTY
+			}
+			FROM = {
+				dynasty = father_bastard
+				recalc_succession = yes
+				character_event = {
+					id = DR_dwarfs.53
+				}
+			}
+			break = yes
+		}
+		# The Grudgerizer
+		event_target:grudge_killer = {
+			reverse_opinion = {
+				who = ROOT
+				months = 10000
+				modifier = opinion_dwarf_grudge
+			}
+		}
+		custom_tooltip = {
+			text = TOOLTIPNEWGRUDGE
+		}
+		hidden_tooltip = {
+			# add_trait = trait_dwarf_grudge # Grudge targetting
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = {
+						character = ROOT
+					}
+				}
+				# opinion = {
+				# who = FROM
+				# modifier = opinion_dwarf_grudge
+				# }
+				character_event = {
+					id = DR_dwarfs.3
+				}
+			}
+		}
+		clr_character_flag = dwarf_grudge_plot_discovered
+		clr_character_flag = dwarf_grudge_plot_discovered_dead_relative
+		event_target:grudge_killer = {
+			character_event = {
+				id = DR_dwarfs.26
+			}
+		}
+	}
+}
+
+# Grudge War victory against vassal, save vassal as FROM. bounce to ROOT
+character_event = {
+	id = DR_dwarfs.58
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.58 for [Root.GetBestName]"
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.59
+			}
+		}
+	}
+}
+
+# Grudge CB victory agaist vassal
+# Take compensation
+character_event = {
+	id = DR_dwarfs.59
+	desc = EVTDESCDR_dwarfs.59
+	picture = GFX_evt_dwarf_grudge_war
+	is_triggered_only = yes
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+
+	immediate = {
+		log = "work event id = DR_dwarfs.59 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.59 # Take money
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = greedy
+			}
+			modifier = {
+				factor = 5
+				trait = proud
+			}
+			modifier = {
+				factor = 2
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 2
+				trait = craven
+			}
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+		}
+		piety = 100
+		FROM = {
+			transfer_scaled_wealth = {
+				to = ROOT
+				value = all
+			}
+			if = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_dwarf_grudge
+					}
+				}
+				custom_tooltip = {
+					text = REMOVEGRUDGESCLAN
+					hidden_tooltip = {
+						ROOT = {
+							remove_opinion = {
+								who = FROM
+								modifier = opinion_dwarf_grudge
+							}
+							any_dynasty_member = {
+								limit = {
+									is_alive = yes
+									NOT = {
+										character = ROOT
+									}
+								}
+								remove_opinion = {
+									who = FROM
+									modifier = opinion_dwarf_grudge
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTBDR_dwarfs.59 # Take whole family prisoner
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = patient
+			}
+			modifier = {
+				factor = 5
+				trait = humble
+			}
+			modifier = {
+				factor = 2
+				trait = temperate
+			}
+			modifier = {
+				factor = 2
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 2
+				trait = craven
+			}
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+		}
+		piety = 100
+		FROM = {
+			any_courtier = {
+				limit = {
+					dynasty = FROM
+				}
+				imprison = ROOT
+			}
+			if = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_dwarf_grudge
+					}
+				}
+				custom_tooltip = {
+					text = REMOVEGRUDGESCLAN
+					hidden_tooltip = {
+						ROOT = {
+							remove_opinion = {
+								who = FROM
+								modifier = opinion_dwarf_grudge
+							}
+							any_dynasty_member = {
+								limit = {
+									is_alive = yes
+									NOT = {
+										character = ROOT
+									}
+								}
+								remove_opinion = {
+									who = FROM
+									modifier = opinion_dwarf_grudge
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTCDR_dwarfs.59 # Kill
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 5
+				trait = wroth
+			}
+			modifier = {
+				factor = 3
+				OR = {
+					trait = lunatic_1
+					trait = lunatic_2
+					trait = lunatic_3
+				}
+			}
+			modifier = {
+				factor = 2
+				trait = envious
+			}
+			modifier = {
+				factor = 2
+				trait = cruel
+			}
+			modifier = {
+				factor = 2
+				trait = brave
+			}
+			modifier = {
+				factor = 2
+				trait = impaler
+			}
+		}
+		piety = 100
+		FROM = {
+			death = {
+				death_reason = death_execution
+				killer = ROOT
+			}
+			if = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_dwarf_grudge
+					}
+				}
+				custom_tooltip = {
+					text = REMOVEGRUDGESCLAN
+					hidden_tooltip = {
+						ROOT = {
+							remove_opinion = {
+								who = FROM
+								modifier = opinion_dwarf_grudge
+							}
+							any_dynasty_member = {
+								limit = {
+									is_alive = yes
+									NOT = {
+										character = ROOT
+									}
+								}
+								remove_opinion = {
+									who = FROM
+									modifier = opinion_dwarf_grudge
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+character_event = {
+	id = DR_dwarfs.60
+	desc = EVTDESCDR_dwarfs.60
+	picture = GFX_evt_dwarf_angry_look
+	religion_group = dwarf_gods_group
+	is_triggered_only = yes
+
+	trigger = {
+		trait = creature_dwarf
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.60 for [Root.GetBestName]"
+	}
+
+	# The Grudgerizer
+	option = {
+		name = "EVTOPTADR_dwarfs.2"
+		FROM = {
+			reverse_opinion = {
+				who = ROOT
+				months = 10000
+				modifier = opinion_dwarf_grudge
+			}
+		}
+		custom_tooltip = {
+			text = TOOLTIPNEWGRUDGE
+		}
+		hidden_tooltip = {
+			# Grudge targetting
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = {
+						character = ROOT
+					}
+				}
+				character_event = {
+					id = DR_dwarfs.3
+				}
+			}
+		}
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.26
+			}
+		}
+	}
+}
+
+# Slayer stuff
+# Adapted from the Witcher code of the Witcher mod
+
+# Slayer leaves
+character_event = {
+	id = DR_dwarfs.100
+	hide_window = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	religion_group = dwarf_gods_group
+
+	trigger = {
+		trait = creature_dwarf
+		trait = dwarf_slayer
+		in_command = no
+		NOT = {
+			has_character_modifier = recent_slayer_work
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 1
+		modifier = {
+			factor = 0.8
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = wounded
+		}
+		modifier = {
+			factor = 2.5
+			trait = maimed
+		}
+		modifier = {
+			factor = 0.9
+			liege = {
+				NOT = {
+					reverse_opinion = {
+						who = ROOT
+						value = -25
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 0.9
+			liege = {
+				NOT = {
+					reverse_opinion = {
+						who = ROOT
+						value = -50
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 0.9
+			liege = {
+				NOT = {
+					reverse_opinion = {
+						who = ROOT
+						value = -75
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.4
+			liege = {
+				reverse_opinion = {
+					who = ROOT
+					value = 25
+				}
+			}
+		}
+		modifier = {
+			factor = 1.4
+			liege = {
+				reverse_opinion = {
+					who = ROOT
+					value = 50
+				}
+			}
+		}
+		modifier = {
+			factor = 1.4
+			liege = {
+				reverse_opinion = {
+					who = ROOT
+					value = 75
+				}
+			}
+		}
+		modifier = {
+			factor = 100
+			liege = {
+				any_demesne_province = {
+					OR = {
+						has_province_modifier = greenskin_population_bad
+						has_province_modifier = beastmen_scourging_1
+						has_province_modifier = beastmen_scourging_2
+						has_province_modifier = beastmen_scourging_3
+						has_province_modifier = beastman_herdstone
+						culture_group = beastman_group
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.100 for [Root.GetBestName]"
+		liege = {
+			character_event = {
+				id = DR_dwarfs.102
+			}
+		}
+	}
+}
+
+# Liege - Slayer leaves
+character_event = {
+	id = DR_dwarfs.102
+	desc = EVTDESCDR_dwarfs.102
+	picture = GFX_evt_dwarf_slayer
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.102 for [Root.GetBestName]"
+	}
+
+	option = {
+		# Let him leave
+		name = EVTOPTADR_dwarfs.102
+		custom_tooltip = {
+			text = slayer_will_leave
+			hidden_tooltip = {
+				FROM = {
+					character_event = {
+						id = DR_dwarfs.103
+					}
+				}
+			}
+		}
+	}
+}
+
+# Slayer - Leave to ...
+character_event = {
+	id = DR_dwarfs.103
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.103 for [Root.GetBestName]"
+		# ... neighbor province ruled by Greenskin/Beast/Skaven/Vamp/Chaos
+		if = {
+			limit = {
+				liege = {
+					any_demesne_province = {
+						any_neighbor_province = {
+							NOT = {
+								region = world_underempire
+							}
+							owner = {
+								NOT = {
+									character = liege
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_orc
+									trait = creature_goblin
+									trait = creature_beastman
+									trait = creature_skaven
+									is_vampire_trigger = yes
+									religion_group = chaos_gods_group
+								}
+							}
+						}
+					}
+				}
+			}
+			liege = {
+				random_demesne_province = {
+					limit = {
+						any_neighbor_province = {
+							NOT = {
+								region = world_underempire
+							}
+							owner = {
+								NOT = {
+									character = liege
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_orc
+									trait = creature_goblin
+									trait = creature_beastman
+									trait = creature_skaven
+									is_vampire_trigger = yes
+									religion_group = chaos_gods_group
+								}
+							}
+						}
+					}
+					random_neighbor_province = {
+						limit = {
+							location = {
+								NOT = {
+									region = world_underempire
+								}
+							}
+							owner = {
+								NOT = {
+									character = liege
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_orc
+									trait = creature_goblin
+									trait = creature_beastman
+									trait = creature_skaven
+									is_vampire_trigger = yes
+									religion_group = chaos_gods_group
+								}
+							}
+						}
+						owner = {
+							reverse_banish = ROOT
+							ROOT = {
+								character_event = {
+									id = DR_dwarfs.109
+									days = 1
+								}
+							}
+						}
+					}
+				}
+			}
+			break = yes
+		}
+		# ... neighbor province with monster problems
+		if = {
+			limit = {
+				liege = {
+					any_demesne_province = {
+						any_neighbor_province = {
+							owner = {
+								nor = {
+									character = liege
+									religion_group = chaos_gods_group
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_human
+									trait = creature_dwarf
+									trait = creature_elf
+								}
+							}
+							OR = {
+								has_province_modifier = greenskin_population_bad
+								has_province_modifier = beastmen_scourging_1
+								has_province_modifier = beastmen_scourging_2
+								has_province_modifier = beastmen_scourging_3
+								has_province_modifier = beastman_herdstone
+								culture_group = beastman_group
+							}
+						}
+					}
+				}
+			}
+			liege = {
+				random_demesne_province = {
+					limit = {
+						any_neighbor_province = {
+							owner = {
+								nor = {
+									character = liege
+									religion_group = chaos_gods_group
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_human
+									trait = creature_dwarf
+									trait = creature_elf
+								}
+							}
+							OR = {
+								has_province_modifier = greenskin_population_bad
+								has_province_modifier = beastmen_scourging_1
+								has_province_modifier = beastmen_scourging_2
+								has_province_modifier = beastmen_scourging_3
+								has_province_modifier = beastman_herdstone
+								culture_group = beastman_group
+							}
+						}
+					}
+					random_neighbor_province = {
+						limit = {
+							owner = {
+								nor = {
+									character = liege
+									religion_group = chaos_gods_group
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_human
+									trait = creature_dwarf
+									trait = creature_elf
+								}
+							}
+							OR = {
+								has_province_modifier = greenskin_population_bad
+								has_province_modifier = beastmen_scourging_1
+								has_province_modifier = beastmen_scourging_2
+								has_province_modifier = beastmen_scourging_3
+								has_province_modifier = beastman_herdstone
+								culture_group = beastman_group
+							}
+						}
+						owner = {
+							reverse_banish = ROOT
+							character_event = {
+								id = DR_dwarfs.104
+							}
+						}
+					}
+				}
+			}
+			break = yes
+		}
+		# ... random neighbor province where any slayers haven't recently visited
+		if = {
+			limit = {
+				liege = {
+					any_demesne_province = {
+						any_neighbor_province = {
+							owner = {
+								nor = {
+									character = liege
+									religion_group = chaos_gods_group
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_human
+									trait = creature_dwarf
+									trait = creature_elf
+								}
+							}
+							NOT = {
+								has_province_modifier = monster_purge
+							}
+						}
+					}
+				}
+			}
+			liege = {
+				random_demesne_province = {
+					limit = {
+						any_neighbor_province = {
+							owner = {
+								nor = {
+									character = liege
+									religion_group = chaos_gods_group
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_human
+									trait = creature_dwarf
+									trait = creature_elf
+								}
+							}
+							NOT = {
+								has_province_modifier = monster_purge
+							}
+						}
+					}
+					random_neighbor_province = {
+						limit = {
+							owner = {
+								nor = {
+									character = liege
+									religion_group = chaos_gods_group
+								}
+								any_courtier = {
+									NOT = {
+										trait = dwarf_slayer
+									}
+								}
+								OR = {
+									trait = creature_human
+									trait = creature_dwarf
+									trait = creature_elf
+								}
+							}
+							NOT = {
+								has_province_modifier = monster_purge
+							}
+						}
+						owner = {
+							reverse_banish = ROOT
+							character_event = {
+								id = DR_dwarfs.104
+							}
+						}
+					}
+				}
+			}
+			break = yes
+		}
+		# ... random neighbor province
+		liege = {
+			random_demesne_province = {
+				limit = {
+					any_neighbor_province = {
+						owner = {
+							nor = {
+								character = liege
+								religion_group = chaos_gods_group
+							}
+							any_courtier = {
+								NOT = {
+									trait = dwarf_slayer
+								}
+							}
+							OR = {
+								trait = creature_human
+								trait = creature_dwarf
+								trait = creature_elf
+							}
+						}
+					}
+				}
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							nor = {
+								character = liege
+								religion_group = chaos_gods_group
+							}
+							any_courtier = {
+								NOT = {
+									trait = dwarf_slayer
+								}
+							}
+							NOT = {
+							}
+							OR = {
+								trait = creature_human
+								trait = creature_dwarf
+								trait = creature_elf
+							}
+						}
+					}
+					owner = {
+						reverse_banish = ROOT
+						character_event = {
+							id = DR_dwarfs.104
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Liege - A Slayer has arrived in your court
+character_event = {
+	id = DR_dwarfs.104
+	desc = EVTDESCDR_dwarfs.104
+	picture = GFX_evt_dwarf_slayer
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.104 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.104
+		ai_chance = {
+			factor = 10
+		}
+	}
+
+	# I have no need for the slayer
+	option = {
+		name = EVTOPTBDR_dwarfs.104
+		FROM = {
+			character_event = {
+				id = DR_dwarfs.103
+			}
+		}
+		ai_chance = {
+			factor = 5
+		}
+	}
+}
+
+# Slayer generic monster hunting
+# Slayer - Selecting province
+character_event = {
+	id = DR_dwarfs.105
+	hide_window = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	religion_group = dwarf_gods_group
+
+	trigger = {
+		trait = dwarf_slayer
+		liege = {
+			any_demesne_province = {
+				OR = {
+					has_province_modifier = greenskin_population_bad
+					has_province_modifier = beastmen_scourging_1
+					has_province_modifier = beastmen_scourging_2
+					has_province_modifier = beastmen_scourging_3
+					has_province_modifier = beastman_herdstone
+					culture_group = beastman_group
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 2
+		modifier = {
+			factor = 0.5 trait = diligent
+		}
+		modifier = {
+			factor = 0.8 trait = brave
+		}
+		modifier = {
+			factor = 1.5 trait = craven
+		}
+		modifier = {
+			factor = 2 trait = slothful
+		}
+		modifier = {
+			factor = 5 trait = wounded
+		}
+		modifier = {
+			factor = 6 trait = maimed
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_dwarfs.105 for [Root.GetBestName]"
+		liege = {
+			random_demesne_province = {
+				limit = {
+					OR = {
+						has_province_modifier = greenskin_population_bad
+						has_province_modifier = beastmen_scourging_1
+						has_province_modifier = beastmen_scourging_2
+						has_province_modifier = beastmen_scourging_3
+						has_province_modifier = beastman_herdstone
+						culture_group = beastman_group
+					}
+				}
+				random_list = {
+					85 = {
+						province_event = {
+							id = DR_dwarfs.106
+						}
+					}
+					7 = {
+						# Slayer got wounded
+						province_event = {
+							id = DR_dwarfs.106
+						}
+						ROOT = {
+							add_trait = wounded
+						}
+					}
+					3 = {
+						# Slayer got maimed
+						province_event = {
+							id = DR_dwarfs.106
+						}
+						ROOT = {
+							add_trait = maimed
+						}
+					}
+					5 = {
+						# Slayer died
+						ROOT = {
+							death = {
+								death_reason = death_battle
+							}
+						}
+						owner = {
+							character_event = {
+								id = DR_dwarfs.108
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Province - Removing monster modifiers
+province_event = {
+	id = DR_dwarfs.106
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.106 for [Root.GetBestName]"
+		remove_province_modifier = greenskin_population_bad
+		remove_province_modifier = beastmen_scourging_1
+		remove_province_modifier = beastmen_scourging_2
+		remove_province_modifier = beastmen_scourging_3
+		remove_province_modifier = beastman_herdstone
+		if = {
+			limit = {
+				OR = {
+					culture_group = beastman_group
+					culture_group = orc_group
+					culture_group = goblin_group
+				}
+			}
+			owner = {
+				ROOT = {
+					culture = PREV
+					religion = PREV
+				}
+			}
+		}
+		add_province_modifier = {
+			name = monster_purge
+			duration = 365
+			hidden = yes
+		}
+		FROM = {
+			add_character_modifier = {
+				name = recent_slayer_work
+				duration = 180
+				hidden = yes
+			}
+		}
+	}
+
+	option = {
+		owner = {
+			letter_event = {
+				id = DR_dwarfs.107
+			}
+		}
+	}
+}
+
+# Liege - Notification - Slayer cleaned the province
+letter_event = {
+	id = DR_dwarfs.107
+	desc = EVTDESCDR_dwarfs.107
+	is_triggered_only = yes
+	show_from_from = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.107 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = OK
+	}
+}
+
+# Liege - Notification - Slayer died cleaning the province
+character_event = {
+	id = DR_dwarfs.108
+	desc = EVTDESCDR_dwarfs.108
+	picture = GFX_evt_dwarf_slayer_angry
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.108 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.108
+	}
+}
+
+# Slayer - Slayer arrives at province ruled by Greenskin/Beast/Skaven/Vamp/Chaos and tries to kill it
+character_event = {
+	id = DR_dwarfs.109
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.109 for [Root.GetBestName]"
+		ROOT = {
+			add_character_modifier = {
+				modifier = recent_duel_timer
+				duration = 720
+				hidden = yes
+			}
+			save_event_target_as = duelist_a
+			set_character_flag = duel
+			set_character_flag = duel_effect_noescape
+			set_character_flag = duel_dwarf_slayer
+		}
+		location = {
+			owner = {
+				save_event_target_as = duelist_b
+				set_character_flag = duel
+				character_event = {
+					id = DR_dwarfs.110
+				}
+				character_event = {
+					id = duelengine.1
+				}
+			}
+		}
+	}
+}
+
+# Ruler - Slayer arrives at province ruled by Greenskin/Beast/Skaven/Vamp/Chaos and tries to kill it
+character_event = {
+	id = DR_dwarfs.110
+	picture = GFX_evt_dwarf_slayer_angry
+	desc = {
+		trigger = {
+			OR = {
+				trait = creature_orc
+				trait = creature_goblin
+			}
+		}
+		text = EVTDESCDR_dwarfs.110_greenskin
+	}
+	desc = {
+		trigger = {
+			OR = {
+				trait = creature_skaven
+			}
+		}
+		text = EVTDESCDR_dwarfs.110_skaven
+	}
+	desc = {
+		trigger = {
+			NOR = {
+				trait = creature_orc
+				trait = creature_goblin
+				trait = creature_skaven
+			}
+		}
+		text = EVTDESCDR_dwarfs.110
+	}
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.110 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = {
+			trigger = {
+				OR = {
+					trait = creature_orc
+					trait = creature_goblin
+				}
+			}
+			text = EVTOPTADR_dwarfs.110_greenskin
+		}
+		name = {
+			trigger = {
+				trait = creature_skaven
+			}
+			text = EVTOPTADR_dwarfs.110_skaven
+		}
+		name = {
+			trigger = {
+				NOR = {
+					trait = creature_orc
+					trait = creature_goblin
+					trait = creature_skaven
+				}
+			}
+			text = EVTOPTADR_dwarfs.110
+		}
+	}
+}
+
+# TEST EVENT - MOVE SLAYER TO COURT
+character_event = {
+	id = DR_dwarfs.111
+	desc = EVTDESCDR_dwarfs.108
+	picture = GFX_evt_dwarf_slayer_angry
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.111 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_dwarfs.108
+		any_character = {
+			limit = 	{
+				trait = dwarf_slayer
+			}
+			move_character = ROOT
+		}
+	}
+}
+
+# Slayer progression event
+character_event = {
+	id = DR_dwarfs.112
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.112 for [Root.GetBestName]"
+		if = {
+			limit = {
+				NOR = {
+					has_character_modifier = dwarf_troll_slayer
+					has_character_modifier = dwarf_giant_slayer
+					has_character_modifier = dwarf_dragon_slayer
+					has_character_modifier = dwarf_daemon_slayer
+				}
+			}
+			add_character_modifier = {
+				name = dwarf_troll_slayer
+				duration = -1
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				has_character_modifier = dwarf_troll_slayer
+			}
+			remove_character_modifier = dwarf_troll_slayer
+			add_character_modifier = {
+				name = dwarf_giant_slayer
+				duration = -1
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				has_character_modifier = dwarf_giant_slayer
+			}
+			remove_character_modifier = dwarf_giant_slayer
+			add_character_modifier = {
+				name = dwarf_dragon_slayer
+				duration = -1
+			}
+			break = yes
+		}
+		if = {
+			limit = {
+				has_character_modifier = dwarf_dragon_slayer
+			}
+			remove_character_modifier = dwarf_dragon_slayer
+			add_character_modifier = {
+				name = dwarf_daemon_slayer
+				duration = -1
+			}
+			break = yes
+		}
+	}
+}
+
+# Slayer escapes to Dwarf court after killing ruler
+character_event = {
+	id = DR_dwarfs.113
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = DR_dwarfs.113 for [Root.GetBestName]"
+		clr_character_flag = duel_dwarf_slayer
+		random_playable_ruler = {
+			limit = {
+				any_courtier = {
+					NOT = {
+						trait = dwarf_slayer
+					}
+				}
+				trait = creature_dwarf
+			}
+			reverse_banish = ROOT
+			character_event = {
+				id = DR_dwarfs.104
+			}
+		}
+		ai_chance = {
+			factor = 100
+		}
+	}
+}

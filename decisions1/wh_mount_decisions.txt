@@ -1,0 +1,332 @@
+decisions = {
+
+	trainapegasusmount = {
+		only_playable = yes
+		potential = {
+			age = 12
+			nor = {
+				has_character_flag = pegasus_mount
+				has_artifact = pegasus_mount
+				culture = sylvanian
+			}
+			OR = {
+				culture_group = druchi_group
+				culture_group = imperial_group
+				culture_group = bretonnian_group
+				culture_group = asrai_group
+				culture_group = asur_group
+				culture_group = tilean_group
+				culture_group = estalian_group
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 500
+		}
+		effect = {
+			log = "work decision trainapegasusmount for [Root.GetBestName]"
+			set_character_flag = pegasus_mount
+			character_event = {
+				id = mounts.0
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0
+				any_artifact = {
+					has_artifact_flag = mount
+				}
+			}
+		}
+	}
+
+	trainagryphonmount = {
+		only_playable = yes
+		potential = {
+			age = 12
+			nor = {
+				has_character_flag = gryphon_mount
+				has_artifact = gryphon_mount
+				culture = sylvanian
+			}
+			OR = {
+				culture_group = druchi_group
+				culture_group = imperial_group
+				culture_group = asrai_group
+				culture_group = asur_group
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 1000
+		}
+		effect = {
+			log = "work decision trainagryphonmount for [Root.GetBestName]"
+			set_character_flag = gryphon_mount
+			character_event = {
+				id = mounts.2
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0
+				any_artifact = {
+					has_artifact_flag = mount
+				}
+			}
+		}
+	}
+
+	trainawyvernmount = {
+		only_playable = yes
+		potential = {
+			age = 12
+			nor = {
+				has_character_flag = wyvern_mount
+				has_artifact = wyvern_mount
+			}
+			OR = {
+				culture_group = goblin_group
+				culture_group = orc_group
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 1000
+		}
+		effect = {
+			log = "work decision trainawyvernmount for [Root.GetBestName]"
+			set_character_flag = wyvern_mount
+			character_event = {
+				id = mounts.4
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0
+				any_artifact = {
+					has_artifact_flag = mount
+				}
+			}
+		}
+	}
+
+	trainadragonmount = {
+		only_playable = yes
+		potential = {
+			age = 18
+			nor = {
+				has_character_flag = red_dragon_mount
+				has_artifact = red_dragon_mount
+			}
+			culture = caledori
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 1000
+			prestige = 2000
+		}
+		effect = {
+			log = "work decision trainadragonmount for [Root.GetBestName]"
+			set_character_flag = red_dragon_mount
+			character_event = {
+				id = mounts.6
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0
+				any_artifact = {
+					has_artifact_flag = mount
+				}
+			}
+		}
+	}
+
+	buildabyssalterror = {
+		only_playable = yes
+		potential = {
+			age = 18
+			nor = {
+				has_character_flag = abyssal_terror_mount
+				has_artifact = abyssal_terror_mount
+			}
+			OR = {
+				trait = vampire_lahmian_visible
+				trait = vampire_carstein_visible
+				# trait = vampire_blood_visible
+				trait = vampire_strigoi_visible
+				trait = vampire_necrarch_visible
+				# trait = vampire_jade_visible
+				trait = vampire_mahtmasi_visible
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 1500
+			OR = {
+				has_character_modifier = necromantic_power_5
+				has_character_modifier = necromantic_power_4
+				has_character_modifier = necromantic_power_3
+			}
+		}
+		effect = {
+			log = "work decision buildabyssalterror for [Root.GetBestName]"
+			set_character_flag = abyssal_terror_mount
+			character_event = {
+				id = mounts.9
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0
+				nor = {
+					trait = vampire_carstein_visible
+					trait = vampire_blood_visible
+				}
+			}
+			modifier = {
+				factor = 0
+				any_artifact = {
+					has_artifact_flag = mount
+				}
+			}
+		}
+	}
+
+	searchnigthmaremount = {
+		only_playable = yes
+		potential = {
+			age = 16
+			NOT = {
+				has_artifact = nightmare_mount
+			}
+			trait = vampire_blood_visible
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			piety = 1500
+		}
+		effect = {
+			log = "work decision searchnigthmaremount for [Root.GetBestName]"
+			set_character_flag = nightmare_mount
+			character_event = {
+				id = mounts.11
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0
+				any_artifact = {
+					has_artifact_flag = mount
+				}
+			}
+		}
+	}
+	
+	trainawarbearmount = {
+		only_playable = yes
+		potential = {
+			age = 12
+			nor = {
+				has_character_flag = war_bear_mount
+				has_artifact = war_bear_mount
+				culture = sylvanian
+			}
+			OR = {
+				culture_group = kislevite_group
+				religion = ursun
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			wealth = 1000
+		}
+		effect = {
+			log = "work decision trainawarbearmount for [Root.GetBestName]"
+			set_character_flag = war_bear_mount
+			character_event = {
+				id = mounts.13
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 15
+				}
+			}
+			modifier = {
+				factor = 0
+				any_artifact = {
+					has_artifact_flag = mount
+				}
+			}
+		}
+	}
+
+}

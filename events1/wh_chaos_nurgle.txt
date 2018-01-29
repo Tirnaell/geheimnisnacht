@@ -1,0 +1,798 @@
+namespace = wh_chaos_nurgle
+
+# Great Corrupter
+character_event = {
+	id = wh_chaos_nurgle.0
+	title = Salvation
+	desc = fathernurgle0 # It seems fate has crippled you, now you are but a shadow of your former self...
+	picture = GFX_evt_illness
+	only_playable = yes
+	religion = nurgle
+	min_age = 16
+	prisoner = no
+	is_triggered_only = yes
+
+	trigger = {
+		nor = {
+			trait = ill
+			trait = ambitious
+			has_character_flag = touched_by_nurgle
+		}
+		trait = maimed
+		trait = incapable
+	}
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.0 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = fathernurgle0a # I will not let this beat me!
+		hidden_tooltip = {
+			add_trait = craven
+			character_event = {
+				id = wh_chaos_nurgle.1
+				days = 30
+			}
+		}
+	}
+}
+
+character_event = {
+	id = wh_chaos_nurgle.1
+	title = Denial
+	desc = fathernurgle1 # My condition grows worse, but its nothing serious...
+	picture = GFX_evt_illness
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.1 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = fathernurgle1a # I cant die, Not..like this..
+		add_trait = has_nurgles_rot
+		hidden_tooltip = {
+			set_character_flag = touched_by_nurgle
+			character_event = {
+				id = wh_chaos_nurgle.2
+				days = 30
+			}
+		}
+	}
+}
+
+character_event = {
+	id = wh_chaos_nurgle.2
+	title = Anger
+	desc = fathernurgle2 # No sign of your condition improving, your blood starts to boil with rage at your misfortune...
+	picture = GFX_evt_illness
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.2 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = fathernurgle2a # I was ment for glory, not to rot away in a bed!
+		add_trait = wroth
+		hidden_tooltip = {
+			character_event = {
+				id = wh_chaos_nurgle.3
+				days = 30
+			}
+		}
+	}
+}
+
+character_event = {
+	id = wh_chaos_nurgle.3
+	title = Bargaining
+	desc = fathernurgle3 # Still no sign of relief, my strength begins to wane, desperation starts to set in...
+	picture = GFX_evt_illness
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.3 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = fathernurgle3a # Gods..do not forsake me..
+		add_trait = charitable
+		hidden_tooltip = {
+			character_event = {
+				id = wh_chaos_nurgle.4
+				days = 30
+			}
+		}
+	}
+}
+
+character_event = {
+	id = wh_chaos_nurgle.4
+	title = Depression
+	desc = fathernurgle4 # All hope is lost to you now, no strength to even speak aloud you ponder what time you have left...
+	picture = GFX_evt_illness
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.4 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = fathernurgle4a # Is this really how I am to die, not with a roar, but with a whimper...
+		add_trait = depressed
+		hidden_tooltip = {
+			character_event = {
+				id = wh_chaos_nurgle.5
+				days = 15
+			}
+		}
+	}
+}
+
+character_event = {
+	id = wh_chaos_nurgle.5
+	title = Acceptance
+	desc = fathernurgle5 # You lie in your bed ready to accept your fate and let go, when a rasp gargled voice resounds in your mind. "Give yourself unto the Lord of Decay and no more will you feel pain, no more shall you fear death, all things die, embrace your destiny with Grandfather Nurgle! Who other then Nurgle can protect you against the Rot, who but the Lord of Decay knows the true gift of Immortality?"
+	picture = "GFX_evt_nurgle"
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.5 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = fathernurgle5a # Plague Father..deliver me from this existence!
+		remove_trait = maimed
+		remove_trait = craven
+		remove_trait = wroth
+		remove_trait = charitable
+		remove_trait = depressed
+		remove_trait = incapable
+		hidden_tooltip = {
+			character_event = {
+				id = wh_chaos_nurgle.6
+				days = 3
+			}
+		}
+	}
+	option = {
+		name = fathernurgle5b # No, I am ready for this to end...
+		add_trait = content
+		hidden_tooltip = {
+			character_event = {
+				id = wh_chaos_nurgle.7
+				days = 1
+			}
+		}
+	}
+}
+
+character_event = {
+	id = wh_chaos_nurgle.6
+	title = PlagueLord
+	desc = fathernurgle6 # As the oath pass your lips you feel all the pain seep from your body, instead you are filled with what feels like joy, power, and warm sensation that spreads through your body..a warmth you long to share with the world.
+	picture = "GFX_evt_nurgle"
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.6 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = fathernurgle6a # I have pledged myself to your service my Lord, and I will do all in my power to bring your glory..
+		add_trait = has_typhoid_fever
+		add_trait = has_bubonic_plague
+		add_trait = has_small_pox
+		hidden_tooltip = {
+			change_diplomacy = 2
+			health = 49
+			change_stewardship = 4
+			change_martial = 2
+		}
+	}
+}
+
+character_event = {
+	id = wh_chaos_nurgle.7
+	title = Acceptance
+	desc = fathernurgle7 # You have Forsaken your god, and now you close your eyes and await the end.
+	picture = GFX_evt_illness
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.7 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = fathernurgle7a # I am prepared to meet my ancestors...
+		remove_trait = depressed
+	}
+}
+
+# Nurglite decides what gift to grant
+character_event = {
+	id = wh_chaos_nurgle.8
+	desc = EVTDESCAschaosfl8
+	picture = GFX_evt_nurgle_sorcerer
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.8 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTAschaosfl8
+		trigger = {
+			trait = prince_nurgle
+		}
+		piety = 25
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = wh_chaos_nurgle.8001
+					days = 2
+					random = 4
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = EVTOPTBschaosfl8
+		trigger = {
+			OR = {
+				trait = chosen_nurgle
+				trait = prince_nurgle
+			}
+		}
+		piety = 25
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = wh_chaos_nurgle.8002
+					days = 2
+					random = 4
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = EVTOPTCschaosfl8
+		trigger = {
+			OR = {
+				trait = champion_nurgle
+				trait = chosen_nurgle
+				trait = prince_nurgle
+				trait = lore_nurgle
+			}
+		}
+		piety = 25
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = wh_chaos_nurgle.8003
+					days = 2
+					random = 4
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = {
+		name = EVTOPTDschaosfl8
+		trigger = {
+			OR = {
+				trait = champion_nurgle
+				trait = chosen_nurgle
+				trait = prince_nurgle
+				trait = has_nurgles_rot
+				trait = lore_nurgle
+			}
+		}
+		piety = 25
+		hidden_tooltip = {
+			FROM = {
+				character_event = {
+					id = wh_chaos_nurgle.8004
+					days = 2
+					random = 4
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# The recipient receives the new gift
+character_event = {
+	id = wh_chaos_nurgle.8001
+	desc = EVTDESCAschaosfl8001
+	picture = GFX_evt_nurgle_sorcerer
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.8001 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTAschaosfl8001
+		add_trait = leper
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# The recipient receives the new gift
+character_event = {
+	id = wh_chaos_nurgle.8002
+	desc = EVTDESCAschaosfl8002
+	picture = GFX_evt_nurgle_sorcerer
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.8002 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTAschaosfl8002
+		add_trait = pneumonic
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# The recipient receives the new gift
+character_event = {
+	id = wh_chaos_nurgle.8003
+	desc = EVTDESCAschaosfl8003
+	picture = GFX_evt_nurgle_sorcerer
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.8003 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTAschaosfl8003
+		add_trait = cancer
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# The recipient receives the new gift
+character_event = {
+	id = wh_chaos_nurgle.8004
+	desc = EVTDESCAschaosfl8004
+	picture = GFX_evt_nurgle_sorcerer
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_nurgle.8004 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTAschaosfl8004
+		add_trait = has_nurgles_rot
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+character_event = {
+	id = wh_chaos_nurgle.100
+	desc = EVTDESCNURGLEB.1
+	picture = "GFX_evt_nurgle"
+ 	is_sick = yes
+
+	trigger = {
+		OR = {
+			religion = nurgle
+			trait = everchosen
+			society_member_of = cult_of_nurgle
+		}
+		OR = {
+			AND = {
+				trait = ill
+				NOT = {
+					has_character_flag = nb_ill
+				}
+			}
+			AND = {
+				trait = pneumonic
+				NOT = {
+					has_character_flag = nb_pneumonic
+				}
+			}
+			AND = {
+				trait = syphilitic
+				NOT = {
+					has_character_flag = nb_syphilitic
+				}
+			}
+			AND = {
+				trait = leper
+				NOT = {
+					has_character_flag = nb_leper
+				}
+			}
+			AND = {
+				trait = has_tuberculosis
+				NOT = {
+					has_character_flag = nb_has_tuberculosis
+				}
+			}
+			AND = {
+				trait = has_typhoid_fever
+				NOT = {
+					has_character_flag = nb_has_typhoid_fever
+				}
+			}
+			AND = {
+				trait = has_typhus
+				NOT = {
+					has_character_flag = nb_has_typhus
+				}
+			}
+			AND = {
+				trait = has_bubonic_plague
+				NOT = {
+					has_character_flag = nb_has_bubonic_plague
+				}
+			}
+			AND = {
+				trait = has_measles
+				NOT = {
+					has_character_flag = nb_has_measles
+				}
+			}
+			AND = {
+				trait = has_aztec_disease
+				NOT = {
+					has_character_flag = nb_has_aztec_disease
+				}
+			}
+			AND = {
+				trait = has_small_pox
+				NOT = {
+					has_character_flag = nb_has_small_pox
+				}
+			}
+			AND = {
+				trait = has_tomb_rot
+				NOT = {
+					has_character_flag = nb_has_tomb_rot
+				}
+			}
+			AND = {
+				trait = has_nurgles_rot
+				NOT = {
+					has_character_flag = nb_has_nurgles_rot
+				}
+			}
+			AND = {
+				trait = dysentery
+				NOT = {
+					has_character_flag = nb_has_dysentery
+				}
+			}
+			AND = {
+				trait = flu
+				NOT = {
+					has_character_flag = nb_has_flu
+				}
+			}
+			AND = {
+				trait = gout
+				NOT = {
+					has_character_flag = nb_has_gout
+				}
+			}
+			AND = {
+				trait = food_poisoning
+				NOT = {
+					has_character_flag = nb_has_food_poisoning
+				}
+			}
+			AND = {
+				trait = rabies
+				NOT = {
+					has_character_flag = nb_has_rabies
+				}
+			}
+			AND = {
+				trait = cancer
+				NOT = {
+					has_character_flag = nb_has_cancer
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	immediate = {
+		log = "work event id = nurgleb.1 for [Root.GetBestName]"
+		if = {
+			limit = {
+				trait = ill
+				NOT = {
+					has_character_flag = nb_ill
+				}
+			}
+			change_martial = 1
+			health = 3
+			fertility = 0.1
+			set_character_flag = nb_ill
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = pneumonic
+				NOT = {
+					has_character_flag = nb_pneumonic
+				}
+			}
+			change_diplomacy = 2
+			change_stewardship = 2
+			change_martial = 2
+			change_intrigue = 2
+			change_learning = 2
+			health = 5
+			fertility = 0.5
+			set_character_flag = nb_pneumonic
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = syphilitic
+				NOT = {
+					has_character_flag = nb_syphilitic
+				}
+			}
+			change_diplomacy = 1
+			change_stewardship = 1
+			change_martial = 1
+			change_intrigue = 1
+			change_learning = 1
+			health = 3
+			fertility = 0.2
+			set_character_flag = nb_syphilitic
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = leper
+				NOT = {
+					has_character_flag = nb_leper
+				}
+			}
+			change_diplomacy = 2
+			health = 3
+			fertility = 0.95
+			set_character_flag = nb_leper
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_tuberculosis
+				NOT = {
+					has_character_flag = nb_has_tuberculosis
+				}
+			}
+			health = 3
+			set_character_flag = nb_has_tuberculosis
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_typhoid_fever
+				NOT = {
+					has_character_flag = nb_has_typhoid_fever
+				}
+			}
+			health = 4
+			set_character_flag = nb_has_typhoid_fever
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_typhus
+				NOT = {
+					has_character_flag = nb_has_typhus
+				}
+			}
+			health = 4
+			set_character_flag = nb_has_typhus
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_bubonic_plague
+				NOT = {
+					has_character_flag = nb_has_bubonic_plague
+				}
+			}
+			health = 8
+			set_character_flag = nb_has_bubonic_plague
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_measles
+				NOT = {
+					has_character_flag = nb_has_measles
+				}
+			}
+			health = 3
+			set_character_flag = nb_has_measles
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_small_pox
+				NOT = {
+					has_character_flag = nb_has_small_pox
+				}
+			}
+			health = 4
+			set_character_flag = nb_has_small_pox
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_aztec_disease
+				NOT = {
+					has_character_flag = nb_has_aztec_disease
+				}
+			}
+			change_diplomacy = 1
+			change_stewardship = 1
+			change_martial = 1
+			change_intrigue = 1
+			change_learning = 1
+			health = 4
+			fertility = 0.2
+			set_character_flag = nb_has_aztec_disease
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_tomb_rot
+				NOT = {
+					has_character_flag = nb_has_tomb_rot
+				}
+			}
+			health = 3
+			change_diplomacy = 2
+			set_character_flag = nb_has_tomb_rot
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = has_nurgles_rot
+				NOT = {
+					has_character_flag = nb_has_nurgles_rot
+				}
+			}
+			health = 6
+			change_diplomacy = 2
+			change_martial = 4
+			set_character_flag = nb_has_nurgles_rot
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = dysentery
+				NOT = {
+					has_character_flag = nb_has_dysentery
+				}
+			}
+			change_intrigue = 3
+			change_martial = 3
+			fertility = 0.25
+			health = 4
+			set_character_flag = nb_has_dysentery
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = flu
+				NOT = {
+					has_character_flag = nb_has_flu
+				}
+			}
+			change_diplomacy = 1
+			change_intrigue = 1
+			change_martial = 1
+			change_stewardship = 1
+			change_learning = 1
+			health = 2
+			set_character_flag = nb_has_flu
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = gout
+				NOT = {
+					has_character_flag = nb_has_gout
+				}
+			}
+			change_stewardship = 2
+			change_martial = 1
+			health = 2
+			set_character_flag = nb_has_gout
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = food_poisoning
+				NOT = {
+					has_character_flag = nb_has_food_poisoning
+				}
+			}
+			change_diplomacy = 2
+			change_intrigue = 2
+			change_martial = 2
+			change_stewardship = 2
+			change_learning = 2
+			fertility = 0.5
+			health = 3
+			set_character_flag = nb_has_food_poisoning
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = rabies
+				NOT = {
+					has_character_flag = nb_has_rabies
+				}
+			}
+			change_diplomacy = 3
+			change_intrigue = 3
+			change_stewardship = 2
+			change_learning = 2
+			health = 7
+			set_character_flag = nb_has_rabies
+			break = yes
+		}
+		if = {
+			limit = {
+				trait = cancer
+				NOT = {
+					has_character_flag = nb_has_cancer
+				}
+			}
+			fertility = 0.20
+			health = 3
+			set_character_flag = nb_has_cancer
+			break = yes
+		}
+	}
+
+	option = {
+		name = EXCELLENT
+		remove_character_modifier = bedridden_illness
+		remove_character_modifier = mild_illness
+	}
+}

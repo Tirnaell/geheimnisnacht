@@ -1,0 +1,1345 @@
+namespace = wh_concubine
+
+# child's conception with a male concubine
+# events triggered during the conception
+
+# on_forced_consort (female)
+character_event = {
+	id = wh_concubine.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		liege = {
+			OR = {
+				religion = cult_of_pleasure
+				religion = atharti
+				religion = slaanesh
+				trait = creature_amazon
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = wh_concubine.4 for [Root.GetBestName]"
+		add_trait = pet_consort
+	}
+}
+
+character_event = {
+	id = wh_concubine.5
+	desc = "EVTDESCneutral661"
+	picture = GFX_evt_scandal
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.5 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "EVTOPTArape0005" # [FromFrom.GetSheHeCap] will pay for this!"
+		opinion = {
+			who = FROMFROM
+			modifier = opinion_forced_relative_consort
+			months = 1200
+		}
+	}
+}
+
+character_event = {
+	id = wh_concubine.6
+	desc = "EVTDESCneutral662"
+	picture = GFX_evt_scandal
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.6 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "EVTOPTArape0005" # [FromFrom.GetSheHeCap] will pay for this!"
+		opinion = {
+			who = FROMFROM
+			modifier = opinion_forced_wife_consort
+			months = 1200
+		}
+		hidden_tooltip = {
+			opinion = {
+				who = FROM
+				modifier = opinion_abducted_spouse
+				months = 1200
+			}
+		}
+	}
+}
+
+# PET CONSORT EVENTS
+# Pet consort impregnates, the event checks first for the woman, she pings it to the random consort, who pings back to impregnate
+character_event = {
+	id = wh_concubine.7
+	hide_window = yes
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_playable = yes
+	is_triggered_only = yes
+
+	trigger = {
+		# Infertile species
+		fertility = 0.1
+		is_incapacitated_trigger = no
+		# an unmarried chaste woman can still have children from consorts, but a married one won't
+		nand = {
+			trait = chaste
+			is_married = yes
+		}
+		is_pregnant = no
+		any_lover = {
+			trait = pet_consort
+			# male on female handled by vanilla
+			is_female = no
+			fertility = 0.1
+			is_incapacitated_trigger = no
+			fertility = 0.1
+			# To avoid halfbreeds
+			OR = {
+				AND = {
+					ROOT = {
+						trait = creature_human
+					}
+					trait = creature_human
+				}
+				AND = {
+					ROOT = {
+						trait = creature_amazon
+					}
+					trait = creature_amazon
+				}
+				AND = {
+					ROOT = {
+						trait = creature_elf
+					}
+					trait = creature_elf
+				}
+				AND = {
+					ROOT = {
+						trait = creature_halfling
+					}
+					trait = creature_halfling
+				}
+				AND = {
+					ROOT = {
+						trait = creature_dwarf
+					}
+					trait = creature_dwarf
+				}
+				AND = {
+					ROOT = {
+						trait = creature_chaos_dwarf
+					}
+					trait = creature_chaos_dwarf
+				}
+			}
+			is_alive = yes
+			# so that the consorts will cycle
+			NOT = {
+				has_character_modifier = stage_progressed
+			}
+		}
+	}
+
+	weight_multiplier = {
+		factor = 1
+		modifier = {
+			factor = 0.7
+			war = yes
+		}
+		modifier = {
+			factor = 0.5
+			is_long_lived_character = yes
+		}
+		modifier = {
+			factor = 0
+			or = {
+				in_command = yes
+				is_incapacitated_trigger = yes
+			}
+		}
+		modifier = {
+			factor = 2
+			trait = retired_with_harem
+		}
+		modifier = {
+			factor = 10
+			has_character_modifier = horny_harem_mod
+		}
+		modifier = {
+			factor = 1.5
+			trait = lustful
+		}
+		modifier = {
+			factor = 0.25
+			trait = shy
+		}
+		modifier = {
+			factor = 1.1
+			trait = gregarious
+		}
+		modifier = {
+			factor = 1.2
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.25
+			trait = chaste
+		}
+		modifier = {
+			factor = 0.25
+			trait = ill
+		}
+		modifier = {
+			factor = 0.5
+			trait = stressed
+		}
+		modifier = {
+			factor = 0.3
+			trait = depressed
+		}
+		modifier = {
+			factor = 0.6
+			trait = kind
+		}
+		modifier = {
+			factor = 1.1
+			trait = cruel
+		}
+		modifier = {
+			factor = 1.1
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 0.6
+			trait = possessed
+		}
+		modifier = {
+			factor = 0.6
+			trait = hunchback
+		}
+		modifier = {
+			factor = 0.6
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.25
+			trait = pneumonic
+		}
+		modifier = {
+			factor = 0.25
+			trait = homosexual
+		}
+		modifier = {
+			factor = 0.75
+			trait = inbred
+		}
+		modifier = {
+			factor = 0.8
+			lifestyle_traits = 1
+		}
+		modifier = {
+			factor = 0.8
+			lifestyle_traits = 2
+		}
+		modifier = {
+			factor = 0.1
+			trait = infirm
+		}
+		modifier = {
+			factor = 0.1
+			trait = leper
+		}
+		modifier = {
+			factor = 0.1
+			not = {
+				health = 1
+			}
+		}
+		modifier = {
+			factor = 0.1
+			not = {
+				health = 2
+			}
+		}
+		modifier = {
+			factor = 0.5
+			fertility = 0.1
+			NOT = {
+				fertility = 0.3
+			}
+		}
+		modifier = {
+			factor = 0.5
+			trait = creature_human
+			fertility = 0.3
+			NOT = {
+				fertility = 0.5
+			}
+		}
+		modifier = {
+			factor = 1.5
+			fertility = 0.5
+		}
+		modifier = {
+			factor = 1.5
+			fertility = 1
+		}
+		modifier = {
+			factor = 1.5
+			fertility = 1.5
+		}
+		modifier = {
+			factor = 1.2
+			num_of_children = 0
+		}
+		modifier = {
+			factor = 1.1
+			num_of_children = 1
+			NOT = {
+				num_of_children = 5
+			}
+		}
+		modifier = {
+			factor = 0.5
+			num_of_children = 5
+		}
+		modifier = {
+			factor = 0
+			num_of_children = 10
+		}
+		modifier = {
+			factor = 1.2
+			any_lover = {
+				trait = pet_consort
+				count = 2
+			}
+		}
+		modifier = {
+			factor = 1.2
+			any_lover = {
+				trait = pet_consort
+				count = 3
+			}
+		}
+		modifier = {
+			factor = 1.2
+			any_lover = {
+				trait = pet_consort
+				count = 4
+			}
+		}
+		modifier = {
+			factor = 1.2
+			any_lover = {
+				trait = pet_consort
+				count = 5
+			}
+		}
+		modifier = {
+			factor = 0
+			num_of_children = 5
+			is_long_lived_character = yes
+		}
+		modifier = {
+			factor = 0
+			trait = creature_human
+			age = 55
+		}
+	}
+
+	immediate = {
+		log = "work event id = wh_concubine.7 for [Root.GetBestName]"
+		# name = "EVTOPTArape.07"
+		random_lover = {
+			limit = {
+				trait = pet_consort
+				# male on female handled by vanilla
+				is_female = no
+				fertility = 0.1
+				is_incapacitated_trigger = no
+				# To avoid halfbreeds
+				OR = {
+					AND = {
+						ROOT = {
+							trait = creature_human
+						}
+						trait = creature_human
+					}
+					AND = {
+						ROOT = {
+							trait = creature_amazon
+						}
+						trait = creature_amazon
+					}
+					AND = {
+						ROOT = {
+							trait = creature_elf
+						}
+						trait = creature_elf
+					}
+					AND = {
+						ROOT = {
+							trait = creature_halfling
+						}
+						trait = creature_halfling
+					}
+					AND = {
+						ROOT = {
+							trait = creature_dwarf
+						}
+						trait = creature_dwarf
+					}
+					AND = {
+						ROOT = {
+							trait = creature_chaos_dwarf
+						}
+						trait = creature_chaos_dwarf
+					}
+				}
+				is_alive = yes
+				# so that the consorts will cycle
+				NOT = {
+					has_character_modifier = stage_progressed
+				}
+			}
+			character_event = {
+				id = wh_concubine.9
+			}
+		}
+	}
+}
+
+# Once the deed is done, the stage_progressed cooldown prevents the same guy from being always the father
+character_event = {
+	id = wh_concubine.9
+	desc = "EVTDESC662"
+	picture = GFX_evt_lovers
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.9 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "EVTOPTA662"
+		random_list = {
+			5 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 1100
+					hidden = yes
+				}
+			}
+			5 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 1000
+					hidden = yes
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 900
+					hidden = yes
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 800
+					hidden = yes
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 700
+					hidden = yes
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 600
+					hidden = yes
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 500
+					hidden = yes
+				}
+			}
+			15 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 400
+					hidden = yes
+				}
+			}
+			15 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 300
+					hidden = yes
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					name = stage_progressed
+					duration = 250
+					hidden = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				fertility = 0.1
+				NOT = {
+					fertility = 0.3
+				}
+			}
+			random_list = {
+				75 = {
+					FROM = {
+						character_event = {
+							id = wh_concubine.10
+						}
+					}
+				}
+				25 = {
+				}
+			}
+		}
+		if = {
+			limit = {
+				fertility = 0.3
+				NOT = {
+					fertility = 0.5
+				}
+			}
+			random_list = {
+				80 = {
+					FROM = {
+						character_event = {
+							id = wh_concubine.10
+						}
+					}
+				}
+				20 = {
+				}
+			}
+		}
+		if = {
+			limit = {
+				fertility = 0.5
+				NOT = {
+					fertility = 0.7
+				}
+			}
+			random_list = {
+				85 = {
+					FROM = {
+						character_event = {
+							id = wh_concubine.10
+						}
+					}
+				}
+				15 = {
+				}
+			}
+		}
+		if = {
+			limit = {
+				fertility = 0.7
+				NOT = {
+					fertility = 1.0
+				}
+			}
+			random_list = {
+				90 = {
+					FROM = {
+						character_event = {
+							id = wh_concubine.10
+						}
+					}
+				}
+				10 = {
+				}
+			}
+		}
+		if = {
+			limit = {
+				fertility = 1.0
+				NOT = {
+					fertility = 1.1
+				}
+			}
+			random_list = {
+				95 = {
+					FROM = {
+						character_event = {
+							id = wh_concubine.10
+						}
+					}
+				}
+				5 = {
+				}
+			}
+		}
+		if = {
+			limit = {
+				fertility = 1.1
+			}
+			random_list = {
+				99 = {
+					FROM = {
+						character_event = {
+							id = wh_concubine.10
+						}
+					}
+				}
+				1 = {
+				}
+			}
+		}
+	}
+}
+
+character_event = {
+	id = wh_concubine.10
+	desc = "EVTDESC662"
+	picture = GFX_evt_lovers
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.10 for [Root.GetBestName]"
+		hidden_tooltip = {
+			impregnate = FROM
+		}
+	}
+}
+
+# Lose pet consort trait
+character_event = {
+	id = wh_concubine.11
+	desc = "EVTDESCrape.11" # no need, only for unlanded characters
+	picture = "GFX_evt_bad_news"
+	is_triggered_only = yes
+
+	trigger = {
+		trait = pet_consort
+		has_lover = no
+	}
+
+	immediate = {
+		log = "work event id = wh_concubine.11 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = "EVTOPTArape.11"
+		remove_trait = pet_consort
+		recalc_succession = yes
+	}
+}
+
+# Pinging consort for thrall management
+character_event = {
+	id = wh_concubine.12
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.12 for [Root.GetBestName]"
+		FROMFROM = {
+			character_event = {
+				id = wh_concubine.13
+			}
+		}
+	}
+}
+
+# What to do with this consort?
+character_event = {
+	id = wh_concubine.13
+	desc = EVTDESCrape.13
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.13 for [Root.GetBestName]"
+	}
+
+	option = {
+		# release
+		name = EVTOPTArape.13
+		piety = -50
+		clr_character_flag = amazon_exception
+		clr_character_flag = handling_consort
+		FROM = {
+			remove_trait = pet_consort
+			remove_lover = ROOT
+			remove_consort = ROOT
+			recalc_succession = yes
+		}
+	}
+
+	option = {
+		# castrate
+		name = EVTOPTBrape.13
+		clr_character_flag = handling_consort
+		trigger = {
+			FROM = {
+				is_female = no
+				NOT = {
+					trait = eunuch
+				}
+			}
+		}
+		FROM = {
+			add_trait = eunuch
+		}
+	}
+
+	option = {
+		# kill
+		name = EVTOPTCrape.13
+		clr_character_flag = handling_consort
+		trigger = {
+			OR = {
+				FROM = {
+					is_female = no
+				}
+				NOT = {
+					trait = creature_amazon
+				}
+			}	# Amazons can't kill with impunity other amazons
+		}
+		FROM = {
+			if = {
+				limit = {
+					is_invincible_trigger = yes
+				}
+				antideath_effect = yes
+				break = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = ROOT
+			}
+			hidden_tooltip = {
+				mother = {
+					opinion = {
+						who = ROOT
+						modifier = evil_murderer
+					}
+				}
+				father = {
+					opinion = {
+						who = ROOT
+						modifier = evil_murderer
+					}
+				}
+				any_child = {
+					limit = {
+						NOT = {
+							character = ROOT
+							has_character_flag = evil_murderer
+						}
+					}
+					opinion = {
+						who = ROOT
+						modifier = evil_murderer
+					}
+				}
+				any_spouse = {
+					limit = {
+						NOT = {
+							character = ROOT
+						}
+						opinion = {
+							who = PREV
+							value = -25
+						}
+					}
+					set_character_flag = murder_opinion_set
+					opinion = {
+						who = ROOT
+						modifier = evil_murderer
+					}
+				}
+				any_lover = {
+					limit = {
+						NOT = {
+							character = ROOT
+						}
+					}
+					opinion = {
+						who = FROM
+						modifier = evil_murderer
+					}
+				}
+				any_friend = {
+					limit = {
+						NOT = {
+							character = ROOT
+						}
+					}
+					opinion = {
+						who = FROM
+						modifier = evil_murderer
+					}
+				}
+				any_dynasty_member = {
+					limit = {
+						is_close_relative = PREV
+						NOT = {
+							character = ROOT
+						}
+					}
+					opinion = {
+						who = ROOT
+						modifier = evil_murderer
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		# Where's the kinky stuff?
+		name = EVTOPTDrape.13
+		trigger = {
+			NOT = {
+				religion = amazon
+			}
+		}
+		FROM = {
+			character_event = {
+				id = wh_concubine.14
+			}
+		}
+	}
+
+	option = {
+		# I'm bored with him
+		name = EVTOPTDrape.15
+		trigger = {
+			religion = amazon
+		}
+		clr_character_flag = handling_consort
+	}
+}
+
+# Pinging consort for thrall management
+character_event = {
+	id = wh_concubine.14
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.14 for [Root.GetBestName]"
+		FROM = {
+			character_event = {
+				id = wh_concubine.15
+			}
+		}
+	}
+}
+
+# What to do with this consort? - Kinky stuff
+character_event = {
+	id = wh_concubine.15
+	desc = EVTDESCrape.15
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.15 for [Root.GetBestName]"
+	}
+
+	option = {
+		# disfigure
+		name = EVTOPTArape.15
+		trigger = {
+			FROM = {
+				NOT = {
+					trait = disfigured
+				}
+			}
+		}
+		hidden_tooltip = {
+			random = {
+				chance = 25
+				character_event = {
+					id = spleasure.57
+					days = 40
+					random = 20
+				}
+			}
+		}
+		piety = 25
+		clr_character_flag = handling_consort
+		character_event = {
+			id = wh_concubine.16
+		}
+		FROM = {
+			add_trait = disfigured
+		}
+	}
+
+	option = {
+		# random - adult
+		name = EVTOPTBrape.15
+		trigger = {
+			FROM = {
+				age = 16
+			}
+		}
+		hidden_tooltip = {
+			random = {
+				chance = 30
+				character_event = {
+					id = spleasure.57
+					days = 40
+					random = 20
+				}
+			}
+		}
+		hidden_tooltip = {
+			random_list = {
+				25 = {
+					character_event = {
+						id = wh_concubine.17
+					}
+					FROM = {
+						add_trait = maimed
+					}
+				} # the mount
+				25 = {
+					character_event = {
+						id = wh_concubine.18
+					}
+					FROM = {
+						add_trait = wounded
+					}
+				} # the orgy
+				25 = {
+					character_event = {
+						id = wh_concubine.19
+					}
+					FROM = {
+						add_trait = undernourished
+					}
+				} # the essiccation
+				25 = {
+ 					modifier = {
+						factor = 0
+						FROM = {
+							trait = blinded
+						}
+					}
+					character_event = {
+						id = wh_concubine.20
+					}
+					FROM = {
+						add_trait = blinded
+					}
+				} # the painting
+			}
+		}
+	}
+
+	option = {
+		# random - kid
+		name = EVTOPTCrape.15
+		trigger = {
+			FROM = {
+				NOT = {
+					age = 16
+				}
+			}
+		}
+		hidden_tooltip = {
+			random = {
+				chance = 35
+				character_event = {
+					id = spleasure.57 days = 40 random = 20
+				}
+			}
+		}
+		hidden_tooltip = {
+			random_list = {
+				25 = {
+					character_event = {
+						id = wh_concubine.21
+					}
+					FROM = {
+						add_trait = addict
+					}
+				} # the addiction
+				25 = {
+					character_event = {
+						id = wh_concubine.22
+					}
+					FROM = {
+						add_trait = fat
+					}
+				} # the feeding
+				25 = {
+					character_event = {
+						id = wh_concubine.23
+					}
+					FROM = {
+						add_trait = wounded
+					}
+				} # the abuse
+				25 = {
+ 					modifier = {
+						factor = 0
+						FROM = {
+							trait = lunatic_3
+						}
+					}
+					character_event = {
+						id = wh_concubine.24
+					}
+					hidden_tooltip = {
+						FROM = {
+							change_variable = {
+								which = "lunatic_counter"
+								value = 5
+							}
+							character_event = {
+								id = mutation.1005
+							}
+						}
+					}
+				} # the game
+			}
+		}
+	}
+
+	option = {
+		# I'm bored now, I'll think something later.
+		name = EVTOPTDrape.15
+		clr_character_flag = handling_consort
+		piety = -20
+	}
+}
+
+# Disfigured
+character_event = {
+	id = wh_concubine.16
+	desc = EVTDESCrape.16
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.16 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.16
+		clr_character_flag = handling_consort
+		piety = 10
+		prestige = 10
+	}
+}
+
+# The mount
+character_event = {
+	id = wh_concubine.17
+	picture = GFX_evt_slave_whipped
+	desc = {
+		text = EVTDESCArape.17
+		trigger = {
+			NOT = {
+				religion_group = cytharai_group
+			}
+		}
+	}
+	desc = {
+		text = EVTDESCBrape.17
+		trigger = {
+			religion_group = cytharai_group
+		}
+	}
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.17 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.17
+		clr_character_flag = handling_consort
+		hidden_tooltip = {
+			random_list = {
+				70 = {
+					character_event = {
+						id = wh_concubine.25
+					}
+				} # all fine
+				30 = {
+					character_event = {
+						id = wh_concubine.26
+					}
+				} # vegetable
+			}
+		}
+		piety = 50
+		prestige = 300
+	}
+
+	option = {
+		name = EVTOPTBrape.17
+		clr_character_flag = handling_consort
+		piety = 10
+		prestige = 10
+	}
+}
+
+# Orgy
+character_event = {
+	id = wh_concubine.18
+	desc = EVTDESCrape.18
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.18 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.18
+		clr_character_flag = handling_consort
+		hidden_tooltip = {
+			random_list = {
+				50 = {
+					add_trait = lustful
+				}
+				50 = {
+				}
+			}
+		}
+		piety = 10
+		prestige = 10
+	}
+}
+
+# Essiccation
+character_event = {
+	id = wh_concubine.19
+	desc = EVTDESCrape.19
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.19 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.19
+		clr_character_flag = handling_consort
+		piety = 10
+		prestige = 10
+	}
+}
+
+# Painting
+character_event = {
+	id = wh_concubine.20
+	desc = EVTDESCrape.20
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.20 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.20
+		clr_character_flag = handling_consort
+		piety = 10
+		prestige = 10
+	}
+}
+
+# Addiction
+character_event = {
+	id = wh_concubine.21
+	desc = EVTDESCrape.21
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.21 for [Root.GetBestName]"
+	}
+
+	option = {
+		# Take some yourself
+		clr_character_flag = handling_consort
+		name = EVTOPTArape.21
+		hidden_tooltip = {
+			random_list = {
+				70 = {
+					add_trait = addict
+				}
+				30 = {
+				}
+			}
+		}
+		piety = 50
+		prestige = 200
+	}
+
+	option = {
+		name = EVTOPTBrape.21
+		clr_character_flag = handling_consort
+		piety = 10
+		prestige = 10
+	}
+}
+
+# Feeding
+character_event = {
+	id = wh_concubine.22
+	desc = EVTDESCrape.22
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.22 for [Root.GetBestName]"
+	}
+
+	option = {
+		# Bake the plump thing
+		clr_character_flag = handling_consort
+		name = EVTOPTArape.22
+		FROMFROM = {
+			if = {
+				limit = {
+					is_invincible_trigger = yes
+				}
+				antideath_effect = yes
+				break = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROM
+			}
+		}
+		hidden_tooltip = {
+			random_list = {
+				70 = {
+					add_trait = gluttonous
+				}
+				30 = {
+				}
+			}
+		}
+		piety = 150
+		prestige = 400
+	}
+
+	option = {
+		name = EVTOPTBrape.22
+		clr_character_flag = handling_consort
+		piety = 10
+		prestige = 10
+	}
+}
+
+# Abuse
+character_event = {
+	id = wh_concubine.23
+	desc = EVTDESCrape.23
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.23 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.23
+		clr_character_flag = handling_consort
+		hidden_tooltip = {
+			random_list = {
+				50 = {
+					add_trait = lustful
+				}
+				50 = {
+				}
+			}
+		}
+		piety = 25
+		prestige = 25
+	}
+}
+
+# Game
+character_event = {
+	id = wh_concubine.24
+	desc = EVTDESCrape.24
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.24 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.24
+		clr_character_flag = handling_consort
+		piety = 10
+		prestige = 10
+	}
+}
+
+# Mount - All is fine
+character_event = {
+	id = wh_concubine.25
+	desc = EVTDESCArape.25
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.25 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.25
+	}
+}
+
+# Mount - Vegetable
+character_event = {
+	id = wh_concubine.26
+	desc = EVTDESCrape.26
+	picture = GFX_evt_slave_whipped
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_concubine.26 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTArape.26
+		add_trait = incapable
+	}
+}
