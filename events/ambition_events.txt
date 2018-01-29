@@ -1,14 +1,38 @@
-
-
 # Ambition Events
 # ID 94000 - 95000 reserved
-
 # Written by Henrik Eklund
+
+# Other Stuff
+# Win a war ( Ambiton )
+character_event = {
+	id = 93000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		FROM = {
+			has_ambition = obj_win_war
+			NOT = {
+				has_character_flag = obj_win_war_won_war
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = DR_misc.1000 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = OK
+		FROM = {
+			set_character_flag = obj_win_war_won_war
+		}
+	}
+}
+
 # Martial Ambition
-
 # Toy Army
 # Toy Army
-
 character_event = {
 	id = 94000
 	desc = EVTDESC94000
@@ -56,9 +80,7 @@ character_event = {
 		change_martial = 1
 	}
 }
-
 # Other Toy Army Enthusiasts
-
 character_event = {
 	id = 94001
 	desc = EVTDESC94001
@@ -97,9 +119,7 @@ character_event = {
 		clr_character_flag = toy_army_prepare
 	}
 }
-
 # Toy Army Tournament Begins
-
 character_event = {
 	id = 94002
 	desc = EVTDESC94002
@@ -135,9 +155,7 @@ character_event = {
 		}
 	}
 }
-
 # Toy Army Tournament Defeat
-
 character_event = {
 	id = 94003
 	desc = EVTDESC94003
@@ -170,9 +188,7 @@ character_event = {
 		prestige = -15
 	}
 }
-
 # Toy Army Tournament Victory
-
 character_event = {
 	id = 94004
 	desc = EVTDESC94004
@@ -191,10 +207,8 @@ character_event = {
 		prestige = 15
 	}
 }
-
 # Street Ruffians
 # Street Ruffians
-
 character_event = {
 	id = 94005
 	desc = EVTDESC94005
@@ -263,9 +277,7 @@ character_event = {
 		}
 	}
 }
-
 # Melee Lost
-
 character_event = {
 	id = 94006
 	desc = EVTDESC94006
@@ -294,9 +306,7 @@ character_event = {
 		prestige = -15
 	}
 }
-
 # Melee Won
-
 character_event = {
 	id = 94007
 	desc = EVTDESC94007
@@ -315,10 +325,8 @@ character_event = {
 		prestige = 15
 	}
 }
-
 # Drunken Warrior
 # Drunken Warrior
-
 character_event = {
 	id = 94010
 	desc = EVTDESC94010
@@ -363,9 +371,7 @@ character_event = {
 		set_character_flag = warrior_mentor_search
 	}
 }
-
 # The Warrior is found
-
 character_event = {
 	id = 94011
 	desc = EVTDESC94011
@@ -406,9 +412,7 @@ character_event = {
 		set_character_flag = warrior_mentor_taken
 	}
 }
-
 # Warrior is asked to teach
-
 character_event = {
 	id = 94012
 	desc = EVTDESC94012
@@ -436,9 +440,7 @@ character_event = {
 		}
 	}
 }
-
 # Chopsticks
-
 character_event = {
 	id = 94013
 	desc = EVTDESC94013
@@ -459,9 +461,7 @@ character_event = {
 		change_martial = 1
 	}
 }
-
 # Boat
-
 character_event = {
 	id = 94014
 	desc = EVTDESC94014
@@ -495,9 +495,7 @@ character_event = {
 		change_martial = 1
 	}
 }
-
 # Training Done
-
 character_event = {
 	id = 94015
 	desc = EVTDESC94015
@@ -524,9 +522,7 @@ character_event = {
 		clr_character_flag = warrior_mentor
 	}
 }
-
 # Training with the Guard
-
 character_event = {
 	id = 94016
 	desc = EVTDESC94016
@@ -567,9 +563,7 @@ character_event = {
 		change_martial = 1
 	}
 }
-
 # Horsemanship
-
 character_event = {
 	id = 94017
 	desc = EVTDESC94017
@@ -610,9 +604,7 @@ character_event = {
 		change_martial = 1
 	}
 }
-
 # Alexander/Ashoka the Great
-
 character_event = {
 	id = 94018
 	picture = GFX_evt_library
@@ -717,9 +709,7 @@ character_event = {
 		}
 	}
 }
-
 # Further studies in strategy
-
 character_event = {
 	id = 94019
 	picture = GFX_evt_library
@@ -794,9 +784,6 @@ character_event = {
 
 # Stewardship Ambition
 # The Inn
-
-# The Inn
-
 character_event = {
 	id = 94050
 	desc = EVTDESC94050
@@ -852,9 +839,7 @@ character_event = {
 		}
 	}
 }
-
 # The Inn's name
-
 character_event = {
 	id = 94051
 	desc = EVTDESC94051
@@ -965,9 +950,7 @@ character_event = {
 		}
 	}
 }
-
 # Salt the turnips
-
 character_event = {
 	id = 94052
 	desc = EVTDESC94052
@@ -1020,9 +1003,7 @@ character_event = {
 		}
 	}
 }
-
 # Entertainment
-
 character_event = {
 	id = 94053
 	desc = EVTDESC94053
@@ -1085,9 +1066,7 @@ character_event = {
 		}
 	}
 }
-
 # Clergyman
-
 character_event = {
 	id = 94054
 	desc = EVTDESC94054
@@ -1113,9 +1092,7 @@ character_event = {
 		wealth = 10
 	}
 }
-
 # Bard
-
 character_event = {
 	id = 94055
 	desc = EVTDESC94055
@@ -1141,9 +1118,7 @@ character_event = {
 		wealth = 15
 	}
 }
-
 # Eunuch
-
 character_event = {
 	id = 94056
 	desc = EVTDESC94056
@@ -1169,9 +1144,7 @@ character_event = {
 		wealth = -10
 	}
 }
-
 # Wild Ass
-
 character_event = {
 	id = 94057
 	desc = EVTDESC94057
@@ -1197,9 +1170,7 @@ character_event = {
 		wealth = -20
 	}
 }
-
 # Salt Disaster
-
 character_event = {
 	id = 94058
 	desc = EVTDESC94058
@@ -1226,9 +1197,7 @@ character_event = {
 		wealth = -20
 	}
 }
-
 # Salt Profit
-
 character_event = {
 	id = 94059
 	desc = EVTDESC94059
@@ -1286,9 +1255,7 @@ character_event = {
 		}
 	}
 }
-
 # Opening Night Over
-
 character_event = {
 	id = 94060
 	desc = EVTDESC94060
@@ -1311,10 +1278,8 @@ character_event = {
 		clr_character_flag = all_salt
 	}
 }
-
 # The Garden
 # The Garden
-
 character_event = {
 	id = 94065
 	desc = EVTDESC94065
@@ -1368,9 +1333,7 @@ character_event = {
 		}
 	}
 }
-
 # Gardening Done
-
 character_event = {
 	id = 94066
 	desc = EVTDESC94066
@@ -1396,10 +1359,8 @@ character_event = {
 		}
 	}
 }
-
 # Land Survey
 # Land Survey
-
 character_event = {
 	id = 94070
 	desc = EVTDESC94070
@@ -1452,9 +1413,7 @@ character_event = {
 		}
 	}
 }
-
 # Survey Complete
-
 character_event = {
 	id = 94071
 	desc = EVTDESC94071
@@ -1472,9 +1431,7 @@ character_event = {
 		change_stewardship = 2
 	}
 }
-
 # Bookkeeping
-
 character_event = {
 	id = 94072
 	desc = EVTDESC94072
@@ -1515,9 +1472,7 @@ character_event = {
 		change_stewardship = 1
 	}
 }
-
 # Delegation
-
 character_event = {
 	id = 94073
 	desc = EVTDESC94073
@@ -1558,9 +1513,7 @@ character_event = {
 		change_stewardship = 1
 	}
 }
-
 # Servant Staff
-
 character_event = {
 	id = 94074
 	desc = EVTDESC94074
@@ -1605,9 +1558,6 @@ character_event = {
 
 # Learning Ambition
 # The Flying Machine
-
-# The Flying Machine
-
 character_event = {
 	id = 94080
 	desc = EVTDESC94080
@@ -1662,9 +1612,7 @@ character_event = {
 		}
 	}
 }
-
 # Studies
-
 character_event = {
 	id = 94081
 	desc = EVTDESC94081
@@ -1692,9 +1640,7 @@ character_event = {
 		}
 	}
 }
-
 # Enlist Pilot
-
 character_event = {
 	id = 94082
 	desc = EVTDESC94082
@@ -1779,9 +1725,7 @@ character_event = {
 		}
 	}
 }
-
 # Otis Flies
-
 character_event = {
 	id = 94083
 	desc = EVTDESC94083
@@ -1801,9 +1745,7 @@ character_event = {
 		}
 	}
 }
-
 # al-Otis Flies (Muslim version)
-
 character_event = {
 	id = 94092
 	desc = EVTDESC94092
@@ -1823,9 +1765,7 @@ character_event = {
 		}
 	}
 }
-
 # Meldrick Flies
-
 character_event = {
 	id = 94084
 	desc = EVTDESC94084
@@ -1845,9 +1785,7 @@ character_event = {
 		}
 	}
 }
-
 # Ba'ah al-Drik Flies (Muslim version)
-
 character_event = {
 	id = 94093
 	desc = EVTDESC94093
@@ -1867,9 +1805,7 @@ character_event = {
 		}
 	}
 }
-
 # Dog Flies
-
 character_event = {
 	id = 94085
 	desc = EVTDESC94085
@@ -1890,9 +1826,7 @@ character_event = {
 		add_trait = wounded
 	}
 }
-
 # Otis Aftermath
-
 character_event = {
 	id = 94086
 	desc = EVTDESC94086
@@ -1919,9 +1853,7 @@ character_event = {
 		}
 	}
 }
-
 # al-Otis Aftermath (Muslim version)
-
 character_event = {
 	id = 94094
 	desc = EVTDESC94094
@@ -1948,9 +1880,7 @@ character_event = {
 		}
 	}
 }
-
 # Meldrick Aftermath
-
 character_event = {
 	id = 94087
 	desc = EVTDESC94087
@@ -1977,9 +1907,7 @@ character_event = {
 		}
 	}
 }
-
 # Ba'ah al-Drik Aftermath (Muslim version)
-
 character_event = {
 	id = 94095
 	desc = EVTDESC94095
@@ -2006,9 +1934,7 @@ character_event = {
 		}
 	}
 }
-
 # Dog Aftermath
-
 character_event = {
 	id = 94088
 	desc = EVTDESC94088
@@ -2039,9 +1965,7 @@ character_event = {
 		change_learning = 1
 	}
 }
-
 # Otis Second Attempt
-
 character_event = {
 	id = 94089
 	desc = EVTDESC94089
@@ -2061,9 +1985,7 @@ character_event = {
 		}
 	}
 }
-
 # al-Otis Second Attempt (Muslim version)
-
 character_event = {
 	id = 94096
 	desc = EVTDESC94096
@@ -2083,9 +2005,7 @@ character_event = {
 		}
 	}
 }
-
 # Meldrick Second Attempt
-
 character_event = {
 	id = 94090
 	desc = EVTDESC94090
@@ -2105,9 +2025,7 @@ character_event = {
 		}
 	}
 }
-
 # Ba'ah al-Drik Second Attempt
-
 character_event = {
 	id = 94097
 	desc = EVTDESC94097
@@ -2127,9 +2045,7 @@ character_event = {
 		}
 	}
 }
-
 # Aftermath
-
 character_event = {
 	id = 94091
 	desc = EVTDESC94091
@@ -2160,10 +2076,8 @@ character_event = {
 		change_learning = 2
 	}
 }
-
 # St. Augustine's Confessions
 # Augustine
-
 character_event = {
 	id = 94098
 	desc = EVTDESC94098
@@ -2218,9 +2132,7 @@ character_event = {
 		}
 	}
 }
-
 # Finished Reading
-
 character_event = {
 	id = 94099
 	desc = EVTDESC94099
@@ -2238,10 +2150,8 @@ character_event = {
 		change_learning = 2
 	}
 }
-
 # The Shahnameh
 # The Shahnameh
-
 character_event = {
 	id = 94100
 	desc = EVTDESC94100
@@ -2299,9 +2209,7 @@ character_event = {
 		}
 	}
 }
-
 # Finished Reading
-
 character_event = {
 	id = 94101
 	desc = EVTDESC94101
@@ -2319,10 +2227,8 @@ character_event = {
 		change_learning = 2
 	}
 }
-
 # The Hermit
 # Hermit
-
 character_event = {
 	id = 94102
 	desc = EVTDESC94102
@@ -2378,9 +2284,7 @@ character_event = {
 		}
 	}
 }
-
 # Arrival
-
 character_event = {
 	id = 94103
 	desc = EVTDESC94103
@@ -2400,9 +2304,7 @@ character_event = {
 		}
 	}
 }
-
 # The Old Man Appears
-
 character_event = {
 	id = 94104
 	desc = EVTDESC94104
@@ -2430,9 +2332,7 @@ character_event = {
 		clr_character_flag = hermit_visit
 	}
 }
-
 # The Cave
-
 character_event = {
 	id = 94105
 	desc = EVTDESC94105
@@ -2452,9 +2352,7 @@ character_event = {
 		}
 	}
 }
-
 # Leaving
-
 character_event = {
 	id = 94106
 	desc = EVTDESC94106
@@ -2472,9 +2370,7 @@ character_event = {
 		change_learning = 2
 	}
 }
-
 # Roman Engineering
-
 character_event = {
 	id = 94107
 	desc = EVTDESC94107
@@ -2516,9 +2412,7 @@ character_event = {
 		change_learning = 1
 	}
 }
-
 # Philosophy
-
 character_event = {
 	id = 94108
 	desc = EVTDESC94108
@@ -2560,9 +2454,7 @@ character_event = {
 		change_learning = 1
 	}
 }
-
 # Astronomy
-
 character_event = {
 	id = 94109
 	desc = EVTDESC94109
@@ -2606,9 +2498,6 @@ character_event = {
 
 # Diplomacy Ambition
 # The Feud
-
-# The Feud
-
 character_event = {
 	id = 94110
 	desc = EVTDESC94110
@@ -2662,9 +2551,7 @@ character_event = {
 		}
 	}
 }
-
 # The Conference (Choice 1)
-
 character_event = {
 	id = 94111
 	desc = EVTDESC94111
@@ -2709,9 +2596,7 @@ character_event = {
 		}
 	}
 }
-
 # Appeal to reason
-
 character_event = {
 	id = 94112
 	desc = EVTDESC94112
@@ -2731,9 +2616,7 @@ character_event = {
 		}
 	}
 }
-
 # Flatter them (Choice 2A)
-
 character_event = {
 	id = 94113
 	desc = EVTDESC94113
@@ -2760,9 +2643,7 @@ character_event = {
 		}
 	}
 }
-
 # Find common ground (Choice 2B)
-
 character_event = {
 	id = 94114
 	desc = EVTDESC94114
@@ -2789,9 +2670,7 @@ character_event = {
 		}
 	}
 }
-
 # Their patriotic duty
-
 character_event = {
 	id = 94115
 	desc = EVTDESC94115
@@ -2811,9 +2690,7 @@ character_event = {
 		}
 	}
 }
-
 # Soothe tempers (Choice 3)
-
 character_event = {
 	id = 94116
 	desc = EVTDESC94116
@@ -2845,9 +2722,7 @@ character_event = {
 		}
 	}
 }
-
 # Threaten violence
-
 character_event = {
 	id = 94117
 	desc = EVTDESC94117
@@ -2867,9 +2742,7 @@ character_event = {
 		}
 	}
 }
-
 # Lambast childish behavior
-
 character_event = {
 	id = 94118
 	desc = EVTDESC94118
@@ -2889,9 +2762,7 @@ character_event = {
 		}
 	}
 }
-
 # Fight!
-
 character_event = {
 	id = 94119
 	desc = EVTDESC94119
@@ -2909,9 +2780,7 @@ character_event = {
 		change_diplomacy = 1
 	}
 }
-
 # Peace In Our Time
-
 character_event = {
 	id = 94120
 	desc = EVTDESC94120
@@ -2929,10 +2798,8 @@ character_event = {
 		change_diplomacy = 2
 	}
 }
-
 # The Mirror
 # The Mirror
-
 character_event = {
 	id = 94125
 	desc = EVTDESC94125
@@ -2975,9 +2842,7 @@ character_event = {
 		set_character_flag = the_mirror_taken
 	}
 }
-
 # Practise Done
-
 character_event = {
 	id = 94126
 	desc = EVTDESC94126
@@ -3006,10 +2871,8 @@ character_event = {
 		change_diplomacy = 2
 	}
 }
-
 # The Suicide
 # The Suicide
-
 character_event = {
 	id = 94130
 	desc = EVTDESC94130
@@ -3062,9 +2925,7 @@ character_event = {
 		}
 	}
 }
-
 # Approaching the Jumper
-
 character_event = {
 	id = 94131
 	desc = EVTDESC94131
@@ -3102,9 +2963,7 @@ character_event = {
 		}
 	}
 }
-
 # Man Grabbed
-
 character_event = {
 	id = 94132
 	desc = EVTDESC94132
@@ -3133,9 +2992,7 @@ character_event = {
 		}
 	}
 }
-
 # Jumping
-
 character_event = {
 	id = 94133
 	desc = EVTDESC94133
@@ -3155,9 +3012,7 @@ character_event = {
 		}
 	}
 }
-
 # Jumping Aftermath
-
 character_event = {
 	id = 94134
 	desc = EVTDESC94134
@@ -3175,9 +3030,7 @@ character_event = {
 		change_diplomacy = 1
 	}
 }
-
 # Man Pulled Inside
-
 character_event = {
 	id = 94135
 	desc = EVTDESC94135
@@ -3195,9 +3048,7 @@ character_event = {
 		change_diplomacy = 1
 	}
 }
-
 # Talk Successful
-
 character_event = {
 	id = 94136
 	desc = EVTDESC94136
@@ -3215,9 +3066,7 @@ character_event = {
 		change_diplomacy = 2
 	}
 }
-
 # Talk Failure
-
 character_event = {
 	id = 94137
 	desc = EVTDESC94137
@@ -3235,9 +3084,7 @@ character_event = {
 		change_diplomacy = 1
 	}
 }
-
 # Town Crier
-
 character_event = {
 	id = 94138
 	desc = EVTDESC94138
@@ -3279,9 +3126,7 @@ character_event = {
 		change_diplomacy = 1
 	}
 }
-
 # Foreign Cultures
-
 character_event = {
 	id = 94139
 	desc = EVTDESC94139
@@ -3322,9 +3167,7 @@ character_event = {
 		change_diplomacy = 1
 	}
 }
-
 # Old Diplomat
-
 character_event = {
 	id = 94156
 	desc = EVTDESC94156
@@ -3366,12 +3209,8 @@ character_event = {
 		change_diplomacy = 1
 	}
 }
-
 # Intrigue Ambition
 # The Necklace
-
-# The Necklace
-
 character_event = {
 	id = 94140
 	desc = EVTDESC94140
@@ -3427,9 +3266,7 @@ character_event = {
 		}
 	}
 }
-
 # The Theft
-
 character_event = {
 	id = 94141
 	desc = EVTDESC94141
@@ -3490,9 +3327,7 @@ character_event = {
 		}
 	}
 }
-
 # Cook's Wife
-
 character_event = {
 	id = 94142
 	desc = EVTDESC94142
@@ -3512,9 +3347,7 @@ character_event = {
 		}
 	}
 }
-
 # Cook's Wife, Theft Discovered
-
 character_event = {
 	id = 94143
 	desc = EVTDESC94143
@@ -3551,9 +3384,7 @@ character_event = {
 		}
 	}
 }
-
 # Cook's Wife Caught
-
 character_event = {
 	id = 94144
 	desc = EVTDESC94144
@@ -3573,9 +3404,7 @@ character_event = {
 		}
 	}
 }
-
 # Cook's Wife Aftermath
-
 character_event = {
 	id = 94145
 	desc = EVTDESC94145
@@ -3627,9 +3456,7 @@ character_event = {
 		}
 	}
 }
-
 # Cook's Wife Forgotten
-
 character_event = {
 	id = 94146
 	desc = EVTDESC94146
@@ -3689,9 +3516,7 @@ character_event = {
 		}
 	}
 }
-
 # Cook's Wife Dead
-
 character_event = {
 	id = 94147
 	desc = EVTDESC94147
@@ -3709,9 +3534,7 @@ character_event = {
 		piety = -50
 	}
 }
-
 # Cook's Wife Alive
-
 character_event = {
 	id = 94148
 	desc = EVTDESC94148
@@ -3729,9 +3552,7 @@ character_event = {
 		piety = -25
 	}
 }
-
 # Servant
-
 character_event = {
 	id = 94149
 	desc = EVTDESC94149
@@ -3751,9 +3572,7 @@ character_event = {
 		}
 	}
 }
-
 # Servant, Theft Discovered
-
 character_event = {
 	id = 94150
 	desc = EVTDESC94150
@@ -3790,9 +3609,7 @@ character_event = {
 		}
 	}
 }
-
 # Servant Caught
-
 character_event = {
 	id = 94151
 	desc = EVTDESC94151
@@ -3812,9 +3629,7 @@ character_event = {
 		}
 	}
 }
-
 # Servant Aftermath
-
 character_event = {
 	id = 94152
 	desc = EVTDESC94152
@@ -3866,9 +3681,7 @@ character_event = {
 		}
 	}
 }
-
 # Servant Forgotten
-
 character_event = {
 	id = 94153
 	desc = EVTDESC94153
@@ -3937,9 +3750,7 @@ character_event = {
 		}
 	}
 }
-
 # Servant Dead
-
 character_event = {
 	id = 94154
 	desc = EVTDESC94154
@@ -3957,9 +3768,7 @@ character_event = {
 		piety = -50
 	}
 }
-
 # Servant Alive
-
 character_event = {
 	id = 94155
 	desc = EVTDESC94155
@@ -3977,10 +3786,8 @@ character_event = {
 		piety = -25
 	}
 }
-
 # Gossip
 # Gossip
-
 character_event = {
 	id = 94160
 	desc = EVTDESC94160
@@ -4034,9 +3841,7 @@ character_event = {
 		}
 	}
 }
-
 # Gossip learned
-
 character_event = {
 	id = 94161
 	desc = EVTDESC94161
@@ -4054,10 +3859,8 @@ character_event = {
 		change_intrigue = 2
 	}
 }
-
 # Old Spymaster
 # Old Spymaster
-
 character_event = {
 	id = 94165
 	desc = EVTDESC94165
@@ -4111,9 +3914,7 @@ character_event = {
 		}
 	}
 }
-
 # Visit
-
 character_event = {
 	id = 94166
 	desc = EVTDESC94166
@@ -4133,9 +3934,7 @@ character_event = {
 		}
 	}
 }
-
 # Agreed to teach
-
 character_event = {
 	id = 94167
 	desc = EVTDESC94167
@@ -4155,9 +3954,7 @@ character_event = {
 		}
 	}
 }
-
 # Training complete
-
 character_event = {
 	id = 94168
 	desc = EVTDESC94168
@@ -4175,9 +3972,7 @@ character_event = {
 		change_intrigue = 2
 	}
 }
-
 # Alchemy
-
 character_event = {
 	id = 94169
 	desc = EVTDESC94169
@@ -4218,9 +4013,7 @@ character_event = {
 		change_intrigue = 1
 	}
 }
-
 # Improved Bodygard
-
 character_event = {
 	id = 94172
 	desc = EVTDESC94172
@@ -4261,9 +4054,7 @@ character_event = {
 		change_intrigue = 1
 	}
 }
-
 # Old Assassin
-
 character_event = {
 	id = 94173
 	desc = EVTDESC94173
@@ -4307,9 +4098,6 @@ character_event = {
 
 # Decadence Ambition
 # Berber Life
-
-# Berber Life
-
 character_event = {
 	id = 94170
 	desc = EVTDESC94170
@@ -4356,9 +4144,7 @@ character_event = {
 		}
 	}
 }
-
 # Living with Berbers
-
 character_event = {
 	id = 94171
 	desc = EVTDESC94171
@@ -4376,10 +4162,8 @@ character_event = {
 		decadence = -5
 	}
 }
-
 # The Bandit Camp
 # The Bandit Camp
-
 character_event = {
 	id = 94175
 	desc = EVTDESC94175
@@ -4436,9 +4220,7 @@ character_event = {
 		}
 	}
 }
-
 # Sneak up on Camp
-
 character_event = {
 	id = 94176
 	desc = EVTDESC94176
@@ -4469,9 +4251,7 @@ character_event = {
 		}
 	}
 }
-
 # The Fight
-
 character_event = {
 	id = 94177
 	desc = EVTDESC94177
@@ -4546,9 +4326,7 @@ character_event = {
 		}
 	}
 }
-
 # Fight Aftermath
-
 character_event = {
 	id = 94178
 	desc = EVTDESC94178
@@ -4580,10 +4358,8 @@ character_event = {
 		decadence = -5
 	}
 }
-
 # The Two-Headed Dromedary Hunt
 # The Hunt
-
 character_event = {
 	id = 94180
 	desc = EVTDESC94180
@@ -4630,9 +4406,7 @@ character_event = {
 		}
 	}
 }
-
 # The Hunt Begins
-
 character_event = {
 	id = 94181
 	desc = EVTDESC94181
@@ -4652,9 +4426,7 @@ character_event = {
 		}
 	}
 }
-
 # No Sign of the Beast
-
 character_event = {
 	id = 94182
 	desc = EVTDESC94182
@@ -4674,9 +4446,7 @@ character_event = {
 		}
 	}
 }
-
 # Hunt is Abandoned
-
 character_event = {
 	id = 94183
 	desc = EVTDESC94183
@@ -4696,9 +4466,7 @@ character_event = {
 		}
 	}
 }
-
 # Coming Home
-
 character_event = {
 	id = 94184
 	desc = EVTDESC94184
@@ -4716,9 +4484,7 @@ character_event = {
 		decadence = -5
 	}
 }
-
 # Couriers
-
 character_event = {
 	id = 94185
 	desc = EVTDESC94185
@@ -4752,9 +4518,7 @@ character_event = {
 		decadence = -3
 	}
 }
-
 # Palace Stripped of Luxuries
-
 character_event = {
 	id = 94186
 	desc = EVTDESC94186
@@ -4789,9 +4553,7 @@ character_event = {
 		decadence = -3
 	}
 }
-
 # Brothels Closed
-
 character_event = {
 	id = 94187
 	desc = EVTDESC94187

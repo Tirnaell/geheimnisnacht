@@ -415,34 +415,6 @@ character_event = {
 	}
 }
 
-# Other Stuff
-# Win a war ( Ambiton )
-character_event = {
-	id = DR_misc.1000
-	hide_window = yes
-	is_triggered_only = yes
-
-	trigger = {
-		FROM = {
-			has_ambition = obj_win_war
-			NOT = {
-				has_character_flag = obj_win_war_won_war
-			}
-		}
-	}
-
-	immediate = {
-		log = "work event id = DR_misc.1000 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = OK
-		FROM = {
-			set_character_flag = obj_win_war_won_war
-		}
-	}
-}
-
 # Special localisations for some titles ( Elector-Counts, Everqueen ), on_new_holder
 character_event = {
 	id = DR_misc.1001
@@ -1237,20 +1209,16 @@ character_event = {
 
 # Bounce event
 # character_event = {
-
 # id = DR_misc.1033
 # is_triggered_only = yes
-
 # hide_window = yes
 # immediate = {
-
 # FROM = {
 # character_event = { id = DR_misc.1032 }
+# }
+# }
+# }
 
-# }
-# }
-
-# }
 # ROOT has counted their cofounders and may be able to create a new elective realm
 character_event = {
 	id = DR_misc.1035
@@ -1433,17 +1401,14 @@ character_event = {
 
 # For testing |wipe_council_effect|
 # character_event = {
-
 # id = DR_misc.1060
 # is_triggered_only = yes
-
 # hide_window = yes
 # immediate = {
-
 # wipe_council_effect = yes
 # }
-
 # }
+
 # Liege: fund expedition?
 character_event = {
 	id = DR_misc.1100
