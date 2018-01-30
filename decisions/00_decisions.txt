@@ -2544,7 +2544,7 @@ decisions = {
 			}
 		}
 	}
-	extort_subjects = { #loot lieges ambition
+	extort_subjects = { #loot lieges ambition - move to ambition
 		only_playable = yes
 		is_high_prio = yes
 		potential = {

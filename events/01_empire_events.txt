@@ -1,8 +1,8 @@
 namespace = unification
 
-character_event = {
+character_event = {# The Empire is fragmented, but you are both renowned and pious enough that both the nobles and clergy might flock to you. Do you wish to publicize your claim to the throne?
 	id = unification.0
-	desc = unification0desc # The Empire is fragmented, but you are both renowned and pious enough that both the nobles and clergy might flock to you. Do you wish to publicize your claim to the throne?
+	desc = unification0desc 
 	picture = "GFX_evt_rival_rulers"
 	is_triggered_only = yes
 
@@ -40,9 +40,9 @@ character_event = {
 	}
 }
 
-character_event = {
+character_event = {# Word quickly spreads - has a son or daughter the Empire finally become a worthy heir to Sigmar? From early reports, the peasants and clergy are supporting your claim, now you must await word from the Elector Counts and other Lords...
 	id = unification.1
-	desc = unification1desc # Word quickly spreads - has a son or daughter the Empire finally become a worthy heir to Sigmar? From early reports, the peasants and clergy are supporting your claim, now you must await word from the Elector Counts and other Lords...
+	desc = unification1desc 
 	picture = "GFX_evt_bishop"
 	is_triggered_only = yes
 
@@ -92,9 +92,9 @@ character_event = {
 	}
 }
 
-character_event = {
+character_event = { # This person, loved and respected by both the peasants and clergy, has made a push for the division to end and for the Empire to unite around their person. Do you support their claim?
 	id = unification.2
-	desc = unification2desc # This person, loved and respected by both the peasants and clergy, has made a push for the division to end and for the Empire to unite around their person. Do you support their claim?
+	desc = unification2desc
 	picture = "GFX_evt_bishop"
 	is_triggered_only = yes
 
@@ -299,9 +299,9 @@ character_event = {
 	}
 }
 
-character_event = {
+character_event = {# You have sworn to serve the New Emperor, and therefore, your contender title must be destroyed.
 	id = unification.3
-	desc = unification3desc # You have sworn to serve the New Emperor, and therefore, your contender title must be destroyed.
+	desc = unification3desc 
 	picture = "GFX_evt_bishop"
 	is_triggered_only = yes
 
@@ -315,9 +315,9 @@ character_event = {
 	}
 }
 
-character_event = {
+character_event = { # My liege - I ask you to forgive my part in the recent troubles, and pray that a new era of unity and glory awaits us under your wise leadership.
 	id = unification.4
-	desc = unification4desc # My liege - I ask you to forgive my part in the recent troubles, and pray that a new era of unity and glory awaits us under your wise leadership.
+	desc = unification4desc
 	picture = "GFX_evt_bishop"
 	is_triggered_only = yes
 
@@ -381,9 +381,9 @@ character_event = {
 	}
 }
 
-character_event = {
+character_event = {# You have announced your rejection of this false new emperor, but some of your vassals are not pleased...
 	id = unification.5
-	desc = unification5desc # You have announced your rejection of this false new emperor, but some of your vassals are not pleased...
+	desc = unification5desc 
 	picture = "GFX_evt_bishop"
 	is_triggered_only = yes
 
@@ -411,9 +411,9 @@ character_event = {
 	}
 }
 
-character_event = {
+character_event = {# I would rather see the Empire fall into ruin than bend the knee to you! I shall see you on the battlefield, foul usurper...
 	id = unification.6
-	desc = unification6desc # I would rather see the Empire fall into ruin than bend the knee to you! I shall see you on the battlefield, foul usurper...
+	desc = unification6desc 
 	picture = "GFX_evt_rival_rulers"
 	is_triggered_only = yes
 
@@ -445,5 +445,33 @@ character_event = {
 				}
 			}
 		}
+	}
+}
+
+character_event = {# The Emperor alone wields the Hammer of Sigmar!
+
+	id = unification.7
+	desc = EVTDESCweaponry.3
+	picture = GFX_duel5
+	is_triggered_only = yes
+
+	trigger = {
+		has_landed_title = e_the_empire
+		nor = {
+			has_artifact = ghal_maraz
+			any_character = {
+				has_artifact = ghal_maraz
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = unification.7 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTAweaponry.3
+		add_artifact = ghal_maraz
+		piety = 150
 	}
 }

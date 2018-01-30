@@ -19,7 +19,7 @@ character_event = {
 	}
 
 	immediate = {
-		log = "work event id = DR_misc.1000 for [Root.GetBestName]"
+		log = "work event id = 93000 for [Root.GetBestName]"
 	}
 
 	option = {

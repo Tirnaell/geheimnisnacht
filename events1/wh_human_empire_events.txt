@@ -430,6 +430,7 @@ narrative_event = {
 # name = OK
 # }
 # }
+
 # If there aren't any Arch-Lectors, give 2 Lectors the title
 character_event = {
 	id = DR_imperial.7

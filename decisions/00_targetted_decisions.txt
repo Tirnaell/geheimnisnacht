@@ -5381,7 +5381,7 @@ targetted_decisions = {
 					save_event_target_as = relic_ruler
 				}
 				character_event = {
-					id = MNM.9007 days = 30
+					id = ART.7 days = 30
 				}
 			}
 			if = {
@@ -5489,6 +5489,45 @@ targetted_decisions = {
 			}
 		}
 	}
+	steal_artifact = {
+		only_playable = yes
+		is_high_prio = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			OR = {
+				ai = no
+				trait = cruel
+				trait = impaler
+				trait = greedy
+				is_vampire_trigger = yes
+			}
+		}
+		potential = {
+			prisoner = yes
+			any_artifact = {
+				nor = {
+					has_artifact_flag = mount
+					# has_artifact_flag = carstein_ring
+				}
+			}
+		}
+		allow = {
+			prisoner = yes
+		}
+		effect = {
+			log = "work decision steal_artifact for [Root.GetBestName]"
+			FROM = {
+				character_event = {
+					id = artifact.0
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
 	request_council_position = { 	#Ambitions. Written by Markus Olsén
 
 		only_playable = yes

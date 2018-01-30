@@ -1269,7 +1269,7 @@ decisions = {
 				id = unification.0
 			}
 			character_event = {
-				id = EVTweaponry.3
+				id = unification.7
 			}
 		}
 		ai_will_do = {

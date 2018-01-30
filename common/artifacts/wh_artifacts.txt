@@ -13,7 +13,7 @@ w_spear1 = {
 		is_adult = yes
 		martial = 20
 	}
-	flags = { combat_weapon spear }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_spear1"
 	slot = weapon
@@ -30,7 +30,7 @@ w_spear2 = {
 		is_adult = yes
 		martial = 15
 	}
-	flags = { combat_weapon spear }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_spear2"
 	slot = weapon
@@ -46,7 +46,7 @@ w_spear3 = {
 		is_adult = yes
 		martial = 10
 	}
-	flags = { combat_weapon spear }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_spear3"
 	slot = weapon
@@ -65,7 +65,7 @@ w_2hsword1 = {
 		is_adult = yes
 		martial = 25
 	}
-	flags = { combat_weapon sword }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_2hsword1"
 	slot = weapon
@@ -83,7 +83,7 @@ w_2hsword2 = {
 		is_adult = yes
 		martial = 20
 	}
-	flags = { combat_weapon sword }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_2hsword2"
 	slot = weapon
@@ -101,7 +101,7 @@ w_2hsword3 = {
 		is_adult = yes
 		martial = 15
 	}
-	flags = { combat_weapon sword }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_2hsword3"
 	slot = weapon
@@ -115,7 +115,7 @@ w_dagger1 = {
 		is_adult = yes
 		intrigue = 20
 	}
-	flags = { combat_weapon dagger }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_dagger1"
 	slot = weapon
@@ -127,7 +127,7 @@ w_dagger2 = {
 	active = {
 		is_adult = yes
 	}
-	flags = { combat_weapon dagger }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_dagger2"
 	slot = weapon
@@ -143,7 +143,7 @@ w_staff1 = {
 		is_adult = yes
 		learning = 20
 	}
-	flags = { combat_weapon staff }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_staff1"
 	slot = weapon
@@ -158,7 +158,7 @@ w_staff2 = {
 		is_adult = yes
 		learning = 15
 	}
-	flags = { combat_weapon staff }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_staff2"
 	slot = weapon
@@ -171,7 +171,7 @@ w_staff3 = {
 		is_adult = yes
 		learning = 10
 	}
-	flags = { combat_weapon staff }
+	flags = { combat_weapon }
 	stacking = no
 	picture = "GFX_w_staff3"
 	slot = weapon

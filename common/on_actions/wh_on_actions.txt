@@ -16,21 +16,26 @@ on_yearly_pulse = {
 		# vampire.18
 		# vampire.20
 		# khemri.2
-		wh_doomengine.0
-		wh_doomengine.4
-		wh_greenskins.1
 		# khemri.3
+		# wh_doomengine.0
+		# wh_doomengine.4
+		# wh_greenskins.1
+		# wh_concubine.11	#Remove pet_consort trait from ex-concubines
+		# dwarfengineering.0
+		# dwarfengineering.1
+		# dwarfengineering.2
+		# dwarf.3
+		# dwarf.4
+		# dwarf.6
+		# dwarf.17
+		# SJDwarfevents.35
+		# SJDwarfevents.87
 		amazon.5
 		amazon.7
 		amazon.17
 		amazon.18
 		amazon.22
 		amazon.23
-		wh_concubine.11	#Remove pet_consort trait from ex-concubines
-		witchhunter.1
-		witchhunter.30
-		witchhunter.35
-		witchhunter.40
 		amazon.0
 		amazon.2
 		amazon.3
@@ -43,15 +48,8 @@ on_yearly_pulse = {
 		wh_bretonnia.30
 		wh_bretonnia.35
 		wh_bretonnia.36
-		# dwarfengineering.0
-		# dwarfengineering.1
-		# dwarfengineering.2
-		# dwarf.3
-		# dwarf.4
-		# dwarf.6
-		# dwarf.17
-		# SJDwarfevents.35
-		# SJDwarfevents.87
+		wh_bretonnia.102 # Son wants to become a Knight Errant
+		wh_bretonnia.1000 # Bret Virtue Stuff
 		BRseduction.0
 		BRseduction.4
 		BRseduction.6
@@ -61,82 +59,55 @@ on_yearly_pulse = {
 		slunacy.1 #random lunatic events
 		sinsa.1201 #umbrella event for addicts
 		#succghrond.11 #check Sorceresses' popularity in Ghrond
-		# Everqueen Trait Lost
-		aicleanup.005
-		# Phoenix King trait lost
-		aicleanup.006
-		# Gain old age traits
-		aicleanup.007
-		# Dwarf gains old gfx
-		aicleanup.013
-		# At 45, elves lose their youngling traits
-		aicleanup.031
-		# dark elf raiding events
-		wh_druchii.351
-		# if malekith loses his claim on k_nagarythe, he gets it back
-		wh_druchii.105
-		# Bret Virtue Stuff
-		wh_bretonnia.1000
-		# heal undeads and demons
-		wh_maintenance.3
-		# Slave buildings in a non-capital holdings
-		wh_chaos_dwarf.50
-		# Weak Warboss for Orcs
-		wh_greenskins.161
-		# Weak Warboss event for Goblins ( Slightly different from the Orc one )
-		wh_greenskins.204
-		# Myrmidia Incarnate Trait Gained
-		DR_misc.2
-		# Myrmidia Incarnate Trait Lost
-		DR_misc.3
-		# Magritta Re-Established
-		DR_misc.200
+		aicleanup.005 # Everqueen Trait Lost
+		aicleanup.006 # Phoenix King trait lost
+		aicleanup.007 # Gain old age traits
+		aicleanup.013 # Dwarf gains old gfx
+		aicleanup.031 # At 45, elves lose their youngling traits
+		wh_druchii.351 # dark elf raiding events
+		wh_druchii.105 # if malekith loses his claim on k_nagarythe, he gets it back
+		wh_maintenance.3 # heal undeads and demons
+		wh_chaos_dwarf.50 # Slave buildings in a non-capital holdings
+		wh_greenskins.155 # Greenskin vassals get strong claims on a weak Warboss' primary title
+		wh_greenskins.161 # Weak Warboss for Orcs
+		wh_greenskins.204 # Weak Warboss event for Goblins ( Slightly different from the Orc one )
+		DR_misc.2 # Myrmidia Incarnate Trait Gained
+		DR_misc.3 # Myrmidia Incarnate Trait Lost
+		DR_misc.200 # Magritta Re-Established
 		DR_misc.201
-		# Remas De-Established
-		DR_misc.202
+		DR_misc.202 # Remas De-Established
 		DR_misc.203
-		# Sailing the Mists of Albion
-		DR_misc.1002
-		# Child - Father dies and you are heir
-		DR_universities.30
-		# First spawn some witch hunters in the relevant courts - any court count or above that is a theocracy gets a few, from the old world religions
-		witchhunter.0
-		# Son wants to become a Knight Errant
-		wh_bretonnia.102
-		# vassal under lunatic
-		mutation.1015
-		# vassal no longer under lunatic
-		mutation.1016
-		# Remove any unfulfilled grudges modifier
-		DR_dwarfs.55
-		# Unlanded Druchi girls with the magic potential
-		wh_druchii.303
-		# Fall into negative honour, Become slayer or live as oathbreaker
-		DR_dwarfs.7
-		# Add unfulfilled grudges modifier
-		DR_dwarfs.54
-		# Phoenix King Marries the EverQueen for a Year
-		highelf.4
-		# Von Carstein gets series of wars leading him deeper into the Empire
-		carstein.4
+		DR_misc.1002 # Sailing the Mists of Albion
+		DR_universities.30 # Child - Father dies and you are heir
+		mutation.16 # Mutants with major or massive mutations who are NOT in hiding are quickly exposed
+		mutation.1015 # vassal under lunatic
+		mutation.1016 # vassal no longer under lunatic
+		wh_druchii.303 # Unlanded Druchi girls with the magic potential
+		DR_dwarfs.7 # Fall into negative honour, Become slayer or live as oathbreaker
+		DR_dwarfs.54 # Add unfulfilled grudges modifier
+		DR_dwarfs.55 # Remove any unfulfilled grudges modifier
+		highelf.4 # Phoenix King Marries the EverQueen for a Year
+		carstein.4 # Von Carstein gets series of wars leading him deeper into the Empire
 		carstein.6
 		carstein.11
-		# Greenskin vassals get strong claims on a weak Warboss' primary title
-		wh_greenskins.155
-		# the witch hunter informs the liege that he is starting to root out chaos in the province
-		witchhunter.7
-		# Mutants with major or massive mutations who are NOT in hiding are quickly exposed
-		mutation.16
-		# Pick up event - if there are no witch hunters in the realm, the top liege spawns several himself
-		witchhunter.34
+		witchhunter.0 # First spawn some witch hunters in the relevant courts - any court count or above that is a theocracy gets a few, from the old world religions
+		witchhunter.1
+		witchhunter.7 # the witch hunter informs the liege that he is starting to root out chaos in the province
+		witchhunter.30
+		witchhunter.34 # Pick up event - if there are no witch hunters in the realm, the top liege spawns several himself
+		witchhunter.35
+		witchhunter.40
 	}
 
 	random_events = {
 		100 = svampires.19	#Vampire mercenary events
-		100 = wh_concubine.7
-		100 = wh_chaos_slaanesh.4
+		# 100 = wh_concubine.7
+		# 100 = wh_chaos_slaanesh.4
 		75 = magic_learn_power.1
 		5 = magic_learn_power.99
+		75 = ART.0 # Artifact rumor
+		75 = ART.130 # Artifact rumor
+		
 	}
 }
 
@@ -519,6 +490,9 @@ on_loot_settlement = {
 		#		3 = NORLUS.9
 		#		3 = NORLUS.10
 		#		25 = NORLUS.11
+	}
+	events = {
+		ART.899 # Chance to steal artifact from capital holdings
 	}
 }
 
