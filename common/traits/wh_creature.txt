@@ -182,6 +182,7 @@ creature_orc = {
 	fertility = -10.0
 	customizer = no
 	ruler_designer_cost = 0
+	cannot_marry = yes
 	learning = -3
 	diplomacy = -2
 	stewardship = -2

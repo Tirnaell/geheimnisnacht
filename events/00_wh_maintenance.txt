@@ -1393,6 +1393,24 @@ character_event = {
 		give_nickname = nick_the_heavenly_master
 	}
 }
+# ogre
+#character_event = {
+#	id = wh_maintenance.56
+#	hide_window = yes
+#	is_triggered_only = yes
+#
+#	immediate = {
+#		log = "work event id = wh_maintenance.56 for [Root.GetBestName]"
+#		create_title = {
+#			tier = DUKE
+#			landless = yes
+#			temporary = yes
+#			culture = ROOT
+#			name = "GREAT_MAW_TITLE"
+#			holder = ROOT
+#		}
+#	}
+#}
 
 # title fix
 character_event = {

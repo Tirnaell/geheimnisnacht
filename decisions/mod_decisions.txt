@@ -3117,8 +3117,9 @@ decisions = {
 			}
 			nor = {
 				religion = asrai_cadai
+				trait = phoenix_king
 				trait = burnt_by_asuryan
-				has_character_flag = asuryan_crowning_flag
+				#has_character_flag = asuryan_crowning_flag
 			}
 		}
 		allow = {
@@ -3165,7 +3166,7 @@ decisions = {
 				trait = craven
 			}
 			modifier = {
-				factor = 0.15
+				factor = 0.5
 				culture_group = druchi_group	#Think of the precedent!
 				NOT = {
 					trait = ambitious

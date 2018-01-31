@@ -5519,7 +5519,7 @@ targetted_decisions = {
 			log = "work decision steal_artifact for [Root.GetBestName]"
 			FROM = {
 				character_event = {
-					id = artifact.0
+					id = ART.998
 				}
 			}
 		}

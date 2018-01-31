@@ -107,7 +107,7 @@ on_yearly_pulse = {
 		5 = magic_learn_power.99
 		75 = ART.0 # Artifact rumor
 		75 = ART.130 # Artifact rumor
-		
+		50 = wh_chaos_dwarf.4		
 	}
 }
 
