@@ -371,10 +371,12 @@ chaos_dwarf_sell_into_slavery;Sell [Root.GetTitledFirstName] into Slavery;;;;;;;
 chaos_dwarf_sell_into_slavery_desc;You can sell [Root.GetTitledFirstName] in the slave markets of [From.Capital.GetName] for an appropriate sum...;;;;;;;;;;;;x
 chaos_dwarf_slaver_raid;Chaos Dwarf Slave Raid;;;;;;;;;;;;x
 chaos_dwarf_slaver_raid_desc;A Chaos Dwarf ruler can attack any neighbouring duchy with the objective of subjugating its populace and taking them into slavery. On the first siege won inside the enemy's demesne, you will get an choice to use the slaves to fill either your capital's factories or its slave levy. You also have a chance to imprison characters that are residing in that province. At the successive sieges, you will only get the chance to imprison characters.;;;;;;;;;;;;x
+pray_hashut_for_help;Pray Hashut for help;;;;;;;;;;;;x
+pray_hashut_for_help_desc;;;;;;;;;;;;;x
 CB_NAME_CHAOS_DWARF_SLAVER_RAID;Slave Raid in [Title.GetBaseName];;;;;;;;;;;;x
 WAR_NAME_CHAOS_DWARF_SLAVER_RAID;$ORDER$$FIRST_ADJ$ Slave Raid in [Title.GetBaseName];;;;;;;;;;;;x
 sold_into_slavery;Sold into slavery;;;;;;;;;;;;x
-sold_into_slavery_death;in slavery;;;;;;;;;;;;x
+sold_into_slavery_desc;This character was lost among the slave markets and his future fate is unknown to you. Formally, it is considered dead.;;;;;;;;;;;;x
 nurgles_rot_death;of Nurgle's Rot;;;;;;;;;;;;x
 chaos_dwarf_petrification_1;Minor Sorcerer's Curse;;;;;;;;;;;;x
 chaos_dwarf_petrification_1_desc;This character is starting to suffer from the effects of the Sorcerer's Curse, an ailment that transforms all Dwarfs that try to cast magic into stone.;;;;;;;;;;;;x
@@ -424,9 +426,9 @@ slaves_sacrificed_hashut_desc;The slaves of this province have witnessed what be
 EVTDESCAchaosdwarf_slave_building_capital;The Chaos Dwarf slave buildings ( Chaos Dwarf Factory and Slave Levy ) can only be present in your capital holding. If you have any of these buildings in a non-capital province, they will be destroyed and a level of the respective building will be added to your capital.;;;;;;;;;;;;x
 EVTTOOLTIPFACTORYCAPITAL;A level of Chaos Dwarf Factory will be added to [Root.Capital.GetName];;;;;;;;;;;;x
 EVTTOOLTIPSLEVYCAPITAL;A level of Slave Levy will be added to [Root.Capital.GetName];;;;;;;;;;;;x
-#EVTDESC_chaos_dwarf_sell_slave;You bring [From.GetTitledFirstName] to [Root.Capital.GetName]'s slave markets in order to be sold to the highest bidder. [From.GetFirstName] will be sold into slavery and will be functionally dead.\nThe higher the base stats of the slave, the more gold you'll get for selling [From.GetHerHim]...;;;;;;;;;;;;x
+EVTDESC_chaos_dwarf_sell_slave;You bring [From.GetTitledFirstName] to [Root.Capital.GetName]'s slave markets in order to be sold to the highest bidder. [From.GetFirstName] will be sold into slavery and will be functionally dead.\nThe higher the base stats of the slave, the more gold you'll get for selling [From.GetHerHim]...;;;;;;;;;;;;x
 EVTOPT_chaos_dwarf_sell_slave;I'm sure this one will sell nicely...;;;;;;;;;;;;x
-EVTDESC_chaos_dwarf_sell_slave;Your wretched master, [From.GetTitledFirstName], has decided to finally sell you in the slave markets of [From.Capital.GetName]. You know that being sold into slavery by the Chaos Dwarfs is a sentence of death... and so you can only curse your fate.;;;;;;;;;;;;x
+EVTDESC_chaos_dwarf_sell_slave_2;Your wretched master, [From.GetTitledFirstName], has decided to finally sell you in the slave markets of [From.Capital.GetName]. You know that being sold into slavery by the Chaos Dwarfs is a sentence of death... and so you can only curse your fate.;;;;;;;;;;;;x
 EVTOPT_CD_curse_master;Curse you, [From.GetTitledFirstName]!;;;;;;;;;;;;x
 opinion_sold_slavery_family_member;Sold family member into slavery;;;;;;;;;;;;x
 buy_from_chaos_dwarfs;Buy armaments from [Root.GetTitledFirstName];;;;;;;;;;;;x

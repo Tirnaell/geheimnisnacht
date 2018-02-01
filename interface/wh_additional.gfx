@@ -720,6 +720,11 @@ spriteTypes = {
 		name = "GFX_grand_sacrifice_hashut"
 		texturefile = "gfx\\interface\\decision_hashut.dds"
 	}
+
+	spriteType = {
+		name = "GFX_pray_hashut_for_help"
+		texturefile = "gfx\\interface\\decision_hashut_pray.dds"
+	}
 	
 	spriteType = {
 		name = "GFX_become_chaos_dwarf_sorcerer"

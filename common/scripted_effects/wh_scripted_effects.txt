@@ -352,8 +352,8 @@ wh_update_chaos_dwarf_slave_levy_effect = {
 					not = {
 						has_building = ca_chaos_dwarf_slave_levy_4
 					}
-					add_building = ca_chaos_dwarf_slave_levy_4
 				}
+				add_building = ca_chaos_dwarf_slave_levy_4
 			}
 			if = {
 				limit = {
@@ -380,6 +380,264 @@ wh_update_chaos_dwarf_slave_levy_effect = {
 					}
 				}
 				add_building = ca_chaos_dwarf_slave_levy_1
+			}
+		}
+	}
+	if = {
+		limit = {
+			capital_holding = {
+				holding_type = city
+			}
+		}
+		capital_holding = {
+			if = {
+				limit = {
+					has_building = ct_chaos_dwarf_slave_levy_3
+					not = {
+						has_building = ct_chaos_dwarf_slave_levy_4
+					}
+				}
+				add_building = ct_chaos_dwarf_slave_levy_4
+			}
+			if = {
+				limit = {
+					has_building = ct_chaos_dwarf_slave_levy_2
+					not = {
+						has_building = ct_chaos_dwarf_slave_levy_3
+					}
+				}
+				add_building = ct_chaos_dwarf_slave_levy_3
+			}
+			if = {
+				limit = {
+					has_building = ct_chaos_dwarf_slave_levy_1
+					not = {
+						has_building = ct_chaos_dwarf_slave_levy_2
+					}
+				}
+				add_building = ct_chaos_dwarf_slave_levy_2
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_building = ct_chaos_dwarf_slave_levy_1
+					}
+				}
+				add_building = ct_chaos_dwarf_slave_levy_1
+			}
+		}
+	}
+	if = {
+		limit = {
+			government = chaosdwarf_government
+			capital_holding = {
+				holding_type = temple
+			}
+		}
+		capital_holding = {
+			if = {
+				limit = {
+					has_building = tp_chaos_dwarf_slave_levy_3
+					not = {
+						has_building = tp_chaos_dwarf_slave_levy_4
+					}
+				}
+				add_building = tp_chaos_dwarf_slave_levy_4
+			}
+			if = {
+				limit = {
+					has_building = tp_chaos_dwarf_slave_levy_2
+					not = {
+						has_building = tp_chaos_dwarf_slave_levy_3
+					}
+				}
+				add_building = tp_chaos_dwarf_slave_levy_3
+			}
+			if = {
+				limit = {
+					has_building = tp_chaos_dwarf_slave_levy_1
+					not = {
+						has_building = tp_chaos_dwarf_slave_levy_2
+					}
+				}
+				add_building = tp_chaos_dwarf_slave_levy_2
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_building = tp_chaos_dwarf_slave_levy_1
+					}
+				}
+				add_building = tp_chaos_dwarf_slave_levy_1
+			}
+		}
+	}
+}
+
+wh_sacrifice_chaos_dwarf_slave_factory_effect = {
+	if = {
+		limit = {
+			government = chaosdwarf_government
+			capital_holding = {
+				holding_type = castle
+			}
+		}
+		capital_holding = {
+			if = {
+				limit = {
+					has_building = ca_chaos_dwarf_factory_4
+				}
+				remove_building = ca_chaos_dwarf_factory_4
+				add_building = ca_chaos_dwarf_factory_3
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ca_chaos_dwarf_factory_3
+				}
+				remove_building = ca_chaos_dwarf_factory_3
+				add_building = ca_chaos_dwarf_factory_2
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ca_chaos_dwarf_factory_2
+				}
+				remove_building = ca_chaos_dwarf_factory_2
+				add_building = ca_chaos_dwarf_factory_1
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ca_chaos_dwarf_factory_1
+				}
+				remove_building = ca_chaos_dwarf_factory_1
+				break = yes
+			}
+		}
+	}
+	if = {
+		limit = {
+			capital_holding = {
+				holding_type = city
+			}
+		}
+		capital_holding = {
+			if = {
+				limit = {
+					has_building = ct_chaos_dwarf_factory_4
+				}
+				remove_building = ct_chaos_dwarf_factory_4
+				add_building = ct_chaos_dwarf_factory_3
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ct_chaos_dwarf_factory_3
+				}
+				remove_building = ct_chaos_dwarf_factory_3
+				add_building = ct_chaos_dwarf_factory_2
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ct_chaos_dwarf_factory_2
+				}
+				remove_building = ct_chaos_dwarf_factory_2
+				add_building = ct_chaos_dwarf_factory_1
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ct_chaos_dwarf_factory_1
+				}
+				remove_building = ct_chaos_dwarf_factory_1
+				break = yes
+			}
+		}
+	}
+	if = {
+		limit = {
+			government = chaosdwarf_government
+			capital_holding = {
+				holding_type = temple
+			}
+		}
+		capital_holding = {
+			if = {
+				limit = {
+					has_building = tp_chaos_dwarf_factory_4
+				}
+				remove_building = tp_chaos_dwarf_factory_4
+				add_building = tp_chaos_dwarf_factory_3
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = tp_chaos_dwarf_factory_3
+				}
+				remove_building = tp_chaos_dwarf_factory_3
+				add_building = tp_chaos_dwarf_factory_2
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = tp_chaos_dwarf_factory_2
+				}
+				remove_building = tp_chaos_dwarf_factory_2
+				add_building = tp_chaos_dwarf_factory_1
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = tp_chaos_dwarf_factory_1
+				}
+				remove_building = tp_chaos_dwarf_factory_1
+				break = yes
+			}
+		}
+	}
+}
+
+wh_sacrifice_chaos_dwarf_slave_levy_effect = {
+	if = {
+		limit = {
+			government = chaosdwarf_government
+			capital_holding = {
+				holding_type = castle
+			}
+		}
+		capital_holding = {
+			if = {
+				limit = {
+					has_building = ca_chaos_dwarf_slave_levy_4
+				}
+				remove_building = ca_chaos_dwarf_slave_levy_4
+				add_building = ca_chaos_dwarf_slave_levy_3
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ca_chaos_dwarf_slave_levy_3
+				}
+				remove_building = ca_chaos_dwarf_slave_levy_3
+				add_building = ca_chaos_dwarf_slave_levy_2
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ca_chaos_dwarf_slave_levy_2
+				}
+				remove_building = ca_chaos_dwarf_slave_levy_2
+				add_building = ca_chaos_dwarf_slave_levy_1
+				break = yes
+			}
+			if = {
+				limit = {
+					has_building = ca_chaos_dwarf_slave_levy_1
+				}
+				remove_building = ca_chaos_dwarf_slave_levy_1
+				break = yes
 			}
 		}
 	}

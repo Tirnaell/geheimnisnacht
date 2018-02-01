@@ -6331,8 +6331,8 @@ targetted_decisions = {
 		}
 	}
 	chaos_dwarf_sell_into_slavery = {
-		ai_target_filter = home_court
-		filter = home_court
+		ai_target_filter = court
+		filter = court
 		from_potential = {
 			is_ruler = yes
 			culture_group = dwarf_chaos_group
@@ -6346,13 +6346,28 @@ targetted_decisions = {
 			host = {
 				character = FROM
 			}
-			NOT = {
-				culture_group = dwarf_chaos_group
-			}
+			# NOT = {
+				# culture_group = dwarf_chaos_group
+			# }
 			is_invincible_trigger = no
 		}
 		allow = {
 			prisoner = yes
+			
+			noR = {
+				host = {
+					character = ROOT
+				}
+				liege = { 
+					character = FROM 
+				}
+				FROM = {
+					opinion = {
+						who = ROOT
+						value = 50
+					}
+				}
+			}
 			FROM = {
 				custom_tooltip = {
 					text = IS_NOT_INCAPACITATED
@@ -6371,9 +6386,6 @@ targetted_decisions = {
 		}
 		ai_will_do = {
 			factor = 1
-			modifier = {
-				factor = 0.04
-			}
 			modifier = {
 				factor = 3 trait = greedy
 			}
@@ -6603,18 +6615,6 @@ targetted_decisions = {
 						has_building = tp_chaos_dwarf_slave_levy_4
 					}
 				}
-				family_palace = {
-					OR = {
-						has_building = fp_chaos_dwarf_factory_1
-						has_building = fp_chaos_dwarf_factory_2
-						has_building = fp_chaos_dwarf_factory_3
-						has_building = fp_chaos_dwarf_factory_4
-						has_building = fp_chaos_dwarf_slave_levy_1
-						has_building = fp_chaos_dwarf_slave_levy_2
-						has_building = fp_chaos_dwarf_slave_levy_3
-						has_building = fp_chaos_dwarf_slave_levy_4
-					}
-				}
 			}
 		}
 		potential = {
@@ -6708,14 +6708,6 @@ targetted_decisions = {
 				factor = 2
 				religion_group = chaos_gods_group
 			}
-			# modifier = {
-			# 	factor = 0.5
-			# 	NOT = {
-			# 		empire = {
-			# 			title = e_chaos_wastes
-			# 		}
-			# 	}
-			# }
 		}
 	}
 

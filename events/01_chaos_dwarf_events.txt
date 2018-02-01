@@ -1,10 +1,10 @@
-namespace = wh_chaos_dwarf
-
 # Chaos Dwarfs
 # Sacrifice to Hashut
 # Chaos Dwarfs can be granted boons by Hashut depending on the number of sacrifices they've made
 # They have access to 2 decisions, one targeted that allows them to get "favour points" by sacrificing prisoners
 # And other that allows them to spend said points by asking Hashut for boons.
+namespace = wh_chaos_dwarf
+
 # Triggered by the "Sacrifice X to Hashut" decision
 long_character_event = {
 	id = wh_chaos_dwarf.1
@@ -124,7 +124,6 @@ long_character_event = {
 		}
 	}
 }
-
 # Tell the sacrifice that well... it's dead.
 character_event = {
 	id = wh_chaos_dwarf.2
@@ -166,75 +165,7 @@ character_event = {
 	}
 }
 
-# Spend Hashut's Favour on stuff
-# Triggered by "Ask Hathur for boons"
-# OBSOLETE
-long_character_event = {
-	id = wh_chaos_dwarf.4
-	desc = EVTDESC_hashut_boons
-	picture = GFX_evt_hashut_rune
-	is_triggered_only = yes
-	trigger = {
-		FROM = {
-			trait = chaos_dwarf_sorcerer
-		}
-	}
-	option = {
-		name = EVTOPT_hashut_bless_me
-		trigger = {
-			piety = 100
-		}
-		piety = -100
-		add_character_modifier = {
-			name = hashut_blessing
-			duration = 1500
-		}
-		ai_chance = {
-			factor = 1000
-		}
-	}
-	option = {
-		name = EVTOPT_hashut_bless_provinces_forges
-		trigger = {
-			piety = 250
-		}
-		piety = -250
-		capital_scope = {
-			add_province_modifier = {
-				name = hashut_province_blessing
-				duration = 2500
-			}
-		}
-		ai_chance = {
-			factor = 1000
-		}
-	}
-	option = {
-		name = EVTOPT_hashut_centaur_bulls
-		trigger = {
-			piety = 500
-		}
-		piety = -500
-		capital_scope = {
-			ROOT = {
-				spawn_unit = {
-					province = PREV
-					owner = THIS
-					troops = {
-						knights = {
-							500 500
-						}
-					}
-					attrition = 0
-					cannot_inherit = yes
-				}
-			}
-		}
-		ai_chance = {
-			factor = 1000
-		}
-	}
-}
+##########################################
 # Triggered by "Become Chaos Dwarf Sorcerer"
 # Small chance to die!!
 long_character_event = {
@@ -266,7 +197,6 @@ long_character_event = {
 		}
 	}
 }
-
 long_character_event = {
 	id = wh_chaos_dwarf.6
 	desc = EVTDESC_chaos_dwarf_sorcerer_succeed
@@ -286,7 +216,6 @@ long_character_event = {
 		z_magic_power_sequential_addition = yes
 	}
 }
-
 long_character_event = {
 	id = wh_chaos_dwarf.7
 	desc = EVTDESC_chaos_dwarf_sorcerer_fail
@@ -314,6 +243,7 @@ long_character_event = {
 	}
 }
 
+#########################################
 # Sorcerer's Curse ( Chaos Dwarf Petrification ) events
 # At level 2 a Chaos Dwarf becomes incapable. After level 2, it dies by petrification.
 character_event = {
@@ -351,6 +281,7 @@ character_event = {
 	}
 
 	trigger = {
+		age = 50
 		OR = {
 			trait = creature_chaos_dwarf
 			trait = chaos_dwarf_sorcerer
@@ -408,6 +339,7 @@ character_event = {
 	}
 }
 
+#########################################
 # On_siege event for capturing slaves
 character_event = {
 	id = wh_chaos_dwarf.9
@@ -462,6 +394,13 @@ character_event = {
 		trigger = {
 			NOT = {
 				has_character_flag = chaos_dwarf_raided_a_province
+			}
+			capital_holding = {
+				NOT = {
+					has_building = ca_chaos_dwarf_factory_4
+					has_building = ct_chaos_dwarf_factory_4
+					has_building = tp_chaos_dwarf_factory_4
+				}
 			}
 		}
 		name = EVTOTPAchaosdwarf_slave_raid
@@ -533,6 +472,13 @@ character_event = {
 		trigger = {
 			NOT = {
 				has_character_flag = chaos_dwarf_raided_a_province
+			}
+			capital_holding = {
+				NOT = {
+					has_building = ca_chaos_dwarf_slave_levy_4
+					has_building = ct_chaos_dwarf_slave_levy_4
+					has_building = tp_chaos_dwarf_slave_levy_4
+				}
 			}
 		}
 		name = EVTOTPBchaosdwarf_slave_raid
@@ -765,311 +711,7 @@ character_event = {
 	}
 }
 
-# Slave buildings in a non-capital holdings
-character_event = {
-	id = wh_chaos_dwarf.50
-	desc = "EVTDESCAchaosdwarf_slave_building_capital"
-	picture = GFX_evt_slaves
-	only_playable = yes
-	religion = hashut
-	culture_group = dwarf_chaos_group
-	is_triggered_only = yes
-
-	trigger = {
-		any_demesne_title = {
-			tier = BARON
-			OR = {
-				has_building = ca_chaos_dwarf_factory_1
-				has_building = ca_chaos_dwarf_slave_levy_1
-				has_building = ct_chaos_dwarf_factory_1
-				has_building = ct_chaos_dwarf_slave_levy_1
-				has_building = tp_chaos_dwarf_factory_1
-				has_building = tp_chaos_dwarf_slave_levy_1
-			}
-			ROOT = {
-				OR = {
-					is_patrician = yes
-					capital_holding = {
-						NOT = {
-							title = PREVPREV
-						}
-					}
-				}
-			}
-		}
-	}
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.50 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = OK
-		any_demesne_title = {
-			limit = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						capital_holding = {
-							NOT = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-				OR = {
-					has_building = ca_chaos_dwarf_factory_4
-					has_building = ct_chaos_dwarf_factory_4
-					has_building = tp_chaos_dwarf_factory_4
-					has_building = fp_chaos_dwarf_factory_4
-				}
-			}
-			remove_building = ca_chaos_dwarf_factory_4
-			remove_building = ct_chaos_dwarf_factory_4
-			remove_building = tp_chaos_dwarf_factory_4
-			remove_building = fp_chaos_dwarf_factory_4
-			ROOT = {
-				character_event = {
-					id = wh_chaos_dwarf.10
-					tooltip = "EVTTOOLTIPFACTORYCAPITAL"
-				}
-			}
-		}
-		any_demesne_title = {
-			limit = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						capital_holding = {
-							NOT = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-				OR = {
-					has_building = ca_chaos_dwarf_factory_3
-					has_building = ct_chaos_dwarf_factory_3
-					has_building = tp_chaos_dwarf_factory_3
-					has_building = fp_chaos_dwarf_factory_3
-				}
-			}
-			remove_building = ca_chaos_dwarf_factory_3
-			remove_building = ct_chaos_dwarf_factory_3
-			remove_building = tp_chaos_dwarf_factory_3
-			remove_building = fp_chaos_dwarf_factory_3
-			ROOT = {
-				character_event = {
-					id = wh_chaos_dwarf.10
-					tooltip = "EVTTOOLTIPFACTORYCAPITAL"
-				}
-			}
-		}
-		any_demesne_title = {
-			limit = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						capital_holding = {
-							NOT = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-				OR = {
-					has_building = ca_chaos_dwarf_factory_2
-					has_building = ct_chaos_dwarf_factory_2
-					has_building = tp_chaos_dwarf_factory_2
-					has_building = fp_chaos_dwarf_factory_2
-				}
-			}
-			remove_building = ca_chaos_dwarf_factory_2
-			remove_building = ct_chaos_dwarf_factory_2
-			remove_building = tp_chaos_dwarf_factory_2
-			remove_building = fp_chaos_dwarf_factory_2
-			ROOT = {
-				character_event = {
-					id = wh_chaos_dwarf.10
-					tooltip = "EVTTOOLTIPFACTORYCAPITAL"
-				}
-			}
-		}
-		any_demesne_title = {
-			limit = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						capital_holding = {
-							NOT = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-				OR = {
-					has_building = ca_chaos_dwarf_factory_1
-					has_building = ct_chaos_dwarf_factory_1
-					has_building = tp_chaos_dwarf_factory_1
-					has_building = fp_chaos_dwarf_factory_1
-				}
-			}
-			remove_building = ca_chaos_dwarf_factory_1
-			remove_building = ct_chaos_dwarf_factory_1
-			remove_building = tp_chaos_dwarf_factory_1
-			remove_building = fp_chaos_dwarf_factory_1
-			ROOT = {
-				character_event = {
-					id = wh_chaos_dwarf.10
-					tooltip = "EVTTOOLTIPFACTORYCAPITAL"
-				}
-			}
-		}
-		any_demesne_title = {
-			limit = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						capital_holding = {
-							NOT = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-				OR = {
-					has_building = ca_chaos_dwarf_slave_levy_4
-					has_building = ct_chaos_dwarf_slave_levy_4
-					has_building = tp_chaos_dwarf_slave_levy_4
-					has_building = fp_chaos_dwarf_slave_levy_4
-				}
-			}
-			remove_building = ca_chaos_dwarf_slave_levy_4
-			remove_building = ct_chaos_dwarf_slave_levy_4
-			remove_building = tp_chaos_dwarf_slave_levy_4
-			remove_building = fp_chaos_dwarf_slave_levy_4
-			ROOT = {
-				character_event = {
-					id = wh_chaos_dwarf.11
-					tooltip = "EVTTOOLTIPSLEVYCAPITAL"
-				}
-			}
-		}
-		any_demesne_title = {
-			limit = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						capital_holding = {
-							NOT = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-				OR = {
-					has_building = ca_chaos_dwarf_slave_levy_3
-					has_building = ct_chaos_dwarf_slave_levy_3
-					has_building = tp_chaos_dwarf_slave_levy_3
-					has_building = fp_chaos_dwarf_slave_levy_3
-				}
-			}
-			remove_building = ca_chaos_dwarf_slave_levy_3
-			remove_building = ct_chaos_dwarf_slave_levy_3
-			remove_building = tp_chaos_dwarf_slave_levy_3
-			remove_building = fp_chaos_dwarf_slave_levy_3
-			ROOT = {
-				character_event = {
-					id = wh_chaos_dwarf.11
-					tooltip = "EVTTOOLTIPSLEVYCAPITAL"
-				}
-			}
-		}
-		any_demesne_title = {
-			limit = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						capital_holding = {
-							NOT = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-				OR = {
-					has_building = ca_chaos_dwarf_slave_levy_2
-					has_building = ct_chaos_dwarf_slave_levy_2
-					has_building = tp_chaos_dwarf_slave_levy_2
-					has_building = fp_chaos_dwarf_slave_levy_2
-				}
-			}
-			remove_building = ca_chaos_dwarf_slave_levy_2
-			remove_building = ct_chaos_dwarf_slave_levy_2
-			remove_building = tp_chaos_dwarf_slave_levy_2
-			remove_building = fp_chaos_dwarf_slave_levy_2
-			ROOT = {
-				character_event = {
-					id = wh_chaos_dwarf.11
-					tooltip = "EVTTOOLTIPSLEVYCAPITAL"
-				}
-			}
-		}
-		any_demesne_title = {
-			limit = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						capital_holding = {
-							NOT = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-				OR = {
-					has_building = ca_chaos_dwarf_slave_levy_1
-					has_building = ct_chaos_dwarf_slave_levy_1
-					has_building = tp_chaos_dwarf_slave_levy_1
-					has_building = fp_chaos_dwarf_slave_levy_1
-				}
-			}
-			remove_building = ca_chaos_dwarf_slave_levy_1
-			remove_building = ct_chaos_dwarf_slave_levy_1
-			remove_building = tp_chaos_dwarf_slave_levy_1
-			remove_building = fp_chaos_dwarf_slave_levy_1
-			ROOT = {
-				character_event = {
-					id = wh_chaos_dwarf.11
-					tooltip = "EVTTOOLTIPSLEVYCAPITAL"
-				}
-			}
-		}
-	}
-}
-
-character_event = {
-	id = wh_chaos_dwarf.10
-	hide_window = yes
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.10 for [Root.GetBestName]"
-		wh_update_chaos_dwarf_slave_factory_effect = yes
-	}
-}
-
-character_event = {
-	id = wh_chaos_dwarf.11
-	hide_window = yes
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.11 for [Root.GetBestName]"
-		wh_update_chaos_dwarf_slave_levy_effect = yes
-	}
-}
-
+#########################################
 # Triggered by the "Sell X into slavery" decision
 character_event = {
 	id = wh_chaos_dwarf.12
@@ -1166,11 +808,10 @@ character_event = {
 		}
 	}
 }
-
 # Character is sold...
 character_event = {
 	id = wh_chaos_dwarf.13
-	desc = EVTDESC_chaos_dwarf_sell_slave
+	desc = EVTDESC_chaos_dwarf_sell_slave_2
 	picture = GFX_evt_slaves
 	is_triggered_only = yes
 
@@ -1224,11 +865,12 @@ character_event = {
 			break = yes
 		}
 		death = {
-			death_reason = death_trait
+			death_reason = death_missing
 		}
 	}
 }
 
+#########################################
 # Triggered by the "Buy armaments from X" decision
 # Buyer chooses what to purchase
 character_event = {
@@ -1280,7 +922,6 @@ character_event = {
 		}
 	}
 }
-
 # Chaos Dwarf answers ( AI will always answer yes, the player has a choice to decline)...
 character_event = {
 	id = wh_chaos_dwarf.15
@@ -1356,7 +997,6 @@ character_event = {
 		}
 	}
 }
-
 # Buyer chooses payment...
 character_event = {
 	id = wh_chaos_dwarf.16
@@ -1509,7 +1149,6 @@ character_event = {
 		}
 	}
 }
-
 # Chaos Dwarf receives payment...
 character_event = {
 	id = wh_chaos_dwarf.17
@@ -1555,7 +1194,7 @@ character_event = {
 			name = recently_sold_chaos_dwarfs
 			duration = 1826
 		}
-		wealth = 200
+		wealth = 100
 		FROM = {
 			character_event = {
 				id = wh_chaos_dwarf.18
@@ -1605,7 +1244,6 @@ character_event = {
 		}
 	}
 }
-
 # Buyer receives purchase...
 character_event = {
 	id = wh_chaos_dwarf.18
@@ -1687,7 +1325,6 @@ character_event = {
 		clr_character_flag = buying_chaos_dwarfs
 	}
 }
-
 # Event for Chaos Dwarfs who have received slaves as payment to move the slaves into the slavery buildings
 character_event = {
 	id = wh_chaos_dwarf.19
@@ -1700,107 +1337,61 @@ character_event = {
 	}
 
 	option = {
+		trigger = {
+			capital_holding = {
+				NOT = {
+					has_building = ca_chaos_dwarf_factory_4
+					has_building = ct_chaos_dwarf_factory_4
+					has_building = tp_chaos_dwarf_factory_4
+				}
+			}
+		}
 		name = EVTOTPAchaosdwarf_slave_raid
 		wh_update_chaos_dwarf_slave_factory_effect = yes
 	}
 
 	option = {
+		trigger = {
+			capital_holding = {
+				NOT = {
+					has_building = ca_chaos_dwarf_slave_levy_4
+					has_building = ct_chaos_dwarf_slave_levy_4
+					has_building = tp_chaos_dwarf_slave_levy_4
+				}
+			}
+		}
 		name = EVTOTPBchaosdwarf_slave_raid
 		wh_update_chaos_dwarf_slave_levy_effect = yes
 	}
-}
-
-# Great Taurus mount event
-character_event = {
-	id = wh_chaos_dwarf.20
-	desc = EVTDESC_chaos_dwarf_great_taurus
-	picture = "GFX_evt_desert"
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.20 for [Root.GetBestName]"
-	}
 
 	option = {
-		name = EVTOPTA_chaos_dwarf_great_taurus
-		set_character_flag = taming_beast
-		piety = -1000
-		character_event = {
-			id = wh_chaos_dwarf.21
-			days = 1825
+		name = EVTOTPDchaosdwarf_slave_raid
+		piety = 300
+		capital_scope = {
+			add_province_modifier = {
+				name = slaves_sacrificed_hashut
+				duration = 1824
+			}
 		}
-	}
-
-	option = {
-		name = ILL_WAIT_A_BIT
-		trigger = {
-			ai = no
-		}
-	}
-}
-
-character_event = {
-	id = wh_chaos_dwarf.21
-	desc = EVTDESC_chaos_dwarf_great_taurus_trained
-	picture = "GFX_evt_great_taurus"
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.21 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTA_chaos_dwarf_great_taurus_trained
-		add_artifact = great_taurus_mount
-	}
-}
-
-# Lamassu mount event
-character_event = {
-	id = wh_chaos_dwarf.22
-	desc = EVTDESC_chaos_dwarf_lamassu
-	picture = "GFX_evt_desert"
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.22 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTA_chaos_dwarf_lamassu
-		set_character_flag = taming_beast
-		piety = -1000
-		character_event = {
-			id = wh_chaos_dwarf.23
-			days = 1825
-		}
-	}
-
-	option = {
-		name = ILL_WAIT_A_BIT
-		trigger = {
-			ai = no
+		ai_chance = {
+			factor = 33
+			modifier = {
+				factor = 0
+				capital_scope = {
+					NOR = {
+						has_building = ca_chaos_dwarf_slave_levy_4
+						has_building = ca_chaos_dwarf_factory_4
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				trait = zealous
+			}
 		}
 	}
 }
-
-character_event = {
-	id = wh_chaos_dwarf.23
-	desc = EVTDESC_chaos_dwarf_lamassu_trained
-	picture = "GFX_evt_lamassu"
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.23 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTA_chaos_dwarf_lamassu_trained
-		add_artifact = lamassu_mount
-	}
-}
-
-# think about it
+# Sell armaments by targeted decision
 character_event = {
 	id = wh_chaos_dwarf.24
 	desc = EVTDESC_chaos_dwarf_buy_stuff
@@ -1823,153 +1414,21 @@ character_event = {
 	}
 }
 
-# # Character hasn't made a sacrifice in 4 years
-# character_event = {
-# id = wh_chaos_dwarf.25
-# desc = EVTDESC_chaos_dwarf_must_sacrifice
-# picture = GFX_evt_altar_hashut
-# only_rulers = yes
-# trigger = {
-# higher_tier_than = BARON
-# is_theocracy = no
-# trait = creature_chaos_dwarf
-# religion = hashut
-# NOT = { has_character_modifier = must_sacrifice_hashut }
-# OR = {
-# NOT = { has_character_flag = flag_sacrifice_made_hashut }
-# had_character_flag = { flag = flag_sacrifice_made_hashut days = 1460 }
-# }
-# }
-# # option = {
-# # trigger = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_factory_1
-# # }
-# # }
-# # name = EVTOPTA_chaos_dwarf_must_sacrifice
-# # custom_tooltip = {
-# # text = chaosdwarffactorysacrifice
-# # piety = 50
-# # hidden_tooltip = {
-# # if = {
-# # limit = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_factory_1
-# # NOT = { has_building = ca_chaos_dwarf_factory_2 }
-# # }
-# # }
-# # capital_holding = { remove_building = ca_chaos_dwarf_factory_1 }
-# # }
-# # if = {
-# # limit = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_factory_2
-# # NOT = { has_building = ca_chaos_dwarf_factory_3 }
-# # }
-# # }
-# # capital_holding = { remove_building = ca_chaos_dwarf_factory_2 }
-# # }
-# # if = {
-# # limit = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_factory_3
-# # NOT = { has_building = ca_chaos_dwarf_factory_4 }
-# # }
-# # }
-# # capital_holding = { remove_building = ca_chaos_dwarf_factory_3 }
-# # }
-# # if = {
-# # limit = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_factory_4
-# # NOT = { has_building = ca_chaos_dwarf_factory_5 }
-# # }
-# # }
-# # capital_holding = { remove_building = ca_chaos_dwarf_factory_4 }
-# # }
-# # if = {
-# # limit = { capital_holding = { has_building = ca_chaos_dwarf_factory_5 } }
-# # capital_holding = { remove_building = ca_chaos_dwarf_factory_5 }
-# # }
-# # }
-# # }
-# # }
-# # option = {
-# # trigger = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_slave_levy_1
-# # }
-# # }
-# # name = EVTOPTB_chaos_dwarf_must_sacrifice
-# # piety = 50
-# # custom_tooltip = {
-# # text = chaosdwarfslavelevysacrifice
-# # hidden_tooltip = {
-# # if = {
-# # limit = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_slave_levy_1
-# # NOT = { has_building = ca_chaos_dwarf_slave_levy_2 }
-# # }
-# # }
-# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_1 }
-# # }
-# # if = {
-# # limit = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_slave_levy_2
-# # NOT = { has_building = ca_chaos_dwarf_slave_levy_3 }
-# # }
-# # }
-# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_2 }
-# # }
-# # if = {
-# # limit = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_slave_levy_3
-# # NOT = { has_building = ca_chaos_dwarf_slave_levy_4 }
-# # }
-# # }
-# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_3 }
-# # }
-# # if = {
-# # limit = {
-# # capital_holding = {
-# # has_building = ca_chaos_dwarf_slave_levy_4
-# # NOT = { has_building = ca_chaos_dwarf_slave_levy_5 }
-# # }
-# # }
-# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_4 }
-# # }
-# # if = {
-# # limit = { capital_holding = { has_building = ca_chaos_dwarf_slave_levy_5 } }
-# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_5 }
-# # }
-# # }
-# # }
-# # }
-# option = {
-# name = EVTOPTC_chaos_dwarf_must_sacrifice
-# add_character_modifier = {
-# name = must_sacrifice_hashut
-# duration = -1
-# }
-# }
-# }
 
+##########################################
 # Grand Sacrifice to Hashut
-# Sacrifice prisoner or slave buildings ?
+# Sacrifice prisoner or slave buildings 
 long_character_event = {
 	id = wh_chaos_dwarf.26
 	desc = EVTDESC_hashut_great_sacrifice
 	picture = GFX_evt_hashut_rune
 	is_triggered_only = yes
 
-	# Factory Building
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.26 for [Root.GetBestName]"
 	}
 
+	# Factory Building
 	option = {
 		name = EVTOPTA_hashut_great_sacrifice
 		trigger = {
@@ -2062,7 +1521,6 @@ long_character_event = {
 		}
 	}
 }
-
 # Bounce to catch the sacrifice
 character_event = {
 	id = wh_chaos_dwarf.27
@@ -2078,7 +1536,6 @@ character_event = {
 		}
 	}
 }
-
 # Copy of the "Sacrifice to Hashut" targeted decision event adapted to the Great Sacrifice
 long_character_event = {
 	id = wh_chaos_dwarf.28
@@ -2388,132 +1845,6 @@ long_character_event = {
 		}
 	}
 }
-
-# Hashut blesses character
-character_event = {
-	id = wh_chaos_dwarf.29
-	desc = EVTDESC_hashut_great_sacrifice_character_blessing
-	picture = GFX_evt_hashut_rune
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.29 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPT_praise_hashut
-		add_character_modifier = {
-			name = hashut_blessing
-			duration = 1500
-		}
-		add_character_modifier = {
-			name = recently_asked_hashut
-			duration = 1500
-		}
-		clr_character_flag = making_grand_sacrifice_hashut
-		ai_chance = {
-			factor = 1000
-		}
-	}
-}
-
-# Hashut blesses province
-character_event = {
-	id = wh_chaos_dwarf.30
-	desc = EVTDESC_hashut_great_sacrifice_province_blessing
-	picture = GFX_evt_hashut_rune
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.30 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPT_praise_hashut
-		capital_scope = {
-			add_province_modifier = {
-				name = hashut_province_blessing
-				duration = 1500
-			}
-		}
-		add_character_modifier = {
-			name = recently_asked_hashut
-			duration = 1500
-		}
-		clr_character_flag = making_grand_sacrifice_hashut
-		ai_chance = {
-			factor = 1000
-		}
-	}
-}
-
-# Bull Centaurs join you
-character_event = {
-	id = wh_chaos_dwarf.31
-	desc = EVTDESC_hashut_great_sacrifice_bull_centaurs_join
-	picture = GFX_evt_bull_centaur
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.31 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPT_praise_hashut
-		capital_scope = {
-			ROOT = {
-				spawn_unit = {
-					province = PREV
-					owner = THIS
-					troops = {
-						knights = {
-							500 500
-						}
-					}
-					attrition = 0
-					cannot_inherit = yes
-				}
-			}
-		}
-		add_character_modifier = {
-			name = recently_asked_hashut duration = 1500
-		}
-		clr_character_flag = making_grand_sacrifice_hashut
-		ai_chance = {
-			factor = 1000
-		}
-	}
-}
-
-# Hashut is displeased
-character_event = {
-	id = wh_chaos_dwarf.32
-	desc = EVTDESC_hashut_great_sacrifice_hashut_angry
-	picture = GFX_evt_hashut
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.32 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPT_hashut_great_sacrifice_hashut_angry
-		piety = -100
-		add_character_modifier = {
-			name = hashut_curse
-			duration = 1500
-		}
-		add_character_modifier = {
-			name = recently_asked_hashut
-			duration = 1500
-		}
-		clr_character_flag = making_grand_sacrifice_hashut
-		ai_chance = {
-			factor = 1000
-		}
-	}
-}
-
 # Sacrifice Slave building ( Factory )
 character_event = {
 	id = wh_chaos_dwarf.33
@@ -2596,242 +1927,12 @@ character_event = {
 				}
 			}
 		}
-		custom_tooltip = {
-			text = chaosdwarffactorysacrifice
-			hidden_tooltip = {
-				if = {
-					limit = {
-						OR = {
-							is_feudal = yes
-							AND = {
-								government = chaosdwarf_government
-								capital_holding = {
-									holding_type = castle
-								}
-							}
-						}
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_factory_4
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_factory_4
-							add_building = ca_chaos_dwarf_factory_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_factory_3
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_factory_3
-							add_building = ca_chaos_dwarf_factory_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_factory_2
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_factory_2
-							add_building = ca_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_factory_1
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						is_republic = yes
-						is_patrician = no
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_factory_4
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_factory_4
-							add_building = ct_chaos_dwarf_factory_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_factory_3
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_factory_3
-							add_building = ct_chaos_dwarf_factory_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_factory_2
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_factory_2
-							add_building = ct_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_factory_1
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_factory_1
-						}
-					}
-					break = yes
-				}
-				if = {
-					limit = {
-						is_patrician = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_factory_4
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_factory_4
-							add_building = tp_chaos_dwarf_factory_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_factory_3
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_factory_3
-							add_building = tp_chaos_dwarf_factory_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_factory_2
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_factory_2
-							add_building = tp_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_factory_1
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						OR = {
-							is_theocracy = yes
-							AND = {
-								government = chaosdwarf_government
-								capital_holding = {
-									holding_type = temple
-								}
-							}
-						}
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_factory_4
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_factory_4
-							add_building = tp_chaos_dwarf_factory_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_factory_3
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_factory_3
-							add_building = tp_chaos_dwarf_factory_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_factory_2
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_factory_2
-							add_building = tp_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_factory_1
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_factory_1
-						}
-					}
-					break = yes
-				}
-			}
-		}
+		wh_sacrifice_chaos_dwarf_slave_factory_effect = yes
 		ai_chance = {
 			factor = 1000
 		}
 	}
 }
-
 # Sacrifice Slave building ( Levy )
 character_event = {
 	id = wh_chaos_dwarf.34
@@ -2922,239 +2023,11 @@ character_event = {
 				}
 			}
 		}
-		custom_tooltip = {
-			text = chaosdwarfslavelevysacrifice
-			hidden_tooltip = {
-				if = {
-					limit = {
-						OR = {
-							is_feudal = yes
-							AND = {
-								government = chaosdwarf_government
-								capital_holding = {
-									holding_type = castle
-								}
-							}
-						}
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_slave_levy_4
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_slave_levy_4
-							add_building = ca_chaos_dwarf_slave_levy_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_slave_levy_3
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_slave_levy_3
-							add_building = ca_chaos_dwarf_slave_levy_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_slave_levy_2
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_slave_levy_2
-							add_building = ca_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_slave_levy_1
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						is_republic = yes
-						is_patrician = no
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_slave_levy_4
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_slave_levy_4
-							add_building = ct_chaos_dwarf_slave_levy_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_slave_levy_3
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_slave_levy_3
-							add_building = ct_chaos_dwarf_slave_levy_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_slave_levy_2
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_slave_levy_2
-							add_building = ct_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_slave_levy_1
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_slave_levy_1
-						}
-					}
-					break = yes
-				}
-				if = {
-					limit = {
-						is_patrician = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_slave_levy_4
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_slave_levy_4
-							add_building = tp_chaos_dwarf_slave_levy_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_slave_levy_3
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_slave_levy_3
-							add_building = tp_chaos_dwarf_slave_levy_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_slave_levy_2
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_slave_levy_2
-							add_building = tp_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_slave_levy_1
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						OR = {
-							is_theocracy = yes
-							AND = {
-								government = chaosdwarf_government
-								capital_holding = {
-									holding_type = temple
-								}
-							}
-						}
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_slave_levy_4
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_slave_levy_4
-							add_building = tp_chaos_dwarf_slave_levy_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_slave_levy_3
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_slave_levy_3
-							add_building = tp_chaos_dwarf_slave_levy_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_slave_levy_2
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_slave_levy_2
-							add_building = tp_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_slave_levy_1
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_slave_levy_1
-						}
-					}
-					break = yes
-				}
-			}
-		}
+		wh_sacrifice_chaos_dwarf_slave_levy_effect = yes
+#		text = chaosdwarfslavelevysacrifice
 	}
 }
-
+# Hashut sends gifts
 character_event = {
 	id = wh_chaos_dwarf.41
 	desc = EVTDESCDR_chaos_dwarf.41
@@ -3163,12 +2036,12 @@ character_event = {
 
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.41 for [Root.GetBestName]"
- 		1 = {
-			change_variable = {
-				which = "doom_counter"
-				value = 0.5
-			}
-		}
+ 		# 1 = {
+			# change_variable = {
+				# which = "doom_counter"
+				# value = 0.5
+			# }
+		# }
 		change_variable = {
 			which = "hashut_favor"
 			value = 4
@@ -3292,7 +2165,6 @@ character_event = {
 		z_magic_power_sequential_addition = yes
 	}
 }
-
 # Hashut sends K'daai Fireborn
 character_event = {
 	id = wh_chaos_dwarf.42
@@ -3302,12 +2174,12 @@ character_event = {
 
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.42 for [Root.GetBestName]"
-		1 = {
-			change_variable = {
-				which = "doom_counter"
-				value = 0.5
-			}
-		}
+		# 1 = {
+			# change_variable = {
+				# which = "doom_counter"
+				# value = 0.5
+			# }
+		# }
 		change_variable = {
 			which = "hashut_favor"
 			value = 3
@@ -3358,7 +2230,6 @@ character_event = {
 		prestige = 500
 	}
 }
-
 # Hashut sends Great Taurus
 character_event = {
 	id = wh_chaos_dwarf.43
@@ -3368,12 +2239,12 @@ character_event = {
 
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.43 for [Root.GetBestName]"
-		1 = {
-			change_variable = {
-				which = "doom_counter"
-				value = 0.5
-			}
-		}
+		# 1 = {
+			# change_variable = {
+				# which = "doom_counter"
+				# value = 0.5
+			# }
+		# }
 		change_variable = {
 			which = "hashut_favor"
 			value = 2
@@ -3387,7 +2258,6 @@ character_event = {
 		clr_character_flag = making_grand_sacrifice_hashut
 	}
 }
-
 # Hashut shows signs of his favor and visions of glory
 character_event = {
 	id = wh_chaos_dwarf.44
@@ -3397,12 +2267,12 @@ character_event = {
 
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.44 for [Root.GetBestName]"
-		1 = {
-			change_variable = {
-				which = "doom_counter"
-				value = 1
-			}
-		}
+		# 1 = {
+			# change_variable = {
+				# which = "doom_counter"
+				# value = 1
+			# }
+		# }
 		change_variable = {
 			which = "hashut_favor"
 			value = 5
@@ -3415,7 +2285,6 @@ character_event = {
 		clr_character_flag = making_grand_sacrifice_hashut
 	}
 }
-
 # Hashut makes you prideful
 character_event = {
 	id = wh_chaos_dwarf.45
@@ -3425,12 +2294,12 @@ character_event = {
 
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.45 for [Root.GetBestName]"
-		1 = {
-			change_variable = {
-				which = "doom_counter"
-				value = 0.5
-			}
-		}
+		# 1 = {
+			# change_variable = {
+				# which = "doom_counter"
+				# value = 0.5
+			# }
+		# }
 		change_variable = {
 			which = "hashut_favor"
 			value = 1
@@ -3444,7 +2313,6 @@ character_event = {
 		clr_character_flag = making_grand_sacrifice_hashut
 	}
 }
-
 # Hashut makes you insane
 character_event = {
 	id = wh_chaos_dwarf.46
@@ -3454,12 +2322,12 @@ character_event = {
 
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.46 for [Root.GetBestName]"
-		1 = {
-			change_variable = {
-				which = "doom_counter"
-				value = 0.5
-			}
-		}
+		# 1 = {
+			# change_variable = {
+				# which = "doom_counter"
+				# value = 0.5
+			# }
+		# }
 		change_variable = {
 			which = "hashut_favor"
 			value = 1
@@ -3476,7 +2344,6 @@ character_event = {
 		clr_character_flag = making_grand_sacrifice_hashut
 	}
 }
-
 # Hashut disfigures you by burning
 character_event = {
 	id = wh_chaos_dwarf.47
@@ -3486,12 +2353,12 @@ character_event = {
 
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.47 for [Root.GetBestName]"
-		1 = {
-			change_variable = {
-				which = "doom_counter"
-				value = 0.5
-			}
-		}
+		# 1 = {
+			# change_variable = {
+				# which = "doom_counter"
+				# value = 0.5
+			# }
+		# }
 		change_variable = {
 			which = "hashut_favor"
 			value = -1
@@ -3504,7 +2371,6 @@ character_event = {
 		clr_character_flag = making_grand_sacrifice_hashut
 	}
 }
-
 # Hashut doesn't answer
 character_event = {
 	id = wh_chaos_dwarf.48
@@ -3526,6 +2392,1002 @@ character_event = {
 		clr_character_flag = making_grand_sacrifice_hashut
 	}
 }
+
+##########################################
+# Spend Hashut's Favour on stuff
+# Triggered by "Ask Hathur for boons"
+long_character_event = {
+	id = wh_chaos_dwarf.4
+	desc = EVTDESC_hashut_boons
+	picture = GFX_evt_sanctuary_hashut
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.4 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_hashut_bless_me
+		trigger = {
+			piety = 100
+		}
+		piety = -100
+		hidden_tooltip = {
+			random_list = {
+				95 = {
+					long_character_event = {
+						id = wh_chaos_dwarf.29
+					}
+				}
+				5 = {
+					long_character_event = {
+						id = wh_chaos_dwarf.32
+					}
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1000
+		}
+	}
+	option = {
+		name = EVTOPT_hashut_bless_provinces_forges
+		trigger = {
+			piety = 250
+		}
+		piety = -250
+		hidden_tooltip = {
+			random_list = {
+				95 = {
+					long_character_event = {
+						id = wh_chaos_dwarf.30
+					}
+				}
+				5 = {
+					long_character_event = {
+						id = wh_chaos_dwarf.32
+					}
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1000
+		}
+	}
+	option = {
+		name = EVTOPT_hashut_centaur_bulls
+		trigger = {
+			piety = 500
+		}
+		piety = -500
+		hidden_tooltip = {
+			random_list = {
+				95 = {
+					long_character_event = {
+						id = wh_chaos_dwarf.31
+					}
+				}
+				5 = {
+					long_character_event = {
+						id = wh_chaos_dwarf.32
+					}
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1000
+		}
+	}
+}
+# Hashut blesses character
+character_event = {
+	id = wh_chaos_dwarf.29
+	desc = EVTDESC_hashut_great_sacrifice_character_blessing
+	picture = GFX_evt_sanctuary_hashut
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.29 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_praise_hashut
+		add_character_modifier = {
+			name = hashut_blessing
+			duration = 1500
+		}
+		add_character_modifier = {
+			name = recently_asked_hashut
+			duration = 1500
+		}
+		clr_character_flag = making_grand_sacrifice_hashut
+		ai_chance = {
+			factor = 1000
+		}
+	}
+}
+# Hashut blesses province
+character_event = {
+	id = wh_chaos_dwarf.30
+	desc = EVTDESC_hashut_great_sacrifice_province_blessing
+	picture = GFX_evt_sanctuary_hashut
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.30 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_praise_hashut
+		capital_scope = {
+			add_province_modifier = {
+				name = hashut_province_blessing
+				duration = 1500
+			}
+		}
+		add_character_modifier = {
+			name = recently_asked_hashut
+			duration = 1500
+		}
+		clr_character_flag = making_grand_sacrifice_hashut
+		ai_chance = {
+			factor = 1000
+		}
+	}
+}
+# Bull Centaurs join you
+character_event = {
+	id = wh_chaos_dwarf.31
+	desc = EVTDESC_hashut_great_sacrifice_bull_centaurs_join
+	picture = GFX_evt_sanctuary_hashut
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.31 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_praise_hashut
+		capital_scope = {
+			ROOT = {
+				spawn_unit = {
+					province = PREV
+					owner = THIS
+					troops = {
+						knights = {
+							500 500
+						}
+					}
+					attrition = 0
+					cannot_inherit = yes
+				}
+			}
+		}
+		add_character_modifier = {
+			name = recently_asked_hashut duration = 1500
+		}
+		clr_character_flag = making_grand_sacrifice_hashut
+		ai_chance = {
+			factor = 1000
+		}
+	}
+}
+# Hashut is displeased
+character_event = {
+	id = wh_chaos_dwarf.32
+	desc = EVTDESC_hashut_great_sacrifice_hashut_angry
+	picture = GFX_evt_hashut
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.32 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_hashut_great_sacrifice_hashut_angry
+		piety = -100
+		add_character_modifier = {
+			name = hashut_curse
+			duration = 1500
+		}
+		add_character_modifier = {
+			name = recently_asked_hashut
+			duration = 1500
+		}
+		clr_character_flag = making_grand_sacrifice_hashut
+		ai_chance = {
+			factor = 1000
+		}
+	}
+}
+
+###########################################
+# Mouts Decisions 
+# Great Taurus mount event
+character_event = {
+	id = wh_chaos_dwarf.20
+	desc = EVTDESC_chaos_dwarf_great_taurus
+	picture = "GFX_evt_desert"
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.20 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_chaos_dwarf_great_taurus
+		set_character_flag = taming_beast
+		piety = -1000
+		character_event = {
+			id = wh_chaos_dwarf.21
+			days = 1825
+		}
+	}
+
+	option = {
+		name = ILL_WAIT_A_BIT
+		trigger = {
+			ai = no
+		}
+	}
+}
+character_event = {
+	id = wh_chaos_dwarf.21
+	desc = EVTDESC_chaos_dwarf_great_taurus_trained
+	picture = "GFX_evt_great_taurus"
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.21 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_chaos_dwarf_great_taurus_trained
+		add_artifact = great_taurus_mount
+	}
+}
+# Lamassu mount event
+character_event = {
+	id = wh_chaos_dwarf.22
+	desc = EVTDESC_chaos_dwarf_lamassu
+	picture = "GFX_evt_desert"
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.22 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_chaos_dwarf_lamassu
+		set_character_flag = taming_beast
+		piety = -1000
+		character_event = {
+			id = wh_chaos_dwarf.23
+			days = 1825
+		}
+	}
+
+	option = {
+		name = ILL_WAIT_A_BIT
+		trigger = {
+			ai = no
+		}
+	}
+}
+character_event = {
+	id = wh_chaos_dwarf.23
+	desc = EVTDESC_chaos_dwarf_lamassu_trained
+	picture = "GFX_evt_lamassu"
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.23 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTA_chaos_dwarf_lamassu_trained
+		add_artifact = lamassu_mount
+	}
+}
+
+
+# Slave building decays ( Factory ) 
+character_event = {
+	id = wh_chaos_dwarf.50001
+	desc = EVTDESC_CD_factory_decays
+	picture = GFX_evt_slaves
+	only_rulers = yes
+	religion = hashut
+	culture_group = dwarf_chaos_group
+
+	trigger = {
+		capital_holding = {
+			OR = {
+				has_building = ca_chaos_dwarf_factory_1
+				has_building = ca_chaos_dwarf_factory_2
+				has_building = ca_chaos_dwarf_factory_3
+				has_building = ca_chaos_dwarf_factory_4
+				has_building = ct_chaos_dwarf_factory_1
+				has_building = ct_chaos_dwarf_factory_2
+				has_building = ct_chaos_dwarf_factory_3
+				has_building = ct_chaos_dwarf_factory_4
+				has_building = tp_chaos_dwarf_factory_1
+				has_building = tp_chaos_dwarf_factory_2
+				has_building = tp_chaos_dwarf_factory_3
+				has_building = tp_chaos_dwarf_factory_4
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 150
+		modifier = {
+			factor = 1.01
+			stewardship = 10
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 15
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 20
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 25
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 30
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 35
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 40
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 45
+		}
+		modifier = {
+			factor = 0.50 
+			NOT = {
+				stewardship = 10
+			}
+		}
+		modifier = {
+			factor = 0.25
+			NOT = {
+				stewardship = 5
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.50001 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_CD_factory_decays
+		wh_sacrifice_chaos_dwarf_slave_factory_effect = yes
+		ai_chance = {
+			factor = 1000
+		}
+	}
+}
+# Slave building decays ( Slave Levy )
+character_event = {
+	id = wh_chaos_dwarf.51
+	desc = EVTDESC_CD_slave_levy_decays
+	picture = GFX_evt_slaves
+	only_rulers = yes
+	religion = hashut
+	culture_group = dwarf_chaos_group
+
+	trigger = {
+		capital_holding = {
+			OR = {
+				has_building = ca_chaos_dwarf_slave_levy_1
+				has_building = ca_chaos_dwarf_slave_levy_2
+				has_building = ca_chaos_dwarf_slave_levy_3
+				has_building = ca_chaos_dwarf_slave_levy_4
+				has_building = ct_chaos_dwarf_slave_levy_1
+				has_building = ct_chaos_dwarf_slave_levy_2
+				has_building = ct_chaos_dwarf_slave_levy_3
+				has_building = ct_chaos_dwarf_slave_levy_4
+				has_building = tp_chaos_dwarf_slave_levy_1
+				has_building = tp_chaos_dwarf_slave_levy_2
+				has_building = tp_chaos_dwarf_slave_levy_3
+				has_building = tp_chaos_dwarf_slave_levy_4
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 100
+		modifier = {
+			factor = 1.01
+			stewardship = 10
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 15
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 20
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 25
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 30
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 35
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 40
+		}
+		modifier = {
+			factor = 1.01
+			stewardship = 45
+		}
+		modifier = {
+			factor = 0.50
+			NOT = {
+				stewardship = 10
+			}
+		}
+		modifier = {
+			factor = 0.25
+			NOT = {
+				stewardship = 5
+			}
+		}
+	}
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.51 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPT_CD_slave_levy_decays
+		wh_sacrifice_chaos_dwarf_slave_levy_effect = yes
+		ai_chance = {
+			factor = 1000
+		}
+	}
+}
+# Success - K'daai summoned
+character_event = {
+	id = wh_chaos_dwarf.52
+	desc = EVTDESCDR_chaos_dwarf_kdaai_summoned
+	picture = GFX_evt_demon_summoning
+	is_triggered_only = yes
+ 	# immediate = {
+		# 1 = {
+			# change_variable = {
+				# which = "doom_counter"
+				# value = 0.5
+			# }
+		# }
+	# }
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.52 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_chaos_dwarf_kdaai_summoned
+		create_character = {
+			random_traits = yes
+			religion = hashut
+			culture = daemon_kdaai
+			dynasty = none
+			female = no
+			age = 1212
+			flag = ai_flag_refuse_conversion
+			flag = special_marshal
+			attributes = {
+				diplomacy = 2
+				martial = 18
+				stewardship = 25
+				intrigue = 6
+				learning = 1
+			}
+		}
+		new_character = {
+			add_trait = proud
+			add_trait = cruel
+			add_trait = hashut_kdaai
+			health = 25
+			random_list = {
+				25 = {
+					add_trait = ambitious
+				}
+				25 = {
+					add_trait = greedy
+				}
+				25 = {
+					add_trait = diligent
+				}
+				25 = {
+					add_trait = wroth
+				}
+			}
+			add_friend = ROOT
+		}
+		prestige = 500
+	}
+}
+# Success, summoned K'daai
+character_event = {
+	id = wh_chaos_dwarf.53
+	desc = EVTDESCDR_chaos_dwarf_kdaai_summoned_else
+	picture = GFX_evt_demon_summoning
+	is_triggered_only = yes
+
+	immediate = {
+		log = "work event id = wh_chaos_dwarf.53 for [Root.GetBestName]"
+	}
+
+	option = {
+		name = EVTOPTADR_chaos_dwarf_kdaai_summoned_else
+		FROM = {
+			opinion = {
+				modifier = opinion_grateful
+				who = ROOT
+				years = 8
+			}
+		}
+	}
+}
+
+
+
+# # Character hasn't made a sacrifice in 4 years
+# character_event = {
+# id = wh_chaos_dwarf.25
+# desc = EVTDESC_chaos_dwarf_must_sacrifice
+# picture = GFX_evt_altar_hashut
+# only_rulers = yes
+# trigger = {
+# higher_tier_than = BARON
+# is_theocracy = no
+# trait = creature_chaos_dwarf
+# religion = hashut
+# NOT = { has_character_modifier = must_sacrifice_hashut }
+# OR = {
+# NOT = { has_character_flag = flag_sacrifice_made_hashut }
+# had_character_flag = { flag = flag_sacrifice_made_hashut days = 1460 }
+# }
+# }
+# # option = {
+# # trigger = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_factory_1
+# # }
+# # }
+# # name = EVTOPTA_chaos_dwarf_must_sacrifice
+# # custom_tooltip = {
+# # text = chaosdwarffactorysacrifice
+# # piety = 50
+# # hidden_tooltip = {
+# # if = {
+# # limit = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_factory_1
+# # NOT = { has_building = ca_chaos_dwarf_factory_2 }
+# # }
+# # }
+# # capital_holding = { remove_building = ca_chaos_dwarf_factory_1 }
+# # }
+# # if = {
+# # limit = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_factory_2
+# # NOT = { has_building = ca_chaos_dwarf_factory_3 }
+# # }
+# # }
+# # capital_holding = { remove_building = ca_chaos_dwarf_factory_2 }
+# # }
+# # if = {
+# # limit = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_factory_3
+# # NOT = { has_building = ca_chaos_dwarf_factory_4 }
+# # }
+# # }
+# # capital_holding = { remove_building = ca_chaos_dwarf_factory_3 }
+# # }
+# # if = {
+# # limit = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_factory_4
+# # NOT = { has_building = ca_chaos_dwarf_factory_5 }
+# # }
+# # }
+# # capital_holding = { remove_building = ca_chaos_dwarf_factory_4 }
+# # }
+# # if = {
+# # limit = { capital_holding = { has_building = ca_chaos_dwarf_factory_5 } }
+# # capital_holding = { remove_building = ca_chaos_dwarf_factory_5 }
+# # }
+# # }
+# # }
+# # }
+# # option = {
+# # trigger = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_slave_levy_1
+# # }
+# # }
+# # name = EVTOPTB_chaos_dwarf_must_sacrifice
+# # piety = 50
+# # custom_tooltip = {
+# # text = chaosdwarfslavelevysacrifice
+# # hidden_tooltip = {
+# # if = {
+# # limit = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_slave_levy_1
+# # NOT = { has_building = ca_chaos_dwarf_slave_levy_2 }
+# # }
+# # }
+# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_1 }
+# # }
+# # if = {
+# # limit = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_slave_levy_2
+# # NOT = { has_building = ca_chaos_dwarf_slave_levy_3 }
+# # }
+# # }
+# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_2 }
+# # }
+# # if = {
+# # limit = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_slave_levy_3
+# # NOT = { has_building = ca_chaos_dwarf_slave_levy_4 }
+# # }
+# # }
+# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_3 }
+# # }
+# # if = {
+# # limit = {
+# # capital_holding = {
+# # has_building = ca_chaos_dwarf_slave_levy_4
+# # NOT = { has_building = ca_chaos_dwarf_slave_levy_5 }
+# # }
+# # }
+# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_4 }
+# # }
+# # if = {
+# # limit = { capital_holding = { has_building = ca_chaos_dwarf_slave_levy_5 } }
+# # capital_holding = { remove_building = ca_chaos_dwarf_slave_levy_5 }
+# # }
+# # }
+# # }
+# # }
+# option = {
+# name = EVTOPTC_chaos_dwarf_must_sacrifice
+# add_character_modifier = {
+# name = must_sacrifice_hashut
+# duration = -1
+# }
+# }
+# }
+
+#######################################
+# old file
+
+# Slave buildings in a non-capital holdings 
+# character_event = {
+	# id = wh_chaos_dwarf.50
+	# desc = "EVTDESCAchaosdwarf_slave_building_capital"
+	# picture = GFX_evt_slaves
+	# only_playable = yes
+	# religion = hashut
+	# culture_group = dwarf_chaos_group
+	# is_triggered_only = yes
+	# trigger = {
+		# any_demesne_title = {
+			# tier = BARON
+			# OR = {
+				# has_building = ca_chaos_dwarf_factory_1
+				# has_building = ca_chaos_dwarf_slave_levy_1
+				# has_building = ct_chaos_dwarf_factory_1
+				# has_building = ct_chaos_dwarf_slave_levy_1
+				# has_building = tp_chaos_dwarf_factory_1
+				# has_building = tp_chaos_dwarf_slave_levy_1
+			# }
+			# ROOT = {
+				# OR = {
+					# is_patrician = yes
+					# capital_holding = {
+						# NOT = {
+							# title = PREVPREV
+						# }
+					# }
+				# }
+			# }
+		# }
+	# }
+	# immediate = {
+		# log = "work event id = wh_chaos_dwarf.50 for [Root.GetBestName]"
+	# }
+	# option = {
+		# name = OK
+		# any_demesne_title = {
+			# limit = {
+				# ROOT = {
+					# OR = {
+						# is_patrician = yes
+						# capital_holding = {
+							# NOT = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+				# OR = {
+					# has_building = ca_chaos_dwarf_factory_4
+					# has_building = ct_chaos_dwarf_factory_4
+					# has_building = tp_chaos_dwarf_factory_4
+					# has_building = fp_chaos_dwarf_factory_4
+				# }
+			# }
+			# remove_building = ca_chaos_dwarf_factory_4
+			# remove_building = ct_chaos_dwarf_factory_4
+			# remove_building = tp_chaos_dwarf_factory_4
+			# remove_building = fp_chaos_dwarf_factory_4
+			# ROOT = {
+				# character_event = {
+					# id = wh_chaos_dwarf.10
+					# tooltip = "EVTTOOLTIPFACTORYCAPITAL"
+				# }
+			# }
+		# }
+		# any_demesne_title = {
+			# limit = {
+				# ROOT = {
+					# OR = {
+						# is_patrician = yes
+						# capital_holding = {
+							# NOT = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+				# OR = {
+					# has_building = ca_chaos_dwarf_factory_3
+					# has_building = ct_chaos_dwarf_factory_3
+					# has_building = tp_chaos_dwarf_factory_3
+					# has_building = fp_chaos_dwarf_factory_3
+				# }
+			# }
+			# remove_building = ca_chaos_dwarf_factory_3
+			# remove_building = ct_chaos_dwarf_factory_3
+			# remove_building = tp_chaos_dwarf_factory_3
+			# remove_building = fp_chaos_dwarf_factory_3
+			# ROOT = {
+				# character_event = {
+					# id = wh_chaos_dwarf.10
+					# tooltip = "EVTTOOLTIPFACTORYCAPITAL"
+				# }
+			# }
+		# }
+		# any_demesne_title = {
+			# limit = {
+				# ROOT = {
+					# OR = {
+						# is_patrician = yes
+						# capital_holding = {
+							# NOT = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+				# OR = {
+					# has_building = ca_chaos_dwarf_factory_2
+					# has_building = ct_chaos_dwarf_factory_2
+					# has_building = tp_chaos_dwarf_factory_2
+					# has_building = fp_chaos_dwarf_factory_2
+				# }
+			# }
+			# remove_building = ca_chaos_dwarf_factory_2
+			# remove_building = ct_chaos_dwarf_factory_2
+			# remove_building = tp_chaos_dwarf_factory_2
+			# remove_building = fp_chaos_dwarf_factory_2
+			# ROOT = {
+				# character_event = {
+					# id = wh_chaos_dwarf.10
+					# tooltip = "EVTTOOLTIPFACTORYCAPITAL"
+				# }
+			# }
+		# }
+		# any_demesne_title = {
+			# limit = {
+				# ROOT = {
+					# OR = {
+						# is_patrician = yes
+						# capital_holding = {
+							# NOT = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+				# OR = {
+					# has_building = ca_chaos_dwarf_factory_1
+					# has_building = ct_chaos_dwarf_factory_1
+					# has_building = tp_chaos_dwarf_factory_1
+					# has_building = fp_chaos_dwarf_factory_1
+				# }
+			# }
+			# remove_building = ca_chaos_dwarf_factory_1
+			# remove_building = ct_chaos_dwarf_factory_1
+			# remove_building = tp_chaos_dwarf_factory_1
+			# remove_building = fp_chaos_dwarf_factory_1
+			# ROOT = {
+				# character_event = {
+					# id = wh_chaos_dwarf.10
+					# tooltip = "EVTTOOLTIPFACTORYCAPITAL"
+				# }
+			# }
+		# }
+		# any_demesne_title = {
+			# limit = {
+				# ROOT = {
+					# OR = {
+						# is_patrician = yes
+						# capital_holding = {
+							# NOT = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+				# OR = {
+					# has_building = ca_chaos_dwarf_slave_levy_4
+					# has_building = ct_chaos_dwarf_slave_levy_4
+					# has_building = tp_chaos_dwarf_slave_levy_4
+					# has_building = fp_chaos_dwarf_slave_levy_4
+				# }
+			# }
+			# remove_building = ca_chaos_dwarf_slave_levy_4
+			# remove_building = ct_chaos_dwarf_slave_levy_4
+			# remove_building = tp_chaos_dwarf_slave_levy_4
+			# remove_building = fp_chaos_dwarf_slave_levy_4
+			# ROOT = {
+				# character_event = {
+					# id = wh_chaos_dwarf.11
+					# tooltip = "EVTTOOLTIPSLEVYCAPITAL"
+				# }
+			# }
+		# }
+		# any_demesne_title = {
+			# limit = {
+				# ROOT = {
+					# OR = {
+						# is_patrician = yes
+						# capital_holding = {
+							# NOT = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+				# OR = {
+					# has_building = ca_chaos_dwarf_slave_levy_3
+					# has_building = ct_chaos_dwarf_slave_levy_3
+					# has_building = tp_chaos_dwarf_slave_levy_3
+					# has_building = fp_chaos_dwarf_slave_levy_3
+				# }
+			# }
+			# remove_building = ca_chaos_dwarf_slave_levy_3
+			# remove_building = ct_chaos_dwarf_slave_levy_3
+			# remove_building = tp_chaos_dwarf_slave_levy_3
+			# remove_building = fp_chaos_dwarf_slave_levy_3
+			# ROOT = {
+				# character_event = {
+					# id = wh_chaos_dwarf.11
+					# tooltip = "EVTTOOLTIPSLEVYCAPITAL"
+				# }
+			# }
+		# }
+		# any_demesne_title = {
+			# limit = {
+				# ROOT = {
+					# OR = {
+						# is_patrician = yes
+						# capital_holding = {
+							# NOT = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+				# OR = {
+					# has_building = ca_chaos_dwarf_slave_levy_2
+					# has_building = ct_chaos_dwarf_slave_levy_2
+					# has_building = tp_chaos_dwarf_slave_levy_2
+					# has_building = fp_chaos_dwarf_slave_levy_2
+				# }
+			# }
+			# remove_building = ca_chaos_dwarf_slave_levy_2
+			# remove_building = ct_chaos_dwarf_slave_levy_2
+			# remove_building = tp_chaos_dwarf_slave_levy_2
+			# remove_building = fp_chaos_dwarf_slave_levy_2
+			# ROOT = {
+				# character_event = {
+					# id = wh_chaos_dwarf.11
+					# tooltip = "EVTTOOLTIPSLEVYCAPITAL"
+				# }
+			# }
+		# }
+		# any_demesne_title = {
+			# limit = {
+				# ROOT = {
+					# OR = {
+						# is_patrician = yes
+						# capital_holding = {
+							# NOT = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+				# OR = {
+					# has_building = ca_chaos_dwarf_slave_levy_1
+					# has_building = ct_chaos_dwarf_slave_levy_1
+					# has_building = tp_chaos_dwarf_slave_levy_1
+					# has_building = fp_chaos_dwarf_slave_levy_1
+				# }
+			# }
+			# remove_building = ca_chaos_dwarf_slave_levy_1
+			# remove_building = ct_chaos_dwarf_slave_levy_1
+			# remove_building = tp_chaos_dwarf_slave_levy_1
+			# remove_building = fp_chaos_dwarf_slave_levy_1
+			# ROOT = {
+				# character_event = {
+					# id = wh_chaos_dwarf.11
+					# tooltip = "EVTTOOLTIPSLEVYCAPITAL"
+				# }
+			# }
+		# }
+	# }
+# }
+# character_event = {
+	# id = wh_chaos_dwarf.10
+	# hide_window = yes
+	# is_triggered_only = yes
+	# immediate = {
+		# log = "work event id = wh_chaos_dwarf.10 for [Root.GetBestName]"
+		# wh_update_chaos_dwarf_slave_factory_effect = yes
+	# }
+# }
+# character_event = {
+	# id = wh_chaos_dwarf.11
+	# hide_window = yes
+	# is_triggered_only = yes
+	# immediate = {
+		# log = "work event id = wh_chaos_dwarf.11 for [Root.GetBestName]"
+		# wh_update_chaos_dwarf_slave_levy_effect = yes
+	# }
+# }
 
 # Becoming a Sorcerer-Prophet #used by decisions wh_chaos_dwarf.5
 # character_event = {
@@ -3591,611 +3453,3 @@ character_event = {
 		# z_magic_power_sequential_addition = yes
 	# }
 # }
-
-# Slave building decays ( Factory )
-character_event = {
-	id = wh_chaos_dwarf.50001
-	desc = EVTDESC_CD_factory_decays
-	picture = GFX_evt_slaves
-	only_rulers = yes
-	religion = hashut
-	culture_group = dwarf_chaos_group
-
-	trigger = {
-		capital_holding = {
-			has_building = ca_chaos_dwarf_factory_2
-		}
-	}
-
-	mean_time_to_happen = {
-		years = 250
-		modifier = {
-			factor = 1.01
-			stewardship = 10
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 15
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 20
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 25
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 30
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 35
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 40
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 45
-		}
-		modifier = {
-			factor = 0.50 
-			NOT = {
-				stewardship = 10
-			}
-		}
-		modifier = {
-			factor = 0.25
-			NOT = {
-				stewardship = 5
-			}
-		}
-	}
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.50001 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPT_CD_factory_decays
-		custom_tooltip = {
-			text = chaosdwarffactorysacrifice
-			hidden_tooltip = {
-				if = {
-					limit = {
-						OR = {
-							is_feudal = yes
-							AND = {
-								government = chaosdwarf_government
-								capital_holding = {
-									holding_type = castle
-								}
-							}
-						}
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_factory_4
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_factory_4
-							add_building = ca_chaos_dwarf_factory_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_factory_3
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_factory_3
-							add_building = ca_chaos_dwarf_factory_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_factory_2
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_factory_2
-							add_building = ca_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						is_republic = yes
-						is_patrician = no
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_factory_4
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_factory_4
-							add_building = ct_chaos_dwarf_factory_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_factory_3
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_factory_3
-							add_building = ct_chaos_dwarf_factory_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_factory_2
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_factory_2
-							add_building = ct_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						is_patrician = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_factory_4
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_factory_4
-							add_building = tp_chaos_dwarf_factory_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_factory_3
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_factory_3
-							add_building = tp_chaos_dwarf_factory_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_factory_2
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_factory_2
-							add_building = tp_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						OR = {
-							is_theocracy = yes
-							AND = {
-								government = chaosdwarf_government
-								capital_holding = {
-									holding_type = temple
-								}
-							}
-						}
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_factory_4
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_factory_4
-							add_building = tp_chaos_dwarf_factory_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_factory_3
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_factory_3
-							add_building = tp_chaos_dwarf_factory_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_factory_2
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_factory_2
-							add_building = tp_chaos_dwarf_factory_1
-						}
-						break = yes
-					}
-				}
-			}
-		}
-		ai_chance = {
-			factor = 1000
-		}
-	}
-}
-
-# Slave building decays ( Slave Levy )
-character_event = {
-	id = wh_chaos_dwarf.51
-	desc = EVTDESC_CD_slave_levy_decays
-	picture = GFX_evt_slaves
-	only_rulers = yes
-	religion = hashut
-	culture_group = dwarf_chaos_group
-
-	trigger = {
-		capital_holding = {
-			has_building = ca_chaos_dwarf_slave_levy_2
-		}
-	}
-
-	mean_time_to_happen = {
-		years = 250
-		modifier = {
-			factor = 1.01
-			stewardship = 10
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 15
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 20
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 25
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 30
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 35
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 40
-		}
-		modifier = {
-			factor = 1.01
-			stewardship = 45
-		}
-		modifier = {
-			factor = 0.50
-			NOT = {
-				stewardship = 10
-			}
-		}
-		modifier = {
-			factor = 0.25
-			NOT = {
-				stewardship = 5
-			}
-		}
-	}
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.51 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPT_CD_slave_levy_decays
-		custom_tooltip = {
-			text = chaosdwarfslave_levysacrifice
-			hidden_tooltip = {
-				if = {
-					limit = {
-						OR = {
-							is_feudal = yes
-							AND = {
-								government = chaosdwarf_government
-								capital_holding = {
-									holding_type = castle
-								}
-							}
-						}
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_slave_levy_4
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_slave_levy_4
-							add_building = ca_chaos_dwarf_slave_levy_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_slave_levy_3
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_slave_levy_3
-							add_building = ca_chaos_dwarf_slave_levy_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ca_chaos_dwarf_slave_levy_2
-							}
-						}
-						capital_holding = {
-							remove_building = ca_chaos_dwarf_slave_levy_2
-							add_building = ca_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						is_republic = yes
-						is_patrician = no
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_slave_levy_4
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_slave_levy_4
-							add_building = ct_chaos_dwarf_slave_levy_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_slave_levy_3
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_slave_levy_3
-							add_building = ct_chaos_dwarf_slave_levy_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = ct_chaos_dwarf_slave_levy_2
-							}
-						}
-						capital_holding = {
-							remove_building = ct_chaos_dwarf_slave_levy_2
-							add_building = ct_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						is_patrician = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_slave_levy_4
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_slave_levy_4
-							add_building = tp_chaos_dwarf_slave_levy_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_slave_levy_3
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_slave_levy_3
-							add_building = tp_chaos_dwarf_slave_levy_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							family_palace = {
-								has_building = tp_chaos_dwarf_slave_levy_2
-							}
-						}
-						family_palace = {
-							remove_building = tp_chaos_dwarf_slave_levy_2
-							add_building = tp_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-				}
-				if = {
-					limit = {
-						OR = {
-							is_theocracy = yes
-							AND = {
-								government = chaosdwarf_government
-								capital_holding = {
-									holding_type = temple
-								}
-							}
-						}
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_slave_levy_4
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_slave_levy_4
-							add_building = tp_chaos_dwarf_slave_levy_3
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_slave_levy_3
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_slave_levy_3
-							add_building = tp_chaos_dwarf_slave_levy_2
-						}
-						break = yes
-					}
-					if = {
-						limit = {
-							capital_holding = {
-								has_building = tp_chaos_dwarf_slave_levy_2
-							}
-						}
-						capital_holding = {
-							remove_building = tp_chaos_dwarf_slave_levy_2
-							add_building = tp_chaos_dwarf_slave_levy_1
-						}
-						break = yes
-					}
-				}
-			}
-		}
-		ai_chance = {
-			factor = 1000
-		}
-	}
-}
-
-# Success - K'daai summoned
-character_event = {
-	id = wh_chaos_dwarf.52
-	desc = EVTDESCDR_chaos_dwarf_kdaai_summoned
-	picture = GFX_evt_demon_summoning
-	is_triggered_only = yes
- 	immediate = {
-		1 = {
-			change_variable = {
-				which = "doom_counter"
-				value = 0.5
-			}
-		}
-	}
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.52 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTADR_chaos_dwarf_kdaai_summoned
-		create_character = {
-			random_traits = yes
-			religion = hashut
-			culture = daemon_kdaai
-			dynasty = none
-			female = no
-			age = 1212
-			flag = ai_flag_refuse_conversion
-			flag = special_marshal
-			attributes = {
-				diplomacy = 2
-				martial = 18
-				stewardship = 25
-				intrigue = 6
-				learning = 1
-			}
-		}
-		new_character = {
-			add_trait = proud
-			add_trait = cruel
-			add_trait = hashut_kdaai
-			health = 25
-			random_list = {
-				25 = {
-					add_trait = ambitious
-				}
-				25 = {
-					add_trait = greedy
-				}
-				25 = {
-					add_trait = diligent
-				}
-				25 = {
-					add_trait = wroth
-				}
-			}
-			add_friend = ROOT
-		}
-		prestige = 500
-	}
-}
-
-# Success, summoned K'daai
-character_event = {
-	id = wh_chaos_dwarf.53
-	desc = EVTDESCDR_chaos_dwarf_kdaai_summoned_else
-	picture = GFX_evt_demon_summoning
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_chaos_dwarf.53 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTADR_chaos_dwarf_kdaai_summoned_else
-		FROM = {
-			opinion = {
-				modifier = opinion_grateful
-				who = ROOT
-				years = 8
-			}
-		}
-	}
-}

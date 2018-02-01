@@ -2,16 +2,19 @@
 # we need event to give racial traits basing on culture
 
 creature_human = {
-	inherit_chance = 100
 	potential = {
-		nand = {
-			or = {
+		NAND = {
+			OR = {
 				culture_group = amazon_group
 				religion = amazon
 			}
 			is_female = yes
 		}
 	}
+	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
 	opposites = {
 		creature_orc
 		creature_elf
@@ -26,31 +29,31 @@ creature_human = {
 	}
 	same_opinion = 10
 	opposite_opinion = -10
-	ruler_designer_cost = 0
-	customizer = no
 }
 
 creature_elf = {
 	inherit_chance = 100
-	health = 5
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
 	immortal = yes
+	health = 5
+	fertility = -0.3
 	learning = 2
 	diplomacy = 2
 	martial = 2
 	intrigue = 1
 	stewardship = 1
 	combat_rating = 1
-	ruler_designer_cost = 0
-	customizer = no
+	command_modifier = {
+		speed = 0.01
+	}
 	opposites = {
 		creature_dwarf
 		creature_beastman
 		creature_chaos_dwarf
 		chaos_dwarf_sorcerer
 		creature_orc
-	}
-	command_modifier = {
-		speed = 0.01
 	}
 	same_opinion = 15
 	opposite_opinion = -15
@@ -65,14 +68,18 @@ creature_dwarf = {
 		culture_group = dwarf_group
 	}
 	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
 	immortal = yes
+	health = 5
+	fertility = -0.3
 	stewardship = 1
 	learning = 1
 	martial = 1
-	health = 5
-	customizer = no
-	ruler_designer_cost = 0
-	same_opinion = 10
+	command_modifier = {
+		speed = -0.1
+	}
 	opposites = {
 		creature_chaos_dwarf
 		chaos_dwarf_sorcerer
@@ -83,9 +90,7 @@ creature_dwarf = {
 		creature_beastman
 		creature_chaosspawn
 	}
-	command_modifier = {
-		speed = -0.1
-	}
+	same_opinion = 10
 	opposite_opinion = -100
 	ai_greed = 50
 	ai_honor = 100
@@ -100,21 +105,23 @@ creature_chaos_dwarf = {
 		culture_group = dwarf_chaos_group
 	}
 	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
+	health = 5
+	fertility = -0.3
 	stewardship = 1
 	learning = 1
 	martial = 1
 	intrigue = 1
-	health = 5
 	combat_rating = 1
-	ruler_designer_cost = 0
+	command_modifier = {
+		speed = -0.1
+	}
 	opposites = {
 		creature_dwarf
 		creature_elf
-	}
-	command_modifier = {
-		speed = -0.1
 	}
 	same_opinion = 20
 	opposite_opinion = -20
@@ -128,23 +135,26 @@ chaos_dwarf_sorcerer = {
 	potential = {
 		religion = hashut
 	}
-	customizer = no
 	random = no
-	command_modifier = {
-		morale_offence = 0.2
-	}
-	vassal_opinion = 20
-	learning = 5
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
 	health = 15
+	fertility = -0.3
+	learning = 5
 	monthly_character_prestige = 0.5
 	monthly_character_piety = 0.5
 	combat_rating = 2
+	command_modifier = {
+		morale_offence = 0.2
+	}
 	opposites = {
 		creature_dwarf
 		creature_elf
 	}
 	same_opinion = 20
 	opposite_opinion = -20
+	vassal_opinion = 20
 	male_insult = INSULT_STUMP
 	female_insult = INSULT_STUMP
 	male_insult_adj = INSULT_DIMINUITIVE
@@ -159,11 +169,12 @@ creature_halfling = {
 		}
 	}
 	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
 	stewardship = 1
 	martial = -1
 	combat_rating = -2
-	customizer = no
-	ruler_designer_cost = 0
 	same_opinion = 10
 	opposite_opinion = -10
 	male_insult = INSULT_IMP
@@ -177,11 +188,12 @@ creature_orc = {
 		culture_group = orc_group
 		is_female = no
 	}
-	immortal = yes
 	inherit_chance = 100
-	fertility = -10.0
-	customizer = no
+	caste_tier = yes
 	ruler_designer_cost = 0
+	customizer = no
+	immortal = yes
+	fertility = -10.0
 	cannot_marry = yes
 	learning = -3
 	diplomacy = -2
@@ -191,14 +203,14 @@ creature_orc = {
 	combat_rating = 2
 	same_opinion = 40
 	opposite_opinion = -50
-	ai_rationality = -50
-	ai_honor = -20
-	ai_zeal = 20
 	vassal_opinion = -20
 	male_insult = INSULT_BRUTE
 	female_insult = INSULT_BRUTE
 	male_insult_adj = INSULT_SAVAGE
 	female_insult_adj = INSULT_SAVAGE
+	ai_rationality = -50
+	ai_honor = -20
+	ai_zeal = 20
 }
 
 creature_goblin = {
@@ -207,13 +219,14 @@ creature_goblin = {
 		is_female = no
 	}
 	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
 	learning = -2
 	diplomacy = -2
 	stewardship = -1
 	martial = -2
 	combat_rating = -2
-	customizer = no
-	ruler_designer_cost = 0
 	same_opinion = 40
 	opposite_opinion = -50
 	ai_rationality = -50
@@ -237,22 +250,24 @@ creature_snotling = {
 		is_female = yes
 	}
 	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	immortal = yes
+	fertility = -10.0
+	cannot_marry = yes
+	cannot_inherit = yes
+	can_hold_titles = no
 	learning = -4
 	diplomacy = -3
 	stewardship = -3
 	intrigue = -1
 	martial = -2
 	combat_rating = -2
-	customizer = no
 	same_opinion = 30
 	opposite_opinion = -30
 	ai_rationality = -10
 	ai_honor = -20
-	immortal = yes
-	fertility = -10.0
-	can_hold_titles = no
-	cannot_marry = yes
-	cannot_inherit = yes
 	male_insult = INSULT_BRUTE
 	female_insult = INSULT_BRUTE
 	male_insult_adj = INSULT_INSIGNIFICANT
@@ -268,14 +283,16 @@ creature_amazon = {
 		}
 		is_female = yes
 	}
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	cannot_marry = yes
 	opposites = {
 		creature_human
 		complacent
 		disinherited_amazon
 	}
-	cannot_marry = yes
 	opposite_opinion = -100
-	customizer = no
 }
 
 creature_nehekharan = {
@@ -283,12 +300,13 @@ creature_nehekharan = {
 		culture_group = nehekharan_group
 	}
 	inherit_chance = 100
-	health = 5
-	immortal = yes
-	customizer = no
+	caste_tier = yes
 	ruler_designer_cost = 0
-	opposite_opinion = -20
+	customizer = no
+	immortal = yes
 	fertility = -10.0
+	health = 5
+	opposite_opinion = -20
 	male_insult = INSULT_ABOMINATION
 	female_insult = INSULT_ABOMINATION
 	male_insult_adj = INSULT_ROTTEN
@@ -299,22 +317,23 @@ creature_skaven = {
 	potential = {
 		culture_group = skaven_group
 	}
+	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
 	intrigue = 2
 	diplomacy = -1
+	fertility = -400.0
 	combat_rating = -1
 	command_modifier = {
 		speed = 0.01
 	}
-	inherit_chance = 100
-	fertility = -400.0
-	customizer = no
-	ruler_designer_cost = 0
 	same_opinion = -50
 	opposite_opinion = -100
+	vassal_opinion = -10
 	ai_honor = -100
 	ai_greed = 100
 	ai_ambition = 100
-	vassal_opinion = -10
 	male_insult = INSULT_RATLING
 	female_insult = INSULT_RATLING
 	male_insult_adj = INSULT_SNIVELING
@@ -326,17 +345,18 @@ creature_ogre = {
 	potential = {
 		culture_group = ogre_group
 	}
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	health = 1
+	fertility = -0.15
 	diplomacy = -2
 	learning = -2
 	intrigue = -2
 	stewardship = -2
-	health = 1
 	combat_rating = 2
-	customizer = no
-	ruler_designer_cost = 0
 	same_opinion = 20
 	opposite_opinion = -30
-	fertility = -0.15
 	male_insult = INSULT_BRUTE
 	female_insult = INSULT_BRUTE
 	male_insult_adj = INSULT_SAVAGE
@@ -373,6 +393,18 @@ creature_toad = {
 
 creature_beastman = {
 	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	health = 2
+	fertility = 0.5
+	martial = 1
+	diplomacy = -5
+	intrigue = -2
+	stewardship = -3
+	learning = -5
+	max_population_mult = 1
+	combat_rating = 4
 	opposites = {
 		creature_dwarf
 		creature_orc
@@ -389,25 +421,14 @@ creature_beastman = {
 	}
 	opposite_opinion = -100
 	ambition_opinion = -15
-	ruler_designer_cost = 0
-	fertility = 0.5
-	martial = 1
-	health = 2
-	combat_rating = 4
-	diplomacy = -5
-	intrigue = -2
-	stewardship = -3
-	learning = -5
-	max_population_mult = 1
-	customizer = no
-	male_insult = INSULT_BRUTE
-	female_insult = INSULT_BRUTE
-	male_insult_adj = INSULT_SAVAGE
-	female_insult_adj = INSULT_SAVAGE
 	ai_greed = 100
 	ai_ambition = 100
 	ai_rationality = -100
 	ai_honor = -100
+	male_insult = INSULT_BRUTE
+	female_insult = INSULT_BRUTE
+	male_insult_adj = INSULT_SAVAGE
+	female_insult_adj = INSULT_SAVAGE
 }
 
 creature_forestspirit = {
@@ -415,61 +436,76 @@ creature_forestspirit = {
 		culture_group = forest_group
 	}
 	inherit_chance = 100
-	opposites = {
-		creature_elf
-		creature_treekin
-	}
-	martial = 5
-	combat_rating = 9
-	diplomacy = 3
-	intrigue = 3
-	stewardship = 3
-	learning = 5
+	caste_tier = yes
+	ruler_designer_cost = 0
 	customizer = no
-	same_opinion = 30
-	opposite_opinion = 10
+	immortal = yes
 	cannot_marry = yes
 	cannot_inherit = yes
 	can_hold_titles = no
 	health = 5
-	immortal = yes
 	fertility = -10.0
+	martial = 5
+	diplomacy = 3
+	intrigue = 3
+	stewardship = 3
+	learning = 5
+	combat_rating = 9
+	opposites = {
+		creature_elf
+		creature_treekin
+	}
+	same_opinion = 30
+	opposite_opinion = 10
+	ai_zeal = 30
+	ai_rationality = -50
 	male_insult = INSULT_ABOMINATION
 	female_insult = INSULT_ABOMINATION
 	male_insult_adj = INSULT_ROTTEN
 	female_insult_adj = INSULT_ROTTEN
-	ai_zeal = 30
-	ai_rationality = -50
 }
 
 creature_treekin = {
-	opposites = {
-		creature_elf
-		creature_forestspirit
-	}
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	immortal = yes
+	cannot_marry = yes
+	cannot_inherit = yes
+	fertility = -10.0
 	martial = 3
-	combat_rating = 6
 	diplomacy = -2
 	intrigue = -3
 	stewardship = -3
 	learning = -2
+	combat_rating = 6
+	opposites = {
+		creature_elf
+		creature_forestspirit
+	}
 	same_opinion = 30
 	opposite_opinion = 10
-	cannot_marry = yes
-	cannot_inherit = yes
-	customizer = no
-	immortal = yes
-	fertility = -10.0
+	ai_zeal = 30
+	ai_rationality = -50
 	male_insult = INSULT_ABOMINATION
 	female_insult = INSULT_ABOMINATION
 	male_insult_adj = INSULT_ROTTEN
 	female_insult_adj = INSULT_ROTTEN
-	ai_zeal = 30
-	ai_rationality = -50
 }
 
 creature_chaosspawn = {
 	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	cannot_marry = yes
+	fertility = -10.0
+	martial = 1
+	diplomacy = -50
+	intrigue = -50
+	stewardship = -50
+	learning = -50
+	combat_rating = 8
 	opposites = {
 		creature_dwarf
 		creature_orc
@@ -486,15 +522,6 @@ creature_chaosspawn = {
 	}
 	opposite_opinion = -100
 	same_opinion = -100
-	fertility = -10.0
-	cannot_marry = yes
-	martial = 1
-	combat_rating = 8
-	diplomacy = -50
-	intrigue = -50
-	stewardship = -50
-	learning = -50
-	customizer = no
 	male_insult = INSULT_ABOMINATION
 	female_insult = INSULT_ABOMINATION
 	male_insult_adj = INSULT_SAVAGE
@@ -505,6 +532,18 @@ creature_chaosspawn = {
 }
 
 creature_monster = {
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	cannot_marry = yes
+	cannot_inherit = yes
+	fertility = -40
+	martial = 7
+	diplomacy = -10
+	intrigue = -10
+	stewardship = -10
+	learning = -10
+	combat_rating = 2
 	opposites = {
 		creature_slann
 		creature_saurus
@@ -523,36 +562,28 @@ creature_monster = {
 		creature_ogre
 	}
 	opposite_opinion = -100
-	fertility = -40
-	martial = 7
-	diplomacy = -10
-	intrigue = -10
-	stewardship = -10
-	learning = -10
-	combat_rating = 2
-	customizer = no
 	male_insult = INSULT_MONSTER
 	female_insult = INSULT_MONSTER
 	male_insult_adj = INSULT_COLDBLOODED
 	female_insult_adj = INSULT_COLDBLOODED
-	cannot_marry = yes
-	cannot_inherit = yes
 }
 
 creature_celdragon = {
+	caste_tier = yes
+	ruler_designer_cost = 0
 	customizer = no
+	immortal = yes
+	incapacitating = yes
+	cannot_marry = yes
+	cannot_inherit = yes
 	fertility = -10.0
-	draconite_opinion = 200
 	martial = 5
 	diplomacy = 5
 	stewardship = 5
 	intrigue = 5
 	learning = 5
 	combat_rating = 20
-	immortal = yes
-	incapacitating = yes
-	cannot_marry = yes
-	cannot_inherit = yes
+	draconite_opinion = 200
 	command_modifier = {
 		morale_offence = 10
 		morale_defence = 10
@@ -566,6 +597,17 @@ creature_skink = {
 	potential = {
 		culture_group = lizardman_group
 	}
+	inherit_chance = 100
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	health = 4
+	fertility = -10.0
+	martial = -2
+	learning = 1
+	diplomacy = 2
+	stewardship = 3
+	intrigue = 1
 	opposites = {
 		creature_human
 		creature_amazon
@@ -580,18 +622,8 @@ creature_skink = {
 		creature_skaven
 		creature_ogre
 	}
-	opposite_opinion = -60
-	inherit_chance = 100
-	fertility = -10.0
-	customizer = no
-	ruler_designer_cost = 0
-	martial = -2
-	learning = 1
-	diplomacy = 2
-	stewardship = 3
-	intrigue = 1
-	health = 4
 	same_opinion = 5
+	opposite_opinion = -60
 	male_insult = INSULT_MONSTER
 	female_insult = INSULT_MONSTER
 	male_insult_adj = INSULT_COLDBLOODED
@@ -602,17 +634,18 @@ creature_slann = {
 	potential = {
 		culture_group = lizardman_group
 	}
-	old_ones_opinion = 70
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	immortal = yes
+	cannot_marry = yes
+	cached=yes
 	health = 15
 	fertility = -10
-	immortal = yes
 	learning = 5
-	customizer = no
 	monthly_character_prestige = 0.5
 	monthly_character_piety = 1.5
-	cached=yes
-	cannot_marry = yes
-	ruler_designer_cost = 0
+	old_ones_opinion = 70
 	male_insult = INSULT_MONSTER
 	female_insult = INSULT_MONSTER
 	male_insult_adj = INSULT_COLDBLOODED
@@ -623,6 +656,20 @@ creature_saurus = {
 	potential = {
 		culture_group = lizardman_group
 	}
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	immortal = yes
+	cannot_marry = yes
+	cannot_inherit = yes
+	can_hold_titles = no
+	fertility = -10
+	martial = 5
+	diplomacy = -3
+	intrigue = -3
+	stewardship = -3
+	learning = -5
+	combat_rating = 2
 	opposites = {
 		creature_human
 		creature_amazon
@@ -639,19 +686,6 @@ creature_saurus = {
 	}
 	opposite_opinion = -100
 	old_ones_opinion = 60
-	fertility = -10
-	immortal = yes
-	martial = 5
-	diplomacy = -3
-	intrigue = -3
-	stewardship = -3
-	learning = -5
-	combat_rating = 2
-	customizer = no
-	cannot_marry = yes
-	cannot_inherit = yes
-	can_hold_titles = no
-	ruler_designer_cost = 0
 	male_insult = INSULT_MONSTER
 	female_insult = INSULT_MONSTER
 	male_insult_adj = INSULT_COLDBLOODED

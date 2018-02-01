@@ -20,6 +20,11 @@ spriteTypes = {
 		allwaystransparent = yes
 	}
 	spriteType = {
+		name = "GFX_evt_sanctuary_hashut"
+		texturefile = "gfx/event_pictures/chaos_dwarf_sanctuary.tga"
+		allwaystransparent = yes
+	}
+	spriteType = {
 		name = "GFX_evt_altdorf"
 		texturefile = "gfx/event_pictures/altdorf.tga"
 		allwaystransparent = yes

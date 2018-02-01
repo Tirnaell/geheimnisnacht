@@ -693,17 +693,13 @@ castle = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 30
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_CASTLE_CONSTRUCTION = 3
-			TECH_TRADE_PRACTICES = 2
 		}
-		gold_cost = 300
-		build_time = 400
+		gold_cost = 0
+		build_time = 0
 		ai_creation_factor = 0
 		tax_income = 5
 		gunpowder = 100
@@ -726,18 +722,14 @@ castle = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 35
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_CASTLE_CONSTRUCTION = 4
-			TECH_TRADE_PRACTICES = 3
 		}
 		ai_creation_factor = 0
-		gold_cost = 400
-		build_time = 500
+		gold_cost = 0
+		build_time = 0
 		tax_income = 5
 		gunpowder = 100
 		heavy_infantry_defensive = 0.05
@@ -759,18 +751,14 @@ castle = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 40
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_CASTLE_CONSTRUCTION = 5
-			TECH_TRADE_PRACTICES = 4
 		}
 		ai_creation_factor = 0
-		gold_cost = 500
-		build_time = 600
+		gold_cost = 0
+		build_time = 0
 		tax_income = 5
 		gunpowder = 150
 		heavy_infantry_defensive = 0.05
@@ -792,18 +780,14 @@ castle = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 45
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_CASTLE_CONSTRUCTION = 6
-			TECH_TRADE_PRACTICES = 5
 		}
 		ai_creation_factor = 0
-		gold_cost = 600
-		build_time = 700
+		gold_cost = 0
+		build_time = 0
 		tax_income = 5
 		gunpowder = 150
 		heavy_infantry_defensive = 0.05
@@ -1702,17 +1686,13 @@ city = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 30
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_CITY_CONSTRUCTION = 3
-			TECH_TRADE_PRACTICES = 2
 		}
-		gold_cost = 300
-		build_time = 400
+		gold_cost = 0
+		build_time = 0
 		ai_creation_factor = 0
 		tax_income = 2
 		artillery = 10
@@ -1735,18 +1715,14 @@ city = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 35
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_CITY_CONSTRUCTION = 4
-			TECH_TRADE_PRACTICES = 3
 		}
 		ai_creation_factor = 0
-		gold_cost = 400
-		build_time = 500
+		gold_cost = 0
+		build_time = 0
 		tax_income = 2
 		artillery = 10
 		heavy_infantry_defensive = 0.02
@@ -1768,18 +1744,14 @@ city = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 40
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_CITY_CONSTRUCTION = 5
-			TECH_TRADE_PRACTICES = 4
 		}
 		ai_creation_factor = 0
-		gold_cost = 500
-		build_time = 600
+		gold_cost = 0
+		build_time = 0
 		tax_income = 2
 		artillery = 25
 		heavy_infantry_defensive = 0.03
@@ -1801,18 +1773,14 @@ city = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 45
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_CITY_CONSTRUCTION = 6
-			TECH_TRADE_PRACTICES = 5
 		}
 		ai_creation_factor = 0
-		gold_cost = 600
-		build_time = 700
+		gold_cost = 0
+		build_time = 0
 		tax_income = 2
 		artillery = 25
 		heavy_infantry_defensive = 0.03
@@ -2631,18 +2599,14 @@ temple = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 30
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_TEMPLE_CONSTRUCTION = 3
-			TECH_TRADE_PRACTICES = 2
 		}
 
-		gold_cost = 300
-		build_time = 400
+		gold_cost = 0
+		build_time = 0
 		ai_creation_factor = 100
 		tax_income = 2
 		artillery = 10
@@ -2665,18 +2629,14 @@ temple = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 35
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_TEMPLE_CONSTRUCTION = 4
-			TECH_TRADE_PRACTICES = 3
 		}
 		ai_creation_factor = 95
-		gold_cost = 400
-		build_time = 500
+		gold_cost = 0
+		build_time = 0
 		tax_income = 2
 		artillery = 10
 		heavy_infantry_defensive = 0.02
@@ -2698,18 +2658,14 @@ temple = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 40
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_TEMPLE_CONSTRUCTION = 5
-			TECH_TRADE_PRACTICES = 4
 		}
 		ai_creation_factor = 90
-		gold_cost = 500
-		build_time = 600
+		gold_cost = 0
+		build_time = 0
 		tax_income = 2
 		artillery = 25
 		heavy_infantry_defensive = 0.03
@@ -2731,18 +2687,14 @@ temple = {
 			}
 		}
 		trigger = {
-			FROM = {
-				check_variable = {
-					which = "hashut_favor"
-					value = 45
-				}
+			custom_tooltip = {
+				text = Slaves_required
+				always = no
 			}
-			TECH_TEMPLE_CONSTRUCTION = 6
-			TECH_TRADE_PRACTICES = 5
 		}
 		ai_creation_factor = 85
-		gold_cost = 600
-		build_time = 700
+		gold_cost = 0
+		build_time = 0
 		tax_income = 2
 		artillery = 25
 		heavy_infantry_defensive = 0.03

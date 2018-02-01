@@ -5654,6 +5654,33 @@ decisions = {
 	}
 
 	#CHAOS DWARF
+
+	pray_hashut_for_help = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			is_ruler = yes
+			religion = hashut
+			NOR = {
+				has_character_modifier = recently_asked_hashut
+			}
+		}
+		allow = {
+			custom_tooltip = {
+				text = IS_NOT_INCAPACITATED
+				is_incapacitated_trigger = no
+			}
+			war = no
+			piety = 250
+			wealth = 500
+		}
+		effect = {
+			log = "work decision pray_hashut_for_help for [Root.GetBestName]"
+			long_character_event = {
+				id = wh_chaos_dwarf.4
+			}
+		}
+	}
 	grand_sacrifice_hashut = {
 		only_playable = yes
 		is_high_prio = yes

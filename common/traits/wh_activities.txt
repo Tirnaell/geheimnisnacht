@@ -11,6 +11,7 @@ courting = {
 }
 
 sold_into_slavery = {
+	random = no
 	customizer = no
 	#is_health = yes
 	#health = -1
