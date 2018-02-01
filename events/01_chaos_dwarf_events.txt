@@ -2602,7 +2602,7 @@ character_event = {
 }
 
 ###########################################
-# Mouts Decisions 
+# Mouts Event
 # Great Taurus mount event
 character_event = {
 	id = wh_chaos_dwarf.20
@@ -2867,20 +2867,17 @@ character_event = {
 		}
 	}
 }
+
+###########################################
+# Summon K'daai events
+# 
+
 # Success - K'daai summoned
 character_event = {
 	id = wh_chaos_dwarf.52
 	desc = EVTDESCDR_chaos_dwarf_kdaai_summoned
 	picture = GFX_evt_demon_summoning
 	is_triggered_only = yes
- 	# immediate = {
-		# 1 = {
-			# change_variable = {
-				# which = "doom_counter"
-				# value = 0.5
-			# }
-		# }
-	# }
 
 	immediate = {
 		log = "work event id = wh_chaos_dwarf.52 for [Root.GetBestName]"

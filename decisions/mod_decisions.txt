@@ -5654,7 +5654,6 @@ decisions = {
 	}
 
 	#CHAOS DWARF
-
 	pray_hashut_for_help = {
 		only_playable = yes
 		is_high_prio = yes
@@ -5679,6 +5678,9 @@ decisions = {
 			long_character_event = {
 				id = wh_chaos_dwarf.4
 			}
+		}
+		ai_will_do = {
+			factor = 1
 		}
 	}
 	grand_sacrifice_hashut = {
