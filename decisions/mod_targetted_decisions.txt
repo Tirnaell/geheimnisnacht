@@ -6239,43 +6239,59 @@ targetted_decisions = {
 	}
 
 	#Chaos Dwarf
-	# summon_kdaai = {
-		# ai_target_filter = realm
-		# filter = realm
-		# only_rulers = yes
-		# potential = {
-			# trait = chaos_dwarf_sorcerer
-			# FROM = {
-				# custom_tooltip = {
-					# text = IS_NOT_INCAPACITATED
-					# is_incapacitated_trigger = no
-				# }
-			# }
-		# }
-		# allow = {
-			# trait = chaos_dwarf_sorcerer
-			# custom_tooltip = {
-				# text = IS_NOT_INCAPACITATED
-				# is_incapacitated_trigger = no
-			# }
-			# FROM = {
-				# check_variable = {
-					# which = "hashut_favor"
-					# value = 15
-				# }
-				# wealth = 250
-				# piety = 500
-			# }
-		# }
-		# effect = {
-			# log = "work decision summon_kdaai for [Root.GetBestName]"
-			# FROM = {
-				# long_character_event = {
-					# id = wh_chaos_dwarf.
-				# }
-			# }
-		# }
-	# }
+	summon_kdaai = {
+		ai_target_filter = realm
+		filter = realm
+		only_rulers = yes
+		potential = {
+			ROOT = {
+				trait = chaos_dwarf_sorcerer
+				is_incapacitated_trigger = no
+			}
+			FROM = {
+				OR = {
+					government = chaosdwarf_government
+					AND = {
+						religion = hashut
+						is_republic = yes
+					}
+				}
+				is_incapacitated_trigger = no
+			}
+		}
+		allow = {
+			ROOT = {
+				trait = chaos_dwarf_sorcerer
+				custom_tooltip = {
+					text = IS_NOT_INCAPACITATED
+					is_incapacitated_trigger = no
+				}
+			}
+			opinion = {
+				who = FROM
+				value = 50
+			}
+			FROM = {
+				check_variable = {
+					which = "hashut_favor"
+					value = 15
+				}
+				wealth = 250
+				piety = 500
+			}
+		}
+		effect = {
+			log = "work decision summon_kdaai for [Root.GetBestName]"
+			FROM = {
+				character_event = {
+					id = wh_chaos_dwarf.52
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
 	sacrifice_to_hashut = {
 		ai_target_filter = home_court
 		filter = home_court

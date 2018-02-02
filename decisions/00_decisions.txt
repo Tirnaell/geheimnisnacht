@@ -4897,7 +4897,7 @@ decisions = {
 			}
 		}
 	}
-	recruit_troops_NORse = {
+	recruit_troops_norse = {
 		only_rulers = yes
 		potential = {
 			has_character_flag = raiding_adventurer

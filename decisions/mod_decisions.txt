@@ -5654,6 +5654,317 @@ decisions = {
 	}
 
 	#CHAOS DWARF
+	# summon_kdaai_self = {
+		# only_playable = yes
+		# potential = {
+			# trait = chaos_dwarf_sorcerer
+			# is_incapacitated_trigger = no
+			# is_ruler = yes
+		# }
+		# allow = {
+			# check_variable = {
+				# which = "hashut_favor"
+				# value = 15
+			# }
+			# wealth = 250
+			# piety = 500
+		# }
+		# effect = {
+			# log = "work decision summon_kdaai for [Root.GetBestName]"
+			# character_event = {
+				# id = wh_chaos_dwarf.53
+			# }
+		# }
+		# ai_will_do = {
+			# factor = 0
+		# }
+	# }
+	summon_kdaai_self = {
+		only_playable = yes
+		potential = {
+			trait = chaos_dwarf_sorcerer
+			is_incapacitated_trigger = no
+			is_ruler = yes
+		}
+		allow = {
+			check_variable = {
+				which = "hashut_favor"
+				value = 15
+			}
+			wealth = 250
+			piety = 500
+		}
+		effect = {
+			if = {
+				limit = {
+					has_character_modifier = magic_power_1
+				}
+				create_character = {
+					random_traits = yes
+					religion = hashut
+					culture = daemon_kdaai
+					dynasty = none
+					female = no
+					age = 1212
+					flag = ai_flag_refuse_conversion
+					flag = special_marshal
+					attributes = {
+						diplomacy = 2
+						martial = 8
+						stewardship = 10
+						intrigue = 6
+						learning = 1
+					}
+				}
+				new_character = {
+					add_trait = proud
+					add_trait = cruel
+					add_trait = hashut_kdaai
+					health = 25
+					random_list = {
+						45 = {
+							add_trait = slow
+						}
+						35 = {
+							add_trait = craven
+						}
+						25 = {
+							add_trait = one_handed
+						}
+						25 = {
+							add_trait = one_legged
+						}
+					}
+				}
+				change_variable = {
+					which = "hashut_favor"
+					value = -5
+				}
+				hidden_tooltip = {
+					character_event = {
+						id = wh_chaos_dwarf.53
+					}
+					random_list = {
+						45 = {
+							# no effect
+						}
+						40 = {
+							remove_character_modifier = magic_power_1
+							add_character_modifier = {
+								name = magic_power_2
+								duration = -1
+							}
+						}
+						15 = {
+							character_event = {
+								id = wh_chaos_dwarf.8
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character_modifier = magic_power_2
+				}
+				create_character = {
+					random_traits = yes
+					religion = hashut
+					culture = daemon_kdaai
+					dynasty = none
+					female = no
+					age = 1212
+					flag = ai_flag_refuse_conversion
+					flag = special_marshal
+					attributes = {
+						diplomacy = 3
+						martial = 12
+						stewardship = 13
+						intrigue = 8
+						learning = 2
+					}
+				}
+				new_character = {
+					add_trait = proud
+					add_trait = cruel
+					add_trait = hashut_kdaai
+					health = 25
+					random_list = {
+						45 = {
+							add_trait = slothful
+						}
+						35 = {
+							add_trait = feeble
+						}
+						25 = {
+							add_trait = greedy
+						}
+						25 = {
+							add_trait = wroth
+						}
+					}
+				}
+				change_variable = {
+					which = "hashut_favor"
+					value = -5
+				}
+				hidden_tooltip = {
+					character_event = {
+						id = wh_chaos_dwarf.53
+					}
+					random_list = {
+						45 = {
+							# no effect
+						}
+						40 = {
+							remove_character_modifier = magic_power_2
+							add_character_modifier = {
+								name = magic_power_3
+								duration = -1
+							}
+						}
+						15 = {
+							character_event = {
+								id = wh_chaos_dwarf.8
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character_modifier = magic_power_3
+				}
+				create_character = {
+					random_traits = yes
+					religion = hashut
+					culture = daemon_kdaai
+					dynasty = none
+					female = no
+					age = 1212
+					flag = ai_flag_refuse_conversion
+					flag = special_marshal
+					attributes = {
+						diplomacy = 4
+						martial = 14
+						stewardship = 15
+						intrigue = 9
+						learning = 3
+					}
+				}
+				new_character = {
+					add_trait = proud
+					add_trait = cruel
+					add_trait = hashut_kdaai
+					health = 25
+					random_list = {
+						45 = {
+							add_trait = quick
+						}
+						35 = {
+							add_trait = shrewd
+						}
+						25 = {
+							add_trait = brave
+						}
+						25 = {
+							add_trait = wroth
+						}
+					}
+				}
+				change_variable = {
+					which = "hashut_favor"
+					value = -5
+				}
+				hidden_tooltip = {
+					character_event = {
+						id = wh_chaos_dwarf.53
+					}
+					random_list = {
+						40 = {
+							# no effect
+						}
+						40 = {
+							remove_character_modifier = magic_power_3
+							add_character_modifier = {
+								name = magic_power_4
+								duration = -1
+							}
+						}
+						20 = {
+							character_event = {
+								id = wh_chaos_dwarf.8
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character_modifier = magic_power_4
+				}
+				create_character = {
+					random_traits = yes
+					religion = hashut
+					culture = daemon_kdaai
+					dynasty = none
+					female = no
+					age = 1212
+					flag = ai_flag_refuse_conversion
+					flag = special_marshal
+					attributes = {
+						diplomacy = 5
+						martial = 15
+						stewardship = 20
+						intrigue = 10
+						learning = 5
+					}
+				}
+				new_character = {
+					add_trait = ambitious
+					add_trait = cruel
+					add_trait = hashut_kdaai
+					health = 25
+					random_list = {
+						45 = {
+							add_trait = quick
+						}
+						35 = {
+							add_trait = shrewd
+						}
+						25 = {
+							add_trait = brave
+						}
+						25 = {
+							add_trait = patient
+						}
+					}
+				}
+				change_variable = {
+					which = "hashut_favor"
+					value = -5
+				}
+				hidden_tooltip = {
+					character_event = {
+						id = wh_chaos_dwarf.53
+					}
+					random_list = {
+						65 = {
+							# no effect
+						}
+						35 = {
+							character_event = {
+								id = wh_chaos_dwarf.8
+							}
+						}
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
 	pray_hashut_for_help = {
 		only_playable = yes
 		is_high_prio = yes
