@@ -208,6 +208,28 @@ ironbreaker = {
 	ai_honor = 25
 	ai_rationality = 15
 }
+chaos_dwarf_sorcerer = {
+	potential = {
+		religion = hashut
+	}
+	random = no
+	caste_tier = yes
+	ruler_designer_cost = 0
+	customizer = no
+	health = 10
+	learning = 5
+	monthly_character_prestige = 0.5
+	monthly_character_piety = 0.5
+	combat_rating = 2
+	command_modifier = {
+		morale_offence = 0.2
+	}
+	vassal_opinion = 20
+	male_insult = INSULT_STUMP
+	female_insult = INSULT_STUMP
+	male_insult_adj = INSULT_DIMINUITIVE
+	female_insult_adj = INSULT_DIMINUITIVE
+}
 
 chaos_dwarf_petrification_1 = {
 	customizer = no

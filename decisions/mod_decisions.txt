@@ -5654,31 +5654,6 @@ decisions = {
 	}
 
 	#CHAOS DWARF
-	# summon_kdaai_self = {
-		# only_playable = yes
-		# potential = {
-			# trait = chaos_dwarf_sorcerer
-			# is_incapacitated_trigger = no
-			# is_ruler = yes
-		# }
-		# allow = {
-			# check_variable = {
-				# which = "hashut_favor"
-				# value = 15
-			# }
-			# wealth = 250
-			# piety = 500
-		# }
-		# effect = {
-			# log = "work decision summon_kdaai for [Root.GetBestName]"
-			# character_event = {
-				# id = wh_chaos_dwarf.53
-			# }
-		# }
-		# ai_will_do = {
-			# factor = 0
-		# }
-	# }
 	summon_kdaai_self = {
 		only_playable = yes
 		potential = {

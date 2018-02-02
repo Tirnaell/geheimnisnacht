@@ -52,7 +52,6 @@ creature_elf = {
 		creature_dwarf
 		creature_beastman
 		creature_chaos_dwarf
-		chaos_dwarf_sorcerer
 		creature_orc
 	}
 	same_opinion = 15
@@ -81,8 +80,7 @@ creature_dwarf = {
 		speed = -0.1
 	}
 	opposites = {
-		creature_chaos_dwarf
-		chaos_dwarf_sorcerer
+		creature_chaos_dwarf		
 		creature_goblin
 		creature_snotling
 		creature_orc
@@ -125,36 +123,6 @@ creature_chaos_dwarf = {
 	}
 	same_opinion = 20
 	opposite_opinion = -20
-	male_insult = INSULT_STUMP
-	female_insult = INSULT_STUMP
-	male_insult_adj = INSULT_DIMINUITIVE
-	female_insult_adj = INSULT_DIMINUITIVE
-}
-
-chaos_dwarf_sorcerer = {
-	potential = {
-		religion = hashut
-	}
-	random = no
-	caste_tier = yes
-	ruler_designer_cost = 0
-	customizer = no
-	health = 15
-	fertility = -0.3
-	learning = 5
-	monthly_character_prestige = 0.5
-	monthly_character_piety = 0.5
-	combat_rating = 2
-	command_modifier = {
-		morale_offence = 0.2
-	}
-	opposites = {
-		creature_dwarf
-		creature_elf
-	}
-	same_opinion = 20
-	opposite_opinion = -20
-	vassal_opinion = 20
 	male_insult = INSULT_STUMP
 	female_insult = INSULT_STUMP
 	male_insult_adj = INSULT_DIMINUITIVE
@@ -415,8 +383,7 @@ creature_beastman = {
 		creature_skink
 		creature_skaven
 		creature_ogre
-		creature_chaos_dwarf
-		chaos_dwarf_sorcerer
+		creature_chaos_dwarf		
 		creature_chaosspawn
 	}
 	opposite_opinion = -100
@@ -516,8 +483,7 @@ creature_chaosspawn = {
 		creature_skink
 		creature_skaven
 		creature_ogre
-		creature_chaos_dwarf
-		chaos_dwarf_sorcerer
+		creature_chaos_dwarf		
 		creature_beastman
 	}
 	opposite_opinion = -100
@@ -556,8 +522,7 @@ creature_monster = {
 		creature_snotling
 		creature_nehekharan
 		creature_dwarf
-		creature_chaos_dwarf
-		chaos_dwarf_sorcerer
+		creature_chaos_dwarf		
 		creature_skaven
 		creature_ogre
 	}
@@ -617,8 +582,7 @@ creature_skink = {
 		creature_snotling
 		creature_nehekharan
 		creature_dwarf
-		creature_chaos_dwarf
-		chaos_dwarf_sorcerer
+		creature_chaos_dwarf		
 		creature_skaven
 		creature_ogre
 	}
@@ -679,8 +643,7 @@ creature_saurus = {
 		creature_snotling
 		creature_nehekharan
 		creature_dwarf
-		creature_chaos_dwarf
-		chaos_dwarf_sorcerer
+		creature_chaos_dwarf	
 		creature_skaven
 		creature_ogre
 	}
