@@ -1,17 +1,11 @@
-
-
 # M&M Monastic Orders Events
 # ID MNM.4000-MNM.4999
-
 # IDs:
 # 4100-4199 David
-
 # 4200-4399 Milla
 # 4399 Used to clear secluded meditation/prayer mission in certain cases
-
 # 4400-4599 Mathilda -> Drikus used 4435 - 4443
 # 4600-4799 Drikus
-
 # 4800-4999 Jakob
 namespace = MNM
 

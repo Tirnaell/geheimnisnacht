@@ -653,6 +653,6 @@ on_society_bi_yearly_pulse = {
 # ROOT = Builder, FROM = Province
 on_hospital_construction_completed = {
 	events = {
-		# DR_societies.4024 #Shallyan build hospital mission
+		DR_societies.4024 #Shallyan build hospital mission
 	}
 }

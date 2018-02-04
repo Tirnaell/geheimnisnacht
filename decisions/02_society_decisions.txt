@@ -1354,8 +1354,8 @@ society_decisions = {
 		}
 	}
 }
-# targeted_decisions
 
+# targeted_decisions
 targeted_decisions = {
 	
 	# The Assassins
@@ -3956,8 +3956,8 @@ targeted_decisions = {
 		}
 	}
 }
-# title_decisions
 
+# title_decisions
 title_decisions = {
 	
 	# Bleeding Heart
@@ -4279,8 +4279,8 @@ title_decisions = {
 		}
 	}
 }
-# settlement decision
 
+# settlement decision
 settlement_decisions = {
 
 	chaos_cult_desecrate_province_decision = {
