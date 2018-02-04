@@ -552,7 +552,6 @@ character_event = {
 	is_triggered_only = yes # yearly pulse
 	religion = khorne
 	ai = yes
-	min_age = 16
 
 	trigger = {
 		any_lover = {
@@ -698,7 +697,7 @@ character_event = {
 	}
 }
 
-# khorne lovers want only the strongest
+# tzeench lovers 
 character_event = {
 	id = BRseduction.10
 	desc = BRseduction10desc # A non-believer has tried to seduce you. It was entertaining for a while, but the more time passes, the more you want them to embrace the true powers of the void. Perhaps it is time to see how they deal with the Lord of Change's gifts?
@@ -707,7 +706,6 @@ character_event = {
 	is_triggered_only = yes # yearly pulse
 	religion = tzeentch
 	ai = yes
-	min_age = 16
 
 	trigger = {
 		any_lover = {

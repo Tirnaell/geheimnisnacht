@@ -108,33 +108,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = {
-					wealth = 200
-				}
-			}
-			modifier = {
-				factor = 0
-				trait = shy
-			}
-			modifier = {
-				factor = 0
-				NOT = {
-					diplomacy = 10
-				}
-			}
-			modifier = {
-				factor = 0
-				has_character_flag = recent_miNOR_decision
-				NOT = {
-					had_character_flag = {
-						flag = recent_miNOR_decision
-						days = 730
-					}
-				}
-			}
+			factor = 0
 		}
 	}
 	summer_fair = { #for old world & halfling
@@ -233,33 +207,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = {
-					wealth = 200
-				}
-			}
-			modifier = {
-				factor = 0
-				trait = slothful
-			}
-			modifier = {
-				factor = 0
-				NOT = {
-					stewardship = 10
-				}
-			}
-			modifier = {
-				factor = 0
-				has_character_flag = recent_miNOR_decision
-				NOT = {
-					had_character_flag = {
-						flag = recent_miNOR_decision
-						days = 730
-					}
-				}
-			}
+			factor = 0
 		}
 	}
 	hold_grand_hunt = { #for old world/gods, chaos group
@@ -362,40 +310,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = {
-					wealth = 50
-				}
-			}
-			modifier = {
-				factor = 0
-				NOR = {
-					wealth = 200
-					has_focus = focus_hunting
-				}
-			}
-			modifier = {
-				factor = 0
-				trait = craven
-			}
-			modifier = {
-				factor = 0
-				NOT = {
-					martial = 10
-				}
-			}
-			modifier = {
-				factor = 0
-				has_character_flag = recent_miNOR_decision
-				NOT = {
-					had_character_flag = {
-						flag = recent_miNOR_decision
-						days = 730
-					}
-				}
-			}
+			factor = 0
 		}
 	}
 	hold_a_epic_tournament  = { #for grail
@@ -537,59 +452,7 @@ decisions = {
 			}
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.02
-			}
-			modifier = {
-				#save up for higher tourney
-				factor = 0
-				OR = {
-					trait = ambitious
-					trait = proud
-					trait = charitable
-				}
-				OR = {
-					AND = {
-						yearly_income = 75
-						NOT = {
-							treasury = 150
-						}
-					}
-					AND = {
-						OR = {
-							tier = EMPEROR
-							yearly_income = 150
-						}
-						NOT = {
-							treasury = 300
-						}
-					}
-				}
-			}
-			#AI unlikley to do
-			modifier = {
-				factor = 0.2
-				OR = {
-					trait = shy
-					trait = greedy
-					trait = temperate
-					trait = stressed
-					trait = depressed
-					trait = slothful
-				}
-			}
-			#AI likely to do
-			modifier = {
-				factor = 5
-				OR = {
-					trait = gregarious
-					trait = charitable
-					trait = gluttonous
-					trait = hedonist
-					trait = duelist
-				}
-			}
+			factor = 0
 		}
 	}
 	hold_a_furusiyya  = { #for ormazd_gods_group
@@ -660,20 +523,10 @@ decisions = {
 			}
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = {
-					OR = {
-						wealth = 1000
-						scaled_wealth = 3.0
-					}
-				}
-			}
+			factor = 0
 		}
 	}
 	hold_nomad_wargames = {	#for nomads
-
 		only_playable = yes
 		potential = {
 			is_playable = yes
@@ -737,36 +590,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0.1
-			modifier = {
-				factor = 0
-				NOT = {
-					wealth = 200
-				}
-			}
-			modifier = {
-				factor = 2
-				current_heir = {
-					dynasty = ROOT
-					combat_rating = 8
-				}
-			}
-			modifier = {
-				factor = 0.5
-				NOT = {
-					martial = 10
-				}
-			}
-			modifier = {
-				factor = 0
-				has_character_flag = recent_miNOR_decision
-				NOT = {
-					had_character_flag = {
-						flag = recent_miNOR_decision
-						days = 730
-					}
-				}
-			}
+			factor = 0
 		}
 	}
 	hold_jarilo = {	#for NORsca
@@ -853,33 +677,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = {
-					wealth = 300
-				}
-			}
-			modifier = {
-				factor = 0
-				trait = shy
-			}
-			modifier = {
-				factor = 0
-				NOT = {
-					diplomacy = 10
-				}
-			}
-			modifier = {
-				factor = 0
-				has_character_flag = recent_miNOR_decision
-				NOT = {
-					had_character_flag = {
-						flag = recent_miNOR_decision
-						days = 730
-					}
-				}
-			}
+			factor = 0
 		}
 	}	
 	celebrate_passover = {	#for halflings
@@ -968,7 +766,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
+			factor = 0
 			modifier = {
 				factor = 0
 				NOT = {
@@ -1006,6 +804,11 @@ decisions = {
 		ai_target_filter = self
 		potential = {
 			has_dlc = "Reapers"
+			top_liege = {
+				any_realm_province = {
+				has_epidemic = yes
+				}
+			}
 			OR = {
 				is_landed = yes
 				is_patrician = yes
@@ -4331,13 +4134,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0.01
-			modifier = {
-				factor = 0
-				NOT = {
-					wealth = 200
-				}
-			}
+			factor = 0
 		}
 	}	
 	carousing_with_the_men = {
@@ -4411,58 +4208,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.015
-			}
-			modifier = {
-				factor = 0
-				trait = greedy
-			}
-			modifier = {
-				factor = 2
-				trait = lustful
-			}
-			modifier = {
-				factor = 2
-				trait = gluttonous
-			}
-			modifier = {
-				factor = 2
-				trait = hedonist
-			}
-			modifier = {
-				factor = 2
-				trait = charitable
-			}
-			modifier = {
-				factor = 2
-				wealth = 200
-			}
-			modifier = {
-				factor = 2
-				wealth = 400
-			}
-			modifier = {
-				factor = 3
-				wealth = 800
-			}
-			modifier = {
-				factor = 4
-				wealth = 1200
-			}
-			modifier = {
-				factor = 5
-				wealth = 1600
-			}
-			modifier = {
-				factor = 0.1
-				primary_title = {
-					band_creator = {
-						is_alive = no
-					}
-				}
-			}
+			factor = 0
 		}
 	}
 	create_mercenary_company = {
@@ -4597,83 +4343,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.1
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					any_mercenary_band = {
-						count = 3
-						band_creator = {
-							character = FROM
-						}
-					}
-					FROM = {
-						is_primary_war_attacker = yes
-						is_primary_war_defender = yes
-					}
-				}
-			}
-			modifier = {
-				factor = 0.5
-				any_mercenary_band = {
-					count = 1
-					band_creator = {
-						character = FROM
-					}
-				}
-			}
-			modifier = {
-				factor = 0.5
-				any_mercenary_band = {
-					count = 2
-					band_creator = {
-						character = FROM
-					}
-				}
-			}
-			modifier = {
-				factor = 2
-				martial = 10
-			}
-			modifier = {
-				factor = 3
-				martial = 14
-			}
-			modifier = {
-				factor = 4
-				martial = 18
-			}
-			modifier = {
-				factor = 2
-				prestige = 100
-			}
-			modifier = {
-				factor = 3
-				prestige = 400
-			}
-			modifier = {
-				factor = 4
-				prestige = 1000
-			}
-			modifier = {
-				factor = 2
-				trait = misguided_warrior
-			}
-			modifier = {
-				factor = 2
-				trait = tough_soldier
-			}
-			modifier = {
-				factor = 2
-				trait = skilled_tactician
-			}
-			modifier = {
-				factor = 2
-				trait = brilliant_strategist
-			}
+			factor = 0
 		}
 	}
 	dissolve_mercenary_company = {
@@ -4740,66 +4410,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.01
-			}
-			modifier = {
-				factor = 0.5
-				health = 7
-			}
-			modifier = {
-				factor = 2
-				NOT = {
-					health = 5
-				}
-			}
-			modifier = {
-				factor = 4
-				NOT = {
-					health = 4
-				}
-			}
-			modifier = {
-				factor = 10
-				NOT = {
-					health = 3
-				}
-			}
-			modifier = {
-				factor = 2
-				age = 30
-			}
-			modifier = {
-				factor = 3
-				age = 35
-			}
-			modifier = {
-				factor = 4
-				age = 40
-			}
-			modifier = {
-				factor = 5
-				age = 45
-			}
-			modifier = {
-				factor = 2
-				FROM = {
-					age = 45
-				}
-			}
-			modifier = {
-				factor = 3
-				FROM = {
-					age = 55
-				}
-			}
-			modifier = {
-				factor = 4
-				FROM = {
-					age = 65
-				}
-			}
+			factor = 0
 		}
 	}
 	increase_mercenary_size = {
@@ -4851,50 +4462,7 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.025
-				primary_title = {
-					band_creator = {
-						is_alive = yes
-					}
-				}
-			}
-			modifier = {
-				factor = 0
-				NOT = {
-					trait = ambitious
-				}
-				trait = greedy
-			}
-			modifier = {
-				factor = 2
-				trait = proud
-			}
-			modifier = {
-				factor = 2
-				trait = ambitious
-			}
-			modifier = {
-				factor = 2
-				wealth = 200
-			}
-			modifier = {
-				factor = 2
-				wealth = 400
-			}
-			modifier = {
-				factor = 3
-				wealth = 800
-			}
-			modifier = {
-				factor = 4
-				wealth = 1200
-			}
-			modifier = {
-				factor = 5
-				wealth = 1600
-			}
+			factor = 0
 		}
 	}
 	recruit_troops_norse = {
@@ -4991,10 +4559,7 @@ decisions = {
 			}
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.1
-			}
+			factor = 0
 		}
 	}
 	recruit_troops_nomad = {
@@ -5086,10 +4651,7 @@ decisions = {
 			}
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.1
-			}
+			factor = 0
 		}
 	}
 }

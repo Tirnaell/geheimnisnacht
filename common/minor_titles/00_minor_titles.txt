@@ -25,16 +25,16 @@ title_regent = {
 	monthly_salary = 0.1
 	monthly_prestige = 1.50
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = yes
 }
@@ -86,17 +86,17 @@ title_ruler_consort = {
 	monthly_salary = 0.1
 	monthly_prestige = 1.00
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
 
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = no
 }
@@ -110,16 +110,16 @@ title_tanist = {
 	monthly_salary = 0.07
 	monthly_prestige = 0.75
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = no
 }
@@ -133,16 +133,16 @@ title_queen_mother = {
 	monthly_salary = 0.05
 	monthly_prestige = 1.00
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = no
 }
@@ -156,16 +156,16 @@ title_prince = {
 	monthly_salary = 0.05
 	monthly_prestige = 0.25
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = no
 }
@@ -239,16 +239,16 @@ title_commander = {
 			}
 		}
 	}
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = yes
 }
@@ -431,16 +431,16 @@ title_keeper_of_swans = {
 		}
 	}
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = yes
 }
@@ -490,16 +490,16 @@ title_master_of_the_horse = {
 
 	}
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = yes
 }
@@ -549,16 +549,16 @@ title_master_of_the_hunt = {
 		}
 	}
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = yes
 }
@@ -596,16 +596,16 @@ title_high_almoner = {
 		}
 	}
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = yes
 }
@@ -656,16 +656,16 @@ title_cupbearer = {
 		}
 	}
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = yes
 }
@@ -721,16 +721,16 @@ title_seneschal = {
 		}
 	}
 
-	gain_effect = {
-		character_event = {
-			id = asur.53
-		}
-	}
-	lose_effect = {
-		character_event = {
-			id = asur.53001
-		}
-	}
+	# gain_effect = {
+		# character_event = {
+			# id = asur.53
+		# }
+	# }
+	# lose_effect = {
+		# character_event = {
+			# id = asur.53001
+		# }
+	# }
 
 	message = yes
 }
