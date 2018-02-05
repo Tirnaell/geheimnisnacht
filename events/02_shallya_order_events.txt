@@ -4388,6 +4388,636 @@ character_event = {
 	}
 }
 
+#POWER: Rk4 Shallyan Lay on Hands
+character_event = {
+	id = MNM.7118
+	picture = GFX_evt_magic_ritual
+	border = GFX_event_normal_frame_religion
+	is_triggered_only = yes
+	desc = EVTDESC_DR_SOCIETIES_7118
+	immediate = {
+		log = "work event id = MNM.7118 for [Root.GetBestName]"
+		if = {
+			limit = {
+				has_disease_trigger = yes
+			}
+			set_character_flag = shallya_healing_disease_flag
+		}
+		if = {
+			limit = {
+				is_maimed_trigger = yes
+			}
+			set_character_flag = shallya_healing_maimed_flag
+		}
+		if = {
+			limit = {
+				OR = {
+					trait = wounded
+					AND = {
+						has_dlc = "Reapers"
+						OR = {
+							trait = severely_injured
+							trait = infection
+						}
+					}
+				}
+			}
+			set_character_flag = shallya_healing_injured
+		}
+	}
+	option = {
+		name = EVTOPTA_DR_SOCIETIES_7118
+		custom_tooltip = {
+			text = EVTOPTA_DR_SOCIETIES_7118_TOOLTIP
+		}
+		character_event = {
+			id = MNM.7119 days = 2
+		}
+	}
+}
+# Healing result
+character_event = {
+	id = MNM.7119
+	picture = GFX_evt_magic_ritual
+	border = GFX_event_normal_frame_religion
+	is_triggered_only = yes
+	immediate = {
+		log = "work event id = MNM.7119 for [Root.GetBestName]"
+		if = {
+			limit = {
+				NOT = {
+					has_dlc = "Reapers"
+				}
+			}
+			random_list = {
+				3 = {
+					set_character_flag = shallya_healing_nothing_happened
+				}
+				7 = {
+					random_list = {
+						10 = {
+							modifier = {
+								NOT = {
+									trait = maimed
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_maimed_healed
+						}
+						10 = {
+							modifier = {
+								NOT = {
+									trait = infirm
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_infirm
+						}
+						5 = {
+							modifier = {
+								NOT = {
+									trait = incapable
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_incapable
+						}
+						5 = {
+							modifier = {
+								NOT = {
+									trait = eunuch
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_eunuch
+						}
+						5 = {
+							modifier = {
+								NOT = {
+									trait = blinded
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_blinded
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "Reapers"
+			}
+			random_list = {
+				3 = {
+					set_character_flag = shallya_healing_nothing_happened
+				}
+				7 = {
+					random_list = {
+						10 = {
+							modifier = {
+								OR = {
+									trait = flu
+									trait = food_poisoning
+								}
+								factor = 2
+							}
+							modifier = {
+								trait = cancer
+								nor = {
+									trait = has_measles
+									trait = flu
+									trait = food_poisoning
+									trait = gout
+									trait = scurvy
+									trait = lovers_pox
+									trait = pneumonic
+									trait = syphilitic
+									trait = leper
+								}
+								factor = 0.5
+							}
+							remove_random_disease_effect = yes # sets a flag to remove random "regular" disease
+							set_character_flag = shallya_healing_disease_removed
+						}
+						10 = {
+							modifier = {
+								NOT = {
+									has_epidemic_disease_trigger = yes
+								}
+								factor = 0
+							}
+							remove_random_epidemic_disease_effect = yes # sets a flag to remove random epidemic disease
+							set_character_flag = shallya_healing_disease_removed
+						}
+						10 = {
+							modifier = {
+								is_maimed_trigger = no
+								factor = 0
+							}
+							modifier = {
+								trait = mangled
+								factor = 2
+							}
+							remove_random_maimed_effect = yes
+							set_character_flag = shallya_healing_maimed_healed
+						}
+						10 = {
+							modifier = {
+								NOT = {
+									trait = infirm
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_infirm
+						}
+						10 = {
+							modifier = {
+								NOT = {
+									trait = incapable
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_incapable
+						}
+						10 = {
+							modifier = {
+								NOT = {
+									trait = eunuch
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_eunuch
+						}
+						10 = {
+							modifier = {
+								NOT = {
+									trait = blinded
+								}
+								factor = 0
+							}
+							set_character_flag = shallya_healing_blinded
+						}
+					}
+				}
+			}
+		}
+	}
+	desc = {
+
+		trigger = {
+			OR = {
+				has_character_flag = shallya_healing_incapable
+				has_character_flag = shallya_healing_infirm
+			}
+		}
+		text = EVTDESC_DR_SOCIETIES_7119_INCAPABLE_INFIRM
+	}
+	desc = {
+
+		trigger = {
+			has_character_flag = shallya_healing_blinded
+		}
+		text = EVTDESC_DR_SOCIETIES_7119_BLINDED
+	}
+	desc = {
+
+		trigger = {
+			has_character_flag = shallya_healing_eunuch
+		}
+		text = EVTDESC_DR_SOCIETIES_7119_EUNUCH
+	}
+	desc = {
+
+		trigger = {
+			has_character_flag = shallya_healing_maimed_healed
+		}
+		text = EVTDESC_DR_SOCIETIES_7119_MAIMED
+	}
+	desc = {
+
+		trigger = {
+			NOT = {
+				has_character_flag = shallya_healing_incapable
+				has_character_flag = shallya_healing_eunuch
+				has_character_flag = shallya_healing_blinded
+				has_character_flag = shallya_healing_maimed_healed
+				has_character_flag = shallya_healing_infirm
+			}
+			has_character_flag = shallya_healing_disease_flag
+			has_character_flag = shallya_healing_disease_removed
+		}
+		text = EVTDESC_DR_SOCIETIES_7119_DISEASE
+	}
+	desc = {
+
+		trigger = {
+			NAND = {
+				has_character_flag = shallya_healing_disease_flag
+				has_character_flag = shallya_healing_disease_removed
+			}
+			has_character_flag = shallya_healing_nothing_happened
+			OR = {
+				has_character_flag = shallya_healing_disease_flag
+				has_character_flag = shallya_healing_maimed_flag
+			}
+		}
+		text = EVTDESC_DR_SOCIETIES_7119_NOTHING_HAPPENED
+	}
+	desc = {
+
+		trigger = {
+			NAND = {
+				has_character_flag = shallya_healing_disease_flag
+				has_character_flag = shallya_healing_disease_removed
+			}
+			has_character_flag = shallya_healing_injured
+			has_character_flag = shallya_healing_nothing_happened
+			NOR = {
+				has_character_flag = shallya_healing_disease_flag
+				has_character_flag = shallya_healing_maimed_flag
+			}
+		}
+		text = EVTDESC_DR_SOCIETIES_7119_NORMAL
+	}
+	desc = {
+
+		trigger = {
+			NAND = {
+				has_character_flag = shallya_healing_injured
+				has_character_flag = shallya_healing_disease_removed
+			}
+			has_character_flag = shallya_healing_nothing_happened
+		}
+		text = EVTDESC_DR_SOCIETIES_7119_TOO_WEAK
+	}
+	option = {
+		name = EVTOPT_DR_SOCIETIES_7119
+		if = {
+			limit = {
+				has_character_flag = shallya_healing_disease_removed
+			}
+			# general disease clearing effects:
+			remove_symptoms_effect = yes
+			clear_disease_level_effect = yes
+			remove_disease_flags_effect = yes
+			hidden_effect = {
+				remove_treatment_modifiers_effect = yes
+			}
+		}
+		if = {
+			limit = {
+				trait = infection
+			} remove_trait = infection
+		}
+		if = {
+			limit = {
+				trait = severely_injured
+			} remove_trait = severely_injured
+		}
+		if = {
+			limit = {
+				trait = ill
+			} remove_trait = ill
+		}
+		if = {
+			limit = {
+				trait = wounded
+			} remove_trait = wounded
+		}
+		if = {
+			limit = {
+				has_character_flag = shallya_healing_infirm
+			}
+			remove_trait = infirm
+		}
+		if = {
+			limit = {
+				has_character_flag = shallya_healing_blinded
+			}
+			remove_trait = blinded
+		}
+		if = {
+			limit = {
+				has_character_flag = shallya_healing_incapable
+			}
+			remove_trait = incapable
+		}
+		if = {
+			limit = {
+				has_character_flag = shallya_healing_eunuch
+			}
+			remove_trait = eunuch
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_dlc = "Reapers"
+				} has_character_flag = shallya_healing_maimed_healed
+			}
+			remove_trait = maimed
+		}
+		if = {
+			limit = {
+				has_character_flag = removed_maimed
+			}
+			remove_trait = maimed
+		}
+		if = {
+			limit = {
+				has_character_flag = removed_mangled
+			}
+			remove_trait = mangled
+		}
+		if = {
+			limit = {
+				has_character_flag = removed_one_eyed
+			}
+			remove_trait = one_eyed
+			if = {
+				limit = {
+					has_character_modifier = glass_eye
+				}
+				remove_character_modifier = glass_eye
+			}
+			if = {
+				limit = {
+					has_character_modifier = phantom_pain
+					nor = {
+						trait = one_handed
+						trait = one_legged
+						trait = disfigured
+					}
+				}
+				remove_character_modifier = phantom_pain
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = removed_one_handed
+			}
+			remove_trait = one_handed
+			if = {
+				limit = {
+					has_character_modifier = golden_hand
+				}
+				remove_character_modifier = golden_hand
+				wealth = 10
+			}
+			if = {
+				limit = {
+					has_character_modifier = iron_hand
+				}
+				remove_character_modifier = iron_hand
+			}
+			if = {
+				limit = {
+					has_character_modifier = phantom_pain
+					nor = {
+						trait = one_eyed
+						trait = one_legged
+						trait = disfigured
+					}
+				}
+				remove_character_modifier = phantom_pain
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = removed_one_legged
+			}
+			remove_trait = one_legged
+			if = {
+				limit = {
+					has_character_modifier = peg_leg
+				}
+				remove_character_modifier = peg_leg
+			}
+			if = {
+				limit = {
+					has_character_modifier = prosthetic_leg
+				}
+				remove_character_modifier = prosthetic_leg
+			}
+			if = {
+				limit = {
+					has_character_modifier = phantom_pain
+					nor = {
+						trait = one_handed
+						trait = one_eyed
+						trait = disfigured
+					}
+				}
+				remove_character_modifier = phantom_pain
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = removed_disfigured
+			}
+			remove_trait = disfigured
+			if = {
+				limit = {
+					has_character_modifier = golden_mask
+				}
+				remove_character_modifier = golden_mask
+				wealth = 10
+			}
+			if = {
+				limit = {
+					has_character_modifier = phantom_pain
+					nor = {
+						trait = one_handed
+						trait = one_legged
+						trait = one_eyed
+					}
+				}
+				remove_character_modifier = phantom_pain
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_flu
+			}
+			remove_trait = flu
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_measles
+			}
+			remove_trait = has_measles
+			set_character_flag = immune_measles
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_food_poisoning
+			}
+			remove_trait = food_poisoning
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_gout
+			}
+			remove_trait = gout
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_scurvy
+			}
+			remove_trait = scurvy
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_lovers_pox
+			}
+			remove_trait = lovers_pox
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_cancer
+			}
+			remove_trait = cancer
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_pneumonic
+			}
+			remove_trait = pneumonic
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_syphilitic
+			}
+			remove_trait = syphilitic
+			set_character_flag = immune_syphilis
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_leper
+			}
+			remove_trait = leper
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_has_tuberculosis
+			}
+			remove_trait = has_tuberculosis
+			set_character_flag = immune_tuberculosis
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_has_aztec_disease
+			}
+			remove_trait = has_aztec_disease
+			set_character_flag = immune_aztec_disease
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_has_small_pox
+			}
+			remove_trait = has_small_pox
+			set_character_flag = immune_smallpox
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_has_bubonic_plague
+			}
+			remove_trait = has_bubonic_plague
+			set_character_flag = immune_bubonic_plague
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_has_typhus
+			}
+			remove_trait = has_typhus
+			set_character_flag = immune_typhus
+		}
+		if = {
+			limit = {
+				has_character_flag = removing_has_typhoid_fever
+			}
+			remove_trait = has_typhoid_fever
+			set_character_flag = immune_typhoid_fever
+		}
+		add_character_modifier = {
+			modifier = shallya_healing_recent
+			years = 1
+		}
+		# demonic healing specific clearing:
+		clr_character_flag = shallya_healing_in_effect
+		clr_character_flag = shallya_healing_nothing_happened
+		clr_character_flag = shallya_healing_maimed_flag
+		clr_character_flag = shallya_healing_disease_flag
+		clr_character_flag = shallya_healing_disease_removed
+		clr_character_flag = shallya_healing_maimed_healed
+		clr_character_flag = shallya_healing_incapable
+		clr_character_flag = shallya_healing_infirm
+		clr_character_flag = shallya_healing_blinded
+		clr_character_flag = shallya_healing_eunuch
+		clr_character_flag = shallya_healing_injured
+		clr_character_flag = removed_maimed
+		clr_character_flag = removed_mangled
+		clr_character_flag = removed_one_eyed
+		clr_character_flag = removed_one_handed
+		clr_character_flag = removed_one_legged
+		clr_character_flag = removed_disfigured
+		clr_character_flag = removing_flu
+		clr_character_flag = removing_measles
+		clr_character_flag = removing_food_poisoning
+		clr_character_flag = removing_gout
+		clr_character_flag = removing_scurvy
+		clr_character_flag = removing_lovers_pox
+		clr_character_flag = removing_cancer
+		clr_character_flag = removing_leper
+		clr_character_flag = removing_has_tuberculosis
+		clr_character_flag = removing_has_aztec_disease
+		clr_character_flag = removing_has_small_pox
+		clr_character_flag = removing_has_bubonic_plague
+		clr_character_flag = removing_has_typhus
+		clr_character_flag = removing_has_typhoid_fever
+	}
+}
+
 # ACTIONS
 # ACTION: Donating to charity
 
@@ -5004,7 +5634,6 @@ character_event = {
 # 	id = MNM.4431
 # 	desc = EVTDESC_MNM_4431
 # 	is_triggered_only = yes
-
 # 	trigger = {
 # 		society_rank >= 3
 # 					 is_christian_monastic_member_trigger = yes
@@ -5012,11 +5641,9 @@ character_event = {
 # 			has_artifact = fingerbone_of_saint
 # 		}
 # 	}
-
 # 	immediate = {
 # 		log = "work event id = MNM.4431 for [Root.GetBestName]"
 # 	}
-
 # 	option = {
 # 		name = EVTOPTA_MNM_4428
 # 		add_artifact = fingerbone_of_saint
@@ -6793,7 +7420,6 @@ character_event = {
 # 	border = GFX_event_normal_frame_war
 # 	picture = GFX_evt_melee
 # 	is_triggered_only = yes
-
 # 	immediate = {
 # 		log = "work event id = MNM.4619 for [Root.GetBestName]"
 # 		society = {
@@ -6814,7 +7440,6 @@ character_event = {
 # 			}
 # 		}
 # 	}
-
 # 	option = {
 # 		name = EVTOPTA_MNM.4619
 # 		event_target:monastic_artifact_witness = {
@@ -7031,7 +7656,6 @@ character_event = {
 # 		}
 # 	}
 # }
-
 # character_event = {
 # 	# win - wound
 # 	id = MNM.4620
@@ -7039,15 +7663,12 @@ character_event = {
 # 	border = GFX_event_normal_frame_war
 # 	picture = GFX_evt_melee
 # 	is_triggered_only = yes
-
 # 	trigger = {
 # 		is_monastic_member_trigger = yes
 # 	}
-
 # 	immediate = {
 # 		log = "work event id = MNM.4620 for [Root.GetBestName]"
 # 	}
-
 # 	option = {
 # 		name = EVTOPTA_MNM.4620
 # 		event_target:monastic_artifact_witness = {
@@ -7264,7 +7885,6 @@ character_event = {
 # 		}
 # 	}
 # }
-
 # character_event = {
 # 	# win - maimed
 # 	id = MNM.4621
@@ -7272,15 +7892,12 @@ character_event = {
 # 	border = GFX_event_normal_frame_war
 # 	picture = GFX_evt_melee
 # 	is_triggered_only = yes
-
 # 	trigger = {
 # 		is_monastic_member_trigger = yes
 # 	}
-
 # 	immediate = {
 # 		log = "work event id = MNM.4621 for [Root.GetBestName]"
 # 	}
-
 # 	option = {
 # 		name = EVTOPTA_MNM.4621
 # 		event_target:monastic_artifact_witness = {
@@ -7532,15 +8149,12 @@ character_event = {
 # 	picture = GFX_evt_uncomfortable
 # 	border = GFX_event_normal_frame_religion
 # 	is_triggered_only = yes
-
 # 	trigger = {
 # 		is_monastic_member_trigger = yes
 # 	}
-
 # 	immediate = {
 # 		log = "work event id = MNM.4615 for [Root.GetBestName]"
 # 	}
-
 # 	option = {
 #  		name = EVTOPTA_MNM_4615
 #  		trigger_switch = {
@@ -7584,7 +8198,6 @@ character_event = {
 # 		}
 # 	}
 # }
-
 # # Lover stops witness letting you escape
 # character_event = {
 # 	id = MNM.4616
@@ -7592,15 +8205,12 @@ character_event = {
 # 	picture = GFX_evt_eavesdropping
 # 	border = GFX_event_normal_frame_religion
 # 	is_triggered_only = yes
-
 # 	trigger = {
 # 		is_monastic_member_trigger = yes
 # 	}
-
 # 	immediate = {
 # 		log = "work event id = MNM.4616 for [Root.GetBestName]"
 # 	}
-
 # 	option = {
 #  		name = EVTOPTA_MNM_4616
 #  		trigger_switch = {
@@ -7644,7 +8254,6 @@ character_event = {
 # 		}
 # 	}
 # }
-
 # # Stole the artifact without any witnesses!
 # character_event = {
 # 	id = MNM.4617
@@ -7652,15 +8261,12 @@ character_event = {
 # 	picture = GFX_evt_relic_box
 # 	border = GFX_event_normal_frame_religion
 # 	is_triggered_only = yes
-
 # 	trigger = {
 # 		is_monastic_member_trigger = yes
 # 	}
-
 # 	immediate = {
 # 		log = "work event id = MNM.4617 for [Root.GetBestName]"
 # 	}
-
 # 	option = {
 #  		name = EVTOPTA_MNM_4617
 #  		trigger_switch = {
@@ -7766,15 +8372,12 @@ character_event = {
 # 	picture = GFX_evt_shady_meeting
 # 	border = GFX_event_letter_frame_religion
 # 	is_triggered_only = yes
-
 # 	trigger = {
 # 		is_monastic_member_trigger = yes
 # 	}
-
 # 	immediate = {
 # 		log = "work event id = MNM.4624 for [Root.GetBestName]"
 # 	}
-
 # 	option = {
 # 		# Bribe them!
 #  		name = EVTOPTA_MNM_4624
@@ -7784,7 +8387,6 @@ character_event = {
 #  			min = 300
 # 		}
 # 	}
-
 # 	option = {
 # 		# Return the artifact and pay them to keep quiet
 #  		trigger = {
@@ -7857,7 +8459,6 @@ character_event = {
 # 			}
 # 		}
 # 	}
-
 # 	option = {
 # 		# Keep it!
 #  		name = EVTOPTC_MNM_4624

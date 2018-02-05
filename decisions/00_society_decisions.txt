@@ -2411,7 +2411,7 @@ targeted_decisions = {
 		effect = {
 			log = "work decision shallya_healing for [Root.GetBestName]"
 			character_event = {
-				id = DR_societies.7118
+				id = MNM.7118
 				days = 0
 			}
 			detract_society_currency_medium_effect = yes
