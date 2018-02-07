@@ -1477,9 +1477,6 @@ targetted_decisions = {
 			prisoner = yes
 			age = 12
 		}
-		ai_will_do = {
-			factor = 1
-		}
 		effect = {
 			log = "work decision execute_eat for [Root.GetBestName]"
 			hidden_tooltip = {
@@ -1682,6 +1679,9 @@ targetted_decisions = {
 					add_trait = kinslayer
 				}
 			}
+		}
+		ai_will_do = {
+			factor = 1
 		}
 	}
 	prisoner_to_oubilette = {
@@ -3406,6 +3406,83 @@ targetted_decisions = {
 		}
 		ai_will_do = {
 			factor = 0
+		}
+	}
+	change_wards_focus_to_heritage  = {
+		only_playable = yes
+		filter = court
+		ai_target_filter = court
+		from_potential = {
+			is_playable = yes
+			has_dlc = "Zeus"
+		}
+		potential = {
+			is_adult = no
+			NOR = {
+				has_character_flag = guardian_asked_to_change_focus
+				has_focus = focus_ch_heritage
+				character = FROM
+			}
+			host = {
+				character = FROM
+			}
+			OR = {
+				liege = {
+					character = FROM
+				}
+				prisoner = yes
+			}
+			OR = {
+				is_landed = no
+				is_liege_or_above = FROM
+				prisoner = yes
+			}
+			NOT = {
+				educator = {
+					culture = ROOT
+					religion = ROOT
+				}
+			}
+		}
+		allow = {
+			NOT = {
+				age = 10
+			}
+		}
+		effect = {
+			log = "work decision change_wards_focus_to_heritage  for [Root.GetBestName]"
+			set_character_flag = guardian_asked_to_change_focus
+			if = {
+				limit = {
+					OR = {
+						liege = {
+							character = FROM
+						}
+						prisoner = yes
+					}
+				}
+				hidden_tooltip = {
+					clear_focus = yes
+				}
+				set_focus = focus_ch_heritage
+				break = yes
+			}
+			hidden_tooltip = {
+				liege = {
+					letter_event = {
+						id = ZE.2130 days = 5
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05
+			}
 		}
 	}
 
@@ -5307,6 +5384,37 @@ targetted_decisions = {
 		}
 	}
 
+	change_council_job = {
+		only_rulers = yes
+		filter = realm
+		ai_target_filter = self
+		from_potential = {
+			has_dlc = "Zeus"
+			is_ruler = yes
+		}
+		potential = {
+			change_council_job_potential_trigger = yes
+		}
+		allow = {
+			NOT = {
+				has_character_modifier = in_seclusion
+			}
+		}
+		effect = {
+			log = "work decision change_council_job for [Root.GetBestName]"
+			hidden_tooltip = {
+				character_event = {
+					id = ZE.6020
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
 	search_for_artifact = {
 		only_playable = yes
 		ai_target_filter = court
@@ -5642,178 +5750,6 @@ targetted_decisions = {
 			factor = 0
 		}
 	}
-	demand_gavelkind = {
-		filter = vassals
-		ai_target_filter = vassals
-		from_potential = {
-			ai = no
-			has_dlc = "Reapers"
-			is_feudal = yes
-			is_vice_royalty = no
-			prisoner = no
-			NOT = {
-				trait = incapable
-			}
-		}
-		potential = {
-			is_playable = yes
-			liege = {
-				character = FROM
-			}
-			NOT = {
-				character = FROM
-			}
-			is_law_potential = succ_gavelkind
-			nor = {
-				has_law = succ_gavelkind
-				owes_favor_to = FROM
-				has_opinion_modifier = {
-					who = FROM name = opinion_demanded_succ_law_change
-				}
-			}
-			is_feudal = yes
-			mercenary = no
-			holy_order = no
-			is_vice_royalty = no
-			prisoner = no
-			NOT = {
-				trait = incapable
-			}
-		}
-		allow = {
-			FROM = {
-				prestige = 100
-				NOT = {
-					trait = incapable
-				}
-				prisoner = no
-				in_seclusion = no
-			}
-		}
-		effect = {
-			log = "work decision demand_gavelkind for [Root.GetBestName]"
-			prestige = -100
-			character_event = {
-				id = RIP.30040 days = 3
-			}
-			hidden_tooltip = {
-				opinion = {
-					who = FROM
-					modifier = opinion_demanded_succ_law_change
-					years = 5
-				}
-			}
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	demand_gavelkind_use_favor = {
-		filter = vassals
-		ai_target_filter = vassals
-		from_potential = {
-			ai = no
-			has_dlc = "Reapers"
-			has_dlc = "Conclave"
-			is_feudal = yes
-			is_vice_royalty = no
-			prisoner = no
-			NOT = {
-				trait = incapable
-			}
-		}
-		potential = {
-			is_playable = yes
-			liege = {
-				character = FROM
-			}
-			NOT = {
-				character = FROM
-			}
-			is_law_potential = succ_gavelkind
-			NOT = {
-				has_law = succ_gavelkind
-			}
-			owes_favor_to = FROM
-			NOT = {
-				has_opinion_modifier = {
-					who = FROM name = opinion_demanded_succ_law_change
-				}
-			}
-			is_feudal = yes
-			mercenary = no
-			holy_order = no
-			is_vice_royalty = no
-			prisoner = no
-			NOT = {
-				trait = incapable
-			}
-		}
-		allow = {
-			FROM = {
-				prestige = 100
-				NOT = {
-					trait = incapable
-				}
-				prisoner = no
-				in_seclusion = no
-			}
-		}
-		effect = {
-			log = "work decision demand_gavelkind_use_favor for [Root.GetBestName]"
-			prestige = -100
-			character_event = {
-				id = RIP.30050 days = 3
-			}
-			hidden_tooltip = {
-				opinion = {
-					who = FROM
-					modifier = opinion_demanded_succ_law_change
-					years = 5
-				}
-			}
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	change_council_job = {
-		only_rulers = yes
-		filter = realm
-		ai_target_filter = self
-		from_potential = {
-			has_dlc = "Zeus"
-			is_ruler = yes
-		}
-		potential = {
-			change_council_job_potential_trigger = yes
-		}
-		allow = {
-			NOT = {
-				has_character_modifier = in_seclusion
-			}
-		}
-		effect = {
-			log = "work decision change_council_job for [Root.GetBestName]"
-			hidden_tooltip = {
-				character_event = {
-					id = ZE.6020
-				}
-			}
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 0
-		}
-	}
 	release_tributary = {
 		ai_target_filter = self
 		from_potential = {
@@ -5843,6 +5779,97 @@ targetted_decisions = {
 			factor = 0
 		}
 	}
+	ask_wards_liege_to_allow_culture_religion_swap = {
+		only_playable = yes
+		filter = sub_realm
+		ai_target_filter = court
+		from_potential = {
+			is_playable = yes
+			has_dlc = "Zeus"
+		}
+		potential = {
+			prisoner = no
+			is_adult = no
+			is_landed = no
+			NOR = {
+				has_character_flag = guardian_asked_to_change_focus
+				has_focus = focus_ch_heritage
+				character = FROM
+			}
+			host = {
+				OR = {
+					character = FROM
+					is_liege_or_above = FROM
+				}
+			}
+			NOT = {
+				liege = {
+					character = FROM
+				}
+			}
+			NOT = {
+				educator = {
+					culture = ROOT
+					religion = ROOT
+				}
+			}
+		}
+		allow = {
+			NOT = {
+				age = 10
+			}
+		}
+		effect = {
+			log = "work decision ask_wards_liege_to_allow_culture_religion_swap for [Root.GetBestName]"
+			set_character_flag = guardian_asked_to_change_focus
+			if = {
+				limit = {
+					liege = {
+						character = FROM
+					}
+				}
+				hidden_tooltip = {
+					clear_focus = yes
+				}
+				set_focus = focus_ch_heritage
+				break = yes
+			}
+			hidden_tooltip = {
+				liege = {
+					letter_event = {
+						id = ZE.2130 days = 5
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					host = {
+						character = FROM
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					educator = {
+						culture = FROM
+						religion = FROM
+					}
+				}
+			}
+			modifier = {
+				factor = 0.05
+			}
+		}
+	}
+
 	demand_courtier_religious_conversion = {
 		only_playable = yes
 		ai_target_filter = home_court
@@ -5990,66 +6017,65 @@ targetted_decisions = {
 			factor = 1
 		}
 	}
-	ask_wards_liege_to_allow_culture_religion_swap = {
-		only_playable = yes
-		filter = sub_realm
-		ai_target_filter = court
+	demand_gavelkind = {
+		filter = vassals
+		ai_target_filter = vassals
 		from_potential = {
-			is_playable = yes
-			has_dlc = "Zeus"
+			ai = no
+			has_dlc = "Reapers"
+			is_feudal = yes
+			is_vice_royalty = no
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
 		}
 		potential = {
-			prisoner = no
-			is_adult = no
-			is_landed = no
-			NOR = {
-				has_character_flag = guardian_asked_to_change_focus
-				has_focus = focus_ch_heritage
+			is_playable = yes
+			liege = {
 				character = FROM
 			}
-			host = {
-				OR = {
-					character = FROM
-					is_liege_or_above = FROM
+			NOT = {
+				character = FROM
+			}
+			is_law_potential = succ_gavelkind
+			nor = {
+				has_law = succ_gavelkind
+				owes_favor_to = FROM
+				has_opinion_modifier = {
+					who = FROM name = opinion_demanded_succ_law_change
 				}
 			}
+			is_feudal = yes
+			mercenary = no
+			holy_order = no
+			is_vice_royalty = no
+			prisoner = no
 			NOT = {
-				liege = {
-					character = FROM
-				}
-			}
-			NOT = {
-				educator = {
-					culture = ROOT
-					religion = ROOT
-				}
+				trait = incapable
 			}
 		}
 		allow = {
-			NOT = {
-				age = 10
+			FROM = {
+				prestige = 100
+				NOT = {
+					trait = incapable
+				}
+				prisoner = no
+				in_seclusion = no
 			}
 		}
 		effect = {
-			log = "work decision ask_wards_liege_to_allow_culture_religion_swap for [Root.GetBestName]"
-			set_character_flag = guardian_asked_to_change_focus
-			if = {
-				limit = {
-					liege = {
-						character = FROM
-					}
-				}
-				hidden_tooltip = {
-					clear_focus = yes
-				}
-				set_focus = focus_ch_heritage
-				break = yes
+			log = "work decision demand_gavelkind for [Root.GetBestName]"
+			prestige = -100
+			character_event = {
+				id = RIP.30040 days = 3
 			}
 			hidden_tooltip = {
-				liege = {
-					letter_event = {
-						id = ZE.2130 days = 5
-					}
+				opinion = {
+					who = FROM
+					modifier = opinion_demanded_succ_law_change
+					years = 5
 				}
 			}
 		}
@@ -6057,93 +6083,71 @@ targetted_decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = {
-					host = {
-						character = FROM
-					}
-				}
-			}
-			modifier = {
-				factor = 0
-				NOT = {
-					educator = {
-						culture = FROM
-						religion = FROM
-					}
-				}
-			}
-			modifier = {
-				factor = 0.05
-			}
+			factor = 0
 		}
 	}
-	change_wards_focus_to_heritage  = {
-		only_playable = yes
-		filter = court
-		ai_target_filter = court
+	demand_gavelkind_use_favor = {
+		filter = vassals
+		ai_target_filter = vassals
 		from_potential = {
-			is_playable = yes
-			has_dlc = "Zeus"
+			ai = no
+			has_dlc = "Reapers"
+			has_dlc = "Conclave"
+			is_feudal = yes
+			is_vice_royalty = no
+			prisoner = no
+			NOT = {
+				trait = incapable
+			}
 		}
 		potential = {
-			is_adult = no
-			NOR = {
-				has_character_flag = guardian_asked_to_change_focus
-				has_focus = focus_ch_heritage
+			is_playable = yes
+			liege = {
 				character = FROM
-			}
-			host = {
-				character = FROM
-			}
-			OR = {
-				liege = {
-					character = FROM
-				}
-				prisoner = yes
-			}
-			OR = {
-				is_landed = no
-				is_liege_or_above = FROM
-				prisoner = yes
 			}
 			NOT = {
-				educator = {
-					culture = ROOT
-					religion = ROOT
+				character = FROM
+			}
+			is_law_potential = succ_gavelkind
+			NOT = {
+				has_law = succ_gavelkind
+			}
+			owes_favor_to = FROM
+			NOT = {
+				has_opinion_modifier = {
+					who = FROM name = opinion_demanded_succ_law_change
 				}
+			}
+			is_feudal = yes
+			mercenary = no
+			holy_order = no
+			is_vice_royalty = no
+			prisoner = no
+			NOT = {
+				trait = incapable
 			}
 		}
 		allow = {
-			NOT = {
-				age = 10
+			FROM = {
+				prestige = 100
+				NOT = {
+					trait = incapable
+				}
+				prisoner = no
+				in_seclusion = no
 			}
 		}
 		effect = {
-			log = "work decision change_wards_focus_to_heritage  for [Root.GetBestName]"
-			set_character_flag = guardian_asked_to_change_focus
-			if = {
-				limit = {
-					OR = {
-						liege = {
-							character = FROM
-						}
-						prisoner = yes
-					}
-				}
-				hidden_tooltip = {
-					clear_focus = yes
-				}
-				set_focus = focus_ch_heritage
-				break = yes
+			log = "work decision demand_gavelkind_use_favor for [Root.GetBestName]"
+			prestige = -100
+			character_event = {
+				id = RIP.30050 days = 3
 			}
 			hidden_tooltip = {
-				liege = {
-					letter_event = {
-						id = ZE.2130 days = 5
-					}
+				opinion = {
+					who = FROM
+					modifier = opinion_demanded_succ_law_change
+					years = 5
 				}
 			}
 		}
@@ -6151,10 +6155,7 @@ targetted_decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.05
-			}
+			factor = 0
 		}
 	}
 

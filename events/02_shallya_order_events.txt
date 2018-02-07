@@ -2938,7 +2938,6 @@ society_quest_event = {
 		}
 	}
 }
-
 # send to grandmaster for Ping
 character_event = {
 	id = MNM.4020
@@ -2958,7 +2957,6 @@ character_event = {
 		}
 	}
 }
-
 # Ping
 character_event = {
 	id = MNM.4021

@@ -6388,8 +6388,12 @@ targetted_decisions = {
 		filter = court
 		from_potential = {
 			is_ruler = yes
-			culture_group = dwarf_chaos_group
-			nor = {
+			OR = {
+				religion_group = chaos_gods_group
+				religion_group = cytharai_group
+				religion = norscan_gods
+			}
+			NOR = {
 				has_character_flag = selling_prisoner_slavery
 				has_character_flag = sacrificing_prisoner_hashut
 			}
@@ -6399,9 +6403,6 @@ targetted_decisions = {
 			host = {
 				character = FROM
 			}
-			# NOT = {
-				# culture_group = dwarf_chaos_group
-			# }
 			is_invincible_trigger = no
 		}
 		allow = {

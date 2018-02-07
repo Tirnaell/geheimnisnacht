@@ -113,9 +113,8 @@ on_yearly_pulse = {
 #character
 on_bi_yearly_pulse = {
 	events = {
-		slizardmen.101
-		slizardmen.104 #Clear recent sleep level change flag
-
+		# slizardmen.101
+		# slizardmen.104 #Clear recent sleep level change flag
 		wh_bretonnia.23
 		wh_bretonnia.24
 		dwarf.9
@@ -131,20 +130,20 @@ on_bi_yearly_pulse = {
 		100 = humanflavor.0
 		100 = humanflavor.1
 		100 = humanflavor.3
-		100 = highelf.0
-		100 = highelf.1
-		100 = highelf.2
-		100 = highelf.3
+		# 100 = highelf.0
+		# 100 = highelf.1
+		# 100 = highelf.2
+		# 100 = highelf.3
 		100 = wh_greenskins.10
 		100 = wh_greenskins.13
 		100 = wh_greenskins.14
 		100 = wh_greenskins.15
-		100 = wh_druchii.109
-		100 = wh_druchii.110
-		100 = wh_druchii.111
-		100 = wh_druchii.112
-		100 = wh_druchii.116
-		50 = spleasure.1	#slaanesh umbrella event
+		# 100 = wh_druchii.109
+		# 100 = wh_druchii.110
+		# 100 = wh_druchii.111
+		# 100 = wh_druchii.112
+		# 100 = wh_druchii.116
+		# 50 = spleasure.1	#slaanesh umbrella event
 		25 = norscan.3	#wolf hunt
 		200 = asrai.6			#forest spirits going insane because of missing avatar(s)
 		100 = asrai.42			#forest spirit choosing a possible victim
@@ -160,14 +159,10 @@ on_bi_yearly_pulse = {
 		150 = selfmarriage.50 #AI Elf courtier/baron courting - Cadai
 		150 = selfmarriage.51 #AI Elf courtier/baron courting - Cytharai
 		85 = magic_learn_power.1
-		10 = magic_learn_power.99
-
-		# pious tzeentchians get magic
-		20 = wh_chaos_tzeentch.2
-		# Landed characters only so far, as studying magic is expensive and we don't want all greenskin mystics to become shamans
-		20 = wh_greenskins.100
-		# patrol lands
-		100 = wh_bretonnia.6
+		10 = magic_learn_power.99		
+		# 20 = wh_chaos_tzeentch.2 # pious tzeentchians get magic		
+		20 = wh_greenskins.100 # Landed characters only so far, as studying magic is expensive and we don't want all greenskin mystics to become shamans		
+		100 = wh_bretonnia.6 # patrol lands
 		100 = wh_bretonnia.10
 		100 = wh_bretonnia.14
 	}
@@ -176,7 +171,8 @@ on_bi_yearly_pulse = {
 #character
 on_five_year_pulse = {
 	events = {
-		wh_doomengine.5
+		MNM.10030 # Have AI characters join societies
+		# wh_doomengine.5
 		witchhunter.28
 		wh_bretonnia.25
 		spellsinger.100 #Darkweaver risks corruption
@@ -184,12 +180,11 @@ on_five_year_pulse = {
 		snehekharan.8 #claims to Tomb Kings
 		mutation.1014 #lunacy check
 		mutation.1017 #mutation check
-		slizardmen.50001 #Complacent character produces decadence
+		# slizardmen.50001 #Complacent character produces decadence
 		wh_greenskins.209 #Large AI Grenskin realm declares a WAAAGH!
 		svampires.60 #Jade decay
-		aicleanup.031 #Elven maturity
-		# menopause for mortal women
-		wh_inheritance.3
+		aicleanup.031 #Elven maturity		
+		wh_inheritance.3 # menopause for mortal women
 	}
 	random_events = {
 		50 = spellsinger.1 #Spellsinger wanders to court

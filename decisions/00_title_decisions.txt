@@ -303,6 +303,172 @@ title_decisions = {
 		}
 	}
 
+	#Nomadic
+	abandon_province = {
+		only_playable = yes
+		filter = sub_realm_owned
+		ai_target_filter = sub_realm_owned
+		from_potential = {
+			is_nomadic = yes
+			has_dlc = "Horse Lords"
+		}
+		potential = {
+			tier = COUNT
+			location = {
+				owner = {
+					same_realm = FROM
+				}
+				any_neighbor_province = {
+					owner = {
+						NOT = {
+							same_realm = FROM
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			location = {
+				NOT = {
+					num_of_settlements = 1
+				}
+			}
+			has_siege = no
+			FROM = {
+				war = no
+			}
+			location = {
+				NOT = {
+					has_province_modifier = nomads_exploited_land
+				}
+			}
+		}
+		effect = {
+			log = "work decision abandon_province for [Root.GetBestName]"
+			holder_scope = {
+				capital_holding = {
+					add_holding_modifier = {
+						modifier = nomad_population_boom
+						years = 8
+						stacking = yes
+					}
+				}
+				hidden_tooltip = {
+					top_liege = {
+						if = {
+							limit = {
+								NOT = {
+									character = PREV
+								}
+							}
+							capital_holding = {
+								add_holding_modifier = {
+									modifier = nomad_population_boom_spillover
+									years = 8
+									stacking = yes
+								}
+							}
+						}
+						any_vassal = {
+							limit = {
+								NOT = {
+									character = PREVPREV
+								}
+								clan = yes
+							}
+							capital_holding = {
+								add_holding_modifier = {
+									modifier = nomad_population_boom_spillover
+									years = 8
+									stacking = yes
+								}
+							}
+						}
+					}
+				}
+			}
+			location = {
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							NOT = {
+								same_realm = FROM
+							}
+						}
+					}
+					owner = {
+						ROOT = {
+							grant_title = PREV
+						}
+					}
+				}
+			}
+			location = {
+				add_province_modifier = {
+					modifier = nomads_exploited_land
+					years = 8
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	raiding_adventurer_buy_title = {
+		only_rulers = yes
+		ai_target_filter = dynasty_owned
+		filter = dynasty_owned
+		from_potential = {
+			is_ruler = yes
+			has_character_flag = raiding_adventurer
+			wealth = 150
+			is_nomadic = no
+			primary_title = {
+				temporary = yes
+			}
+			nor = {
+				demesne_size = 1
+				# Somewhat clunky way of checking that the character does not stand to inherit any titles
+				any_heir_title = {
+					always = yes
+				}
+			}
+		}
+		potential = {
+			tier = COUNT
+			can_be_given_away = yes
+			location =  {
+				num_of_settlements = 1
+			}
+			holder_scope = {
+				NOT = {
+					has_character_modifier = raider_buy_land_timer
+				}
+			}
+		}
+		effect = {
+			log = "work decision raiding_adventurer_buy_title for [Root.GetBestName]"
+			save_event_target_as = target_title
+			holder_scope = {
+				save_event_target_as = target_ruler
+			}
+			FROM = {
+				character_event = {
+					id = HL.120
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+
 	#Imperial
 	state_troop_swordsmen = {
 		filter = sub_realm_owned
@@ -1249,111 +1415,88 @@ title_decisions = {
 		}
 	}
 
-	#Nomadic
-	abandon_province = {
-		only_playable = yes
-		filter = sub_realm_owned
-		ai_target_filter = sub_realm_owned
-		from_potential = {
-			is_nomadic = yes
-			has_dlc = "Horse Lords"
-		}
+	#Amazon
+	give_province_amazon_2 = {
+		filter = owned
+		ai_target_filter = owned
 		potential = {
-			tier = COUNT
-			location = {
-				owner = {
-					same_realm = FROM
-				}
-				any_neighbor_province = {
-					owner = {
-						NOT = {
-							same_realm = FROM
-						}
-					}
-				}
+			can_be_given_away = yes
+			FROM = {
+				trait = creature_amazon
+				demesne_size = 2
+			}
+			holder_scope = {
+				character = FROM
+				ai = no
 			}
 		}
 		allow = {
-			location = {
-				NOT = {
-					num_of_settlements = 1
-				}
-			}
-			has_siege = no
 			FROM = {
-				war = no
-			}
-			location = {
-				NOT = {
-					has_province_modifier = nomads_exploited_land
+				OR = {
+					any_vassal = {
+						has_character_modifier = tagged_recipient
+					}
+					any_courtier = {
+						has_character_modifier = tagged_recipient
+					}
 				}
 			}
 		}
 		effect = {
-			log = "work decision abandon_province for [Root.GetBestName]"
-			holder_scope = {
-				capital_holding = {
-					add_holding_modifier = {
-						modifier = nomad_population_boom
-						years = 8
-						stacking = yes
-					}
-				}
-				hidden_tooltip = {
-					top_liege = {
-						if = {
-							limit = {
-								NOT = {
-									character = PREV
-								}
-							}
-							capital_holding = {
-								add_holding_modifier = {
-									modifier = nomad_population_boom_spillover
-									years = 8
-									stacking = yes
-								}
-							}
-						}
+			log = "work decision give_province_amazon_2 for [Root.GetBestName]"
+			if = {
+				limit = {
+					FROM = {
 						any_vassal = {
-							limit = {
-								NOT = {
-									character = PREVPREV
-								}
-								clan = yes
-							}
-							capital_holding = {
-								add_holding_modifier = {
-									modifier = nomad_population_boom_spillover
-									years = 8
-									stacking = yes
-								}
-							}
+							has_character_modifier = tagged_recipient
 						}
 					}
 				}
-			}
-			location = {
-				random_neighbor_province = {
-					limit = {
-						owner = {
-							NOT = {
-								same_realm = FROM
-							}
+				FROM = {
+					any_vassal = {
+						limit = {
+							has_character_modifier = tagged_recipient
 						}
-					}
-					owner = {
 						ROOT = {
 							grant_title = PREV
+							if = {
+								limit = {
+									higher_tier_than = COUNT
+								}
+								add_law = enatic_succession
+							}
+						}
+						remove_character_modifier = tagged_recipient
+					}
+				}
+				break = yes
+			}
+			if = {
+				limit = {
+					FROM = {
+						any_courtier = {
+							has_character_modifier = tagged_recipient
 						}
 					}
 				}
-			}
-			location = {
-				add_province_modifier = {
-					modifier = nomads_exploited_land
-					years = 8
+				FROM = {
+					any_courtier = {
+						limit = {
+							has_character_modifier = tagged_recipient
+						}
+						ROOT = {
+							grant_title = PREV
+							if = {
+								limit = {
+									higher_tier_than = COUNT
+								}
+								add_law = enatic_succession
+							}
+						}
+						remove_character_modifier = tagged_recipient
+					}
 				}
+				break = yes
 			}
 		}
 		revoke_allowed = {
@@ -1363,54 +1506,228 @@ title_decisions = {
 			factor = 0
 		}
 	}
-	raiding_adventurer_buy_title = {
-		only_rulers = yes
-		ai_target_filter = dynasty_owned
-		filter = dynasty_owned
-		from_potential = {
-			is_ruler = yes
-			has_character_flag = raiding_adventurer
-			wealth = 150
-			is_nomadic = no
-			primary_title = {
-				temporary = yes
+	give_province_amazon_ai = {
+		filter = owned
+		ai_target_filter = owned
+		potential = {
+			can_be_given_away = yes
+			FROM = {
+				trait = creature_amazon
+				demesne_size = 2
 			}
-			nor = {
-				demesne_size = 1
-				# Somewhat clunky way of checking that the character does not stand to inherit any titles
-				any_heir_title = {
-					always = yes
+			holder_scope = {
+				character = FROM
+				ai = yes
+				OR = {
+					any_courtier = {
+						is_female = yes
+						prisoner = no
+						nor = {
+							character = FROM
+							trait = disinherited_amazon
+							trait = disinherited
+						}
+						trait = creature_amazon
+					}
+					any_vassal = {
+						is_female = yes
+						prisoner = no
+						nor = {
+							character = FROM
+							trait = disinherited
+							trait = disinherited_amazon
+						}
+						trait = creature_amazon
+					}
 				}
+			}
+			tier = COUNT
+			is_capital = no
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			log = "work decision give_province_amazon_ai for [Root.GetBestName]"
+			FROM = {
+				if = {
+					limit = {
+						FROM = {
+							any_vassal = {
+								is_female = yes
+								prisoner = no
+								nor = {
+									character = FROM
+									trait = disinherited
+									trait = disinherited_amazon
+								}
+								trait = creature_amazon
+							}
+						}
+					}
+					FROM = {
+						any_vassal = {
+							limit = {
+								is_female = yes
+								prisoner = no
+								nor = {
+									character = FROM
+									trait = disinherited
+									trait = disinherited_amazon
+								}
+								trait = creature_amazon
+							}
+							ROOT = {
+								grant_title = PREV
+								if = {
+									limit = {
+										higher_tier_than = COUNT
+									}
+									add_law = enatic_succession
+								}
+							}
+							clr_character_flag = tagged_recipient
+						}
+					}
+					break = yes
+				}
+				if = {
+					limit = {
+						FROM = {
+							any_courtier = {
+								is_female = yes
+								prisoner = no
+								nor = {
+									character = FROM
+									trait = disinherited
+									trait = disinherited_amazon
+								}
+								trait = creature_amazon
+							}
+						}
+					}
+					FROM = {
+						any_courtier = {
+							limit = {
+								is_female = yes
+								prisoner = no
+								nor = {
+									character = FROM
+									trait = disinherited
+									trait = disinherited_amazon
+								}
+								trait = creature_amazon
+							}
+							ROOT = {
+								grant_title = PREV
+								if = {
+									limit = {
+										higher_tier_than = COUNT
+									}
+									add_law = enatic_succession
+								}
+							}
+							clr_character_flag = tagged_recipient
+						}
+					}
+					break = yes
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				FROM = {
+					trait = greedy
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					over_max_demesne_size = 1
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					NOT = {
+						any_demesne_title = {
+							tier = DUKE
+							count = 3
+						}
+					}
+				}
+				ROOT = {
+					tier = DUKE
+				}
+			}
+		}
+	}
+
+	#Greenskin
+	establish_greenskin_tribe = {
+		filter = owned
+		ai_target_filter = owned
+		is_high_prio = yes
+		from_potential = {
+			is_tribal = yes
+			religion_group = greenskin_gods_group
+			OR = {
+				culture_group = orc_group
+				culture_group = goblin_group
 			}
 		}
 		potential = {
 			tier = COUNT
-			can_be_given_away = yes
-			location =  {
-				num_of_settlements = 1
-			}
-			holder_scope = {
+			location = {
+				num_of_empty_holdings = 1
 				NOT = {
-					has_character_modifier = raider_buy_land_timer
+					num_of_settlements = 1
+				}
+				religion_group = greenskin_gods_group
+				OR = {
+					culture_group = orc_group
+					culture_group = goblin_group
 				}
 			}
 		}
-		effect = {
-			log = "work decision raiding_adventurer_buy_title for [Root.GetBestName]"
-			save_event_target_as = target_title
-			holder_scope = {
-				save_event_target_as = target_ruler
+		allow = {
+			is_occupied = no
+			location = {
+				NOT = {
+					num_of_settlements = 1
+				}
 			}
 			FROM = {
-				character_event = {
-					id = HL.120
+				war = no
+				prestige = 100
+			}
+		}
+		effect = {
+			log = "work decision establish_greenskin_tribe for [Root.GetBestName]"
+			FROM = {
+				prestige = -100
+			}
+			location = {
+				build_holding = {
+					type = tribal
+				}
+				hidden_tooltip = {
+					any_province_holding = {
+						make_capital_holding = yes
+					}
 				}
 			}
 		}
 		ai_will_do = {
 			factor = 1
 			modifier = {
-				factor = 0.01
+				factor = 0.1
+				always = yes
 			}
 		}
 	}

@@ -12,7 +12,7 @@ creature_human = {
 		}
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	opposites = {
@@ -33,7 +33,7 @@ creature_human = {
 
 creature_elf = {
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -67,7 +67,7 @@ creature_dwarf = {
 		culture_group = dwarf_group
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -103,7 +103,7 @@ creature_chaos_dwarf = {
 		culture_group = dwarf_chaos_group
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -137,7 +137,7 @@ creature_halfling = {
 		}
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	stewardship = 1
@@ -157,7 +157,7 @@ creature_orc = {
 		is_female = no
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -187,7 +187,7 @@ creature_goblin = {
 		is_female = no
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	learning = -2
@@ -218,7 +218,7 @@ creature_snotling = {
 		is_female = yes
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -251,7 +251,7 @@ creature_amazon = {
 		}
 		is_female = yes
 	}
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	cannot_marry = yes
@@ -268,7 +268,7 @@ creature_nehekharan = {
 		culture_group = nehekharan_group
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -286,7 +286,7 @@ creature_skaven = {
 		culture_group = skaven_group
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	intrigue = 2
@@ -313,7 +313,7 @@ creature_ogre = {
 	potential = {
 		culture_group = ogre_group
 	}
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	health = 1
@@ -361,7 +361,7 @@ creature_toad = {
 
 creature_beastman = {
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	health = 2
@@ -403,7 +403,7 @@ creature_forestspirit = {
 		culture_group = forest_group
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -433,7 +433,7 @@ creature_forestspirit = {
 }
 
 creature_treekin = {
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -462,7 +462,7 @@ creature_treekin = {
 
 creature_chaosspawn = {
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	cannot_marry = yes
@@ -498,7 +498,7 @@ creature_chaosspawn = {
 }
 
 creature_monster = {
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	cannot_marry = yes
@@ -534,7 +534,7 @@ creature_monster = {
 }
 
 creature_celdragon = {
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -563,7 +563,7 @@ creature_skink = {
 		culture_group = lizardman_group
 	}
 	inherit_chance = 100
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	health = 4
@@ -598,7 +598,7 @@ creature_slann = {
 	potential = {
 		culture_group = lizardman_group
 	}
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes
@@ -620,7 +620,7 @@ creature_saurus = {
 	potential = {
 		culture_group = lizardman_group
 	}
-	caste_tier = yes
+	caste_tier = 1
 	ruler_designer_cost = 0
 	customizer = no
 	immortal = yes

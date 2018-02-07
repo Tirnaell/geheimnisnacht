@@ -2497,6 +2497,7 @@ remove_treatment_modifiers_effect = {
 }
 
 remove_disease_flags_effect = {
+	clear_disease_level_effect = yes
 	clr_character_flag = developing_illness
 	clr_character_flag = got_syphilis
 	clr_character_flag = got_tuberculosis
@@ -3982,7 +3983,7 @@ add_cat_effect = {
 # 	}
 # }
 
-###MONKS & MYSTICS###
+###MONKS & MYSTICS### 
 remove_assassins_debt_effect = {
 	if = {
 		limit = { has_character_modifier = assassins_debt }
@@ -7815,7 +7816,7 @@ upgrade_education_effect = {
 	trigger_switch = {
 		on_trigger = trait
 
-		### Intrigue ###
+		### Intrigue ### 
 		amateurish_plotter = {
 			remove_trait = amateurish_plotter
 			add_trait = flamboyant_schemer
@@ -7832,7 +7833,7 @@ upgrade_education_effect = {
 			# already maxed
 		}
 
-		### Diplomacy ###
+		### Diplomacy ### 
 		naive_appeaser = {
 			remove_trait = naive_appeaser
 			add_trait = underhanded_rogue
@@ -7849,7 +7850,7 @@ upgrade_education_effect = {
 			# already maxed
 		}
 
-		### Stewardship ###
+		### Stewardship ### 
 		indulgent_wastrel = {
 			remove_trait = indulgent_wastrel
 			add_trait = thrifty_clerk
@@ -7866,7 +7867,7 @@ upgrade_education_effect = {
 			# already maxed
 		}
 
-		### Martial ###
+		### Martial ### 
 		misguided_warrior = {
 			remove_trait = misguided_warrior
 			add_trait = tough_soldier
@@ -7883,7 +7884,7 @@ upgrade_education_effect = {
 			# already maxed
 		}
 
-		### Learning ###
+		### Learning ### 
 		detached_priest = {
 			remove_trait = detached_priest
 			add_trait = martial_cleric

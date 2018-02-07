@@ -149,7 +149,6 @@ character_event = {
 		}
 	}
 }
-
 # Ulthuan is under attack!
 character_event = {
 	id = wh_druchii.2
@@ -188,7 +187,6 @@ character_event = {
 		name = EVTOPTBdruchiiinv.2
 	}
 }
-
 # You waited to long
 character_event = {
 	id = wh_druchii.3
@@ -249,7 +247,6 @@ character_event = {
 		}
 	}
 }
-
 # Troops flock to your banner
 character_event = {
 	id = wh_druchii.4
@@ -309,7 +306,6 @@ character_event = {
 		}
 	}
 }
-
 # A hero and his retinue appear in your court
 character_event = {
 	id = wh_druchii.5
@@ -384,7 +380,6 @@ character_event = {
 		}
 	}
 }
-
 # A smaller force arrives for the invasion
 character_event = {
 	id = wh_druchii.6
@@ -444,7 +439,6 @@ character_event = {
 		}
 	}
 }
-
 # Stupid AI, attack!
 character_event = {
 	id = wh_druchii.7
@@ -464,255 +458,6 @@ character_event = {
 				}
 			}
 		}
-	}
-}
-
-# kill in some ways 50 - 100
-# Feed to nauglir - (Jailer)
-character_event = {
-	id = wh_druchii.50
-	desc = EVTDESCA_druchiiinv.8
-	picture = GFX_evt_nauglir
-	border = GFX_event_normal_frame_war
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_druchii.50 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTAdruchiiinv.8
-		any_vassal = {
-			limit = {
-				nor = {
-					trait = brave
-					trait = quick
-					trait = genius
-				}
-			}
-			opinion = {
-				modifier = opinion_scared_into_submission
-				who = ROOT
-			}
-		}
-		any_courtier = {
-			limit = {
-				nor = {
-					trait = brave
-					trait = quick
-					trait = genius
-				}
-				is_ruler = no
-			}
-			opinion = {
-				modifier = opinion_scared_into_submission
-				who = ROOT
-			}
-		}
-	}
-}
-
-# Feed to nauglir - (Victim)
-character_event = {
-	id = wh_druchii.51
-	desc = EVTDESCA_druchiiinv.9
-	picture = GFX_evt_nauglir
-	border = GFX_event_normal_frame_war
-	ai = no
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_druchii.51 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTAdruchiiinv.9
-	}
-}
-
-# Feed to dragon - (Jailer)
-character_event = {
-	id = wh_druchii.52
-	desc = EVTDESCA_druchiiinv.10
-	picture = GFX_evt_dragon
-	border = GFX_event_normal_frame_war
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_druchii.52 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTAdruchiiinv.10
-		any_vassal = {
-			limit = {
-				nor = {
-					trait = brave
-					trait = quick
-					trait = genius
-				}
-			}
-			opinion = {
-				modifier = opinion_scared_into_submission
-				who = ROOT
-			}
-		}
-		any_courtier = {
-			limit = {
-				nor = {
-					trait = brave
-					trait = quick
-					trait = genius
-				}
-				is_ruler = no
-			}
-			opinion = {
-				modifier = opinion_scared_into_submission
-				who = ROOT
-			}
-		}
-	}
-}
-
-# Feed to dragon - (Victim)
-character_event = {
-	id = wh_druchii.53
-	desc = EVTDESCA_druchiiinv.11
-	picture = GFX_evt_dragon
-	border = GFX_event_normal_frame_war
-	ai = no
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_druchii.53 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTAdruchiiinv.11
-	}
-}
-
-# Feed to gryphon - (Jailer)
-character_event = {
-	id = wh_druchii.54
-	desc = EVTDESCA_druchiiinv.12
-	picture = GFX_evt_gryphon
-	border = GFX_event_normal_frame_war
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_druchii.54 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTAdruchiiinv.12
-		any_vassal = {
-			limit = {
-				nor = {
-					trait = brave
-					trait = quick
-					trait = genius
-				}
-			}
-			opinion = {
-				modifier = opinion_scared_into_submission
-				who = ROOT
-			}
-		}
-		any_courtier = {
-			limit = {
-				nor = {
-					trait = brave
-					trait = quick
-					trait = genius
-				}
-				is_ruler = no
-			}
-			opinion = {
-				modifier = opinion_scared_into_submission
-				who = ROOT
-			}
-		}
-	}
-}
-
-# Feed to gryphon - (Victim)
-character_event = {
-	id = wh_druchii.55
-	desc = EVTDESCA_druchiiinv.13
-	picture = GFX_evt_gryphon
-	border = GFX_event_normal_frame_war
-	ai = no
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_druchii.55 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTAdruchiiinv.13
-	}
-}
-
-# Feed to wyvern - (Jailer)
-character_event = {
-	id = wh_druchii.56
-	desc = EVTDESCA_druchiiinv.12005
-	picture = GFX_evt_wyvern
-	border = GFX_event_normal_frame_war
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_druchii.56 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTAdruchiiinv.12005
-		any_vassal = {
-			limit = {
-				nor = {
-					trait = brave
-					trait = quick
-					trait = genius
-				}
-			}
-			opinion = {
-				modifier = opinion_scared_into_submission
-				who = ROOT
-			}
-		}
-		any_courtier = {
-			limit = {
-				nor = {
-					trait = brave
-					trait = quick
-					trait = genius
-				}
-				is_ruler = no
-			}
-			opinion = {
-				modifier = opinion_scared_into_submission
-				who = ROOT
-			}
-		}
-	}
-}
-
-# Feed to wyvern - (Victim)
-character_event = {
-	id = wh_druchii.57
-	desc = EVTDESCA_druchiiinv.13005
-	picture = GFX_evt_wyvern
-	border = GFX_event_normal_frame_war
-	ai = no
-	is_triggered_only = yes
-
-	immediate = {
-		log = "work event id = wh_druchii.57 for [Root.GetBestName]"
-	}
-
-	option = {
-		name = EVTOPTAdruchiiinv.13005
 	}
 }
 
@@ -744,7 +489,6 @@ character_event = {
 		}
 	}
 }
-
 # Malekith dies (killer)
 long_character_event = {
 	id = wh_druchii.101
@@ -782,7 +526,6 @@ long_character_event = {
 		prestige = 500
 	}
 }
-
 # Malekith dies - Naggaroth dissolves into infighting
 character_event = {
 	id = wh_druchii.102
@@ -849,7 +592,6 @@ character_event = {
 		}
 	}
 }
-
 # Malekith cracks on factions
 character_event = {
 	id = wh_druchii.104
@@ -867,7 +609,6 @@ character_event = {
 		name = EVTOPTAdruchiiinv.16
 	}
 }
-
 # if malekith loses his claim on k_nagarythe, he gets it back on_yearly_pulse
 character_event = {
 	id = wh_druchii.105
@@ -895,7 +636,6 @@ character_event = {
 		add_claim = k_nagarythe
 	}
 }
-
 # A Druchii is under Malekith, not hiding his magical capabilities
 character_event = {
 	id = wh_druchii.106
@@ -962,7 +702,6 @@ character_event = {
 		}
 	}
 }
-
 character_event = {
 	id = wh_druchii.107
 	desc = {
@@ -1024,7 +763,6 @@ character_event = {
 		}
 	}
 }
-
 character_event = {
 	id = wh_druchii.108
 	desc = EVTDESCA_druchiiinv.19
@@ -1106,7 +844,6 @@ character_event = {
 		}
 	}
 }
-
 # A courtier flees from enemies
 character_event = {
 	id = wh_druchii.110
@@ -1191,7 +928,6 @@ character_event = {
 		}
 	}
 }
-
 # a high intrigue unlanded courtier plots to kill another courtier - this also reduces teh character population of "useless" courtiers, preventing late game lag for a nearly immortal race
 character_event = {
 	id = wh_druchii.111
@@ -1238,7 +974,6 @@ character_event = {
 		}
 	}
 }
-
 # ambitious Dark Elves frequently get rivals
 character_event = {
 	id = wh_druchii.112
@@ -1280,7 +1015,6 @@ character_event = {
 		}
 	}
 }
-
 # liege is informed of rivalry between two courtiers
 character_event = {
 	id = wh_druchii.113
@@ -1341,7 +1075,6 @@ character_event = {
 		name = NOT_INTERESTED
 	}
 }
-
 # defeated ruler is imprisoned
 character_event = {
 	id = wh_druchii.115
@@ -1461,7 +1194,6 @@ character_event = {
 		}
 	}
 }
-
 # Young elf should be drafted
 character_event = {
 	id = wh_druchii.151
@@ -1499,7 +1231,6 @@ character_event = {
 		}
 	}
 }
-
 # Young elf joins the blackguard
 character_event = {
 	id = wh_druchii.152
@@ -1782,7 +1513,6 @@ character_event = {
 		}
 	}
 }
-
 # Liege buys his son's way out of the draft
 character_event = {
 	id = wh_druchii.153
@@ -1807,7 +1537,6 @@ character_event = {
 		}
 	}
 }
-
 # 50 years have passed, do you want to come back?
 character_event = {
 	id = wh_druchii.154
@@ -1915,7 +1644,6 @@ character_event = {
 		}
 	}
 }
-
 # Notify liege the relative is not coming back
 character_event = {
 	id = wh_druchii.155
@@ -1933,7 +1661,6 @@ character_event = {
 		name = EVTOPTAdruchiiinv22005
 	}
 }
-
 # Druchii blackguard dies during draft
 character_event = {
 	id = wh_druchii.156
@@ -1984,7 +1711,6 @@ character_event = {
 		piety = -250
 	}
 }
-
 # Become witch, start training.
 character_event = {
 	id = wh_druchii.201
@@ -2335,7 +2061,6 @@ character_event = {
 		}
 	}
 }
-
 # Druchii witch dies during training
 character_event = {
 	id = wh_druchii.202
@@ -2355,7 +2080,6 @@ character_event = {
 		}
 	}
 }
-
 # Druchii witch training goes on well
 character_event = {
 	id = wh_druchii.203
@@ -2402,7 +2126,6 @@ character_event = {
 		add_trait = cruel
 	}
 }
-
 # Witch Elf training: bravery
 character_event = {
 	id = wh_druchii.205
@@ -2420,7 +2143,6 @@ character_event = {
 		add_trait = brave
 	}
 }
-
 # Witch Elf training: robust
 character_event = {
 	id = wh_druchii.206
@@ -2455,7 +2177,6 @@ character_event = {
 		}
 	}
 }
-
 # Witch Elf training: zealotry
 character_event = {
 	id = wh_druchii.207
@@ -2473,7 +2194,6 @@ character_event = {
 		add_trait = zealous
 	}
 }
-
 # Witch Elf training: scarred
 character_event = {
 	id = wh_druchii.208
@@ -2491,7 +2211,6 @@ character_event = {
 		add_trait = scarred
 	}
 }
-
 # Witch Elf training: homosexuality
 character_event = {
 	id = wh_druchii.209
@@ -2522,7 +2241,6 @@ character_event = {
 		}
 	}
 }
-
 # Witch Elf training: martial
 character_event = {
 	id = wh_druchii.210
@@ -2540,7 +2258,6 @@ character_event = {
 		change_martial = 1
 	}
 }
-
 # Witch Elf training: maimed
 character_event = {
 	id = wh_druchii.211
@@ -2558,7 +2275,6 @@ character_event = {
 		add_trait = maimed
 	}
 }
-
 # Witch Elf training: lunacy
 character_event = {
 	id = wh_druchii.212
@@ -2598,7 +2314,6 @@ character_event = {
 		}
 	}
 }
-
 # Elven baby is stolen by the Witches to be trained as an Assassin - first hidden event on birth. 250 - 300
 character_event = {
 	id = wh_druchii.250
@@ -2622,7 +2337,6 @@ character_event = {
 		}
 	}
 }
-
 # Kidnapping
 character_event = {
 	id = wh_druchii.251
@@ -2970,7 +2684,6 @@ character_event = {
 		}
 	}
 }
-
 # Notify parent of kidnapping
 character_event = {
 	id = wh_druchii.252
@@ -3046,7 +2759,6 @@ character_event = {
 		}
 	}
 }
-
 # Sorceress is asked if she accepts
 character_event = {
 	id = wh_druchii.301
@@ -3076,7 +2788,6 @@ character_event = {
 		}
 	}
 }
-
 # Sorceress accepts
 character_event = {
 	id = wh_druchii.302
@@ -3099,7 +2810,6 @@ character_event = {
 		}
 	}
 }
-
 # Unlanded Druchi girls with the magic potential will have the choice to go to Ghrond and become sorceresses or hide their potential on_yearly_pulse
 character_event = {
 	id = wh_druchii.303
@@ -3214,7 +2924,6 @@ character_event = {
 		}
 	}
 }
-
 # Potential discovered anyway
 character_event = {
 	id = wh_druchii.304
@@ -3311,7 +3020,6 @@ character_event = {
 		}
 	}
 }
-
 # Notify parents
 character_event = {
 	id = wh_druchii.305
@@ -3329,7 +3037,6 @@ character_event = {
 		prestige = 100
 	}
 }
-
 # The Matriarch of Ghrond receives the new apprentice
 character_event = {
 	id = wh_druchii.306
@@ -3369,7 +3076,6 @@ character_event = {
 		name = EVTOPTAdarkelfmagic4 # We will welcome this new apprentice sorceress
 	}
 }
-
 # Yearly event to gain traits and learning
 character_event = {
 	id = wh_druchii.307
@@ -3544,7 +3250,6 @@ character_event = {
 		}
 	}
 }
-
 # Check if the Sorceress has managed to achieve her goals
 character_event = {
 	id = wh_druchii.308
@@ -3641,7 +3346,6 @@ character_event = {
 		}
 	}
 }
-
 # Notify parents of successful daughter
 character_event = {
 	id = wh_druchii.309
@@ -3659,7 +3363,6 @@ character_event = {
 		prestige = 150
 	}
 }
-
 # Notify parents of failed daughter
 character_event = {
 	id = wh_druchii.310
@@ -3701,7 +3404,6 @@ character_event = {
 		name = NOT_RIGHT_NOW
 	}
 }
-
 # gateway event for raiding
 character_event = {
 	id = wh_druchii.351
@@ -3750,7 +3452,6 @@ character_event = {
 		}
 	}
 }
-
 # stop raid if character becomes maimed or wounded
 character_event = {
 	id = wh_druchii.352
@@ -3789,7 +3490,6 @@ character_event = {
 		remove_trait = on_dark_elf_raid
 	}
 }
-
 # end of raid if have money
 character_event = {
 	id = wh_druchii.353
@@ -3825,7 +3525,6 @@ character_event = {
 		set_character_flag = wh_druchii.353_block
 	}
 }
-
 # menu event for stop questing decision
 character_event = {
 	id = wh_druchii.354
@@ -3904,7 +3603,6 @@ character_event = {
 		name = NO_I_SEEK_GREATER_TARGETS
 	}
 }
-
 # raid success
 character_event = {
 	id = wh_druchii.356
@@ -3937,7 +3635,6 @@ character_event = {
 		}
 	}
 }
-
 # raid defeat
 character_event = {
 	id = wh_druchii.357
@@ -3976,7 +3673,6 @@ character_event = {
 		}
 	}
 }
-
 # orc band
 character_event = {
 	id = wh_druchii.358
@@ -4011,7 +3707,6 @@ character_event = {
 		}
 	}
 }
-
 character_event = {
 	id = wh_druchii.359
 	title = RAIDING
@@ -4062,7 +3757,6 @@ character_event = {
 		prestige = -50
 	}
 }
-
 # engagement success
 character_event = {
 	id = wh_druchii.360
@@ -4096,7 +3790,6 @@ character_event = {
 		}
 	}
 }
-
 # engagement failure
 character_event = {
 	id = wh_druchii.361
@@ -4135,7 +3828,6 @@ character_event = {
 		}
 	}
 }
-
 # random attack by high elf patrols
 character_event = {
 	id = wh_druchii.362
@@ -4196,7 +3888,6 @@ character_event = {
 		}
 	}
 }
-
 # defence vs high elves success
 character_event = {
 	id = wh_druchii.363
@@ -4229,7 +3920,6 @@ character_event = {
 		}
 	}
 }
-
 # high elves win
 character_event = {
 	id = wh_druchii.364
