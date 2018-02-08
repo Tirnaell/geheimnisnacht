@@ -2196,7 +2196,6 @@ decisions = {
 		}
 	}
 	help_liege_manage_titles = {	#councillor will help manage liege titles
-
 		is_high_prio = yes
 		potential = {
 			ai = no
@@ -2297,7 +2296,6 @@ decisions = {
 		}
 	}
 	ask_help_to_manage_titles = {	#ask councillor to help manage titles
-
 		only_rulers = yes
 		is_high_prio = yes
 		potential = {
@@ -2326,9 +2324,9 @@ decisions = {
 					flag = refused_any_help_with_titles days = 712
 				}
 			}
-			NOT = {
-				has_character_flag = getting_help_with_titles
-			}
+			# NOT = {
+				# has_character_flag = getting_help_with_titles
+			# }
 		}
 		allow = {
 			over_max_demesne_size = 4
@@ -2343,7 +2341,7 @@ decisions = {
 		}
 		effect = {
 			log = "work decision ask_help_to_manage_titles for [Root.GetBestName]"
-			set_character_flag = getting_help_with_titles
+			# set_character_flag = getting_help_with_titles
 			job_chancellor = {
 				character_event = {
 					id = 108010

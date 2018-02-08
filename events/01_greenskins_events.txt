@@ -5231,15 +5231,15 @@ character_event = {
 		character_event = {
 			id = wh_greenskins.174
 			days = 80
-			random = 15
+			random = 30
 		}
 		random_list = {
 			# troops
 			20 = {
 				character_event = {
 					id = wh_greenskins.177
-					days = 40
-					random = 15
+					days = 70
+					random = 30
 				}
 			}
 			# Famous Commander
@@ -5296,8 +5296,8 @@ character_event = {
 				}
 				character_event = {
 					id = wh_greenskins.178
-					days = 40
-					random = 15
+					days = 70
+					random = 30
 				}
 			}
 			# less troops
@@ -5354,8 +5354,8 @@ character_event = {
 				}
 				character_event = {
 					id = wh_greenskins.179
-					days = 40
-					random = 15
+					days = 70
+					random = 30
 				}
 			}
 		}
@@ -5437,7 +5437,7 @@ character_event = {
 					province = PREV
 					owner = ROOT
 					match_character = ROOT
-					match_mult = 0.3
+					match_mult = 0.2
 					earmark = prepared_invasion
 					match_min = 650
 					cannot_inherit = yes
@@ -5447,7 +5447,7 @@ character_event = {
 					province = closest
 					owner = ROOT
 					match_character = ROOT
-					match_mult = 0.3
+					match_mult = 0.2
 					match_min = 7
 					earmark = prepared_invasion
 					cannot_inherit = yes
@@ -5496,7 +5496,7 @@ character_event = {
 					province = PREV
 					owner = ROOT
 					match_character = ROOT
-					match_mult = 0.5
+					match_mult = 0.3
 					match_min = 900
 					earmark = prepared_invasion
 					cannot_inherit = yes
@@ -5508,7 +5508,7 @@ character_event = {
 			province = closest
 			owner = ROOT
 			match_character = ROOT
-			match_mult = 0.5
+			match_mult = 0.3
 			match_min = 10
 			earmark = prepared_invasion
 			cannot_inherit = yes
@@ -5540,7 +5540,7 @@ character_event = {
 					province = PREV
 					owner = ROOT
 					match_character = ROOT
-					match_mult = 0.2
+					match_mult = 0.1
 					match_min = 500
 					earmark = prepared_invasion
 					cannot_inherit = yes
@@ -5550,7 +5550,7 @@ character_event = {
 					province = closest
 					owner = ROOT
 					match_character = ROOT
-					match_mult = 0.2
+					match_mult = 0.1
 					match_min = 5
 					earmark = prepared_invasion
 					cannot_inherit = yes
