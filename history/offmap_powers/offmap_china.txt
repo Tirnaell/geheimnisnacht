@@ -1,0 +1,6 @@
+581.3.4 = {
+	holder = 18064
+	#name = "sui_china"
+	#status = china_stable
+	#policy = china_open
+}
