@@ -38,7 +38,7 @@ character_event = {
 			}
 			trait = plaguelord
 			religion = nurgle
-			society_member_of = cult_of_nurgle
+			# society_member_of = cult_of_nurgle
 
 		}
 		OR = {
@@ -65,14 +65,14 @@ character_event = {
 			factor = 0.5
 			in_command = yes
 		}
-		modifier = {
-			factor = 0.025
-			OR = {
-				religion = nurgle
-				society_member_of = cult_of_nurgle
-				trait = plaguelord
-			}
-		}
+		# modifier = {
+			# factor = 0.025
+			# OR = {
+				# religion = nurgle
+				# society_member_of = cult_of_nurgle
+				# trait = plaguelord
+			# }
+		# }
 		modifier = {
 			factor = 0.5
 			trait = lustful
@@ -116,7 +116,7 @@ character_event = {
 		nor = {
 			religion = nurgle
 			trait = plaguelord
-			society_member_of = cult_of_nurgle
+			# society_member_of = cult_of_nurgle
 		}
 	}
 
@@ -162,7 +162,7 @@ character_event = {
 			}
 			religion = nurgle
 			trait = plaguelord
-			society_member_of = cult_of_nurgle
+			# society_member_of = cult_of_nurgle
 
 		}
 	}
@@ -206,7 +206,7 @@ character_event = {
 			OR = {
 				religion = nurgle
 				trait = plaguelord
-				society_member_of = cult_of_nurgle
+				# society_member_of = cult_of_nurgle
 			}
 		}
 	}
@@ -279,7 +279,7 @@ character_event = {
 		nor = {
 			religion = nurgle
 			trait = plaguelord
-			society_member_of = cult_of_nurgle
+			# society_member_of = cult_of_nurgle
 		}
 		# NOT = {
 		# has_game_rule = {
@@ -827,16 +827,16 @@ character_event = {
 				}
 			}
 		}
-		modifier = {
-			factor = 0.5
-			OR = {
-				society_member_of = cult_of_undivided
-				society_member_of = cult_of_slaanesh
-				society_member_of = cult_of_tzeentch
-				society_member_of = cult_of_nurgle
-				society_member_of = cult_of_khorne
-			}
-		}
+		# modifier = {
+			# factor = 0.5
+			# OR = {
+				# society_member_of = cult_of_undivided
+				# society_member_of = cult_of_slaanesh
+				# society_member_of = cult_of_tzeentch
+				# society_member_of = cult_of_nurgle
+				# society_member_of = cult_of_khorne
+			# }
+		# }
 	}
 
 	immediate = {
@@ -1388,14 +1388,14 @@ character_event = {
 			factor = 2.0
 			base_health = 8
 		}
-		modifier = {
-			factor = 0.05
-			OR = {
-				religion = nurgle
-				trait = plaguelord
-				society_member_of = cult_of_nurgle
-			}
-		}
+		# modifier = {
+			# factor = 0.05
+			# OR = {
+				# religion = nurgle
+				# trait = plaguelord
+				# society_member_of = cult_of_nurgle
+			# }
+		# }
 		modifier = {
 			factor = 0.5
 			has_game_rule = {
@@ -1454,7 +1454,7 @@ character_event = {
 		nor = {
 			religion = nurgle
 			trait = plaguelord
-			society_member_of = cult_of_nurgle
+			# society_member_of = cult_of_nurgle
 		}
 	}
 
@@ -1594,15 +1594,15 @@ character_event = {
 			}		# jan and feb
 			in_command = yes
 		}
-		modifier = {
-			factor = 0.1
-			OR = {
-				religion = nurgle
-				trait = plaguelord
-				society_member_of = cult_of_nurgle
+		# modifier = {
+			# factor = 0.1
+			# OR = {
+				# religion = nurgle
+				# trait = plaguelord
+				# society_member_of = cult_of_nurgle
 
-			}
-		}
+			# }
+		# }
 	}
 
 	immediate = {
@@ -1632,7 +1632,7 @@ character_event = {
 		nor = {
 			religion = nurgle
 			trait = plaguelord
-			society_member_of = cult_of_nurgle
+			# society_member_of = cult_of_nurgle
 		}
 	}
 
@@ -1792,7 +1792,7 @@ character_event = {
 			}
 			religion = nurgle
 			trait = plaguelord
-			society_member_of = cult_of_nurgle
+			# society_member_of = cult_of_nurgle
 
 		}
 		is_ill = no
@@ -1822,15 +1822,14 @@ character_event = {
 			factor = 0.8
 			age = 70
 		}
-		modifier = {
-			factor = 0.25
-			OR = {
-				religion = nurgle
-				trait = plaguelord
-				society_member_of = cult_of_nurgle
-
-			}
-		}
+		# modifier = {
+			# factor = 0.25
+			# OR = {
+				# religion = nurgle
+				# trait = plaguelord
+				# society_member_of = cult_of_nurgle
+			# }
+		# }
 	}
 
 	immediate = {

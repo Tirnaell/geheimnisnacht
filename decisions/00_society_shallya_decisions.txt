@@ -4,26 +4,24 @@ society_decisions = {
 		only_playable = yes
 		hide_in_decisions_list = yes # This is shown in the Society View
 		potential = {
-			hidden_tooltip = {
-				OR = {
-					#In some societies, there can only be 1 member at rank 4
-					society_rank < 3
-					NOR = {
-						society_member_of = the_assassins
-						is_devil_worshiper_trigger = yes
-					}
-				}
-				society_rank < 4
-				days_in_society > 365
-				has_dlc = "Mystics"
-				is_in_society = yes
-				OR = {
-					#Players can always rank up (if they have the power)
-					ai = no
-					AND = {
-						ai = yes
-						society_can_rank_up = yes
-					}
+			OR = {
+				#In some societies, there can only be 1 member at rank 4
+				society_rank < 3
+				# NOR = {
+					# society_member_of = the_assassins
+					# is_devil_worshiper_trigger = yes
+				# }
+			}
+			society_rank < 4
+			days_in_society > 365
+			has_dlc = "Mystics"
+			is_in_society = yes
+			OR = {
+				#Players can always rank up (if they have the power)
+				ai = no
+				AND = {
+					ai = yes
+					society_can_rank_up = yes
 				}
 			}
 		}
@@ -65,10 +63,10 @@ society_decisions = {
 				text = must_have_multiple_rank_4 #Society must allow multiple characters at Rank 4
 				NAND = {
 					society_rank == 3
-								 OR = {
-						society_member_of = the_assassins
-						is_devil_worshiper_trigger = yes
-					}
+					# OR = {
+						# society_member_of = the_assassins
+						# is_devil_worshiper_trigger = yes
+					# }
 				}
 			}
 		}
@@ -101,15 +99,15 @@ society_decisions = {
 					id = MNM.10002 days = 20 random = 10
 				} # sends hidden delayed event to self, which then sends request to Leader of the society
 				#Conversus power for benedictines
-				if = {
-					limit = {
-						society_member_of = monastic_order_benedictine
-						society_rank == 3
-					}
-					character_event = {
-						id = MNM.4600 days = 10 random = 350
-					}
-				}
+				# if = {
+					# limit = {
+						# society_member_of = monastic_order_benedictine
+						# society_rank == 3
+					# }
+					# character_event = {
+						# id = MNM.4600 days = 10 random = 350
+					# }
+				# }
 			}
 		}
 		revoke_allowed = {

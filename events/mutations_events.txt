@@ -223,19 +223,19 @@ character_event = {
 			piety = 500
 		}
 		# CULTISTS MUTATE FASTER
-		modifier = {
-			factor = 0.7
-			society_member_of = cult_of_tzeentch
-		}
-		modifier = {
-			factor = 0.8
-			OR = {
-				society_member_of = cult_of_khorne
-				society_member_of = cult_of_slaanesh
-				society_member_of = cult_of_nurgle
-				society_member_of = cult_of_undivided
-			}
-		}
+		# modifier = {
+			# factor = 0.7
+			# society_member_of = cult_of_tzeentch
+		# }
+		# modifier = {
+			# factor = 0.8
+			# OR = {
+				# society_member_of = cult_of_khorne
+				# society_member_of = cult_of_slaanesh
+				# society_member_of = cult_of_nurgle
+				# society_member_of = cult_of_undivided
+			# }
+		# }
 		# Location dependent modifiers
 		modifier = {
 			factor = 0.5

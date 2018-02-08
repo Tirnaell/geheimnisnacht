@@ -1,0 +1,72 @@
+namespace = wh_inheritance
+
+# infertile for mortal race
+character_event = {
+	id = wh_inheritance.3
+	hide_window = yes
+	only_women = yes
+	min_age = 45
+	max_age = 65
+	is_triggered_only = yes
+
+	trigger = {
+		# immortal = no
+		OR = {
+			trait = creature_human
+			trait = creature_beastman
+			trait = creature_halfling
+			trait = creature_ogre
+		}
+		NOT = {
+			trait = infertile
+		}
+	}
+
+	immediate = {
+		log = "work event id = wh_inheritance.3 for [Root.GetBestName]"
+		IF = {
+			limit = {
+				fertility = -1
+			}
+			add_trait = infertile
+		}
+	}
+}
+# infertile for elf/dwarf race
+character_event = {
+	id = wh_inheritance.4
+	hide_window = yes
+	only_women = yes
+	min_age = 75
+	max_age = 500
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			trait = creature_elf
+			trait = creature_dwarf
+			trait = creature_chaos_dwarf
+		}
+		NOR = {
+			trait = infertile
+			NAND = {
+				is_ruler = yes
+				num_of_children = 1
+			}
+		}
+	}
+	immediate = {
+		log = "work event id = wh_inheritance.4 for [Root.GetBestName]"
+		if = {
+			limit = {
+				OR = {
+					trait = creature_dwarf
+					trait = creature_chaos_dwarf
+					trait = creature_elf
+				}
+				fertility = -1
+			}
+			add_trait = infertile
+		}
+	}
+}

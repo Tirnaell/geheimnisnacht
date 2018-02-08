@@ -3114,6 +3114,31 @@ letter_event = {
 	}
 }
 
+# Spouse notified of divorce due to husband going off to join holy order
+character_event = {
+	id = SoA_HolyOrders.2862
+	desc = EVTDESC_SoA_2862
+	picture = GFX_evt_melee
+	border = GFX_event_normal_frame_religion
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ALAS
+		trigger = {
+			opinion = { who = FROMFROMFROM value = 0 }
+		}
+		tooltip = { remove_spouse = FROMFROMFROM }
+	}
+	option = {
+		name = GOOD_RIDDANCE
+		trigger = {
+			NOT = { opinion = { who = FROMFROMFROM value = 0 } }
+		}
+		tooltip = { remove_spouse = FROMFROMFROM }
+	}
+}
+
 # Ping event when borrowing money from the Templars
 character_event = {
 	id = SoA_HolyOrders.1310
