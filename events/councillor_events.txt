@@ -309,7 +309,7 @@ character_event = {
 
 	trigger = {
 		liege = {
-			has_newly_acquired_titles = yes
+			# has_newly_acquired_titles = yes
 			over_max_demesne_size = 1
 		}
 	}
@@ -436,15 +436,6 @@ character_event = {
 				female = no
 			}
 			new_character = {
-				# hidden_tooltip = {
-				# if = {
-				# limit = {
-				# religion_group = indian_group
-				# }
-				# add_trait = kshatriya
-				# character_event = { id = RoI.30121 }
-				# }
-				# }
 				liege = {
 					title_to_get_rid_of = {
 						grant_title = PREVPREV
