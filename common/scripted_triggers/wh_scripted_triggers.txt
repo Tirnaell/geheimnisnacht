@@ -345,7 +345,15 @@ is_hidden_vampire_trigger = {
 
 #For all vampires, hidden or not. NOTE: At present time, check for hidden is disabled for performace, to be reactivated when hidden vampires are implemented
 is_vampire_trigger = {
-	is_visible_vampire_trigger = yes
+	OR = {
+		trait = vampire_lahmian_visible
+		trait = vampire_carstein_visible
+		trait = vampire_blood_visible
+		trait = vampire_strigoi_visible
+		trait = vampire_necrarch_visible
+		trait = vampire_jade_visible
+		trait = vampire_mahtmasi_visible
+	}
 	# OR = {
 	# 	is_visible_vampire_trigger = yes
 	# 	#is_hidden_vampire_trigger = yes

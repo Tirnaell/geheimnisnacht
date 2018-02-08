@@ -9,11 +9,11 @@ plot_steal_carstein_ring = {
 		is_playable = yes
 		age = 16
 		is_incapacitated_trigger = no
-		# root = {
-		# 	has_artifact = carstein_ring
-		# }
 	}
 	# Target allow trigger for when players target a specific character in the GUI
+	target_potential = {
+		has_artifact = carstein_ring
+	}
 	player_allow = {
 		has_artifact = carstein_ring
 		is_within_diplo_range = FROM

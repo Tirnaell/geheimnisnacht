@@ -792,51 +792,39 @@ plot_kill_character = {
 	potential = {
 		prisoner = no
 		age = 16
-		nor = {
+		NOR = {
 			trait = incapable
 			trait = skaven_breeder
 			AND = {
 				ai = yes
-				or = {
+				OR = {
 					trait = honest
 					trait = kind
 					trait = just
 				}
 			}
 		}
-		hidden_tooltip = {
-			OR = {
-				ai = no # Human
-				# Pretender to a title
-				any_pretender_title = {
-					always = yes
-				}
-				# Heir to a title
-				any_heir_title = {
-					always = yes
-				}
-				# Character's child is heir or pretender to a title that I don't hold
-				any_child = {
-					OR = {
-						any_pretender_title = {
-							nor = {
-								holder = ROOT
-								current_heir = {
-									character = ROOT
-								}
-							}
-						}
-						any_heir_title = {
-							NOT = {
-								holder = ROOT
-							}
-						}
-					}
-				}
-				# Spouse is pretender to a title
-				spouse = {
+		OR = {
+			ai = no # Human
+			trait = lunatic_2
+			trait = lunatic_3
+			trait = possessed			
+			trait = creature_goblin # Is one of those little, treacherous, green shits			
+			trait = creature_skaven # Not as treacherous as the most magnificent Skaven race
+			# Pretender to a title
+			any_pretender_title = {
+				always = yes
+			}
+			# Heir to a title
+			any_heir_title = {
+				always = yes
+			}
+			# Character's child is heir or pretender to a title that I don't hold
+			any_child = {
+				OR = {
 					any_pretender_title = {
-						NOT = {
+						nor = {
+							holder = ROOT
 							current_heir = {
 								character = ROOT
 							}
@@ -848,19 +836,43 @@ plot_kill_character = {
 						}
 					}
 				}
-				# A lover of spouse...
-				spouse = {
-					has_lover = yes
-				}
-				# Is nuts...
-				trait = lunatic_2
-				trait = lunatic_3
-				trait = possessed
-				# Is one of those little, treacherous, green shits
-				trait = creature_goblin
-				# Not as treacherous as the most magnificent Skaven race
-				trait = creature_skaven
 			}
+			# Spouse is pretender to a title
+			spouse = {
+				any_pretender_title = {
+					NOT = {
+						current_heir = {
+							character = ROOT
+						}
+					}
+				}
+				any_heir_title = {
+					NOT = {
+						holder = ROOT
+					}
+				}
+			}
+			# A lover of spouse...
+			spouse = {
+				has_lover = yes
+			}
+		}
+	}
+	target_potential = {
+		OR = {
+			#Vampires plot normally against other vampires, but mortals need the special plot against them
+			is_vampire_trigger = no
+			FROM = {
+				is_vampire_trigger = yes
+			}
+		}
+		NOR = {
+			is_demon_prince_trigger = yes
+			trait = skaven_breeder
+			trait = creature_forestspirit
+			trait = creature_treekin
+			trait = creature_slann
+			trait = creature_celdragon
 		}
 	}
 	# Target character scope
@@ -882,14 +894,7 @@ plot_kill_character = {
 			}
 			trait = creature_slann
 		}
-		is_demon_prince_trigger = no
 		NOR = {
-			trait = creature_forestspirit
-			trait = creature_treekin
-			trait = vampire_strigoi_visible
-			trait = vampire_necrarch_visible
-			trait = creature_slann
-			trait = creature_celdragon
 			# This case is covered by another plot
 			any_spouse = {
 				character = FROM
@@ -905,13 +910,6 @@ plot_kill_character = {
 				}
 			}
 			is_friend = FROM
-		}
-		OR = {
-			#Vampires plot normally against other vampires, but mortals need the special plot against them
-			is_vampire_trigger = no
-			FROM = {
-				is_vampire_trigger = yes
-			}
 		}
 	}
 	# Target character scope
