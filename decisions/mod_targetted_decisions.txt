@@ -7589,9 +7589,9 @@ targetted_decisions = {
 				has_character_flag = duel
 			}
 			higher_tier_than = BARON
-			NOT = {
-				culture_group = FROM
-			}
+			# NOT = {
+				# culture_group = FROM
+			# }
 			OR = {
 				culture_group = orc_group
 				culture_group = goblin_group
