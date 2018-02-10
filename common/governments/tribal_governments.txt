@@ -152,8 +152,8 @@ tribal_governments = {
 		can_change_to_nomad_on_start = no
 		can_build_hospitals = no
 		
-		demesne_size = -2
-		vassal_limit = -5
+		demesne_size = -4
+		vassal_limit = -25
 		capital_move_delay = 1200
 		can_grant_kingdoms_and_empires_to_other_government = no
 		

@@ -249,7 +249,7 @@ war_games_khorne = {
 
 ##########################################################
 # Character modifiers
-##########################################################
+########################################################## 
 called_for_help_chaos = {
 	monthly_character_prestige = -0.03
 		icon = 109
@@ -263,7 +263,7 @@ icon = 13
 
 ##########################################################
 # DUEL MODIFIERS
-##########################################################
+########################################################## 
 battlefield_fight = {
 	monthly_character_prestige = 0.01
 	icon = 1
@@ -549,26 +549,27 @@ recently_brought_from_chaos_dwarfs = {
 
 
 preparing_ulthuan_invasion = {
-		icon = 31
+	icon = 31
 	local_tax_modifier = -0.10
 }
 
 attempted_ulthuan_invasion = {
-		icon = 31
+	icon = 31
 	levy_size = -0.3
 	garrison_size = -2
 	local_tax_modifier = -0.45
 }
 
 recently_employed_druchiiservices = {
-		icon = 34
+	icon = 34
 	local_tax_modifier = -0.01
 }
 athel_loren_winter = {
-		icon = 103
-		land_morale = -0.75
-		light_infantry_defensive = -0.75
-		heavy_infantry_defensive = -0.75
+	icon = 103
+	land_morale = -0.75
+	light_cavalry_defensive = -0.75
+	archers_defensive = -0.75
+	pikemen_defensive = 0.5
 }
 
 apprenticeship_refused = {

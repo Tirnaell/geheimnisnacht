@@ -1,7 +1,6 @@
 castle = {
 
 	# Khemri Tombs - autobuilt in khemri provinces, but disappear if the ruler is no longer nehekharan group
-
 	ca_khemri_tombs = {
 		desc = ca_khemri_tombs_desc
 		auto_add_at_year = 10
@@ -22,9 +21,7 @@ castle = {
 		liege_prestige = 0.15
 		ai_creation_factor = 300 #AI should always build this if it can
 	}
-
 	# Nehekharan Necropolis
-
 	ca_nehekharan_keep_1 = {
 		desc = ca_nehekharan_keep_1_desc
 		trigger = {
@@ -52,7 +49,6 @@ castle = {
 		ai_creation_factor = 300 #The AI should always build this when it can
 		extra_tech_building_start = 1.0
 	}
-
 	ca_nehekharan_keep_2 = {
 		desc = ca_nehekharan_keep_1_desc
 		trigger = {
@@ -78,7 +74,6 @@ castle = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 2.0
 	}
-
 	ca_nehekharan_keep_3 = {
 		desc = ca_nehekharan_keep_1_desc
 		trigger = {
@@ -104,7 +99,6 @@ castle = {
 		ai_creation_factor = 100
 		extra_tech_building_start = 1.0
 	}
-
 	ca_nehekharan_keep_4 = {
 		desc = ca_nehekharan_keep_1_desc
 		trigger = {
@@ -127,7 +121,6 @@ castle = {
 		ai_creation_factor = 99
 		extra_tech_building_start = 0.2
 	}
-
 	ca_nehekharan_keep_5 = {
 		desc = ca_nehekharan_keep_1_desc
 		trigger = {
@@ -150,7 +143,6 @@ castle = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 0.2
 	}
-
 	ca_nehekharan_keep_6 = {
 		desc = ca_nehekharan_keep_1_desc
 		trigger = {
@@ -173,9 +165,7 @@ castle = {
 		ai_creation_factor = 97
 		extra_tech_building_start = 0.2
 	}
-
 	# Skeleton Bow Burial
-
 	ca_skeleton_bows_1 = {
 		desc = ca_skeleton_bows_1_desc
 		potential = {
@@ -196,7 +186,6 @@ castle = {
 		ai_creation_factor = 100
 		extra_tech_building_start = 1.0
 	}
-
 	ca_skeleton_bows_2 = {
 		desc = ca_skeleton_bows_1_desc
 		trigger = {
@@ -221,7 +210,6 @@ castle = {
 		ai_creation_factor = 99
 		extra_tech_building_start = 2.0
 	}
-
 	ca_skeleton_bows_3 = {
 		desc = ca_skeleton_bows_1_desc
 		potential = {
@@ -243,7 +231,6 @@ castle = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 0.5
 	}
-
 	ca_skeleton_bows_4 = {
 		desc = ca_skeleton_bows_1_desc
 		potential = {
@@ -265,7 +252,6 @@ castle = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 0.5
 	}
-
 	ca_skeleton_bows_5 = {
 		desc = ca_skeleton_bows_1_desc
 		potential = {
@@ -287,9 +273,7 @@ castle = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 0.5
 	}
-
 	# Skeleton Spears
-
 	ca_skeletonspears_1 = {
 		desc = ca_skeletonspears_1_desc
 		potential = {
@@ -310,7 +294,6 @@ castle = {
 		ai_creation_factor = 105
 		extra_tech_building_start = 1.0
 	}
-
 	ca_skeletonspears_2 = {
 		desc = ca_skeletonspears_1_desc
 		potential = {
@@ -335,7 +318,6 @@ castle = {
 		ai_creation_factor = 104
 		extra_tech_building_start = 1.8
 	}
-
 	ca_skeletonspears_3 = {
 		desc = ca_skeletonspears_1_desc
 		potential = {
@@ -360,7 +342,6 @@ castle = {
 		ai_creation_factor = 103
 		extra_tech_building_start = 3.0
 	}
-
 	ca_skeletonspears_4 = {
 		potential = {
 			ROOT = {
@@ -382,7 +363,6 @@ castle = {
 		ai_creation_factor = 102
 		extra_tech_building_start = 3.0
 	}
-
 	ca_skeletonspears_5 = {
 		potential = {
 			ROOT = {
@@ -404,7 +384,6 @@ castle = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 2.0
 	}
-
 	ca_skeletonspears_6 = {
 		potential = {
 			ROOT = {
@@ -426,9 +405,7 @@ castle = {
 		ai_creation_factor = 100
 		extra_tech_building_start = 0.2
 	}
-
 	# Skeleton Cavalry
-
 	ca_skeletoncav_1 = {
 		desc = ca_skeletoncav_1_desc
 		potential = {
@@ -449,7 +426,6 @@ castle = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skeletoncav_2 = {
 		desc = ca_skeletoncav_1_desc
 		potential = {
@@ -471,7 +447,6 @@ castle = {
 		ai_creation_factor = 100
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skeletoncav_3 = {
 		desc = ca_skeletoncav_1_desc
 		potential = {
@@ -493,7 +468,6 @@ castle = {
 		ai_creation_factor = 99
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skeletoncav_4 = {
 		desc = ca_skeletoncav_1_desc
 		potential = {
@@ -515,7 +489,6 @@ castle = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skeletoncav_5 = {
 		desc = ca_skeletoncav_1_desc
 		potential = {
@@ -537,7 +510,6 @@ castle = {
 		ai_creation_factor = 99
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skeletoncav_6 = {
 		desc = ca_skeletoncav_1_desc
 		potential = {
@@ -559,9 +531,7 @@ castle = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 0.8
 	}
-
 	# Skeleton Charioteers
-
 	ca_skellychariots_1 = {
 		desc = ca_skellychariots_1_desc
 		potential = {
@@ -586,7 +556,6 @@ castle = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skellychariots_2 = {
 		desc = ca_skellychariots_1_desc
 		potential = {
@@ -609,7 +578,6 @@ castle = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skellychariots_3 = {
 		desc = ca_skellychariots_1_desc
 		potential = {
@@ -632,7 +600,6 @@ castle = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skellychariots_4 = {
 		desc = ca_skellychariots_1_desc
 		potential = {
@@ -655,7 +622,6 @@ castle = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ca_skellychariots_5 = {
 		desc = ca_skellychariots_1_desc
 		potential = {
@@ -678,9 +644,7 @@ castle = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	# Necropoli 'town'
-
 	ca_necropolitown_1 = {
 		desc = ca_necropolitown_1_desc
 		trigger = {
@@ -703,7 +667,6 @@ castle = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.4
 	}
-
 	ca_necropolitown_2 = {
 		desc = ca_necropolitown_1_desc
 		prerequisites = {
@@ -730,7 +693,6 @@ castle = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.8
 	}
-
 	ca_necropolitown_3 = {
 		desc = ca_necropolitown_1_desc
 		trigger = {
@@ -758,9 +720,7 @@ castle = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	# Necropoli walls
-
 	ca_nehekharanwall_1 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -782,7 +742,6 @@ castle = {
 		ai_creation_factor = 90
 		extra_tech_building_start = 1.0
 	}
-
 	ca_nehekharanwall_2 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -805,7 +764,6 @@ castle = {
 		ai_creation_factor = 89
 		extra_tech_building_start = 0.2
 	}
-
 	ca_nehekharanwall_3 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -828,7 +786,6 @@ castle = {
 		ai_creation_factor = 88
 		extra_tech_building_start = 0.2
 	}
-
 	ca_nehekharanwall_4 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -851,7 +808,6 @@ castle = {
 		ai_creation_factor = 87
 		extra_tech_building_start = 0.2
 	}
-
 	ca_nehekharanwall_5 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -874,7 +830,6 @@ castle = {
 		ai_creation_factor = 86
 		extra_tech_building_start = 0.2
 	}
-
 	ca_nehekharanwall_6 = {
 		potential = {
 			ROOT = {
@@ -897,7 +852,6 @@ castle = {
 		ai_creation_factor = 86
 		extra_tech_building_start = 0.0
 	}
-
 	ca_nshipyard_1 = {
 		desc = shipyard_desc
 		port = yes
@@ -921,7 +875,6 @@ castle = {
 		ai_creation_factor = 100
 		extra_tech_building_start = 0.3
 	}
-
 	ca_nshipyard_2 = {
 		desc = shipyard_desc
 		port = yes
@@ -946,7 +899,6 @@ castle = {
 		ai_creation_factor = 99
 		extra_tech_building_start = 0.3
 	}
-
 	ca_nshipyard_3 = {
 		desc = shipyard_desc
 		port = yes
@@ -971,7 +923,6 @@ castle = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 0.3
 	}
-
 	ca_nshipyard_4 = {
 		desc = shipyard_desc
 		port = yes
@@ -996,9 +947,7 @@ castle = {
 		ai_creation_factor = 97
 		extra_tech_building_start = 0.3
 	}
-
 	# Tomb structures
-
 	ca_nehk_tomb_1 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -1030,7 +979,6 @@ castle = {
 		ai_creation_factor = 89
 		extra_tech_building_start = 1.2
 	}
-
 	ca_nehk_tomb_2 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -1060,7 +1008,6 @@ castle = {
 		ai_creation_factor = 88
 		extra_tech_building_start = 0.5
 	}
-
 	ca_nehk_tomb_3 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -1090,7 +1037,6 @@ castle = {
 		ai_creation_factor = 88
 		extra_tech_building_start = 0.2
 	}
-
 	ca_nehk_tomb_4 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -1120,7 +1066,6 @@ castle = {
 		ai_creation_factor = 88
 		extra_tech_building_start = 0.2
 	}
-
 	ca_nehk_tomb_5 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -1155,7 +1100,6 @@ castle = {
 city = {
 
 	# Grand Necropolis
-
 	ct_grandnecropolis_1 = {
 		desc = ct_grandnecropolis_1_desc
 		trigger = {
@@ -1183,7 +1127,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.4
 	}
-
 	ct_grandnecropolis_2 = {
 		desc = ct_grandnecropolis_1_desc
 		prerequisites = {
@@ -1208,7 +1151,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.8
 	}
-
 	ct_grandnecropolis_3 = {
 		desc = ct_grandnecropolis_1_desc
 		trigger = {
@@ -1236,7 +1178,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	ct_grandnecropolis_4 = {
 		desc = ct_grandnecropolis_1_desc
 		trigger = {
@@ -1258,7 +1199,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	ct_grandnecropolis_5 = {
 		desc = ct_grandnecropolis_1_desc
 		trigger = {
@@ -1283,7 +1223,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	ct_grandnecropolis_6 = {
 		desc = ct_grandnecropolis_1_desc
 		trigger = {
@@ -1305,7 +1244,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	ct_nehkskirmisherquarters_1 = {
 		desc = ct_nehkskirmisherquarters_1_desc
 		trigger = {
@@ -1327,7 +1265,6 @@ city = {
 		ai_creation_factor = 96
 		extra_tech_building_start = 1.0
 	}
-
 	ct_nehkskirmisherquarters_2 = {
 		desc = ct_nehkskirmisherquarters_1_desc
 		trigger = {
@@ -1353,7 +1290,6 @@ city = {
 		ai_creation_factor = 95
 		extra_tech_building_start = 0.2
 	}
-
 	ct_nehkskirmisherquarters_3 = {
 		desc = ct_nehkskirmisherquarters_1_desc
 		trigger = {
@@ -1379,7 +1315,6 @@ city = {
 		ai_creation_factor = 94
 		extra_tech_building_start = 0.2
 	}
-
 	ct_nehkskirmisherquarters_4 = {
 		desc = ct_nehkskirmisherquarters_1_desc
 		trigger = {
@@ -1402,7 +1337,6 @@ city = {
 		ai_creation_factor = 93
 		extra_tech_building_start = 0.2
 	}
-
 	ct_nehkskirmisherquarters_5 = {
 		desc = ct_nehkskirmisherquarters_1_desc
 		trigger = {
@@ -1425,9 +1359,7 @@ city = {
 		ai_creation_factor = 92
 		extra_tech_building_start = 0.2
 	}
-
 	# Pike regiments
-
 	ct_pikeregiment_1 = {
 		desc = ct_pikeregiment_1_desc
 		potential = {
@@ -1451,7 +1383,6 @@ city = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ct_pikeregiment_2 = {
 		desc = ct_pikeregiment_1_desc
 		potential = {
@@ -1470,7 +1401,6 @@ city = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ct_pikeregiment_3 = {
 		desc = ct_pikeregiment_1_desc
 		potential = {
@@ -1492,7 +1422,6 @@ city = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ct_pikeregiment_4 = {
 		desc = ct_pikeregiment_1_desc
 		potential = {
@@ -1514,7 +1443,6 @@ city = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ct_nehkwall_1 = {
 		desc = ct_nehkwall_1_desc
 		trigger = {
@@ -1536,7 +1464,6 @@ city = {
 		ai_creation_factor = 99
 		extra_tech_building_start = 1.0
 	}
-
 	ct_nehkwall_2 = {
 		desc = ct_nehkwall_1_desc
 		trigger = {
@@ -1559,7 +1486,6 @@ city = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 1.5
 	}
-
 	ct_nehkwall_3 = {
 		desc = ct_nehkwall_1_desc
 		trigger = {
@@ -1582,7 +1508,6 @@ city = {
 		ai_creation_factor = 97
 		extra_tech_building_start = 2.0
 	}
-
 	ct_nehkwall_4 = {
 		desc = ct_nehkwall_1_desc
 		trigger = {
@@ -1605,7 +1530,6 @@ city = {
 		ai_creation_factor = 96
 		extra_tech_building_start = 1.0
 	}
-
 	ct_nehkwall_5 = {
 		desc = ct_nehkwall_1_desc
 		trigger = {
@@ -1628,7 +1552,6 @@ city = {
 		ai_creation_factor = 95
 		extra_tech_building_start = 0.2
 	}
-
 	ct_horsearchers_1 = {
 		desc = ct_horsearchers_1_desc
 		trigger = {
@@ -1649,7 +1572,6 @@ city = {
 		ai_creation_factor = 99
 		extra_tech_building_start = 1.0
 	}
-
 	ct_horsearchers_2 = {
 		desc = ct_horsearchers_1_desc
 		trigger = {
@@ -1671,7 +1593,6 @@ city = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 1.5
 	}
-
 	ct_horsearchers_3 = {
 		desc = ct_horsearchers_1_desc
 		trigger = {
@@ -1693,7 +1614,6 @@ city = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 1.5
 	}
-
 	ct_horsearchers_4 = {
 		desc = ct_horsearchers_1_desc
 		trigger = {
@@ -1715,7 +1635,6 @@ city = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 1.5
 	}
-
 	ct_horsearchers_5 = {
 		desc = ct_horsearchers_1_desc
 		trigger = {
@@ -1737,9 +1656,7 @@ city = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 1.5
 	}
-
 	# Commoner's quarters
-
 	ct_commonquart_1 = {
 		desc = ct_commonquart_1_desc
 		trigger = {
@@ -1761,7 +1678,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.4
 	}
-
 	ct_commonquart_2 = {
 		desc = ct_commonquart_1_desc
 		prerequisites = {
@@ -1787,7 +1703,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.8
 	}
-
 	ct_commonquart_3 = {
 		desc = ct_skinkcustodian_1_desc
 		trigger = {
@@ -1813,7 +1728,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	ct_commonquart_4 = {
 		desc = ct_commonquart_1_desc
 		trigger = {
@@ -1836,7 +1750,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	ct_commonquart_5 = {
 		desc = ct_commonquart_1_desc
 		trigger = {
@@ -1859,7 +1772,6 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	ct_commonquart_6 = {
 		desc = ct_commonquart_1_desc
 		trigger = {
@@ -1882,9 +1794,7 @@ city = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	# City Burial grounds
-
 	ct_burial_ground_1 = {
 		desc = ct_burial_ground_1_desc
 		potential = {
@@ -1914,7 +1824,6 @@ city = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ct_burial_ground_2 = {
 		desc = ct_burial_ground_1_desc
 		potential = {
@@ -1942,7 +1851,6 @@ city = {
 		ai_creation_factor = 101
 		extra_tech_building_start = 0.8
 	}
-
 	ct_burial_ground_3 = {
 		desc = ct_burial_ground_1_desc
 		potential = {
@@ -1996,7 +1904,6 @@ temple = {
 		ai_creation_factor = 95
 		extra_tech_building_start = 0.5
 	}
-
 	tp_nehkwall_2 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -2020,7 +1927,6 @@ temple = {
 		ai_creation_factor = 94
 		extra_tech_building_start = 1.0
 	}
-
 	tp_nehkwall_3 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -2044,7 +1950,6 @@ temple = {
 		ai_creation_factor = 93
 		extra_tech_building_start = 1.5
 	}
-
 	tp_nehkwall_4 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -2068,7 +1973,6 @@ temple = {
 		ai_creation_factor = 92
 		extra_tech_building_start = 0.2
 	}
-
 	tp_nehkwall_5 = {
 		desc = ca_nehekharanwall_1_desc
 		trigger = {
@@ -2092,9 +1996,7 @@ temple = {
 		ai_creation_factor = 91
 		extra_tech_building_start = 0.2
 	}
-
 	# Death cult temples
-
 	tp_lichepriest_1 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -2124,7 +2026,6 @@ temple = {
 		liege_prestige = 0.05
 		extra_tech_building_start = 0.2
 	}
-
 	tp_lichepriest_2 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -2152,7 +2053,6 @@ temple = {
 		liege_prestige = 0.05
 		extra_tech_building_start = 0.2
 	}
-
 	tp_lichepriest_3 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -2177,7 +2077,6 @@ temple = {
 		liege_prestige = 0.05
 		extra_tech_building_start = 0.2
 	}
-
 	tp_lichepriest_4 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -2202,7 +2101,6 @@ temple = {
 		liege_prestige = 0.05
 		extra_tech_building_start = 0.2
 	}
-
 	tp_lichepriest_5 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -2227,7 +2125,6 @@ temple = {
 		liege_prestige = 0.05
 		extra_tech_building_start = 0.2
 	}
-
 	tp_lichepriest_6 = {
 		desc = ca_nehk_tomb_1_desc
 		trigger = {
@@ -2252,9 +2149,7 @@ temple = {
 		liege_prestige = 0.05
 		extra_tech_building_start = 0.2
 	}
-
 	# common burial tombs
-
 	tp_burialtomb_1 = {
 		desc = tp_burialtomb_1_desc
 		trigger = {
@@ -2277,7 +2172,6 @@ temple = {
 		ai_creation_factor = 94
 		extra_tech_building_start = 0.5
 	}
-
 	tp_burialtomb_2 = {
 		desc = tp_burialtomb_1_desc
 		trigger = {
@@ -2304,7 +2198,6 @@ temple = {
 		ai_creation_factor = 93
 		extra_tech_building_start = 1.0
 	}
-
 	tp_burialtomb_3 = {
 		desc = tp_burialtomb_1_desc
 		trigger = {
@@ -2331,9 +2224,7 @@ temple = {
 		ai_creation_factor = 92
 		extra_tech_building_start = 0.5
 	}
-
 	# Noble burial tombs
-
 	tp_nobletomb_1 = {
 		desc = tp_nobletomb_1_desc
 		trigger = {
@@ -2356,7 +2247,6 @@ temple = {
 		ai_creation_factor = 95
 		extra_tech_building_start = 0.5
 	}
-
 	tp_nobletomb_2 = {
 		desc = tp_nobletomb_1_desc
 		trigger = {
@@ -2383,7 +2273,6 @@ temple = {
 		ai_creation_factor = 94
 		extra_tech_building_start = 1.0
 	}
-
 	tp_nobletomb_3 = {
 		desc = tp_nobletomb_1_desc
 		trigger = {
@@ -2410,7 +2299,6 @@ temple = {
 		ai_creation_factor = 93
 		extra_tech_building_start = 0.2
 	}
-
 	tp_nobletomb_4 = {
 		desc = tp_nobletomb_1_desc
 		trigger = {
@@ -2434,7 +2322,6 @@ temple = {
 		ai_creation_factor = 92
 		extra_tech_building_start = 0.2
 	}
-
 	tp_nobletomb_5 = {
 		desc = tp_nobletomb_1_desc
 		trigger = {
@@ -2458,7 +2345,6 @@ temple = {
 		ai_creation_factor = 91
 		extra_tech_building_start = 0.2
 	}
-
 	tp_nobletomb_6 = {
 		desc = tp_nobletomb_1_desc
 		trigger = {
@@ -2482,9 +2368,7 @@ temple = {
 		ai_creation_factor = 90
 		extra_tech_building_start = 0.2
 	}
-
 	# Liche Priest Mortuary
-
 	tp_lichemortuary_1 = {
 		desc = tp_lichemortuary_1_desc
 		trigger = {
@@ -2510,7 +2394,6 @@ temple = {
 		ai_creation_factor = 98
 		extra_tech_building_start = 0.3
 	}
-
 	tp_lichemortuary_2 = {
 		desc = tp_lichemortuary_1_desc
 		trigger = {
@@ -2540,7 +2423,6 @@ temple = {
 		ai_creation_factor = 96
 		extra_tech_building_start = 0.6
 	}
-
 	tp_lichemortuary_3 = {
 		desc = tp_lichemortuary_1_desc
 		trigger = {
@@ -2571,7 +2453,6 @@ temple = {
 		ai_creation_factor = 95
 		extra_tech_building_start = 0.2
 	}
-
 	tp_lichemortuary_4 = {
 		desc = tp_lichemortuary_1_desc
 		trigger = {
@@ -2599,7 +2480,6 @@ temple = {
 		ai_creation_factor = 94
 		extra_tech_building_start = 0.2
 	}
-
 	tp_lichemortuary_5 = {
 		desc = tp_lichemortuary_1_desc
 		trigger = {
@@ -2627,9 +2507,7 @@ temple = {
 		ai_creation_factor = 93
 		extra_tech_building_start = 0.2
 	}
-
 	# liche burial tombs
-
 	tp_licheburial_1 = {
 		desc = tp_licheburial_1_desc
 		trigger = {
@@ -2662,7 +2540,6 @@ temple = {
 		add_number_to_name = no
 		extra_tech_building_start = 0.2
 	}
-
 	tp_licheburial_2 = {
 		desc = tp_licheburial_1_desc
 		trigger = {

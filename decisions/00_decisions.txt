@@ -76,7 +76,7 @@ decisions = {
 				name = holding_large_feast
 				duration = -1
 			}
-			set_character_flag = recent_miNOR_decision
+			set_character_flag = recent_minor_decision
 			set_character_flag = do_not_disturb
 			hidden_tooltip = {
 				character_event = {
@@ -127,10 +127,10 @@ decisions = {
 			}
 			modifier = {
 				factor = 0
-				has_character_flag = recent_miNOR_decision
+				has_character_flag = recent_minor_decision
 				NOT = {
 					had_character_flag = {
-						flag = recent_miNOR_decision
+						flag = recent_minor_decision
 						days = 730
 					}
 				}
@@ -202,7 +202,7 @@ decisions = {
 				name = holding_summer_fair
 				duration = -1
 			}
-			set_character_flag = recent_miNOR_decision
+			set_character_flag = recent_minor_decision
 			set_character_flag = do_not_disturb
 			hidden_tooltip = {
 				character_event = {
@@ -252,10 +252,10 @@ decisions = {
 			}
 			modifier = {
 				factor = 0
-				has_character_flag = recent_miNOR_decision
+				has_character_flag = recent_minor_decision
 				NOT = {
 					had_character_flag = {
-						flag = recent_miNOR_decision
+						flag = recent_minor_decision
 						days = 730
 					}
 				}
@@ -327,7 +327,7 @@ decisions = {
 				name = holding_grand_hunt
 				duration = -1
 			}
-			set_character_flag = recent_miNOR_decision
+			set_character_flag = recent_minor_decision
 			set_character_flag = do_not_disturb
 			hidden_tooltip = {
 				character_event = {
@@ -388,10 +388,10 @@ decisions = {
 			}
 			modifier = {
 				factor = 0
-				has_character_flag = recent_miNOR_decision
+				has_character_flag = recent_minor_decision
 				NOT = {
 					had_character_flag = {
-						flag = recent_miNOR_decision
+						flag = recent_minor_decision
 						days = 730
 					}
 				}
@@ -461,7 +461,7 @@ decisions = {
 									tier = BARON
 								}
 								has_character_modifier = holding_epic_tournament
-								has_character_flag = NORmal_tourny
+								has_character_flag = normal_tourny
 							}
 						}
 					}
@@ -479,7 +479,7 @@ decisions = {
 										tier = BARON
 									}
 									has_character_modifier = holding_epic_tournament
-									has_character_flag = NORmal_tourny
+									has_character_flag = normal_tourny
 								}
 							}
 						}
@@ -725,7 +725,7 @@ decisions = {
 				name = holding_nomad_wargames
 				duration = -1
 			}
-			set_character_flag = recent_miNOR_decision
+			set_character_flag = recent_minor_decision
 			set_character_flag = do_not_disturb
 			hidden_tooltip = {
 				character_event = {
@@ -759,17 +759,17 @@ decisions = {
 			}
 			modifier = {
 				factor = 0
-				has_character_flag = recent_miNOR_decision
+				has_character_flag = recent_minor_decision
 				NOT = {
 					had_character_flag = {
-						flag = recent_miNOR_decision
+						flag = recent_minor_decision
 						days = 730
 					}
 				}
 			}
 		}
 	}
-	hold_jarilo = {	#for NORsca
+	hold_jarilo = {	#for norsca
 
 		only_playable = yes
 		potential = {
@@ -818,7 +818,7 @@ decisions = {
 			log = "work decision hold_jarilo for [Root.GetBestName]"
 			wealth = -50
 			set_character_flag = holding_jarilo
-			set_character_flag = recent_miNOR_decision
+			set_character_flag = recent_minor_decision
 			set_character_flag = do_not_disturb
 			hidden_tooltip = {
 				character_event = {
@@ -872,10 +872,10 @@ decisions = {
 			}
 			modifier = {
 				factor = 0
-				has_character_flag = recent_miNOR_decision
+				has_character_flag = recent_minor_decision
 				NOT = {
 					had_character_flag = {
-						flag = recent_miNOR_decision
+						flag = recent_minor_decision
 						days = 730
 					}
 				}
@@ -933,7 +933,7 @@ decisions = {
 			log = "work decision celebrate_passover for [Root.GetBestName]"
 			wealth = -50
 			set_character_flag = holding_passover
-			set_character_flag = recent_miNOR_decision
+			set_character_flag = recent_minor_decision
 			set_character_flag = do_not_disturb
 			hidden_tooltip = {
 				character_event = {
@@ -987,10 +987,10 @@ decisions = {
 			}
 			modifier = {
 				factor = 0
-				has_character_flag = recent_miNOR_decision
+				has_character_flag = recent_minor_decision
 				NOT = {
 					had_character_flag = {
-						flag = recent_miNOR_decision
+						flag = recent_minor_decision
 						days = 730
 					}
 				}
@@ -1073,7 +1073,7 @@ decisions = {
 			}
 			if = {
 				limit = {
-					has_miNOR_title = title_commander
+					has_minor_title = title_commander
 				}
 				remove_title = title_commander
 			}
@@ -1095,8 +1095,8 @@ decisions = {
 					}
 					OR = {
 						is_councillor = yes
-						has_miNOR_title = title_councilmember_king
-						has_miNOR_title = title_councilmember_emperor
+						has_minor_title = title_councilmember_king
+						has_minor_title = title_councilmember_emperor
 					}
 				}
 				force_host = ROOT
@@ -1147,8 +1147,8 @@ decisions = {
 						prisoner = no
 						OR = {
 							is_councillor = yes
-							has_miNOR_title = title_councilmember_king
-							has_miNOR_title = title_councilmember_emperor
+							has_minor_title = title_councilmember_king
+							has_minor_title = title_councilmember_emperor
 						}
 						is_landed = yes
 						liege = {
@@ -1292,8 +1292,8 @@ decisions = {
 					limit = {
 						OR = {
 							is_councillor = yes
-							has_miNOR_title = title_councilmember_king
-							has_miNOR_title = title_councilmember_emperor
+							has_minor_title = title_councilmember_king
+							has_minor_title = title_councilmember_emperor
 						}
 						is_landed = yes
 						liege = {
@@ -1316,8 +1316,8 @@ decisions = {
 				limit = {
 					OR = {
 						is_councillor = yes
-						has_miNOR_title = title_councilmember_king
-						has_miNOR_title = title_councilmember_emperor
+						has_minor_title = title_councilmember_king
+						has_minor_title = title_councilmember_emperor
 					}
 					NOT = {
 						liege = {
@@ -1411,7 +1411,7 @@ decisions = {
 				trait = pneumonic
 				num_of_symptoms = 1
 			}
-			has_assigned_miNOR_title = title_court_physician
+			has_assigned_minor_title = title_court_physician
 		}
 		allow = {
 			custom_tooltip = {
@@ -1456,7 +1456,7 @@ decisions = {
 						OR = {
 							had_character_flag = {
 								flag = disease_not_serious days = 10
-							} #anti-spam delay since event should handle this NORmally
+							} #anti-spam delay since event should handle this normally
 							had_character_flag = {
 								flag = developing_illness days = 10
 							}
@@ -1513,7 +1513,7 @@ decisions = {
 					random_courtier_or_vassal = {
 						limit = {
 							is_adult = yes
-							has_miNOR_title = title_court_physician
+							has_minor_title = title_court_physician
 							liege = {
 								character = ROOT
 							}
@@ -1631,7 +1631,7 @@ decisions = {
 			}
 			NOR = {
 				has_character_modifier = in_seclusion
-				has_assigned_miNOR_title = title_court_physician
+				has_assigned_minor_title = title_court_physician
 			}
 			custom_tooltip = {
 				text = 3_year_physician_cooldown
@@ -2452,7 +2452,7 @@ decisions = {
 		ai_will_do = {
 			factor = 1
 			modifier = {
-				factor = 0.001			 # Only a small miNORity of Christians ever go on a pilgrimage
+				factor = 0.001			 # Only a small minority of Christians ever go on a pilgrimage
 			}
 			modifier = {
 				factor = 3
@@ -2922,7 +2922,7 @@ decisions = {
 					}
 					AND = {
 						holding_type = tribal
-						has_building = tb_NORscan_fort_4
+						has_building = tb_norscan_fort_4
 					}
 					holding_type = castle
 				}
@@ -4085,14 +4085,13 @@ decisions = {
 					}
 				}
 			}
-			NOT = {
-				OR = {
-					trait = creature_orc
-					trait = creature_goblin
-					religion_group = greenskin_gods_group
-					culture_group = orc_group
-					culture_group = goblin_group
-				}
+			NOR = {
+				trait = creature_orc
+				trait = creature_goblin
+				religion_group = greenskin_gods_group
+				culture_group = orc_group
+				culture_group = goblin_group
+				culture_group = asrai_group
 			}
 		}
 		allow = {
@@ -4192,7 +4191,7 @@ decisions = {
 						}
 						#Defending against heathen
 						OR = {
-							#Defender is NORthern gods but attacker is not
+							#Defender is northern gods but attacker is not
 							AND = {
 								ROOT = {
 									religion = northern_gods
@@ -4958,7 +4957,7 @@ decisions = {
 			}
 		}
 		effect = {
-			log = "work decision recruit_troops_NORse for [Root.GetBestName]"
+			log = "work decision recruit_troops_norse for [Root.GetBestName]"
 			wealth = -75
 			location = {
 				ROOT = {

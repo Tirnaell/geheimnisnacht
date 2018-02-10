@@ -234,10 +234,8 @@ succession_laws = {
 		child_opinion = -20
 		dynasty_opinion = 10
 		potential = {
-			NOT = {
+			NOR = {
 				title = k_shadowrealm
-			}
-			NOT = {
 				title = k_horned_church
 			}
 			holder_scope = {
@@ -257,43 +255,17 @@ succession_laws = {
 						}
 					}
 				}
-				NOT = {
+				NOR = {
 					religion_group = necromantic_group
-				}
-				NOT = {
 					religion_group = ormazd_gods_group
-				}
-				NOT = {
 					culture_group = lizardman_group
-				}
-				NOT = {
 					culture_group = skaven_group
-				}
-				# NOT = { religion_group = indian_group }
-				NOT = {
 					trait = creature_beastman
-				}
-				NOT = {
 					trait = creature_nehekharan
-				}
-				NOT = {
 					trait = creature_orc
-				}
-				NOT = {
 					trait = creature_goblin
-				}
-				NOT = {
 					trait = in_matriheritage
 				}
-				# OR = {
-				# NOT = {
-				# OR = {
-				# religion = norscan_gods
-				# religion = northern_gods
-				# }
-				# }
-				# is_patrician = yes
-				# }
 				OR = {
 					is_republic = no
 					is_patrician = yes
@@ -533,44 +505,20 @@ succession_laws = {
 						}
 					}
 				}
-				NOT = {
+				NOR = {
 					religion_group = necromantic_group
-				}
-				NOT = {
 					religion_group = ormazd_gods_group
-				}
-				# NOT = { religion_group = indian_group }
-				NOT = {
 					culture_group = skaven_group
-				}
-				NOT = {
 					culture_group = lizardman_group
-				}
-				NOT = {
-					trait = creature_beastman
-				}
-				NOT = {
-					trait = creature_nehekharan
-				}
-				NOT = {
-					trait = creature_orc
-				}
-				NOT = {
-					trait = creature_goblin
-				}
-				NOT = {
 					culture = cathayan
-				}
-				NOT = {
+					trait = creature_beastman
+					trait = creature_nehekharan
+					trait = creature_orc
+					trait = creature_goblin
 					trait = in_matriheritage
 				}
 				is_merchant_republic = no
 				is_patrician = no
-				# OR = {
-				# NOT = { religion_group = old_gods_group }
-				# is_reformed_religion = yes
-				# religion = hellenic_pagan
-				# }
 			}
 			OR = {
 				is_landless_type_title = no
@@ -585,6 +533,9 @@ succession_laws = {
 				AND = {
 					tier = baron
 					is_feudal = yes
+				}
+				holder_scope = {
+					government = eternal_court_government
 				}
 				holder_scope = {
 					is_feudal = yes
